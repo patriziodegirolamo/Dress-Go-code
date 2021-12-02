@@ -1,10 +1,14 @@
-import logo from './logo.svg';
 import './App.css';
 import FixedBottomNavigation from './mycomponents/bottombar.js'
+import MyHeader from './mycomponents/header.js'
+
 
 function App() {
   return (
-    <FixedBottomNavigation></FixedBottomNavigation>
+    <>
+    <MyHeader/>
+    <FixedBottomNavigation/>
+    </>
    
   );
 }
