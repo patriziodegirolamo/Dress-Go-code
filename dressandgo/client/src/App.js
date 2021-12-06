@@ -1,29 +1,20 @@
 import './App.css';
 import { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate, useParams } from 'react-router-dom';
+import { Col, Row, Container } from "react-bootstrap";
 
 import FixedBottomNavigation from './mycomponents/bottombar.js'
 import MyCategoryList from './mycomponents/category_list';
 import MyHeader from './mycomponents/header.js'
 
 
-/*
-Categories: Jackets, Shoes
 
-Jackets: Red, White, Green
-Shoes: High_heels, Sneakers, Boots
-
-Gli altri jackets non servono a nulla
-*/
 
 
 function App() {
   const [page, setPage] = useState("all");
 
-  //dirty === true --> faccio una get dei dati dal server
-  const [dirty, setDirty] = useState(true);
-
-  const [categories, getCategories] = useState([
+  const [categories, setCategories] = useState([
     {
       name: "Jackets",
       address: "https://previews.123rf.com/images/ironsv/ironsv2003/ironsv200300150/142462351-jacket-icon-clothes-icon-vector-on-background-.jpg"
@@ -50,7 +41,7 @@ function App() {
     }
   ])
 
-  const [dresses, getDresses] = useState(
+  const [dresses, setDresses] = useState(
     [
       {
         name: "Jackets",
@@ -80,78 +71,19 @@ function App() {
     ]
   )
 
-  /*
-  useEffect(() => {
-    const getQuestionari = async () => {
-
-      //se è loggato --> richiedo questionari, relative domande e compilazioni
-      if (loggedIn) {
-        try {
-          const fetchedQuestionari = await API.getAllQuestionari()
-          const fetchedDomande = await API.getAllDomande();
-          const fetchedCompilazioni = await API.getAllCompilazioni();
-
-          setQuestionari(fetchedQuestionari);
-          setDomande(fetchedDomande);
-          setRisposteUser(fetchedCompilazioni);
-
-          setDirty(false);
-          setLoading(false);
-
-        }
-        catch (err) {
-          setMessage("Ci dispiace ma il servizio non è al momento disponibile, riprovare più tardi");
-        }
-
-      }
-
-      //altrimenti richiedo solo questionari e relative domande
-      else {
-        try {
-          const fetchedQuestionari = await API.getAllQuestionari()
-          const fetchedDomande = await API.getAllDomande();
-
-          setQuestionari(fetchedQuestionari);
-          setDomande(fetchedDomande);
-
-          setDirty(false);
-          setLoading(false);
-
-        }
-        catch (err) {
-          setMessage("Ci dispiace ma il servizio non è al momento disponibile, riprovare più tardi");
-        }
-
-      }
-
-      //clean up
-      return () => {
-        setQuestionari([]);
-        setDomande([]);
-        setRisposteUser([]);
-        setMessage("");
-      };
-    }
-
-    if (dirty) {
-      getQuestionari();
-    }
-  }, [dirty]);
-*/
   return <Router>
     <MyHeader page={page} setPage={setPage} />
 
-    {/** Quando implementeremo le API 
     <Routes >
 
-      <Route path='/previews' render={() => {
-        <MyCategoryList></MyCategoryList>
-      }}>
-      </Route>
+      <Route path='/previews' element={<MyCategoryList />} />
       
-      <Route path="/" element={<Navigate to ="/home/previews"/>}/>
+      {/**NON riesco ad ottenere come params --> categorie: problema con react router dom versione 6 */}
+      <Route path="/dresses/:categorie"/>
+
+      <Route path="/" element={<Navigate to="/previews" />} />
     </Routes >
-    */}
+
 
     <MyCategoryList categories={categories} dresses={dresses}></MyCategoryList>
     <FixedBottomNavigation />

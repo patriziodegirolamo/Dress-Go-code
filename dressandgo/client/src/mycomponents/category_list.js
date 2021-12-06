@@ -10,8 +10,8 @@ function MyCategoryList(props) {
       <Container>
         <Row xs={2} md={2} className="g-4">
           {props.categories.map((cat, idx) => {
-            return <Col>
-              <MyCategory categorie={props.categories.filter(elem => elem.address === cat.address)[0]} idx={idx} ></MyCategory>
+            return <Col key={idx}>
+              <MyCategory key={idx} categorie={props.categories.filter(elem => elem.address === cat.address)[0]} idx={idx} ></MyCategory>
             </Col>
           })
           }
