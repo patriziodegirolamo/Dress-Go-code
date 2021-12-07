@@ -1,18 +1,22 @@
 import './App.css';
 import { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate, useParams } from 'react-router-dom';
-import { Col, Row, Container } from "react-bootstrap";
+import { Col, Row, Container, Button } from "react-bootstrap";
 
 import FixedBottomNavigation from './mycomponents/bottombar.js'
 import MyCategoryList from './mycomponents/category_list';
 import MyHeader from './mycomponents/header.js'
-
-
+import MyDressList from './mycomponents/dress_list';
 
 
 
 function App() {
+  const [currentCat, setCurrentCat] = useState("");
+  const [currentDress, setCurrentDress] = useState("");
   const [page, setPage] = useState("all");
+
+
+  const handleChangeCurrentCategorie = (cat) => setCurrentCat(cat);
 
   const [categories, setCategories] = useState([
     {
@@ -44,48 +48,54 @@ function App() {
   const [dresses, setDresses] = useState(
     [
       {
-        name: "Jackets",
+        cat: "Jackets",
         addresses: ["https://www.calibroshop.it/storage/immagini/d6ab39f5bc07f8bc00df0b17de696b03.jpeg",
           "https://image.shutterstock.com/image-photo/blank-jacket-bomber-baseball-satin-260nw-1109179079.jpg"],
       },
 
       {
-        name: "Shoes",
+        cat: "Shoes",
         addresses: ["https://martinvalen.com/15192-home_default/uomo-basse-sneakers-scarpe-nero.jpg"],
       },
 
       {
-        name: "Tshirts",
+        cat: "Tshirts",
         addresses: ["https://m.media-amazon.com/images/I/81XWYTTfBkL._AC_UX679_.jpg"],
       },
 
       {
-        name: "Trousers",
+        cat: "Trousers",
         addresses: ["https://images.sportsdirect.com/images/products/36206203_l.jpg"],
       },
 
       {
-        name: "Skirts",
+        cat: "Skirts",
         addresses: ["https://www.rinascimento.com/media/catalog/product/cache/c03ae629b2d1553220f68bf2c378cc64/g/o/gonna-midi-in-raso-strutturato-color-nero-6-cfc0106280003b001_list_1.jpg"],
       },
     ]
   )
 
   return <Router>
-    <MyHeader page={page} setPage={setPage} />
+    <MyHeader page={page} setPage={setPage} currentCat={currentCat}
+      handleChangeCurrentCategorie={handleChangeCurrentCategorie} />
 
     <Routes >
 
-      <Route path='/previews' element={<MyCategoryList />} />
-      
-      {/**NON riesco ad ottenere come params --> categorie: problema con react router dom versione 6 */}
-      <Route path="/dresses/:categorie"/>
+      <Route path='/previews' element={<>
+        <MyCategoryList categories={categories} dresses={dresses}
+          handleChangeCurrentCategorie={handleChangeCurrentCategorie} />
+      </>} />
+
+      <Route path="/dresses/:categorie" element={<>
+        ciao
+        <MyDressList dresses={dresses.filter(dr => dr.cat === currentCat)}>
+        </MyDressList>
+      </>} />
 
       <Route path="/" element={<Navigate to="/previews" />} />
     </Routes >
 
 
-    <MyCategoryList categories={categories} dresses={dresses}></MyCategoryList>
     <FixedBottomNavigation />
 
 

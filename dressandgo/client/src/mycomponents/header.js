@@ -1,4 +1,6 @@
 import { Container, Navbar, Form, Row, Col, Button } from "react-bootstrap";
+import { NavLink as Link } from "react-router-dom";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/header.css";
 
@@ -10,6 +12,12 @@ function MyHeader(props) {
   return (
     <>
       <Navbar >
+        <Link to={{ pathname: "/previews" }}>
+          <Button size="sm" onClick={() => props.handleChangeCurrentCategorie("")}>
+            BACK
+          </Button>
+        </Link>
+
         <Container>
           <Navbar.Brand className='m-auto'>
             <b id="title">Dress&Go</b>
@@ -44,7 +52,7 @@ function MyHeader(props) {
               </Col>
           }
 
-{
+          {
             props.page === "woman" ?
               <Col xs={2}>
                 <Button variant="light" disabled>
@@ -60,7 +68,7 @@ function MyHeader(props) {
                 </Button>
               </Col>
           }
-          
+
         </Row>
       </Container>
     </>
