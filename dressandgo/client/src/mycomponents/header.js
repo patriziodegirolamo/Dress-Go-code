@@ -9,15 +9,20 @@ import { IoWoman, IoMan } from 'react-icons/io5'
 
 function MyHeader(props) {
 
+  
   return (
     <>
       <Navbar >
+      {/** TODO: IMPLEMENTARE TASTO BACK UTILIZZANDO LA USELOCATION e capire se serve o meno */}
+      {!props.currentCat ?
+      <></>
+        :
         <Link to={{ pathname: "/previews" }}>
           <Button size="sm" onClick={() => props.handleChangeCurrentCategorie("")}>
             BACK
           </Button>
         </Link>
-
+}
         <Container>
           <Navbar.Brand className='m-auto'>
             <b id="title">Dress&Go</b>

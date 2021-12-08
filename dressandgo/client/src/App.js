@@ -4,9 +4,10 @@ import { BrowserRouter as Router, Route, Routes, Navigate, useParams } from 'rea
 import { Col, Row, Container, Button } from "react-bootstrap";
 
 import FixedBottomNavigation from './mycomponents/bottombar.js'
-import MyCategoryList from './mycomponents/category_list';
+import MyCategoryList from './mycomponents/category_list.js';
 import MyHeader from './mycomponents/header.js'
-import MyDressList from './mycomponents/dress_list';
+import MyDressList from './mycomponents/dress_list.js';
+import {MySmallAdvertisement, MyBigAdvertisement} from './mycomponents/dress_card.js'
 
 
 
@@ -45,32 +46,66 @@ function App() {
     }
   ])
 
-  const [dresses, setDresses] = useState(
+  const [ads, setAds] = useState(
     [
       {
+        id: 0,
+        name: "green jacket",
         cat: "Jackets",
-        addresses: ["https://www.calibroshop.it/storage/immagini/d6ab39f5bc07f8bc00df0b17de696b03.jpeg",
-          "https://image.shutterstock.com/image-photo/blank-jacket-bomber-baseball-satin-260nw-1109179079.jpg"],
+        description: "beautiful green jacket",
+        price: "23.07",
+        size: "M",
+        address: "https://www.calibroshop.it/storage/immagini/d6ab39f5bc07f8bc00df0b17de696b03.jpeg"
       },
 
       {
+        id: 1,
+        name: "black jacket",
+        cat: "Jackets",
+        description: "beautiful black jacket",
+        price: "22.07",
+        size: "L",
+        address: "https://image.shutterstock.com/image-photo/blank-jacket-bomber-baseball-satin-260nw-1109179079.jpg"
+      },
+
+      {
+        id: 2,
+        name: "black shoes",
         cat: "Shoes",
-        addresses: ["https://martinvalen.com/15192-home_default/uomo-basse-sneakers-scarpe-nero.jpg"],
+        description: "beautiful pair of black shoes",
+        price: "5.07",
+        size: "42",
+        address: "https://martinvalen.com/15192-home_default/uomo-basse-sneakers-scarpe-nero.jpg"
       },
 
       {
+        id: 3,
+        name: "white t-shirt",
         cat: "Tshirts",
-        addresses: ["https://m.media-amazon.com/images/I/81XWYTTfBkL._AC_UX679_.jpg"],
+        description: "beautiful white t-shirt",
+        price: "1.07",
+        size: "M",
+        address: "https://m.media-amazon.com/images/I/81XWYTTfBkL._AC_UX679_.jpg"
       },
 
       {
+        id: 4,
+        name: "black trousers",
         cat: "Trousers",
-        addresses: ["https://images.sportsdirect.com/images/products/36206203_l.jpg"],
+        description: "beautiful black trousers",
+        price: "32.37",
+        size: "40",
+        address: "https://images.sportsdirect.com/images/products/36206203_l.jpg"
       },
 
       {
+        id: 5,
+        name: "red skirt",
         cat: "Skirts",
-        addresses: ["https://www.rinascimento.com/media/catalog/product/cache/c03ae629b2d1553220f68bf2c378cc64/g/o/gonna-midi-in-raso-strutturato-color-nero-6-cfc0106280003b001_list_1.jpg"],
+        description: "beautiful red skirt",
+        price: "12.00",
+        size: "38",
+        address: "https://www.rinascimento.com/media/catalog/product/cache/c03ae629b2d1553220f68bf2c378cc64/g/o/gonna-midi-in-raso-strutturato-color-nero-6-cfc0106280003b001_list_1.jpg"
       },
     ]
   )
@@ -80,15 +115,17 @@ function App() {
       handleChangeCurrentCategorie={handleChangeCurrentCategorie} />
 
     <Routes >
+      <Route path='/ad/:idAd' element={<>
+      <MyBigAdvertisement />
+      </>}/>
 
       <Route path='/previews' element={<>
-        <MyCategoryList categories={categories} dresses={dresses}
+        <MyCategoryList categories={categories} ads={ads}
           handleChangeCurrentCategorie={handleChangeCurrentCategorie} />
       </>} />
 
       <Route path="/dresses/:categorie" element={<>
-        ciao
-        <MyDressList dresses={dresses.filter(dr => dr.cat === currentCat)}>
+        <MyDressList ads={ads.filter(ad => ad.cat === currentCat)}>
         </MyDressList>
       </>} />
 
