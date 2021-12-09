@@ -11,8 +11,8 @@ function MyCategoryList(props) {
         <Row xs={2} md={2} className="g-4">
           {props.categories.map((cat, idx) => {
             return <Col key={idx}>
-              <MyCategory key={idx} handleChangeCurrentCategorie={props.handleChangeCurrentCategorie} 
-              categorie={props.categories.filter(elem => elem.address === cat.address)[0]} idx={idx} ></MyCategory>
+              <MyCategory key={idx} handleChangeForwardPage={props.handleChangeForwardPage} 
+              categorie={cat} idx={idx}></MyCategory>
             </Col>
           })
           }

@@ -1,23 +1,46 @@
 import './App.css';
 import { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate, useParams } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate, useNavigate } from 'react-router-dom';
 import { Col, Row, Container, Button } from "react-bootstrap";
 
 import FixedBottomNavigation from './mycomponents/bottombar.js'
 import MyCategoryList from './mycomponents/category_list.js';
 import MyHeader from './mycomponents/header.js'
 import MyDressList from './mycomponents/dress_list.js';
-import {MySmallAdvertisement, MyBigAdvertisement} from './mycomponents/dress_card.js'
+import { MySmallAdvertisement, MyBigAdvertisement } from './mycomponents/dress_card.js'
 
 
+/*
+STATES:
+home
+cat
+bigcat
+*/
 
 function App() {
+  const [currentState, setCurrentState] = useState("home")
   const [currentCat, setCurrentCat] = useState("");
   const [currentDress, setCurrentDress] = useState("");
   const [page, setPage] = useState("all");
 
 
-  const handleChangeCurrentCategorie = (cat) => setCurrentCat(cat);
+
+  const handleChangeForwardPage = (cat) => {
+    if (currentState == "home") {
+      setCurrentCat(cat)
+      setCurrentState("cat")
+    }
+
+    else if (currentState == "cat") {
+      setCurrentState("bigCat")
+    }
+
+    else if (currentState == "bigCat") {
+
+    }
+  };
+
+
 
   const [categories, setCategories] = useState([
     {
@@ -27,7 +50,7 @@ function App() {
 
     {
       name: "Shoes",
-      address: "https://www.seekpng.com/png/detail/82-821232_png-file-pair-of-shoes-icon.png"
+      address: "https://w7.pngwing.com/pngs/732/999/png-transparent-air-jordan-nike-air-max-shoe-sneakers-nike-white-outdoor-shoe-sneakers.png"
     },
 
     {
@@ -75,7 +98,7 @@ function App() {
         description: "beautiful pair of black shoes",
         price: "5.07",
         size: "42",
-        address: "https://martinvalen.com/15192-home_default/uomo-basse-sneakers-scarpe-nero.jpg"
+        address: "https://png.pngtree.com/png-clipart/20210613/original/pngtree-leather-shoes-black-accessories-clothing-png-image_6403650.jpg"
       },
 
       {
@@ -111,22 +134,32 @@ function App() {
   )
 
   return <Router>
-    <MyHeader page={page} setPage={setPage} currentCat={currentCat}
-      handleChangeCurrentCategorie={handleChangeCurrentCategorie} />
+    <MyHeader page={page} setPage={setPage}
+      currentCat={currentCat}
+      setCurrentCat={setCurrentCat}
+      currentState={currentState}
+      setCurrentState={setCurrentState}
+    />
 
     <Routes >
       <Route path='/ad/:idAd' element={<>
-      <MyBigAdvertisement />
-      </>}/>
+        <MyBigAdvertisement ads={ads} />
+      </>} />
 
       <Route path='/previews' element={<>
         <MyCategoryList categories={categories} ads={ads}
-          handleChangeCurrentCategorie={handleChangeCurrentCategorie} />
+          handleChangeForwardPage={handleChangeForwardPage}
+        />
       </>} />
 
       <Route path="/dresses/:categorie" element={<>
-        <MyDressList ads={ads.filter(ad => ad.cat === currentCat)}>
+        <MyDressList ads={ads.filter(ad => ad.cat === currentCat)}
+          handleChangeForwardPage={handleChangeForwardPage}>
         </MyDressList>
+      </>} />
+
+      <Route path="/MyAccount" element={<>
+        prova Account
       </>} />
 
       <Route path="/" element={<Navigate to="/previews" />} />
