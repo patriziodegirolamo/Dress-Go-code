@@ -4,7 +4,6 @@ const url = 'http://localhost:3000';
 
 /* TO GET THE LIST OF CATEGORIES */
 async function getCategories() {
-    console.log('API');
     const response = await fetch(url + '/api/allcategories');
     const cats = await response.json();
     if (cats.id_cat === 'Empty' ) {

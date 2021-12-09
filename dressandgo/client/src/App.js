@@ -19,7 +19,6 @@ function App() {
       const fetchedCategories = await getCategories();
       setCategories(fetchedCategories);
     }
-    console.log('EFFECT')
     getCat();
   }, []);
 

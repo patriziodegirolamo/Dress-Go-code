@@ -11,9 +11,8 @@ const db = new sqlite.Database("dressandgoDB.db", (err) => {
 /* GET */
 //get all categories
 exports.listCategories = (gender) => {
-    console.log('DAO');
   return new Promise((resolve, reject) => {
-    const sql = "SELECT * FROM CATEGORY CAT WHERE CAT.GENDER = ?";
+    const sql = "SELECT * FROM CATEGORY CAT";
     db.all(sql, [gender], (err, rows) => {
       if (rows === undefined || rows.length === 0) {
         const cat = { id_cat: 'Empty' };
