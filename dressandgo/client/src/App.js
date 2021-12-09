@@ -7,6 +7,7 @@ import FixedBottomNavigation from './mycomponents/bottombar.js'
 import MyCategoryList from './mycomponents/category_list.js';
 import MyHeader from './mycomponents/header.js'
 import MyDressList from './mycomponents/dress_list.js';
+import MyProfile from './mycomponents/profile';
 import {MySmallAdvertisement, MyBigAdvertisement} from './mycomponents/dress_card.js'
 
 
@@ -115,6 +116,8 @@ function App() {
       handleChangeCurrentCategorie={handleChangeCurrentCategorie} />
 
     <Routes >
+
+    
       <Route path='/ad/:idAd' element={<>
       <MyBigAdvertisement />
       </>}/>
@@ -129,8 +132,21 @@ function App() {
         </MyDressList>
       </>} />
 
-      <Route path="/" element={<Navigate to="/previews" />} />
+      <Route path="/MyAccount" element={<>
+        <MyProfile/>
+      </>} />
+
+      <Route  path="/" element={<Navigate to="/previews" />} />
     </Routes >
+
+
+
+  
+
+
+
+
+
 
 
     <FixedBottomNavigation />
