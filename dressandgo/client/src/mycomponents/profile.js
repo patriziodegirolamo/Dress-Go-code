@@ -1,4 +1,4 @@
-import { Col, Row, Container, Card } from "react-bootstrap";
+import { Col, Row, Container, Button } from "react-bootstrap";
 import "../css/profile.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -7,17 +7,40 @@ function MyProfile(props) {
 
     return (
 
-        <div class="container mt-4 mb-4 p-3 d-flex justify-content-center">
-            <div class="card p-4">
-                <div class=" image d-flex flex-column justify-content-center align-items-center"> <button class="btn btn-secondary"> <img src="https://i.imgur.com/wvxPV9S.png" height="100" width="100" /></button> <span class="name mt-3">Andrea Birdwhistle</span> <span class="idd">@andrew19</span>
-                    <div class="d-flex flex-row justify-content-center align-items-center mt-3"> <span class="number">1069 <span class="follow">Following</span></span> </div>
-                    <div class=" d-flex mt-2"> <button class="btn1 btn-dark">Edit Profile</button> </div>
-                    <div class="text mt-3"> <span>Eleanor Pena is a creator of minimalistic x bold graphics and digital artwork. Artist/ Creative Director by Day #NFT minting@ with FND night. </span> </div>
-                    <div class="gap-3 mt-3 icons d-flex flex-row justify-content-center align-items-center"> <span><i class="fa fa-twitter"></i></span> <span><i class="fa fa-facebook-f"></i></span> <span><i class="fa fa-instagram"></i></span> <span><i class="fa fa-linkedin"></i></span> </div>
-                    <div class=" px-2 rounded mt-4 date "> <span class="join">Joined May,2021</span> </div>
-                </div>
-            </div>
-        </div>
+        <Container className="mt-4 p-2 justify-content-center">
+
+
+            <Col className=" image d-flex flex-column justify-content-center align-items-center">
+
+                <Button className="btn btn-secondary"> <img src="https://i.imgur.com/wvxPV9S.png" height="100" width="100" /></Button>
+
+
+                <Row className="justify-content-center p-2">  Andrea Birdwhistle </Row>
+                <Row className="justify-content-center"> Via dei pioppi 18 </Row>
+                <Row className="justify-content-center"> Torino (TO) </Row>
+
+                <Row className="pt-5 justify-content-center"> Height: 78 kg</Row>
+                <Row className="justify-content-center"> Weight: 163 cm </Row>
+                <Row className="justify-content-center"> Waistline: 23 cm</Row>
+                <Row className="justify-content-center"> Hips: 23 cm</Row>
+                <Row className="justify-content-center"> Leg length: 45 cm </Row>
+                <Row className="pb-4 justify-content-center"> Shoe size: 45 EU </Row>
+
+
+
+                <Button className="m-2 justify-content-center"> Edit profile </Button>
+                <Button className="m-2 justify-content-center"> Handle know sizes </Button>
+                <Button className="m-2 justify-content-center"> Payment methods </Button>
+
+
+
+
+
+
+            </Col>
+
+
+        </Container>
 
     );
 }
