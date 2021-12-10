@@ -34,7 +34,6 @@ export default function FixedBottomNavigation() {
           value={value}
 
           onChange={(event, newValue) => {
-            console.log(newValue)
             setValue(newValue);
 
             if( newValue == 0){

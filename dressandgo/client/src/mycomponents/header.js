@@ -12,18 +12,15 @@ function MyHeader(props) {
 
   const handleChangeBackardPage = () => {
     if (props.currentState == "home") {
-      console.log("home")
     }
 
     else if (props.currentState == "cat") {
-      console.log("cat")
       props.setCurrentCat("");
       props.setCurrentState("home");
       navigate("/previews");
     }
 
     else if (props.currentState == "bigCat") {
-      console.log("bigcat")
       props.setCurrentState("cat");
       navigate("dresses/" + props.currentCat);
     }
@@ -50,6 +47,8 @@ function MyHeader(props) {
         </Container>
 
       </Navbar>
+
+      {props.currentState == "home" || props.currentState == "cat" ? 
       <Container>
         <Row>
           <Col xs={7}>
@@ -94,6 +93,7 @@ function MyHeader(props) {
 
         </Row>
       </Container>
+      : <></>}
     </>
   );
 }

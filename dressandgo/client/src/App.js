@@ -8,6 +8,7 @@ import MyCategoryList from './mycomponents/category_list.js';
 import MyHeader from './mycomponents/header.js'
 import MyDressList from './mycomponents/dress_list.js';
 import { MySmallAdvertisement, MyBigAdvertisement } from './mycomponents/dress_card.js'
+import MyAvailabilityModal from './mycomponents/availabilityModal';
 
 
 /*
@@ -134,12 +135,13 @@ function App() {
   )
 
   return <Router>
+    
     <MyHeader page={page} setPage={setPage}
       currentCat={currentCat}
       setCurrentCat={setCurrentCat}
       currentState={currentState}
       setCurrentState={setCurrentState}
-    />
+    /> 
 
     <Routes >
       <Route path='/ad/:idAd' element={<>
@@ -153,13 +155,23 @@ function App() {
       </>} />
 
       <Route path="/dresses/:categorie" element={<>
+        <Container>
+          suggested for you:
         <MyDressList ads={ads.filter(ad => ad.cat === currentCat)}
           handleChangeForwardPage={handleChangeForwardPage}>
         </MyDressList>
+        </Container>
+
+        <Container>
+          All sizes:
+        <MyDressList ads={ads.filter(ad => ad.cat === currentCat)}
+          handleChangeForwardPage={handleChangeForwardPage}>
+        </MyDressList>
+        </Container>
       </>} />
 
       <Route path="/MyAccount" element={<>
-        prova Account
+        
       </>} />
 
       <Route path="/" element={<Navigate to="/previews" />} />
