@@ -8,6 +8,9 @@ import MyCategoryList from './mycomponents/category_list.js';
 import MyHeader from './mycomponents/header.js'
 import MyDressList from './mycomponents/dress_list.js';
 import MyProfile from './mycomponents/profile';
+import MyUserData from './mycomponents/user_data_profile';
+import MyKnownSizes from './mycomponents/known_sizes';
+
 import {MySmallAdvertisement, MyBigAdvertisement} from './mycomponents/dress_card.js'
 
 
@@ -135,6 +138,20 @@ function App() {
       <Route path="/MyAccount" element={<>
         <MyProfile/>
       </>} />
+
+      <Route path="/handleknownsizes" element={<>
+        <MyKnownSizes/>
+      </>} />
+
+      <Route path="/editprofile" element={<>
+        <MyUserData/>
+      </>} />
+
+      <Route path="/paymentmethods" element={<>
+        <MyProfile/>
+      </>} />
+  
+
 
       <Route  path="/" element={<Navigate to="/previews" />} />
     </Routes >
