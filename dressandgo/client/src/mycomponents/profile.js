@@ -1,4 +1,6 @@
-import { Col, Row, Container, Button } from "react-bootstrap";
+import { Col, Row, Container, Figure, Button } from "react-bootstrap";
+import Rating from '@mui/material/Rating';
+import Typography from '@mui/material/Typography';
 import "../css/profile.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -6,42 +8,41 @@ import "bootstrap/dist/css/bootstrap.min.css";
 function MyProfile(props) {
 
     return (
-
-        <Container className="mt-4 p-2 justify-content-center">
-
-
-            <Col className=" image d-flex flex-column justify-content-center align-items-center">
-
-                <Button className="btn btn-secondary"> <img src="https://i.imgur.com/wvxPV9S.png" height="100" width="100" /></Button>
-
-
-                <Row className="justify-content-center p-2">  Andrea Birdwhistle </Row>
-                <Row className="justify-content-center"> Via dei pioppi 18 </Row>
-                <Row className="justify-content-center"> Torino (TO) </Row>
-
-                <Row className="pt-5 justify-content-center"> Height: 78 kg</Row>
-                <Row className="justify-content-center"> Weight: 163 cm </Row>
-                <Row className="justify-content-center"> Waistline: 23 cm</Row>
-                <Row className="justify-content-center"> Hips: 23 cm</Row>
-                <Row className="justify-content-center"> Leg length: 45 cm </Row>
-                <Row className="pb-4 justify-content-center"> Shoe size: 45 EU </Row>
-
-
-
-                <Button className="m-2 justify-content-center"> Edit profile </Button>
-                <Button className="m-2 justify-content-center"> Handle know sizes </Button>
-                <Button className="m-2 justify-content-center"> Payment methods </Button>
-
-
-
-
-
-
-            </Col>
-
-
+        <Container fluid>
+            <Row className="pt-3 justify-content-md-center text-center">
+                <Figure className="justify-content-center">
+                    <Figure.Image
+                        width={141}
+                        height={150}
+                        alt="171x180"
+                        src="https://i.imgur.com/wvxPV9S.png"
+                    />
+                    <Figure.Caption>
+                        Andrea Birdwhistle
+                    </Figure.Caption>
+                    <Figure.Caption>
+                        @andrew19
+                    </Figure.Caption>
+                </Figure>
+                <Typography component="legend">Your rating based by 344 votes</Typography>
+                <Typography>
+                    <Rating align="center" name="no-value" value={4} />
+                </Typography>
+            </Row>
+            <Row className="pt-5">
+                <div className="d-grid gap-2">
+                    <Button variant="primary" size="sm">
+                        Edit profile
+                    </Button>
+                    <Button variant="primary" size="sm">
+                        Handle know sizes
+                    </Button>
+                    <Button variant="primary" size="sm">
+                        Payment methods
+                    </Button>
+                </div>
+            </Row>
         </Container>
-
     );
 }
 export default MyProfile;
