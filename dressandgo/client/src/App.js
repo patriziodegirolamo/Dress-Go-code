@@ -23,9 +23,48 @@ function App() {
   const [currentDress, setCurrentDress] = useState("");
   const [page, setPage] = useState("all");
   const [modalShow, setModalShow] = useState(false);
+  const [user, setUser] = useState({});
 
 
   const handleChangeCurrentCategorie = (cat) => setCurrentCat(cat);
+
+  const [knownsizes, setKnownsizes] = useState([
+    {
+      id: 0,
+      brand: "Gucci",
+      category: "T-shirts",
+      size:"M"
+    },
+
+    {
+      id: 1,
+      brand: "Prada",
+      category: "T-shirts",
+      size:"S"
+    },
+
+    {
+      id: 2,
+      brand: "Balenciaga",
+      category: "Trousers",
+      size:"44"
+    },
+
+    {
+      id: 3,
+      brand: "Philippe Model",
+      category: "Shoes",
+      size:"42"
+    },
+
+    {
+      id: 4,
+      brand: "Golden Goose",
+      category: "Shoes",
+      size:"42.5"
+    }
+  ])
+
 
   const [categories, setCategories] = useState([
     {
@@ -144,7 +183,7 @@ function App() {
       </>} />
 
       <Route path="/handleknownsizes" element={<>
-        <MyKnownSizes/>
+        <MyKnownSizes knownsizes={knownsizes} setKnownsizes={setKnownsizes} ></MyKnownSizes>
         <Row className="p-3 justify-content-center m-auto ">
           <Button className="mb-3" variant="primary" type="submit" onClick={() => setModalShow(true)}>
           Add known size</Button>
@@ -152,6 +191,8 @@ function App() {
 
         <AddKnownSizes
           show={modalShow}
+          setKnownsizes={setKnownsizes}
+          knownsizes={knownsizes}
           onHide={() => setModalShow(false)}
         />
       </>} />
