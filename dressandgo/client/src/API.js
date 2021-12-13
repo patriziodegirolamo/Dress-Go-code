@@ -25,6 +25,86 @@ async function getCategories() {
 }
 
 
+/* TO GET THE INFOS ABOUT THE USER LOGGED */
+async function getUserInfos() {
+    const response = await fetch(url + '/api/userInfo');
+    const user = await response.json();
+    if (user.id_u === 'Empty' ) {
+        return [];
+    }
+    else {
+        if (response.ok) {
+            return user;
+        } else {
+            throw user;  // an object with the error coming from the server
+        }
+    }
+}
+
+/* TO GET THE LIST OF KNOWN SIZES INSERTED BY THE USER */
+async function getKnownSizes() {
+    const response = await fetch(url + '/api/knownsizes');
+    const knownsizes = await response.json();
+    if (knownsizes.id_ks === 'Empty' ) {
+        return [];
+    }
+    else {
+        if (response.ok) {
+            return knownsizes.map((t) => ({
+                ...t,
+                id_ks: t.id_ks,
+                brand: t.brand,
+                EUsize: t.EUsize,
+            }));
+        } else {
+            throw knownsizes;  // an object with the error coming from the server
+        }
+    }
+}
 
 
-export default getCategories;
+/* TO INSERT A NEW KNOWN SIZE */
+async function insertKnownSize(ksize) {
+    return new Promise((resolve, reject) => {
+      fetch('/api/newknownsize', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id_u: ksize.id_u, brand: ksize.brand, eusize: ksize.eusize }),
+      }).then((response) => {
+        if (response.ok) {
+          resolve(response.json());
+        } else {
+          response.json()
+            .then((message) => { reject(message); })
+            .catch(() => reject({ error: 'Cannot parse the response.' }));
+        }
+      }).catch(() => {
+        reject({ error: 'Cannot communicate with the server.' });
+      })
+    });
+  }
+
+
+/* TO REMOVE A KNOWN SIZE INSERTED BY THE USER*/
+async function removeKnownSize(id_ks) {
+    return new Promise((resolve, reject) => {
+      fetch(url + '/api/removeksizes', {
+        method: 'DELETE'
+      }).then((response) => {
+        if (response.ok) {
+          resolve(null);
+        } else {
+          response.json()
+            .then((message) => { reject(message); })
+            .catch(() => reject({ error: 'Cannot parse the response.' }));
+        }
+      }).catch(() => {
+        reject({ error: 'Cannot communicate with the server.' });
+      })
+    });
+  }
+  
+
+export {getCategories, getUserInfos, getKnownSizes, insertKnownSize, removeKnownSize};

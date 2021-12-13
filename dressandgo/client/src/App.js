@@ -6,7 +6,7 @@ import FixedBottomNavigation from './mycomponents/bottombar.js'
 import MyCategoryList from './mycomponents/category_list';
 import MyHeader from './mycomponents/header.js'
 
-import getCategories from './API';
+import {getCategories, getUserInfos, getKnownSizes, insertKnownSize} from './API';
 
 
 
@@ -18,10 +18,22 @@ function App() {
     async function getCat() {
       const fetchedCategories = await getCategories();
       setCategories(fetchedCategories);
+
+      /* prova nuove API */
+      const fetchedUser = await getUserInfos();
+      const fetchedSizes = await getKnownSizes();
+      console.log(fetchedUser);
+      console.log(fetchedSizes);
     }
     getCat();
   }, []);
 
+
+    /* TO CREATE A JOIN REQUEST FOR A STUDY GROUP */
+    const addASize = () => {
+      const size = {id_u: 1, brand: "Bershka", eusize: "38"};
+      insertKnownSize(size).then((err) => {});
+  }
  
   return <Router>
     <MyHeader page={page} setPage={setPage} />
@@ -30,7 +42,6 @@ function App() {
 
       <Route path='/previews' element={<MyCategoryList categories={categories} />} />
       
-      {/**NON riesco ad ottenere come params --> categorie: problema con react router dom versione 6 */}
       <Route path="/dresses/:categorie"/>
 
       <Route path="/" element={<Navigate to="/previews" />} />

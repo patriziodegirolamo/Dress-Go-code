@@ -44,5 +44,72 @@ app.get("/api/allcategories", async (req, res) => {
   }
 });
 
+// GET /api/userInfo ; to have the infos about the user logged
+app.get("/api/userInfo", async (req, res) => {
+  const id_u = 1;
+  try {
+    const result = await dao.userInfos(id_u);
+    if (result.error)
+      res.status(404).json(result);
+    else
+      res.json(result);
+  } catch (err) {
+    res.status(500).end();
+  }
+});
+
+// GET /api/knownsizes ; to have the list of all the categories
+app.get("/api/knownsizes", async (req, res) => {
+  const id_u = 1;
+  try {
+    const result = await dao.listKnownSizes(id_u);
+    if (result.error)
+      res.status(404).json(result);
+    else
+      res.json(result);
+  } catch (err) {
+    res.status(500).end();
+  }
+});
+
+
+
+
+// POST /api/newknownsize ; to create a new known size for that user
+app.post('/api/newknownsize',
+  async (req, res) => {
+    const ksize = { id_u: req.body.id_u, brand: req.body.brand, eusize: req.body.eusize};
+    try {
+      const result = await dao.insertKnownSize(ksize);
+      return res.json(result);
+    } catch (err) {
+      res.status(503).json({ error: `Database error during the creation of submission` });
+    }
+  });
+
+  // PATCH /api/modifyUserInfo ; to update user infos
+  app.patch('/api/modifyUserInfo',
+  async (req, res) => {
+    const newInfos = { id_u: req.body.id_u, name: req.body.name, surname: req.body.surname, address: req.body.address};
+    try {
+      const result = await dao.modifyUserInfos(newInfos);
+      return res.json(result);
+    } catch (err) {
+      res.status(503).json({ error: `Database error during the creation of submission` });
+    }
+  });
+
+
+
+// DELETE /api/removeksize ; to remove a knwon size inserted by the user
+app.delete('/api/removeksize',  async (req, res) => {
+  const id_ks = 3;
+  try {
+    await dao.removeKnownSize(id_ks);
+    res.end();
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
 
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}/`));
