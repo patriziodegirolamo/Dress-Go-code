@@ -10,6 +10,9 @@ import MyDressList from './mycomponents/dress_list.js';
 import MyProfile from './mycomponents/profile';
 import MyUserData from './mycomponents/user_data_profile';
 import MyKnownSizes from './mycomponents/known_sizes';
+import AddKnownSizes from './mycomponents/add_size_button';
+
+
 
 import {MySmallAdvertisement, MyBigAdvertisement} from './mycomponents/dress_card.js'
 
@@ -19,6 +22,7 @@ function App() {
   const [currentCat, setCurrentCat] = useState("");
   const [currentDress, setCurrentDress] = useState("");
   const [page, setPage] = useState("all");
+  const [modalShow, setModalShow] = useState(false);
 
 
   const handleChangeCurrentCategorie = (cat) => setCurrentCat(cat);
@@ -141,6 +145,15 @@ function App() {
 
       <Route path="/handleknownsizes" element={<>
         <MyKnownSizes/>
+        <Row className="p-3 justify-content-center m-auto ">
+          <Button className="mb-3" variant="primary" type="submit" onClick={() => setModalShow(true)}>
+          Add known size</Button>
+        </Row>
+
+        <AddKnownSizes
+          show={modalShow}
+          onHide={() => setModalShow(false)}
+        />
       </>} />
 
       <Route path="/editprofile" element={<>

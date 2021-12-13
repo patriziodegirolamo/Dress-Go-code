@@ -1,4 +1,4 @@
-import { Row, Container, Figure, Button } from "react-bootstrap";
+import { Row, Container, Figure } from "react-bootstrap";
 import { NavLink as Link } from "react-router-dom";
 import Rating from '@mui/material/Rating';
 import Typography from '@mui/material/Typography';

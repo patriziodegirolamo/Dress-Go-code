@@ -33,7 +33,7 @@ function MyHeader(props) {
 
       </Navbar>
       <Container>
-        <Row>
+     {/* <Row>
           <Col xs={7}>
             <Form>
               <Form.Control placeholder="Search..." />
@@ -75,6 +75,7 @@ function MyHeader(props) {
           }
 
         </Row>
+        */}
       </Container>
     </>
   );
