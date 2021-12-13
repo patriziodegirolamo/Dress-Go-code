@@ -1,6 +1,5 @@
 import { Row, Container, Card, Button, ButtonGroup, Col } from "react-bootstrap";
 import { BsFillTrashFill } from "react-icons/bs";
-import { useState } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function MyKnownSizes(props) {

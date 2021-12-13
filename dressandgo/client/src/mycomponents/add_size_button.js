@@ -32,6 +32,9 @@ function AddKnownSizes(props) {
 
     const handleClose = () => {
         setValidated(false);
+        setBrand("");
+        setCategory("");
+        setSize("");
         onHide();
     };
 
@@ -67,7 +70,11 @@ function AddKnownSizes(props) {
         if(validated)
         {
         setKnownsizes(knownsizes.concat(new_size));
+        setBrand("");
+        setCategory("");
+        setSize("");
         onHide();
+
         }
     };
 
@@ -88,6 +95,7 @@ function AddKnownSizes(props) {
                     <Form.Group className="mb-3" >
                         <Form.Label>Category*</Form.Label>
                         <Form.Select name="category" aria-label="Select category" required onChange={handleChange}>
+                           {/*lista completa categorie*/}
                             <option value="null">Select category</option>
                             <option value="Shoes">Shoes</option>
                             <option value="T-Shirt">T-Shirt</option>
