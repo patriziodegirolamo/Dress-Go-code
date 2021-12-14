@@ -85,6 +85,19 @@ app.get("/api/allads", async (req, res) => {
   }
 });
 
+// GET /api/alladsimages ; to have the list of all ads images
+app.get("/api/alladsimages", async (req, res) => {
+  try {
+    const result = await dao.listAdsImages();
+    if (result.error)
+      res.status(404).json(result);
+    else
+      res.json(result);
+  } catch (err) {
+    res.status(500).end();
+  }
+});
+
 
 
 

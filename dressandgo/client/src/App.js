@@ -11,9 +11,12 @@ import MyProfile from './mycomponents/profile';
 import MyUserData from './mycomponents/user_data_profile';
 import MyKnownSizes from './mycomponents/known_sizes';
 import AddKnownSizes from './mycomponents/add_size_button';
+import MyAvailabilityModal from './mycomponents/availabilityModal';
 import {MySmallAdvertisement, MyBigAdvertisement} from './mycomponents/dress_card.js'
 
-import {getCategories, getUserInfos, getKnownSizes, getAds, modifyUsInfos, insertKnownSize} from './API';
+import {getCategories, getUserInfos, getKnownSizes, getAds, getAdsImages, modifyUsInfos, insertKnownSize} from './API';
+
+
 
 
 
@@ -22,6 +25,7 @@ function App() {
   const [categories, setCategories] = useState([]);
   const [knownsizes, setKnownSizes] = useState([]);
   const [ads, setAds] = useState([]);
+  const [adsImages, setAdsImages] = useState([]);
 
   const [currentCat, setCurrentCat] = useState("");
   const [currentDress, setCurrentDress] = useState("");
@@ -37,10 +41,12 @@ function App() {
       const fetchedSizes = await getKnownSizes();
       const fetchedAds = await getAds();
       const fetchedUser = await getUserInfos();
+      const fetchedAdsImages = await getAdsImages();
       setCategories(fetchedCategories);
       setKnownSizes(fetchedSizes);
       setAds(fetchedAds);
       setUser(fetchedUser);
+      setAdsImages(fetchedAdsImages);
     }
     getCat();
   }, []);
@@ -72,7 +78,7 @@ function App() {
 
   
     <Route path='/ad/:idAd' element={<>
-    <MyBigAdvertisement />
+    <MyBigAdvertisement ads = {ads}/>
     </>}/>
 
     <Route path='/previews' element={<>

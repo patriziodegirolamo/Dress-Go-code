@@ -120,9 +120,36 @@ exports.listAds = () => {
           description: t.Description,
           price: t.Price,
           size: t.Size,
-          url: t.URL
+          gender: t.Gender,
+          brand: t.Brand
         }));
         resolve(ads);
+      }
+    });
+  });
+};
+
+//get all images
+exports.listAdsImages = () => {
+  return new Promise((resolve, reject) => {
+    const sql = "SELECT * FROM ADSIMAGE";
+    db.all(sql, [], (err, rows) => {
+      if (rows === undefined || rows.length === 0) {
+        const adsImages = { id_ai: 'Empty' };
+        resolve(adsImages);
+      }
+      if (err) {
+        reject(err);
+        return;
+      }
+      else {
+        const adsImages = rows.map((t) => ({
+          id_ai: t.ID_AI,
+          id_a: t.ID_A,
+          position: t.Position,
+          url: t.URL
+        }));
+        resolve(adsImages);
       }
     });
   });

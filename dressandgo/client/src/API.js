@@ -80,13 +80,38 @@ async function getAds() {
               description: t.description,
               price: t.price,
               size: t.size,
-              url: t.url,
+              gender: t.gender,
+              brand: t.brand
           }));
       } else {
           throw ads;  // an object with the error coming from the server
       }
   }
 }
+
+
+/* TO GET THE LIST OF ANNOUNCEMENTS IMAGES */
+async function getAdsImages() {
+  const response = await fetch(url + '/api/alladsimages');
+  const adsimages = await response.json();
+  if (adsimages.id_a === 'Empty' ) {
+      return [];
+  }
+  else {
+      if (response.ok) {
+          return adsimages.map((t) => ({
+              ...t,
+              id_ai: t.id_ai,
+              id_a: t.id_a,
+              position: t.position,
+              url: t.url
+          }));
+      } else {
+          throw adsimages;  // an object with the error coming from the server
+      }
+  }
+}
+
 
 /* TO MODIFY USER INFOS */
 async function modifyUsInfos(newInfos) {
@@ -159,4 +184,4 @@ async function removeKnownSize(id_ks) {
   }
   
 
-export {getCategories, getUserInfos, getKnownSizes, getAds, modifyUsInfos, insertKnownSize, removeKnownSize};
+export {getCategories, getUserInfos, getKnownSizes, getAds, getAdsImages, modifyUsInfos, insertKnownSize, removeKnownSize};
