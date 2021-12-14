@@ -47,7 +47,7 @@ function MyKnownSizes(props) {
                                         {x.brand}
                                     </Col>
                                     <Col className="text-center justify-content-center">
-                                        {x.category}
+                                        {props.categories.find((el) => el.id_cat === x.id_cat).name}
                                     </Col>
                                     <Col className="text-center justify-content-center">
                                         {x.EUsize}

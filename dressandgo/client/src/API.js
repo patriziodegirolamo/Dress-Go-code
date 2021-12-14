@@ -55,6 +55,7 @@ async function getKnownSizes() {
                 id_ks: t.id_ks,
                 brand: t.brand,
                 EUsize: t.EUsize,
+                id_cat: t.id_cat
             }));
         } else {
             throw knownsizes;  // an object with the error coming from the server

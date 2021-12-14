@@ -90,7 +90,7 @@ function App() {
     </>} />
 
     <Route path="/handleknownsizes" element={<>
-      <MyKnownSizes knownsizes={knownsizes} setKnownsizes={setKnownSizes} ></MyKnownSizes>
+      <MyKnownSizes knownsizes={knownsizes} setKnownsizes={setKnownSizes} categories = {categories}></MyKnownSizes>
       <Row className="p-3 justify-content-center m-auto ">
         <Button className="mb-3" variant="primary" type="submit" onClick={() => setModalShow(true)}>
         Add known size</Button>

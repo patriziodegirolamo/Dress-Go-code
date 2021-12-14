@@ -89,7 +89,8 @@ exports.listKnownSizes = (id_u) => {
         const ksizes = rows.map((t) => ({
           id_ks: t.ID_KS,
           brand: t.Brand,
-          EUsize: t.EU_Size
+          EUsize: t.EU_Size,
+          id_cat: t.ID_CAT
         }));
         resolve(ksizes);
       }
