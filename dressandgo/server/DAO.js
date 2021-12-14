@@ -53,7 +53,18 @@ exports.userInfos = (id_u) => {
           id_u: row[0].ID_U,
           name: row[0].Name,
           surname: row[0].Surname,
-          address: row[0].Address  
+          address: row[0].Address,
+          city: row[0].City,
+          cap: row[0].CAP,
+          state: row[0].State,
+          zip: row[0].Zip,
+          gender: row[0].Gender,
+          height: row[0].Height,
+          weight: row[0].Weight,
+          waistline: row[0].Waistline,
+          hips: row[0].Hips,
+          legLength: row[0].LegLength,
+          shoesNumber: row[0].ShoesNumber
       };
         resolve(user);
       }
@@ -81,6 +92,36 @@ exports.listKnownSizes = (id_u) => {
           EUsize: t.EU_Size
         }));
         resolve(ksizes);
+      }
+    });
+  });
+};
+
+
+//get all announcements
+exports.listAds = () => {
+  return new Promise((resolve, reject) => {
+    const sql = "SELECT * FROM ANNOUNCEMENT";
+    db.all(sql, [], (err, rows) => {
+      if (rows === undefined || rows.length === 0) {
+        const ads = { id_a: 'Empty' };
+        resolve(ads);
+      }
+      if (err) {
+        reject(err);
+        return;
+      }
+      else {
+        const ads = rows.map((t) => ({
+          id_a: t.ID_A,
+          id_cat: t.ID_CAT,
+          title: t.Title,
+          description: t.Description,
+          price: t.Price,
+          size: t.Size,
+          url: t.URL
+        }));
+        resolve(ads);
       }
     });
   });
@@ -116,10 +157,14 @@ exports.insertKnownSize = (ksize) => {
 exports.modifyUserInfos = (newInfos) => {
   console.log(newInfos);
   return new Promise((resolve, reject) => {
-    const sql = "UPDATE USER SET NAME = ?, SURNAME = ?, ADDRESS = ? WHERE ID_U =?";
+    const sql = "UPDATE USER SET NAME = ?, SURNAME = ?, ADDRESS = ?, CITY = ?,"+
+                "CAP = ?, STATE = ?, ZIP = ?, GENDER = ?, HEIGHT = ?, WEIGHT = ?," + 
+                "WAISTLINE = ?, HIPS = ?, LEGLENGTH = ?, SHOESNUMBER = ? WHERE ID_U =?";
     db.run(
       sql,
-      [newInfos.name, newInfos.surname, newInfos.address, newInfos.id_u],
+      [newInfos.name, newInfos.surname, newInfos.address, newInfos.city, newInfos.cap, 
+       newInfos.state, newInfos.zip, newInfos.gender, newInfos.height, newInfos.weight, 
+       newInfos.waistline, newInfos.hips, newInfos.legLength, newInfos.shoesNumber,newInfos.id_u],
       function (err) {
         if (err) {
           reject(err);

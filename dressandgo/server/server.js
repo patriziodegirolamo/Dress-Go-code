@@ -72,6 +72,19 @@ app.get("/api/knownsizes", async (req, res) => {
   }
 });
 
+// GET /api/allads ; to have the list of all ads
+app.get("/api/allads", async (req, res) => {
+  try {
+    const result = await dao.listAds();
+    if (result.error)
+      res.status(404).json(result);
+    else
+      res.json(result);
+  } catch (err) {
+    res.status(500).end();
+  }
+});
+
 
 
 
@@ -90,7 +103,10 @@ app.post('/api/newknownsize',
   // PATCH /api/modifyUserInfo ; to update user infos
   app.patch('/api/modifyUserInfo',
   async (req, res) => {
-    const newInfos = { id_u: req.body.id_u, name: req.body.name, surname: req.body.surname, address: req.body.address};
+    const newInfos = { id_u: req.body.id_u, name: req.body.name, surname: req.body.surname, address: req.body.address,
+                       city: req.body.city, cap: req.body.cap, state: req.body.state, zip: req.body.zip, 
+                       gender: req.body.gender, height: req.body.height, weight: req.body.weight, waistline: req.body.waistline,
+                       hips: req.body.hips, legLength: req.body.legLength, shoesNumber: req.body.shoesNumber};
     try {
       const result = await dao.modifyUserInfos(newInfos);
       return res.json(result);

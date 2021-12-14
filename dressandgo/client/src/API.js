@@ -62,6 +62,31 @@ async function getKnownSizes() {
     }
 }
 
+/* TO GET THE LIST OF ANNOUNCEMENTS */
+async function getAds() {
+  const response = await fetch(url + '/api/allads');
+  const ads = await response.json();
+  if (ads.id_a === 'Empty' ) {
+      return [];
+  }
+  else {
+      if (response.ok) {
+          return ads.map((t) => ({
+              ...t,
+              id_a: t.id_a,
+              id_cat: t.id_cat,
+              title: t.title,
+              description: t.description,
+              price: t.price,
+              size: t.size,
+              url: t.url,
+          }));
+      } else {
+          throw ads;  // an object with the error coming from the server
+      }
+  }
+}
+
 
 /* TO INSERT A NEW KNOWN SIZE */
 async function insertKnownSize(ksize) {
@@ -107,4 +132,4 @@ async function removeKnownSize(id_ks) {
   }
   
 
-export {getCategories, getUserInfos, getKnownSizes, insertKnownSize, removeKnownSize};
+export {getCategories, getUserInfos, getKnownSizes, getAds, insertKnownSize, removeKnownSize};

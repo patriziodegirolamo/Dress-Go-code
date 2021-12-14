@@ -10,7 +10,8 @@ function MyCategoryList(props) {
         <Row xs={2} md={2} className="g-4">
           {props.categories.map((cat, idx) => {
             return <Col key={idx}>
-              <MyCategory key={idx} categorie={cat} idx={idx} ></MyCategory>
+              <MyCategory key={idx} handleChangeCurrentCategorie={props.handleChangeCurrentCategorie}
+                          categorie={cat} idx={idx} ></MyCategory>
             </Col>
           })
           }
