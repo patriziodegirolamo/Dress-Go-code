@@ -13,7 +13,7 @@ import MyKnownSizes from './mycomponents/known_sizes';
 import AddKnownSizes from './mycomponents/add_size_button';
 import {MySmallAdvertisement, MyBigAdvertisement} from './mycomponents/dress_card.js'
 
-import {getCategories, getUserInfos, getKnownSizes, getAds, insertKnownSize} from './API';
+import {getCategories, getUserInfos, getKnownSizes, getAds, modifyUsInfos, insertKnownSize} from './API';
 
 
 
@@ -36,12 +36,11 @@ function App() {
       const fetchedCategories = await getCategories();
       const fetchedSizes = await getKnownSizes();
       const fetchedAds = await getAds();
+      const fetchedUser = await getUserInfos();
       setCategories(fetchedCategories);
       setKnownSizes(fetchedSizes);
       setAds(fetchedAds);
-
-      /* prova nuove API */
-      const fetchedUser = await getUserInfos();
+      setUser(fetchedUser);
     }
     getCat();
   }, []);
@@ -51,6 +50,18 @@ function App() {
     const addASize = () => {
       const size = {id_u: 1, brand: "Bershka", eusize: "38"};
       insertKnownSize(size).then((err) => {});
+  }
+
+  /* TO MODIFY USER INFOS */
+  const modifyUserInfos = (newInfos) => {
+    console.log('MODIFY')
+    console.log(newInfos);
+    modifyUsInfos(newInfos).then((err) => {});
+    // to avoid another call to the db 
+    setUser({id_u: newInfos.id_u, name: newInfos.name, surname: newInfos.surname, address: newInfos.address,
+      city: newInfos.city, cap: newInfos.cap, state: newInfos.state, zip: newInfos.zip, 
+      gender: newInfos.gender, height: newInfos.height, weight: newInfos.weight, waistline: newInfos.waistline,
+      hips: newInfos.hips, legLength: newInfos.legLength, shoesNumber: newInfos.shoesNumber})
   }
  
   return <Router>
@@ -75,7 +86,7 @@ function App() {
     </>} />
 
     <Route path="/MyAccount" element={<>
-      <MyProfile/>
+      <MyProfile user = {user}/>
     </>} />
 
     <Route path="/handleknownsizes" element={<>
@@ -94,11 +105,11 @@ function App() {
     </>} />
 
     <Route path="/editprofile" element={<>
-      <MyUserData/>
+      <MyUserData user = {user} modifyUserInfos={modifyUserInfos}/>
     </>} />
 
     <Route path="/paymentmethods" element={<>
-      <MyProfile/>
+      <MyProfile user = {user}/>
     </>} />
 
     <Route  path="/" element={<Navigate to="/previews" />} />

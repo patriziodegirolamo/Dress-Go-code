@@ -1,11 +1,50 @@
 import { Row, Container, Form, Button, Col } from "react-bootstrap";
+import { useState } from 'react';
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
 
 function MyUserData(props) {
+  /* MANCA IL CAP, INSERIRE ADDRESS2 NEL DB? */
+  const [name, setName] = useState();
+  const [surname, setSurname] = useState();
+  const [address, setAddress] = useState();
+  const [city, setCity] = useState();
+  const [state, setState] = useState();
+  const [zip, setZip] = useState();
+  const [gender, setGender] = useState();
+  const [height, setHeight] = useState();
+  const [weight, setWeight] = useState();
+  const [waistline, setWaistline] = useState();
+  const [hips, setHips] = useState();
+  const [legLength, setLegLength] = useState();
+  const [shoesNumber, setShoesNumber] = useState();
 
+  const handleModifyUser = (event) => {
+    event.stopPropagation();
+    event.preventDefault();
 
+    /* TODO VALIDAZIONE */
+    
+    if(name === undefined) setName(props.user.name);
+    if(surname === undefined) setSurname(props.user.surname);
+    if(address === undefined) setAddress(props.user.address);
+    if(city === undefined) setCity(props.user.city);
+    if(state === undefined) setState(props.user.state);
+    if(zip === undefined) setZip(props.user.zip);
+    if(gender === undefined) setGender(props.user.gender);
+    if(height === undefined) setHeight(props.user.height);
+    if(weight === undefined) setWeight(props.user.weight);
+    if(waistline === undefined) setWaistline(props.user.waistline);
+    if(hips === undefined) setHips(props.user.hips);
+    if(legLength === undefined) setLegLength(props.user.legLength);
+    if(shoesNumber === undefined) setShoesNumber(props.user.shoesNumber);
+
+    const newInfos = {id_u: props.user.id_u, name : name, surname: surname, address: address, 
+                      city: city, state: state, zip: zip, gender: gender, height: height, weight: weight,
+                      waistline: waistline, hips: hips, legLength: legLength, shoesNumber: shoesNumber};
+    props.modifyUserInfos(newInfos);
+}
 
   return (
     <Container fluid>
@@ -14,18 +53,21 @@ function MyUserData(props) {
         <Row className="mb-3">
           <Form.Group as={Col} controlId="formGridEmail">
             <Form.Label>Name</Form.Label>
-            <Form.Control type="name" placeholder="Enter name" />
+            <Form.Control type="name" placeholder={props.user.name === 'NULL' ? 'Name' : props.user.name} 
+                           onChange={ev => setName(ev.target.value)}/>
           </Form.Group>
 
           <Form.Group as={Col} controlId="formGridPassword">
             <Form.Label>Surname</Form.Label>
-            <Form.Control type="password" placeholder="Password" />
+            <Form.Control type="password" placeholder={props.user.surname === 'NULL' ? 'Surname' : props.user.surname} 
+                           onChange={ev => setSurname(ev.target.value)}/>
           </Form.Group>
         </Row>
 
         <Form.Group className="mb-3" controlId="formGridAddress1">
           <Form.Label>Address</Form.Label>
-          <Form.Control placeholder="1234 Main St" />
+          <Form.Control placeholder={props.user.address === 'NULL' ? 'Address' : props.user.address}
+                         onChange={ev => setAddress(ev.target.value)}/>
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formGridAddress2">
@@ -36,17 +78,20 @@ function MyUserData(props) {
         <Row className="mb-3">
           <Form.Group as={Col} controlId="formGridCity">
             <Form.Label>City</Form.Label>
-            <Form.Control />
+            <Form.Control placeholder = {props.user.city === 'NULL' ? '' : props.user.city}
+                           onChange={ev => setCity(ev.target.value)}/>
           </Form.Group>
 
           <Form.Group as={Col} controlId="formGridState">
             <Form.Label>State</Form.Label>
-            <Form.Control />
+            <Form.Control placeholder = {props.user.state === 'NULL' ? '' : props.user.state}
+                           onChange={ev => setState(ev.target.value)}/>
           </Form.Group>
 
           <Form.Group as={Col} controlId="formGridZip">
             <Form.Label>Zip</Form.Label>
-            <Form.Control />
+            <Form.Control  placeholder = {props.user.zip === 'NULL' ? '' : props.user.zip}
+                            onChange={ev => setZip(ev.target.value)}/>
           </Form.Group>
         </Row>
 
@@ -54,16 +99,17 @@ function MyUserData(props) {
         <Row className="mt-4">
           <Form.Group as={Col} controlId="formGridCity">
             <Form.Label>Gender</Form.Label>
-            <Form.Select aria-label="Default select example">
+            <Form.Select aria-label={props.user.gender === 'NULL' ? '' : props.user.gender}  onChange={ev => setGender(ev.target.value)}>
               <option>---</option>
               <option value="1">Male</option>
               <option value="2">Female</option>
+              <option value="3">Other</option>
             </Form.Select>
           </Form.Group>
 
           <Form.Group as={Col} controlId="formGridState">
             <Form.Label>Height*</Form.Label>
-            <Form.Select aria-label="Default select example">
+            <Form.Select aria-label={props.user.height === 'NULL' ? '' : props.user.height}  onChange={ev => setHeight(ev.target.value)}>
               <option></option>
               <option value="140">140cm</option>
               <option value="141">141cm</option>
@@ -148,13 +194,14 @@ function MyUserData(props) {
 
           <Form.Group as={Col} controlId="formGridZip">
             <Form.Label>Weight(kg)*</Form.Label>
-            <Form.Control />
+            <Form.Control  placeholder = {props.user.weight === 'NULL' ? '' : props.user.weight}
+                           onChange={ev => setWeight(ev.target.value)}/>
           </Form.Group>
         </Row>
         <Row className="mt-4">
           <Form.Group as={Col} controlId="formGridCity">
             <Form.Label>Waistline(cm)</Form.Label>
-            <Form.Select aria-label="Default select example">
+            <Form.Select aria-label= {props.user.waistline === 'NULL' ? '' : props.user.waistline}  onChange={ev => setWaistline(ev.target.value)}>
               <option></option>
               <option value="50">50cm</option>
               <option value="51">51cm</option>
@@ -239,22 +286,25 @@ function MyUserData(props) {
 
           <Form.Group as={Col} controlId="formGridState">
             <Form.Label>Hips(cm)</Form.Label>
-            <Form.Control />
+            <Form.Control  placeholder = {props.user.hips === 'NULL' ? '' : props.user.hips}
+                            onChange={ev => setHips(ev.target.value)}/>
           </Form.Group>
 
           <Form.Group as={Col} controlId="formGridZip">
             <Form.Label>Leg length</Form.Label>
-            <Form.Control />
+            <Form.Control  placeholder = {props.user.legLength === 'NULL' ? '' : props.user.legLength}
+                           onChange={ev => setLegLength(ev.target.value)}/>
           </Form.Group>
         </Row>
 
         <Form.Group as={Col} controlId="formGridZip">
           <Form.Label>Shoe size (EU)</Form.Label>
-          <Form.Control />
+          <Form.Control  placeholder = {props.user.shoesNumber === 'NULL' ? '' : props.user.shoesNumber}
+                          onChange={ev => setShoesNumber(ev.target.value)}/>
         </Form.Group>
 
         <Row className="p-3 justify-content-center m-auto ">
-          <Button className="mb-3" variant="primary" type="submit">
+          <Button className="mb-3" variant="primary" type="submit" onClick={handleModifyUser}>
             Change
           </Button>
         </Row>

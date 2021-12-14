@@ -87,6 +87,32 @@ async function getAds() {
   }
 }
 
+/* TO MODIFY USER INFOS */
+async function modifyUsInfos(newInfos) {
+  return new Promise((resolve, reject) => {
+    fetch('/api/modifyUserInfo', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ id_u: newInfos.id_u, name: newInfos.name, surname: newInfos.surname, address: newInfos.address,
+        city: newInfos.city, cap: newInfos.cap, state: newInfos.state, zip: newInfos.zip, 
+        gender: newInfos.gender, height: newInfos.height, weight: newInfos.weight, waistline: newInfos.waistline,
+        hips: newInfos.hips, legLength: newInfos.legLength, shoesNumber: newInfos.shoesNumber }),
+    }).then((response) => {
+      if (response.ok) {
+        resolve(response.json());
+      } else {
+        response.json()
+          .then((message) => { reject(message); })
+          .catch(() => reject({ error: 'Cannot parse the response.' }));
+      }
+    }).catch(() => {
+      reject({ error: 'Cannot communicate with the server.' });
+    })
+  });
+}
+
 
 /* TO INSERT A NEW KNOWN SIZE */
 async function insertKnownSize(ksize) {
@@ -132,4 +158,4 @@ async function removeKnownSize(id_ks) {
   }
   
 
-export {getCategories, getUserInfos, getKnownSizes, getAds, insertKnownSize, removeKnownSize};
+export {getCategories, getUserInfos, getKnownSizes, getAds, modifyUsInfos, insertKnownSize, removeKnownSize};
