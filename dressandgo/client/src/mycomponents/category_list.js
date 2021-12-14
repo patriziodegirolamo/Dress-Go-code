@@ -4,7 +4,6 @@ import { Col, Row, Container } from "react-bootstrap";
 
 function MyCategoryList(props) {
 
-  //ATTENZIONE QUANDO FAREMO IL DB ------> MyCategory ----- [0]
   return (
     <>
       <Container>

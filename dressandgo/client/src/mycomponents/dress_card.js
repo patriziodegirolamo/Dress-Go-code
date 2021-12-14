@@ -1,4 +1,4 @@
-import { Col, Row, Container, Card, Button, Modal, Form } from "react-bootstrap";
+import { Col, Row, Container, Card, Button, Modal, Form, Carousel } from "react-bootstrap";
 import { NavLink as Link, useParams, useNavigate } from "react-router-dom";
 import { useState } from 'react';
 import MyAvailabilityModal from './availabilityModal';
@@ -14,7 +14,7 @@ import "react-datepicker/dist/react-datepicker.css";
 function MySmallAdvertisement(props) {
     const navigate = useNavigate();
 
-    return (/*<Link  className='text-link' to={{ pathname: "/ad/" + props.ad.id }}>*/
+    return (
         <Card key={props.idx} onClick={() => {
             navigate("/ad/" + props.ad.id)
             return props.handleChangeForwardPage(props.ad.cat)
@@ -23,11 +23,11 @@ function MySmallAdvertisement(props) {
             <Card.Title>
                 {props.ad.name}
             </Card.Title>
-            <Card.Img variant="top" src={props.ad.address} className="mx-auto m-auto pt-2"
+            <Card.Img variant="top" src={props.ad.addresses[0]} className="mx-auto m-auto pt-2"
                 style={{ width: '50%' }} />
 
         </Card>
-        /*</Link>*/
+        
     );
 }
 
@@ -36,7 +36,7 @@ function MyBigAdvertisement(props) {
 
     const [numDays, setNumDays] = useState(0);
     const [showCalendar, setShowCalendar] = useState(false);
-    
+
     const [startDate, setStartDate] = useState(new Date())
     const [endDate, setEndDate] = useState(new Date())
 
@@ -50,14 +50,24 @@ function MyBigAdvertisement(props) {
     };
 
 
-
     return (<>
         <Card key={idAd}>
             <Card.Title>
                 {currentAd.name}
             </Card.Title>
-            <Card.Img variant="top" src={currentAd.address} className="mx-auto m-auto pt-2"
-                style={{ width: '50%' }} />
+
+            <Container>
+            <Carousel variant="dark">
+                {currentAd.addresses.map(img => {
+                    return <Carousel.Item>
+                        <Card.Img variant="top" src={img} className="mx-auto m-auto pt-2"
+                            style={{ width: '50%' }} />
+                    </Carousel.Item>
+                })}
+            </Carousel>
+            </Container>
+
+            <Card.Body>BRAND: {currentAd.brand}</Card.Body>
             <Card.Body>DESCRIPTION: {currentAd.description}</Card.Body>
             <Card.Body>SIZE: {currentAd.size}</Card.Body>
             <Card.Body>PRICE PER DAY: {currentAd.price} €/day</Card.Body>
@@ -70,12 +80,12 @@ function MyBigAdvertisement(props) {
                 </MyAvailabilityModal>
             </Card.Body>
 
-            { numDays != 0 ?
-            <Card.Body>OVERALL PRICE: {(numDays*currentAd.price).toPrecision(4)}</Card.Body>
-            : <></>}
+            {numDays != 0 ?
+                <Card.Body>OVERALL PRICE: {(numDays * currentAd.price).toPrecision(4)}</Card.Body>
+                : <></>}
 
             <Container>
-            <Button>RENT</Button>
+                <Button>RENT</Button>
             </Container>
         </Card>
     </>

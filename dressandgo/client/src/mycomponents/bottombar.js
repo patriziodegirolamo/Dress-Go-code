@@ -13,7 +13,7 @@ import { useState } from 'react';
 
 
 
-export default function FixedBottomNavigation() {
+export default function FixedBottomNavigation(props) {
 
   /*
   Home: 0
@@ -37,6 +37,10 @@ export default function FixedBottomNavigation() {
             setValue(newValue);
 
             if( newValue == 0){
+              props.setCurrentState("home");
+              props.setCurrentCat("");
+              props.setCurrentDress("");
+              props.setPage("unisex")
               navigate("/");
             }
             else if(newValue == 1){

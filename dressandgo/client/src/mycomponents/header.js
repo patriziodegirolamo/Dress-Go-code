@@ -11,6 +11,7 @@ function MyHeader(props) {
   const navigate = useNavigate();
 
   const handleChangeBackardPage = () => {
+    props.setSearch("")
     if (props.currentState == "home") {
     }
 
@@ -41,7 +42,7 @@ function MyHeader(props) {
         <Container>
           <Navbar.Brand className='m-auto'>
             <b id="title">Dress&Go</b>
-            <sub id="pedice"><i>{props.page}</i></sub>
+            {props.page == "unisex" ? <sub id="pedice"><i>All</i></sub> : <sub id="pedice"><i>{props.page}</i></sub>}
           </Navbar.Brand>
 
         </Container>
@@ -52,22 +53,25 @@ function MyHeader(props) {
       <Container>
         <Row>
           <Col xs={7}>
-            <Form>
-              <Form.Control placeholder="Search..." />
+            <Form  onChange={(event) => {
+              props.setSearch(event.target.value)
+            }}>
+              <Form.Control value={props.search} placeholder="Search..."/>
             </Form>
           </Col>
 
           {
             props.page === "man" ?
               <Col xs={2}>
-                <Button variant="light" disabled>
+                <Button size="lg" variant="light" disabled>
                   <IoMan></IoMan>
                 </Button>
               </Col>
               :
               <Col xs={2}>
-                <Button variant="light" onClick={(event) => {
-                  props.setPage("man")
+                <Button size="lg" variant="light" onClick={(event) => {
+                  handleChangeBackardPage()
+                  props.setPage("man");
                 }}>
                   <IoMan></IoMan>
                 </Button>
@@ -77,14 +81,15 @@ function MyHeader(props) {
           {
             props.page === "woman" ?
               <Col xs={2}>
-                <Button variant="light" disabled>
+                <Button size="lg" variant="light" disabled>
                   <IoWoman></IoWoman>
                 </Button>
               </Col>
               :
               <Col xs={2}>
-                <Button variant="light" onClick={(event) => {
-                  props.setPage("woman")
+                <Button size="lg" variant="light" onClick={(event) => {
+                  handleChangeBackardPage()
+                  props.setPage("woman");
                 }}>
                   <IoWoman></IoWoman>
                 </Button>
