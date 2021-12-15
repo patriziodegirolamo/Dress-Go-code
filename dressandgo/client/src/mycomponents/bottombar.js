@@ -40,7 +40,9 @@ export default function FixedBottomNavigation(props) {
               props.setCurrentState("home");
               props.setCurrentCat("");
               props.setCurrentDress("");
-              props.setPage("unisex")
+
+              
+              //props.setPage("unisex")
               navigate("/");
             }
             else if(newValue == 1){

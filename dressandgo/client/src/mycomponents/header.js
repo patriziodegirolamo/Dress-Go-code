@@ -5,6 +5,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/header.css";
 
 import { IoWoman, IoMan } from 'react-icons/io5'
+import { FcBusinessman, FcBusinesswoman } from 'react-icons/fc'
+
+
 
 
 function MyHeader(props) {
@@ -42,7 +45,7 @@ function MyHeader(props) {
         <Container>
           <Navbar.Brand className='m-auto'>
             <b id="title">Dress&Go</b>
-            {props.page == "unisex" ? <sub id="pedice"><i>All</i></sub> : <sub id="pedice"><i>{props.page}</i></sub>}
+            <sub id="pedice"><i>{props.page}</i></sub>
           </Navbar.Brand>
 
         </Container>
@@ -53,10 +56,10 @@ function MyHeader(props) {
       <Container>
         <Row>
           <Col xs={7}>
-            <Form  onChange={(event) => {
+            <Form>
+              <Form.Control value={props.search} placeholder="Search..." onChange={(event) => {
               props.setSearch(event.target.value)
-            }}>
-              <Form.Control value={props.search} placeholder="Search..."/>
+            }}/>
             </Form>
           </Col>
 
@@ -64,7 +67,7 @@ function MyHeader(props) {
             props.page === "man" ?
               <Col xs={2}>
                 <Button size="lg" variant="light" disabled>
-                  <IoMan></IoMan>
+                  <FcBusinessman size={35}></FcBusinessman>
                 </Button>
               </Col>
               :
@@ -73,7 +76,7 @@ function MyHeader(props) {
                   handleChangeBackardPage()
                   props.setPage("man");
                 }}>
-                  <IoMan></IoMan>
+                  <FcBusinessman size={30}></FcBusinessman>
                 </Button>
               </Col>
           }
@@ -82,7 +85,7 @@ function MyHeader(props) {
             props.page === "woman" ?
               <Col xs={2}>
                 <Button size="lg" variant="light" disabled>
-                  <IoWoman></IoWoman>
+                  <FcBusinesswoman size={35}></FcBusinesswoman>
                 </Button>
               </Col>
               :
@@ -91,7 +94,7 @@ function MyHeader(props) {
                   handleChangeBackardPage()
                   props.setPage("woman");
                 }}>
-                  <IoWoman></IoWoman>
+                  <FcBusinesswoman size={30}></FcBusinesswoman>
                 </Button>
               </Col>
           }

@@ -10,7 +10,6 @@ import MyDressList from './mycomponents/dress_list.js';
 import { MySmallAdvertisement, MyBigAdvertisement } from './mycomponents/dress_card.js'
 import MyAvailabilityModal from './mycomponents/availabilityModal';
 
-//TODO: aggiustare quando i suggested sono vuoti -> le scritte si overlappano
 
 /*
 STATES:
@@ -20,12 +19,18 @@ bigcat
 */
 
 
-/** page: man, woman, unisex */
+/** page: man, woman */
 function App() {
+  const user = {
+    name: "Patrizio",
+    surname: "de Girolamo",
+    gender: "man",
+  }
+
   const [currentState, setCurrentState] = useState("home")
   const [currentCat, setCurrentCat] = useState("");
   const [currentDress, setCurrentDress] = useState("");
-  const [page, setPage] = useState("unisex");
+  const [page, setPage] = useState(user.gender);
   const [search, setSearch] = useState("");
 
 
@@ -63,22 +68,44 @@ function App() {
    * bottom: 30-50, 
    * shoes: 30-50 
    * */
-  const [user, setUser] = useState([
+
+
+  const [knownSizes, setKnownSizes] = useState([
     {
-      name: "Patrizio",
-      surname: "de Girolamo",
-      gender: "male",
-      knownSizes: [
-      {"brand": "Gucci"
-      [{"type": "top", "size": "M"}, {"type": "shoes", "size": "44"}]},
+      brand: "Gucci",
+      cat: "Jackets",
+      gender: "man",
+      size: "M",
 
-      {"brand": "Levis"
-      [{"type": "bottom", "size": "42"}]},
-        
-      {"brand": "Timberland"
-      [{"type": "shoes", "size": "45"}, {"type": "bottom", "size": "44"}]},
-    ]
+    },
 
+    /*
+    {
+      brand: "Gucci",
+      cat: "Shoes",
+      gender: "man",
+      size: "44"
+    },
+
+    {
+      brand: "Levis",
+      cat: "Trousers",
+      gender: "unisex",
+      size: "42"
+    },
+
+    {
+      brand: "Timberland",
+      cat: "Shoes",
+      gender: "man",
+      size: "45"
+    },
+    */
+    {
+      brand: "Timberland",
+      cat: "Trousers",
+      size: "44",
+      gender: "woman",
 
     }
   ])
@@ -86,35 +113,84 @@ function App() {
     {
       name: "Jackets",
       gender: "unisex",
-      address: "https://previews.123rf.com/images/ironsv/ironsv2003/ironsv200300150/142462351-jacket-icon-clothes-icon-vector-on-background-.jpg"
+      address: "jacket.png"
     },
 
     {
       name: "Shoes",
-      gender: "unisex",
-      address: "https://w7.pngwing.com/pngs/732/999/png-transparent-air-jordan-nike-air-max-shoe-sneakers-nike-white-outdoor-shoe-sneakers.png"
-    },
-
-    {
-      name: "Tshirts",
-      gender: "unisex",
-      address: "https://cdn-icons-png.flaticon.com/512/4267/4267723.png"
-    },
-
-    {
-      name: "Trousers",
-      gender: "unisex",
-      address: "https://findicons.com/files/icons/2770/ios_7_icons/512/trousers.png"
-    },
-
-    {
-      name: "Skirts",
       gender: "woman",
-      address: "http://cdn.onlinewebfonts.com/svg/img_471806.png"
+      address: "high-heels.png"
+    },
+
+    {
+      name: "Shoes",
+      gender: "man",
+      address: "sneakers.png"
+    },
+
+    {
+      name: "Shirt",
+      gender: "unisex",
+      address: "hawaiian-shirt.png"
+    },
+
+    {
+      name: "Pajamas",
+      gender: "man",
+      address: "pajamas.png"
+    },
+
+    {
+      name: "Skirt",
+      gender: "woman",
+      address: "skirt.png"
+    },
+
+    {
+      name: "Socks",
+      gender: "woman",
+      address: "socksfemale.png"
+    },
+
+    {
+      name: "Socks",
+      gender: "man",
+      address: "socksmale.png"
+    },
+
+    {
+      name: "Watch",
+      gender: "unisex",
+      address: "wristwatch.png"
+    },
+
+    {
+      name: "Tshirt",
+      gender: "unisex",
+      address: "t-shirt.png"
+    },
+
+    {
+      name: "trousers",
+      gender: "unisex",
+      address: "trousers.png"
+    },
+
+    {
+      name: "suit",
+      gender: "man",
+      address: "suit.png"
+    },
+
+    {
+      name: "dress",
+      gender: "woman",
+      address: "dress.png"
     }
+
   ])
 
-  //gender: man, woman, unisex
+  //gender: man, woman
   const [ads, setAds] = useState(
     [
       {
@@ -124,7 +200,6 @@ function App() {
         brand: "Gucci",
         description: "beautiful green jacket",
         price: "23.07",
-        type: "top",
         size: "M",
         gender: "man",
         addresses: ["https://www.calibroshop.it/storage/immagini/d6ab39f5bc07f8bc00df0b17de696b03.jpeg",
@@ -140,7 +215,6 @@ function App() {
         brand: "Armani",
         description: "beautiful black jacket",
         price: "22.07",
-        type: "top",
         size: "L",
         gender: "man",
         addresses: ["https://image.shutterstock.com/image-photo/blank-jacket-bomber-baseball-satin-260nw-1109179079.jpg",
@@ -154,7 +228,6 @@ function App() {
         brand: "Gucci",
         description: "beautiful pair of black shoes",
         price: "5.07",
-        type: "shoes",
         size: "42",
         gender: "man",
         addresses: ["https://png.pngtree.com/png-clipart/20210613/original/pngtree-leather-shoes-black-accessories-clothing-png-image_6403650.jpg",
@@ -170,7 +243,6 @@ function App() {
         brand: "Nike",
         description: "beautiful white t-shirt",
         price: "1.07",
-        type: "top",
         size: "M",
         gender: "unisex",
         addresses: ["https://m.media-amazon.com/images/I/81XWYTTfBkL._AC_UX679_.jpg",
@@ -184,7 +256,6 @@ function App() {
         brand: "Gucci",
         description: "beautiful black trousers",
         price: "32.37",
-        type: "bottom",
         size: "40",
         gender: "man",
         addresses: ["https://images.sportsdirect.com/images/products/36206203_l.jpg"]
@@ -197,7 +268,6 @@ function App() {
         brand: "Gucci",
         description: "beautiful red skirt",
         price: "12.00",
-        type: "bottom",
         size: "36",
         gender: "woman",
         addresses: ["https://www.rinascimento.com/media/catalog/product/cache/c03ae629b2d1553220f68bf2c378cc64/g/o/gonna-midi-in-raso-strutturato-color-nero-6-cfc0106280003b001_list_1.jpg",
@@ -205,7 +275,6 @@ function App() {
       },
     ]
   )
-
 
 
   return <Router>
@@ -225,19 +294,13 @@ function App() {
 
       <Route path='/previews' element={<>
         {search ? <MyDressList ads={ads.filter(ad => {
-          if (page == "unisex")
-            return ad.name.includes(search) || ad.description.includes(search)
           return ad.gender == page && (ad.name.includes(search) || ad.description.includes(search))
         })}
           handleChangeForwardPage={handleChangeForwardPage}>
         </MyDressList> : <MyCategoryList categories={categories.filter(c => {
-          if (page == "unisex") {
+
+          if (c.gender == "unisex" || c.gender == page)
             return c
-          }
-          else if (page == "man" || page == "woman") {
-            if (c.gender == "unisex" || c.gender == page)
-              return c
-          }
         })} ads={ads}
           handleChangeForwardPage={handleChangeForwardPage}
         />}
@@ -247,18 +310,16 @@ function App() {
         {search ? <MyDressList ads={ads.filter(ad => (ad.cat == currentCat) && (ad.name.includes(search) || ad.description.includes(search)))}
           handleChangeForwardPage={handleChangeForwardPage}>
         </MyDressList> : <>
-          <Container>
+          <Container id="dressContainer">
+            
             suggested for you:
             <MyDressList ads={ads.filter(ad => {
-              /**
-              const brands = user.knownSizes.map(k => k.brand);
-              //se il capo è contenuto nei brand conosciuti dallo user controlla la taglia
-              if (brands.includes(ad.brand)) {
-                
+              if(ad.gender === page && ad.cat === currentCat){
+                for (const ks of knownSizes) {
+                  if (ad.gender == ks.gender && ad.brand == ks.brand && ad.cat == ks.cat && ad.size == ks.size)
+                    return ad
+                }
               }
-               */
-
-              return;
             }
             )}
               handleChangeForwardPage={handleChangeForwardPage}>
@@ -266,18 +327,14 @@ function App() {
           </Container>
 
 
-          <Container>
+          <Container id="dressContainer">
             All sizes:
             <MyDressList ads={ads.filter(ad => {
-              if(ad.cat === currentCat){
-                if(page == "unisex")
+              if (ad.cat === currentCat) {
+                if (ad.gender == "unisex")
                   return ad;
-                else{
-                  if(ad.gender == "unisex")
+                else if (ad.gender == page)
                   return ad;
-                else if(ad.gender == page)
-                  return ad;
-                }
               }
             })}
               handleChangeForwardPage={handleChangeForwardPage}>
