@@ -1,4 +1,3 @@
-
 import { Col, Row, Container, Card, Button, Modal, Alert} from "react-bootstrap";
 import { NavLink as Link, useParams, useNavigate } from "react-router-dom";
 import { useState } from 'react';
@@ -14,14 +13,14 @@ function MyAvailabilityModal(props) {
     const excludedDates=[addDays(new Date(), 1), addDays(new Date(), 5)]
 
     const countDays = () => {
-        if( props.endDate == props.startDate)
+        if( props.endDate === props.startDate)
             props.setNumDays(1);
         else 
             props.setNumDays(1 + (new Date(props.endDate).getTime() - new Date(props.startDate).getTime() ) / (1000 * 3600 * 24) )
 
     }
 
-    {/** return 1 if everything is ok, 0 otherwise */}
+    /** return 1 if everything is ok, 0 otherwise */
     const checkDate = (dates) => {
         const d1 = new Date(props.startDate).toISOString().split('T')[0].split("-")
         const d2 = new Date(props.endDate).toISOString().split('T')[0].split("-")

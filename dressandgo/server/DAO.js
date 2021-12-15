@@ -164,10 +164,10 @@ exports.listAdsImages = () => {
 exports.insertKnownSize = (ksize) => {
   return new Promise((resolve, reject) => {
     const sql =
-      "INSERT INTO KNOWNSIZE(ID_KS, ID_U, BRAND, EU_SIZE) VALUES(?, ?, ?, ?)";
+      "INSERT INTO KNOWNSIZE(ID_KS, ID_U, BRAND, EU_SIZE, ID_CAT) VALUES(?, ?, ?, ?, ?)";
     db.run(
       sql,
-      [this.lastID, ksize.id_u, ksize.brand, ksize.eusize],
+      [this.lastID, ksize.id_u, ksize.brand, ksize.eusize, ksize.id_cat],
       function (err) {
         if (err) {
           reject(err);

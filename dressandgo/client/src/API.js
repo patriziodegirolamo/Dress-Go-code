@@ -148,7 +148,7 @@ async function insertKnownSize(ksize) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ id_u: ksize.id_u, brand: ksize.brand, eusize: ksize.eusize }),
+        body: JSON.stringify({ id_u: ksize.id_u, brand: ksize.brand, eusize: ksize.EUsize, id_cat: ksize.id_cat }),
       }).then((response) => {
         if (response.ok) {
           resolve(response.json());
@@ -166,22 +166,23 @@ async function insertKnownSize(ksize) {
 
 /* TO REMOVE A KNOWN SIZE INSERTED BY THE USER*/
 async function removeKnownSize(id_ks) {
-    return new Promise((resolve, reject) => {
-      fetch(url + '/api/removeksizes', {
-        method: 'DELETE'
-      }).then((response) => {
-        if (response.ok) {
-          resolve(null);
-        } else {
-          response.json()
-            .then((message) => { reject(message); })
-            .catch(() => reject({ error: 'Cannot parse the response.' }));
-        }
-      }).catch(() => {
-        reject({ error: 'Cannot communicate with the server.' });
-      })
-    });
-  }
+  return new Promise((resolve, reject) => {
+    fetch(url + '/api/removeksize?id_ks=' + id_ks, {
+      method: 'DELETE'
+    }).then((response) => {
+      if (response.ok) {
+        resolve(null);
+      } else {
+        response.json()
+          .then((message) => { reject(message); })
+          .catch(() => reject({ error: 'Cannot parse the response.' }));
+      }
+    }).catch(() => {
+      reject({ error: 'Cannot communicate with the server.' });
+    })
+  });
+}
+
   
 
 export {getCategories, getUserInfos, getKnownSizes, getAds, getAdsImages, modifyUsInfos, insertKnownSize, removeKnownSize};

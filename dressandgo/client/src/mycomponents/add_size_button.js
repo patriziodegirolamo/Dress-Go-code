@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 function AddKnownSizes(props) {
 
-    const { show, onHide, setKnownsizes, knownsizes } = props;
+    const { show, onHide } = props;
 
     const [validated, setValidated] = useState(false);
     const [brand, setBrand] = useState("");
@@ -39,7 +39,6 @@ function AddKnownSizes(props) {
     };
 
     const handleSubmit = (event) => {
-
         event.preventDefault();
 
         const form = event.currentTarget;
@@ -50,31 +49,34 @@ function AddKnownSizes(props) {
 
         setValidated(true);
 
-         //Manual validation
+        //Manual validation
 
+        /*
         var id_max;
         if (knownsizes.length !== 0) {
             id_max = Math.max.apply(Math, knownsizes.map(function (o) { return o.id; }))
         }
-        else
-            id_max = 0;
-
-        const new_size = {
-            id: id_max + 1,
-            brand: brand,
-            category: category,
-            size: size
-        };
+        else{
+            const new_size = {
+                brand: brand,
+                category: category,
+                size: size
+            };
+        */
 
 
-        if(validated)
-        {
-        setKnownsizes(knownsizes.concat(new_size));
-        setBrand("");
-        setCategory("");
-        setSize("");
-        onHide();
-
+        if (validated) {
+            const new_size = {
+                id_u: props.user.id_u,
+                brand: brand,
+                id_cat: props.categories.find((cat) => cat.name === category).id_cat,
+                EUsize: size
+            };
+            props.addASize(new_size);
+            setBrand("");
+            setCategory("");
+            setSize("");
+            onHide();
         }
     };
 
@@ -95,11 +97,13 @@ function AddKnownSizes(props) {
                     <Form.Group className="mb-3" >
                         <Form.Label>Category*</Form.Label>
                         <Form.Select name="category" aria-label="Select category" required onChange={handleChange}>
-                           {/*lista completa categorie*/}
-                            <option value="null">Select category</option>
-                            <option value="Shoes">Shoes</option>
-                            <option value="T-Shirt">T-Shirt</option>
-                            <option value="Trousers">Trousers</option>
+                            {/*lista completa categorie*/}
+                            <option value='null'>Select category</option>
+                            {
+                                props.categories.map((cat) => {
+                                    return <option key = {cat.id_cat} value={cat.name}>{cat.name}</option>
+                                })
+                            }
                         </Form.Select>
                     </Form.Group>
                     <Form.Group className="mb-3" >

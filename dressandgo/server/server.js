@@ -104,7 +104,7 @@ app.get("/api/alladsimages", async (req, res) => {
 // POST /api/newknownsize ; to create a new known size for that user
 app.post('/api/newknownsize',
   async (req, res) => {
-    const ksize = { id_u: req.body.id_u, brand: req.body.brand, eusize: req.body.eusize};
+    const ksize = { id_u: req.body.id_u, brand: req.body.brand, id_cat: req.body.id_cat, eusize: req.body.eusize};
     try {
       const result = await dao.insertKnownSize(ksize);
       return res.json(result);
@@ -132,9 +132,8 @@ app.post('/api/newknownsize',
 
 // DELETE /api/removeksize ; to remove a knwon size inserted by the user
 app.delete('/api/removeksize',  async (req, res) => {
-  const id_ks = 3;
   try {
-    await dao.removeKnownSize(id_ks);
+    await dao.removeKnownSize(req.query.id_ks);
     res.end();
   } catch (error) {
     res.status(500).json(error);

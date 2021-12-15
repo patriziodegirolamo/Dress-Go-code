@@ -4,18 +4,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 function MyKnownSizes(props) {
 
-    const deleteSize = (id) => {
-
-        const index = props.knownsizes.findIndex(i => i.id === id);
-
-        if (index > -1) {
-            props.setKnownsizes(oldList => {
-                return oldList.filter(
-                    x => id !== x.id);
-            });
-        }
+    const handleDelete = (id_ks) => {
+        props.removeASize(id_ks);
     }
-
+    
     return (
         <Container fluid>
 
@@ -39,7 +31,7 @@ function MyKnownSizes(props) {
             {props.knownsizes.map(x => {
                 return (
 
-                    <Card className="mt-1" key={x.id}>
+                    <Card className="mt-1" key={x.id_ks}>
                         <Card.Header>
                             <Row>
                                 <div className="d-flex justify-content-between">
@@ -53,7 +45,7 @@ function MyKnownSizes(props) {
                                         {x.EUsize}
                                     </Col>
                                     <ButtonGroup>
-                                        <Button variant='outline-danger' onClick={() => { deleteSize(x.id); }}><BsFillTrashFill /></Button>
+                                        <Button variant='outline-danger' onClick={() => handleDelete(x.id_ks)}><BsFillTrashFill /></Button>
                                     </ButtonGroup>
                                 </div>
                             </Row>
