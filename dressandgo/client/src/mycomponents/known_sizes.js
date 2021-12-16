@@ -28,10 +28,10 @@ function MyKnownSizes(props) {
                 </Row>)}
 
 
-            {props.knownsizes.map(x => {
+            {props.knownsizes.map((x, idx) => {
                 return (
 
-                    <Card className="mt-1" key={x.id_ks}>
+                    <Card className="mt-1" key={idx}>
                         <Card.Header>
                             <Row>
                                 <div className="d-flex justify-content-between">

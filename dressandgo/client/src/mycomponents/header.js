@@ -1,5 +1,5 @@
 import { Container, Navbar, Form, Row, Col, Button } from "react-bootstrap";
-import { NavLink as Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/header.css";
@@ -15,16 +15,16 @@ function MyHeader(props) {
 
   const handleChangeBackardPage = () => {
     props.setSearch("")
-    if (props.currentState == "home") {
+    if (props.currentState === "home") {
     }
 
-    else if (props.currentState == "cat") {
+    else if (props.currentState === "cat") {
       props.setCurrentCat("");
       props.setCurrentState("home");
       navigate("/previews");
     }
 
-    else if (props.currentState == "bigCat") {
+    else if (props.currentState === "bigCat") {
       props.setCurrentState("cat");
       navigate("dresses/" + props.currentCat);
     }
@@ -51,7 +51,7 @@ function MyHeader(props) {
 
       </Navbar>
 
-      {props.currentState == "home" || props.currentState == "cat"  ? 
+      {props.currentState === "home" || props.currentState === "cat"  ? 
       <Container>
         <Row>
           <Col xs={7}>

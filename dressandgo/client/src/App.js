@@ -1,5 +1,5 @@
 import './App.css';
-import { Col, Row, Container, Button } from "react-bootstrap";
+import { Row, Container, Button } from "react-bootstrap";
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 
@@ -35,26 +35,26 @@ function App() {
 
   const handleChangeForwardPage = (cat) => {
     if (search) {
-      if (currentState == "home") {
+      if (currentState === "home") {
         setCurrentCat(cat)
         setCurrentState("bigCat");
       }
-      else if (currentState == "cat") {
+      else if (currentState === "cat") {
         setCurrentState("bigCat")
       }
     }
 
     else {
-      if (currentState == "home") {
+      if (currentState === "home") {
         setCurrentCat(cat)
         setCurrentState("cat")
       }
 
-      else if (currentState == "cat") {
+      else if (currentState === "cat") {
         setCurrentState("bigCat")
       }
 
-      else if (currentState == "bigCat") {
+      else if (currentState === "bigCat") {
 
       }
     }
@@ -129,7 +129,7 @@ function App() {
 
 
       <Route path='/ad/:idAd' element={<>
-        <MyBigAdvertisement ads={ads} />
+        <MyBigAdvertisement ads={ads} adsImages = {adsImages} />
       </>} />
 
       <Route path='/guide' element={<>
@@ -139,14 +139,14 @@ function App() {
       <Route path='/previews' element={<>
         {search ? <Container id="dressContainer">
           researched:
-          <MyDressList ads={ads.filter(ad => {
-            return ad.gender == page && (ad.title.includes(search) || ad.description.includes(search))
+          <MyDressList adsImages = {adsImages} categories={categories} ads={ads.filter(ad => {
+            return ad.gender === page && (ad.title.includes(search) || ad.description.includes(search))
           })}
             handleChangeForwardPage={handleChangeForwardPage}>
           </MyDressList>
         </Container> : <MyCategoryList categories={categories.filter(c => {
 
-          if (c.gender == "unisex" || c.gender == page)
+          if (c.gender === "unisex" || c.gender === page)
             return c
         })} ads={ads}
           handleChangeForwardPage={handleChangeForwardPage}
@@ -155,7 +155,7 @@ function App() {
 
       <Route path="/dresses/:categorie" element={<>
         {search ? <Container id="dressContainer"> resarched:
-          <MyDressList ads={ads.filter(ad => (ad.cat == currentCat) && (ad.title.includes(search) || ad.description.includes(search)))}
+          <MyDressList adsImages = {adsImages} categories={categories} ads={ads.filter(ad => (categories.find((el) => el.id_cat === ad.id_cat).name === currentCat) && (ad.title.includes(search) || ad.description.includes(search)))}
             handleChangeForwardPage={handleChangeForwardPage}>
           </MyDressList>
         </Container>
@@ -163,10 +163,12 @@ function App() {
           <>
             <Container id="dressContainer">
               suggested for you:
-              <MyDressList ads={ads.filter(ad => {
-                if (ad.gender === page && ad.cat === currentCat) {
+              <MyDressList adsImages = {adsImages} categories={categories} ads={ads.filter(ad => {
+                if (ad.gender === page && categories.find((el) => el.id_cat === ad.id_cat).name === currentCat) {
                   for (const ks of knownsizes) {
-                    if (ad.gender == ks.gender && ad.brand == ks.brand && ad.cat == ks.cat && ad.size == ks.EUsize)
+                    if (ad.gender === ks.gender && ad.brand === ks.brand && 
+                      categories.find((el) => el.id_cat === ad.id_cat).name ===  categories.find((el) => el.id_cat === ks.id_cat).name && 
+                        ad.size === ks.EUsize)
                       return ad
                   }
                 }
@@ -179,11 +181,11 @@ function App() {
 
             <Container id="dressContainer">
               All sizes:
-              <MyDressList ads={ads.filter(ad => {
-                if (ad.cat === currentCat) {
-                  if (ad.gender == "unisex")
+              <MyDressList adsImages = {adsImages} categories={categories} ads={ads.filter(ad => {
+                if (categories.find((el) => el.id_cat === ad.id_cat).name === currentCat) {
+                  if (ad.gender === "unisex")
                     return ad;
-                  else if (ad.gender == page)
+                  else if (ad.gender === page)
                     return ad;
                 }
               })}

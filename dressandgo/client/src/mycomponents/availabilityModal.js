@@ -49,6 +49,7 @@ function MyAvailabilityModal(props) {
     const [attention, setAttention] = useState("");
 
     return <Modal show={props.show} onHide={() => props.setShow(false)}>
+        <Container id="datePickerContainer">
         <DatePicker
             minDate={new Date()}
             selected={props.startDate}
@@ -60,8 +61,10 @@ function MyAvailabilityModal(props) {
             selectsDisabledDaysInRange
             inline
         />
+        </Container>
         <Row>
             <Col>
+                <Container>
                 <Button onClick={() => {
                     props.setStartDate(new Date())
                     props.setEndDate(new Date())
@@ -70,6 +73,7 @@ function MyAvailabilityModal(props) {
                 }}>
                     REJECT
                 </Button>
+                </Container>
             </Col>
             <Col>
                 <Button type="submit" onClick={() => {
@@ -86,8 +90,10 @@ function MyAvailabilityModal(props) {
                 </Button>
             </Col>
         </Row>
-        <Alert variant="danger" show={attention}>{attention}</Alert>
-
+        {
+          attention ? <Alert variant="danger">{attention}</Alert> : <></>
+        }
+      
 
     </Modal>
 }

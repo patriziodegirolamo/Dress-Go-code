@@ -36,23 +36,23 @@ export default function FixedBottomNavigation(props) {
           onChange={(event, newValue) => {
             setValue(newValue);
 
-            if( newValue == 0){
+            if( newValue === 0){
               props.setCurrentState("home");
               props.setCurrentCat("");
               props.setCurrentDress("");
 
               navigate("/");
             }
-            else if(newValue == 1){
+            else if(newValue === 1){
               props.setCurrentState("faq");
               navigate('/guide');
               //navigate("/FAQ");
             }
-            else if(newValue == 2){
+            else if(newValue === 2){
               props.setCurrentState("rents");
               navigate("/MyRents");
             }
-            else if(newValue == 3){
+            else if(newValue === 3){
               props.setCurrentState("account");
               navigate("/MyAccount");
             }
