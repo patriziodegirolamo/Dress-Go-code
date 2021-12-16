@@ -50,3 +50,13 @@
   background-color: #f7a2c2;
 
 }
+
+#middleButtonContainer{
+    display: flex;
+    justify-content: center;
+}
+
+#datePickerContainer{
+  display: flex;
+  justify-content: center;
+}

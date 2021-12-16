@@ -9,6 +9,7 @@ import MyHeader from './mycomponents/header.js'
 import MyDressList from './mycomponents/dress_list.js';
 import { MySmallAdvertisement, MyBigAdvertisement } from './mycomponents/dress_card.js'
 import MyAvailabilityModal from './mycomponents/availabilityModal';
+import SizeGuide from './mycomponents/mySizeGuide';
 
 
 /*
@@ -110,6 +111,12 @@ function App() {
     }
   ])
   const [categories, setCategories] = useState([
+    {
+      name: "Coats",
+      gender: "unisex",
+      address: "trench-coat.png"
+    },
+
     {
       name: "Jackets",
       gender: "unisex",
@@ -273,6 +280,22 @@ function App() {
         addresses: ["https://www.rinascimento.com/media/catalog/product/cache/c03ae629b2d1553220f68bf2c378cc64/g/o/gonna-midi-in-raso-strutturato-color-nero-6-cfc0106280003b001_list_1.jpg",
           "https://www.rinascimento.com/media/catalog/product/cache/c03ae629b2d1553220f68bf2c378cc64/g/o/gonna-midi-in-raso-strutturato-color-nero-6-cfc0106280003b001_list_1.jpg"]
       },
+
+      {
+        id: 6,
+        name: "Blue coat",
+        cat: "Coats",
+        brand: "Barena",
+        description: "Navy-blue cotton-wool blend double-breasted tailored coat from BARENA featuring tailored cut, fine knit, double-breasted button fastening and long sleeves",
+        price: "55.00",
+        size: "M",
+        gender: "man",
+        addresses: ["https://loschiboutique.com/files/prodotti/69556_2044762_prodotti_gallery_pop_17314262_36025338.jpg",
+         "https://loschiboutique.com/files/prodotti/69556_2044761_prodotti_gallery_pop_17314262_36025333.jpg",
+        "https://loschiboutique.com/files/prodotti/69556_2044763_prodotti_gallery_pop_17314262_36025339.jpg", 
+        "https://loschiboutique.com/files/prodotti/69556_2044764_prodotti_gallery_pop_17314262_36027017.jpg", 
+        "https://loschiboutique.com/files/prodotti/69556_2044765_prodotti_gallery_pop_17314262_36027020.jpg"]
+      },
     ]
   )
 
@@ -292,12 +315,19 @@ function App() {
         <MyBigAdvertisement ads={ads} />
       </>} />
 
+      <Route path='/guide' element={<>
+        <SizeGuide/>
+      </>}/>
+
       <Route path='/previews' element={<>
-        {search ? <MyDressList ads={ads.filter(ad => {
-          return ad.gender == page && (ad.name.includes(search) || ad.description.includes(search))
-        })}
-          handleChangeForwardPage={handleChangeForwardPage}>
-        </MyDressList> : <MyCategoryList categories={categories.filter(c => {
+        {search ? <Container id="dressContainer">
+          researched:
+          <MyDressList ads={ads.filter(ad => {
+            return ad.gender == page && (ad.name.includes(search) || ad.description.includes(search))
+          })}
+            handleChangeForwardPage={handleChangeForwardPage}>
+          </MyDressList>
+        </Container> : <MyCategoryList categories={categories.filter(c => {
 
           if (c.gender == "unisex" || c.gender == page)
             return c
@@ -307,40 +337,43 @@ function App() {
       </>} />
 
       <Route path="/dresses/:categorie" element={<>
-        {search ? <MyDressList ads={ads.filter(ad => (ad.cat == currentCat) && (ad.name.includes(search) || ad.description.includes(search)))}
-          handleChangeForwardPage={handleChangeForwardPage}>
-        </MyDressList> : <>
-          <Container id="dressContainer">
-            
-            suggested for you:
-            <MyDressList ads={ads.filter(ad => {
-              if(ad.gender === page && ad.cat === currentCat){
-                for (const ks of knownSizes) {
-                  if (ad.gender == ks.gender && ad.brand == ks.brand && ad.cat == ks.cat && ad.size == ks.size)
-                    return ad
+        {search ? <Container id="dressContainer"> resarched:
+          <MyDressList ads={ads.filter(ad => (ad.cat == currentCat) && (ad.name.includes(search) || ad.description.includes(search)))}
+            handleChangeForwardPage={handleChangeForwardPage}>
+          </MyDressList>
+        </Container>
+          :
+          <>
+            <Container id="dressContainer">
+              suggested for you:
+              <MyDressList ads={ads.filter(ad => {
+                if (ad.gender === page && ad.cat === currentCat) {
+                  for (const ks of knownSizes) {
+                    if (ad.gender == ks.gender && ad.brand == ks.brand && ad.cat == ks.cat && ad.size == ks.size)
+                      return ad
+                  }
                 }
               }
-            }
-            )}
-              handleChangeForwardPage={handleChangeForwardPage}>
-            </MyDressList>
-          </Container>
+              )}
+                handleChangeForwardPage={handleChangeForwardPage}>
+              </MyDressList>
+            </Container>
 
 
-          <Container id="dressContainer">
-            All sizes:
-            <MyDressList ads={ads.filter(ad => {
-              if (ad.cat === currentCat) {
-                if (ad.gender == "unisex")
-                  return ad;
-                else if (ad.gender == page)
-                  return ad;
-              }
-            })}
-              handleChangeForwardPage={handleChangeForwardPage}>
-            </MyDressList>
-          </Container>
-        </>
+            <Container id="dressContainer">
+              All sizes:
+              <MyDressList ads={ads.filter(ad => {
+                if (ad.cat === currentCat) {
+                  if (ad.gender == "unisex")
+                    return ad;
+                  else if (ad.gender == page)
+                    return ad;
+                }
+              })}
+                handleChangeForwardPage={handleChangeForwardPage}>
+              </MyDressList>
+            </Container>
+          </>
         }
       </>} />
 
@@ -356,7 +389,7 @@ function App() {
       setCurrentCat={setCurrentCat} setCurrentDress={setCurrentDress} />
 
 
-  </Router>
+  </Router >
 
 }
 

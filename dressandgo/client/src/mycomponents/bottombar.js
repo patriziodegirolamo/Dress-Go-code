@@ -41,12 +41,11 @@ export default function FixedBottomNavigation(props) {
               props.setCurrentCat("");
               props.setCurrentDress("");
 
-              
-              //props.setPage("unisex")
               navigate("/");
             }
             else if(newValue == 1){
-              navigate("/FAQ");
+              navigate('/guide');
+              //navigate("/FAQ");
             }
             else if(newValue == 2){
               navigate("/MyRents");

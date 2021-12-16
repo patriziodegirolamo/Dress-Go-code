@@ -1,7 +1,6 @@
 import { Col, Row, Container, Card } from "react-bootstrap";
 import {MySmallAdvertisement} from "./dress_card.js"
 
-//Da MODIFICARE IL DB DEGLI ABITI
 function MyDressList(props) {
 
     return (

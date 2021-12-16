@@ -4,7 +4,7 @@ import { NavLink as Link, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/header.css";
 
-import { IoWoman, IoMan } from 'react-icons/io5'
+import { IoArrowBackCircleOutline } from 'react-icons/io5'
 import { FcBusinessman, FcBusinesswoman } from 'react-icons/fc'
 
 
@@ -34,12 +34,11 @@ function MyHeader(props) {
   return (
     <>
       <Navbar >
-        {/** TODO: IMPLEMENTARE TASTO BACK UTILIZZANDO LA USELOCATION e capire se serve o meno */}
         {!props.currentCat ?
           <></>
           :
-          <Button size="sm" onClick={handleChangeBackardPage}>
-            BACK
+          <Button variant="light" size="sm" onClick={handleChangeBackardPage}>
+            <IoArrowBackCircleOutline style = {{ color: "black", fontSize: "2em" }}/>
           </Button>
         }
         <Container>
