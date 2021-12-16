@@ -1,28 +1,46 @@
 import { Container, Navbar, Form, Row, Col, Button } from "react-bootstrap";
-import { NavLink as Link } from "react-router-dom";
+import { NavLink as Link, useNavigate } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/header.css";
 
-import { IoWoman, IoMan } from 'react-icons/io5'
+import { IoArrowBackCircleOutline } from 'react-icons/io5'
+import { FcBusinessman, FcBusinesswoman } from 'react-icons/fc'
+
+
 
 
 function MyHeader(props) {
+  const navigate = useNavigate();
 
-  
+  const handleChangeBackardPage = () => {
+    props.setSearch("")
+    if (props.currentState == "home") {
+    }
+
+    else if (props.currentState == "cat") {
+      props.setCurrentCat("");
+      props.setCurrentState("home");
+      navigate("/previews");
+    }
+
+    else if (props.currentState == "bigCat") {
+      props.setCurrentState("cat");
+      navigate("dresses/" + props.currentCat);
+    }
+  };
+
+
   return (
     <>
       <Navbar >
-      {/** TODO: IMPLEMENTARE TASTO BACK UTILIZZANDO LA USELOCATION e capire se serve o meno */}
-      {!props.currentCat ?
-      <></>
-        :
-        <Link to={{ pathname: "/previews" }}>
-          <Button size="sm" onClick={() => props.handleChangeCurrentCategorie("")}>
-            BACK
+        {!props.currentCat ?
+          <></>
+          :
+          <Button variant="light" size="sm" onClick={handleChangeBackardPage}>
+            <IoArrowBackCircleOutline style = {{ color: "black", fontSize: "2em" }}/>
           </Button>
-        </Link>
-}
+        }
         <Container>
           <Navbar.Brand className='m-auto'>
             <b id="title">Dress&Go</b>
@@ -32,27 +50,32 @@ function MyHeader(props) {
         </Container>
 
       </Navbar>
+
+      {props.currentState == "home" || props.currentState == "cat"  ? 
       <Container>
-     {/* <Row>
+        <Row>
           <Col xs={7}>
             <Form>
-              <Form.Control placeholder="Search..." />
+              <Form.Control value={props.search} placeholder="Search..." onChange={(event) => {
+              props.setSearch(event.target.value)
+            }}/>
             </Form>
           </Col>
 
           {
             props.page === "man" ?
               <Col xs={2}>
-                <Button variant="light" disabled>
-                  <IoMan></IoMan>
+                <Button size="lg" variant="light" disabled>
+                  <FcBusinessman size={35}></FcBusinessman>
                 </Button>
               </Col>
               :
               <Col xs={2}>
-                <Button variant="light" onClick={(event) => {
-                  props.setPage("man")
+                <Button size="lg" variant="light" onClick={(event) => {
+                  handleChangeBackardPage()
+                  props.setPage("man");
                 }}>
-                  <IoMan></IoMan>
+                  <FcBusinessman size={30}></FcBusinessman>
                 </Button>
               </Col>
           }
@@ -60,23 +83,24 @@ function MyHeader(props) {
           {
             props.page === "woman" ?
               <Col xs={2}>
-                <Button variant="light" disabled>
-                  <IoWoman></IoWoman>
+                <Button size="lg" variant="light" disabled>
+                  <FcBusinesswoman size={35}></FcBusinesswoman>
                 </Button>
               </Col>
               :
               <Col xs={2}>
-                <Button variant="light" onClick={(event) => {
-                  props.setPage("woman")
+                <Button size="lg" variant="light" onClick={(event) => {
+                  handleChangeBackardPage()
+                  props.setPage("woman");
                 }}>
-                  <IoWoman></IoWoman>
+                  <FcBusinesswoman size={30}></FcBusinesswoman>
                 </Button>
               </Col>
           }
 
         </Row>
-        */}
       </Container>
+      : <></>}
     </>
   );
 }

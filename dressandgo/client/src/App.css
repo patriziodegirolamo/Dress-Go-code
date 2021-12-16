@@ -36,3 +36,27 @@
     transform: rotate(360deg);
   }
 }
+
+.text-link {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+#dressContainer{
+  margin-top: 30px;
+  margin-bottom: 80px;
+  padding-bottom: 30px;
+  display: grid;
+  background-color: #f7a2c2;
+
+}
+
+#middleButtonContainer{
+    display: flex;
+    justify-content: center;
+}
+
+#datePickerContainer{
+  display: flex;
+  justify-content: center;
+}

@@ -7,13 +7,13 @@ import Home from '@mui/icons-material/Home';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { NavLink as Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from 'react';
 
 
 
 
-export default function FixedBottomNavigation() {
+export default function FixedBottomNavigation(props) {
 
   /*
   Home: 0
@@ -34,19 +34,26 @@ export default function FixedBottomNavigation() {
           value={value}
 
           onChange={(event, newValue) => {
-            console.log(newValue)
             setValue(newValue);
 
             if( newValue == 0){
+              props.setCurrentState("home");
+              props.setCurrentCat("");
+              props.setCurrentDress("");
+
               navigate("/");
             }
             else if(newValue == 1){
-              navigate("/FAQ");
+              props.setCurrentState("faq");
+              navigate('/guide');
+              //navigate("/FAQ");
             }
             else if(newValue == 2){
+              props.setCurrentState("rents");
               navigate("/MyRents");
             }
             else if(newValue == 3){
+              props.setCurrentState("account");
               navigate("/MyAccount");
             }
 
@@ -70,3 +77,4 @@ export default function FixedBottomNavigation() {
     </Box>
   );
 }
+

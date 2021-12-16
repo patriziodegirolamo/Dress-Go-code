@@ -4,15 +4,14 @@ import { Col, Row, Container } from "react-bootstrap";
 
 function MyCategoryList(props) {
 
-  //ATTENZIONE QUANDO FAREMO IL DB ------> MyCategory ----- [0]
   return (
     <>
       <Container>
         <Row xs={2} md={2} className="g-4">
           {props.categories.map((cat, idx) => {
             return <Col key={idx}>
-              <MyCategory key={idx} handleChangeCurrentCategorie={props.handleChangeCurrentCategorie} 
-              categorie={props.categories.filter(elem => elem.address === cat.address)[0]} idx={idx} ></MyCategory>
+              <MyCategory key={idx} handleChangeForwardPage={props.handleChangeForwardPage} 
+              categorie={cat} idx={idx}></MyCategory>
             </Col>
           })
           }

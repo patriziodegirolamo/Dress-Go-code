@@ -1,11 +1,45 @@
 import { Row, Container, Form, Button, Col } from "react-bootstrap";
+import { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
 
 function MyUserData(props) {
+  const navigate = useNavigate();
 
+  /* MANCA IL CAP, INSERIRE ADDRESS2 NEL DB? */
+  const [name, setName] = useState(props.user.name);
+  const [surname, setSurname] = useState(props.user.surname);
+  const [address, setAddress] = useState(props.user.address);
+  const [city, setCity] = useState(props.user.city);
+  const [state, setState] = useState(props.user.state);
+  const [zip, setZip] = useState(props.user.zip);
+  const [gender, setGender] = useState(props.user.gender);
+  const [height, setHeight] = useState(props.user.height);
+  const [weight, setWeight] = useState(props.user.setWeight);
+  const [waistline, setWaistline] = useState(props.user.waistline);
+  const [hips, setHips] = useState(props.user.hips);
+  const [legLength, setLegLength] = useState(props.user.legLength);
+  const [shoesNumber, setShoesNumber] = useState(props.user.shoesNumber);
 
+  const handleModifyUser = (event) => {
+    event.stopPropagation();
+    event.preventDefault();
+
+    /* TODO VALIDAZIONE */
+
+   
+
+    const newInfos = {
+      id_u: props.user.id_u, name: name, surname: surname, address: address,
+      city: city, state: state, zip: zip, gender: gender, height: height, weight: weight,
+      waistline: waistline, hips: hips, legLength: legLength, shoesNumber: shoesNumber
+    };
+    
+    props.modifyUserInfos(newInfos);
+    navigate("/MyAccount")
+  }
 
   return (
     <Container fluid>
@@ -14,39 +48,40 @@ function MyUserData(props) {
         <Row className="mb-3">
           <Form.Group as={Col} controlId="formGridEmail">
             <Form.Label>Name</Form.Label>
-            <Form.Control type="name" placeholder="Enter name" />
+            <Form.Control type="name" placeholder={props.user.name ? props.user.name :  'Name' }
+              onChange={ev => setName(ev.target.value)} />
           </Form.Group>
 
-          <Form.Group as={Col} controlId="formGridPassword">
+          <Form.Group as={Col} controlId="formGridEmail">
             <Form.Label>Surname</Form.Label>
-            <Form.Control type="password" placeholder="Password" />
+            <Form.Control type="surname" placeholder={props.user.surname ? props.user.surname : 'Surname' }
+              onChange={ev => setSurname(ev.target.value)} />
           </Form.Group>
         </Row>
 
         <Form.Group className="mb-3" controlId="formGridAddress1">
           <Form.Label>Address</Form.Label>
-          <Form.Control placeholder="1234 Main St" />
-        </Form.Group>
-
-        <Form.Group className="mb-3" controlId="formGridAddress2">
-          <Form.Label>Address 2</Form.Label>
-          <Form.Control placeholder="Apartment, studio, or floor" />
+          <Form.Control placeholder={props.user.address ? props.user.address : 'Address' }
+            onChange={ev => setAddress(ev.target.value)} />
         </Form.Group>
 
         <Row className="mb-3">
           <Form.Group as={Col} controlId="formGridCity">
             <Form.Label>City</Form.Label>
-            <Form.Control />
+            <Form.Control placeholder={props.user.city ? props.user.city : '' }
+              onChange={ev => setCity(ev.target.value)} />
           </Form.Group>
 
           <Form.Group as={Col} controlId="formGridState">
             <Form.Label>State</Form.Label>
-            <Form.Control />
+            <Form.Control placeholder={props.user.state ? props.user.state : '' }
+              onChange={ev => setState(ev.target.value)} />
           </Form.Group>
 
           <Form.Group as={Col} controlId="formGridZip">
             <Form.Label>Zip</Form.Label>
-            <Form.Control />
+            <Form.Control placeholder={props.user.zip  ? props.user.zip : '' }
+              onChange={ev => setZip(ev.target.value)} />
           </Form.Group>
         </Row>
 
@@ -54,16 +89,17 @@ function MyUserData(props) {
         <Row className="mt-4">
           <Form.Group as={Col} controlId="formGridCity">
             <Form.Label>Gender</Form.Label>
-            <Form.Select aria-label="Default select example">
+            <Form.Select aria-label={props.user.gender ? props.user.gender : '' } onChange={ev => setGender(ev.target.value)}>
               <option>---</option>
               <option value="1">Male</option>
               <option value="2">Female</option>
+              <option value="3">Other</option>
             </Form.Select>
           </Form.Group>
 
           <Form.Group as={Col} controlId="formGridState">
             <Form.Label>Height*</Form.Label>
-            <Form.Select aria-label="Default select example">
+            <Form.Select aria-label={props.user.height ? props.user.height : '' } onChange={ev => setHeight(ev.target.value)}>
               <option></option>
               <option value="140">140cm</option>
               <option value="141">141cm</option>
@@ -86,7 +122,7 @@ function MyUserData(props) {
               <option value="158">158cm</option>
               <option value="159">159cm</option>
               <option value="160">160cm</option>
-           
+
 
               <option value="161">161cm</option>
               <option value="162">162cm</option>
@@ -142,19 +178,20 @@ function MyUserData(props) {
               <option value="208">208cm</option>
               <option value="209">209cm</option>
               <option value="210">210cm</option>
-                           
+
             </Form.Select>
           </Form.Group>
 
           <Form.Group as={Col} controlId="formGridZip">
             <Form.Label>Weight(kg)*</Form.Label>
-            <Form.Control />
+            <Form.Control placeholder={props.user.weight ? props.user.weight : '' }
+              onChange={ev => setWeight(ev.target.value)} />
           </Form.Group>
         </Row>
         <Row className="mt-4">
           <Form.Group as={Col} controlId="formGridCity">
             <Form.Label>Waistline(cm)</Form.Label>
-            <Form.Select aria-label="Default select example">
+            <Form.Select aria-label={props.user.waistline ? props.user.waistline : '' } onChange={ev => setWaistline(ev.target.value)}>
               <option></option>
               <option value="50">50cm</option>
               <option value="51">51cm</option>
@@ -177,7 +214,7 @@ function MyUserData(props) {
               <option value="68">68cm</option>
               <option value="69">69cm</option>
               <option value="70">70cm</option>
-           
+
 
               <option value="71">71cm</option>
               <option value="72">72cm</option>
@@ -233,28 +270,31 @@ function MyUserData(props) {
               <option value="118">118cm</option>
               <option value="119">119cm</option>
               <option value="120">120cm</option>
-                           
+
             </Form.Select>
           </Form.Group>
 
           <Form.Group as={Col} controlId="formGridState">
             <Form.Label>Hips(cm)</Form.Label>
-            <Form.Control />
+            <Form.Control placeholder={props.user.hips ? props.user.hips : ''}
+              onChange={ev => setHips(ev.target.value)} />
           </Form.Group>
 
           <Form.Group as={Col} controlId="formGridZip">
             <Form.Label>Leg length</Form.Label>
-            <Form.Control />
+            <Form.Control placeholder={props.user.legLength ? props.user.legLength : '' }
+              onChange={ev => setLegLength(ev.target.value)} />
           </Form.Group>
         </Row>
 
         <Form.Group as={Col} controlId="formGridZip">
           <Form.Label>Shoe size (EU)</Form.Label>
-          <Form.Control />
+          <Form.Control placeholder={props.user.shoesNumber ? props.user.shoesNumber : '' }
+            onChange={ev => setShoesNumber(ev.target.value)} />
         </Form.Group>
 
         <Row className="p-3 justify-content-center m-auto ">
-          <Button className="mb-3" variant="primary" type="submit">
+          <Button className="mb-3" variant="primary" type="submit" onClick={handleModifyUser}>
             Change
           </Button>
         </Row>

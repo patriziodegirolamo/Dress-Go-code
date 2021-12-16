@@ -1,230 +1,233 @@
 import './App.css';
-import { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate, useParams } from 'react-router-dom';
 import { Col, Row, Container, Button } from "react-bootstrap";
+import { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 
 import FixedBottomNavigation from './mycomponents/bottombar.js'
-import MyCategoryList from './mycomponents/category_list.js';
-import MyHeader from './mycomponents/header.js'
+import MyCategoryList from './mycomponents/category_list';
+import MyHeader from './mycomponents/header.js';
 import MyDressList from './mycomponents/dress_list.js';
 import MyProfile from './mycomponents/profile';
 import MyUserData from './mycomponents/user_data_profile';
 import MyKnownSizes from './mycomponents/known_sizes';
 import AddKnownSizes from './mycomponents/add_size_button';
+import MyAvailabilityModal from './mycomponents/availabilityModal';
+import SizeGuide from './mycomponents/mySizeGuide';
+import { MySmallAdvertisement, MyBigAdvertisement } from './mycomponents/dress_card.js'
 
-
-
-import {MySmallAdvertisement, MyBigAdvertisement} from './mycomponents/dress_card.js'
-
+import { getCategories, getUserInfos, getKnownSizes, getAds, getAdsImages, modifyUsInfos, insertKnownSize, removeKnownSize } from './API';
 
 
 function App() {
+  const [page, setPage] = useState("");
+  const [categories, setCategories] = useState([]);
+  const [knownsizes, setKnownSizes] = useState([]);
+  const [ads, setAds] = useState([]);
+  const [adsImages, setAdsImages] = useState([]);
+  const [currentState, setCurrentState] = useState("home")
   const [currentCat, setCurrentCat] = useState("");
   const [currentDress, setCurrentDress] = useState("");
-  const [page, setPage] = useState("all");
   const [modalShow, setModalShow] = useState(false);
+  const [search, setSearch] = useState("");
   const [user, setUser] = useState({});
 
 
-  const handleChangeCurrentCategorie = (cat) => setCurrentCat(cat);
 
-  const [knownsizes, setKnownsizes] = useState([
-    {
-      id: 0,
-      brand: "Gucci",
-      category: "T-shirts",
-      size:"M"
-    },
-
-    {
-      id: 1,
-      brand: "Prada",
-      category: "T-shirts",
-      size:"S"
-    },
-
-    {
-      id: 2,
-      brand: "Balenciaga",
-      category: "Trousers",
-      size:"44"
-    },
-
-    {
-      id: 3,
-      brand: "Philippe Model",
-      category: "Shoes",
-      size:"42"
-    },
-
-    {
-      id: 4,
-      brand: "Golden Goose",
-      category: "Shoes",
-      size:"42.5"
+  const handleChangeForwardPage = (cat) => {
+    if (search) {
+      if (currentState == "home") {
+        setCurrentCat(cat)
+        setCurrentState("bigCat");
+      }
+      else if (currentState == "cat") {
+        setCurrentState("bigCat")
+      }
     }
-  ])
 
+    else {
+      if (currentState == "home") {
+        setCurrentCat(cat)
+        setCurrentState("cat")
+      }
 
-  const [categories, setCategories] = useState([
-    {
-      name: "Jackets",
-      address: "https://previews.123rf.com/images/ironsv/ironsv2003/ironsv200300150/142462351-jacket-icon-clothes-icon-vector-on-background-.jpg"
-    },
+      else if (currentState == "cat") {
+        setCurrentState("bigCat")
+      }
 
-    {
-      name: "Shoes",
-      address: "https://www.seekpng.com/png/detail/82-821232_png-file-pair-of-shoes-icon.png"
-    },
+      else if (currentState == "bigCat") {
 
-    {
-      name: "Tshirts",
-      address: "https://cdn-icons-png.flaticon.com/512/4267/4267723.png"
-    },
-
-    {
-      name: "Trousers",
-      address: "https://findicons.com/files/icons/2770/ios_7_icons/512/trousers.png"
-    },
-
-    {
-      name: "Skirts",
-      address: "http://cdn.onlinewebfonts.com/svg/img_471806.png"
+      }
     }
-  ])
 
-  const [ads, setAds] = useState(
-    [
-      {
-        id: 0,
-        name: "green jacket",
-        cat: "Jackets",
-        description: "beautiful green jacket",
-        price: "23.07",
-        size: "M",
-        address: "https://www.calibroshop.it/storage/immagini/d6ab39f5bc07f8bc00df0b17de696b03.jpeg"
-      },
+  };
 
-      {
-        id: 1,
-        name: "black jacket",
-        cat: "Jackets",
-        description: "beautiful black jacket",
-        price: "22.07",
-        size: "L",
-        address: "https://image.shutterstock.com/image-photo/blank-jacket-bomber-baseball-satin-260nw-1109179079.jpg"
-      },
+  useEffect(() => {
+    async function getCat() {
+      const fetchedCategories = await getCategories();
+      const fetchedSizes = await getKnownSizes();
+      const fetchedAds = await getAds();
+      const fetchedUser = await getUserInfos();
+      const fetchedAdsImages = await getAdsImages();
+      setCategories(fetchedCategories);
+      setKnownSizes(fetchedSizes);
+      setAds(fetchedAds);
+      setUser(fetchedUser);
+      setPage(fetchedUser.gender)
+      setAdsImages(fetchedAdsImages);
+    }
+    getCat();
+  }, []);
 
-      {
-        id: 2,
-        name: "black shoes",
-        cat: "Shoes",
-        description: "beautiful pair of black shoes",
-        price: "5.07",
-        size: "42",
-        address: "https://martinvalen.com/15192-home_default/uomo-basse-sneakers-scarpe-nero.jpg"
-      },
 
-      {
-        id: 3,
-        name: "white t-shirt",
-        cat: "Tshirts",
-        description: "beautiful white t-shirt",
-        price: "1.07",
-        size: "M",
-        address: "https://m.media-amazon.com/images/I/81XWYTTfBkL._AC_UX679_.jpg"
-      },
+  /* TO INSERT A NEW KNOWN SIZE*/
+  const addASize = (new_size) => {
+    insertKnownSize(new_size).then((err) => { });
+    // to avoid another call to the db
+    setKnownSizes(knownsizes => {
+      return knownsizes.concat(new_size)
+    });
+  }
 
-      {
-        id: 4,
-        name: "black trousers",
-        cat: "Trousers",
-        description: "beautiful black trousers",
-        price: "32.37",
-        size: "40",
-        address: "https://images.sportsdirect.com/images/products/36206203_l.jpg"
-      },
+  /* TO REMOVE A KNOWN SIZE INSERTED BY THE USER */
+  const removeASize = (id_ks) => {
+    removeKnownSize(id_ks).then((err) => { });
+    // to avoid another call to the db
+    const cont_ks = knownsizes.indexOf(knownsizes.find((ks) => ks.id_ks === id_ks));
 
-      {
-        id: 5,
-        name: "red skirt",
-        cat: "Skirts",
-        description: "beautiful red skirt",
-        price: "12.00",
-        size: "38",
-        address: "https://www.rinascimento.com/media/catalog/product/cache/c03ae629b2d1553220f68bf2c378cc64/g/o/gonna-midi-in-raso-strutturato-color-nero-6-cfc0106280003b001_list_1.jpg"
-      },
-    ]
-  )
+    setKnownSizes(knownsizes => {
+      return knownsizes.filter(
+        (ks, j) => cont_ks !== j);
+    });
+
+  }
+
+
+  /* TO MODIFY USER INFOS */
+  const modifyUserInfos = (newInfos) => {
+    modifyUsInfos(newInfos).then((err) => { });
+    // to avoid another call to the db 
+    setUser({
+      id_u: newInfos.id_u, name: newInfos.name, surname: newInfos.surname, address: newInfos.address,
+      city: newInfos.city, cap: newInfos.cap, state: newInfos.state, zip: newInfos.zip,
+      gender: newInfos.gender, height: newInfos.height, weight: newInfos.weight, waistline: newInfos.waistline,
+      hips: newInfos.hips, legLength: newInfos.legLength, shoesNumber: newInfos.shoesNumber
+    })
+  }
+
+
 
   return <Router>
-    <MyHeader page={page} setPage={setPage} currentCat={currentCat}
-      handleChangeCurrentCategorie={handleChangeCurrentCategorie} />
+    <MyHeader page={page} setPage={setPage}
+      currentCat={currentCat}
+      setCurrentCat={setCurrentCat}
+      currentState={currentState}
+      setCurrentState={setCurrentState}
+      search={search} setSearch={setSearch}
+    />
 
     <Routes >
 
-    
+
       <Route path='/ad/:idAd' element={<>
-      <MyBigAdvertisement />
-      </>}/>
+        <MyBigAdvertisement ads={ads} />
+      </>} />
+
+      <Route path='/guide' element={<>
+        <SizeGuide />
+      </>} />
 
       <Route path='/previews' element={<>
-        <MyCategoryList categories={categories} ads={ads}
-          handleChangeCurrentCategorie={handleChangeCurrentCategorie} />
+        {search ? <Container id="dressContainer">
+          researched:
+          <MyDressList ads={ads.filter(ad => {
+            return ad.gender == page && (ad.title.includes(search) || ad.description.includes(search))
+          })}
+            handleChangeForwardPage={handleChangeForwardPage}>
+          </MyDressList>
+        </Container> : <MyCategoryList categories={categories.filter(c => {
+
+          if (c.gender == "unisex" || c.gender == page)
+            return c
+        })} ads={ads}
+          handleChangeForwardPage={handleChangeForwardPage}
+        />}
       </>} />
 
       <Route path="/dresses/:categorie" element={<>
-        <MyDressList ads={ads.filter(ad => ad.cat === currentCat)}>
-        </MyDressList>
+        {search ? <Container id="dressContainer"> resarched:
+          <MyDressList ads={ads.filter(ad => (ad.cat == currentCat) && (ad.title.includes(search) || ad.description.includes(search)))}
+            handleChangeForwardPage={handleChangeForwardPage}>
+          </MyDressList>
+        </Container>
+          :
+          <>
+            <Container id="dressContainer">
+              suggested for you:
+              <MyDressList ads={ads.filter(ad => {
+                if (ad.gender === page && ad.cat === currentCat) {
+                  for (const ks of knownsizes) {
+                    if (ad.gender == ks.gender && ad.brand == ks.brand && ad.cat == ks.cat && ad.size == ks.EUsize)
+                      return ad
+                  }
+                }
+              }
+              )}
+                handleChangeForwardPage={handleChangeForwardPage}>
+              </MyDressList>
+            </Container>
+
+
+            <Container id="dressContainer">
+              All sizes:
+              <MyDressList ads={ads.filter(ad => {
+                if (ad.cat === currentCat) {
+                  if (ad.gender == "unisex")
+                    return ad;
+                  else if (ad.gender == page)
+                    return ad;
+                }
+              })}
+                handleChangeForwardPage={handleChangeForwardPage}>
+              </MyDressList>
+            </Container>
+          </>
+        }
       </>} />
 
       <Route path="/MyAccount" element={<>
-        <MyProfile/>
+        <MyProfile user={user} />
       </>} />
 
       <Route path="/handleknownsizes" element={<>
-        <MyKnownSizes knownsizes={knownsizes} setKnownsizes={setKnownsizes} ></MyKnownSizes>
+        <MyKnownSizes knownsizes={knownsizes} setKnownsizes={setKnownSizes} categories={categories} removeASize={removeASize}></MyKnownSizes>
         <Row className="p-3 justify-content-center m-auto ">
           <Button className="mb-3" variant="primary" type="submit" onClick={() => setModalShow(true)}>
-          Add known size</Button>
+            Add known size</Button>
         </Row>
 
         <AddKnownSizes
           show={modalShow}
-          setKnownsizes={setKnownsizes}
-          knownsizes={knownsizes}
+          categories={categories}
+          addASize={addASize}
+          user={user}
           onHide={() => setModalShow(false)}
         />
       </>} />
 
       <Route path="/editprofile" element={<>
-        <MyUserData/>
+        <MyUserData user={user} modifyUserInfos={modifyUserInfos} />
       </>} />
 
       <Route path="/paymentmethods" element={<>
-        <MyProfile/>
+        <MyProfile user={user} />
       </>} />
-  
 
-
-      <Route  path="/" element={<Navigate to="/previews" />} />
+      <Route path="/" element={<Navigate to="/previews" />} />
     </Routes >
-
-
-
-  
-
-
-
-
-
-
-
-    <FixedBottomNavigation />
-
-
+    
+    <FixedBottomNavigation setCurrentState={setCurrentState} setPage={setPage}
+      setCurrentCat={setCurrentCat} setCurrentDress={setCurrentDress} />
   </Router>
-
 }
 
 export default App;

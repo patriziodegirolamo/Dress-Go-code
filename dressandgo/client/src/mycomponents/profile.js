@@ -30,10 +30,10 @@ function MyProfile(props) {
                         src="https://i.imgur.com/wvxPV9S.png"
                     />
                     <Figure.Caption>
-                        Andrea Birdwhistle
+                        {props.user.name} {props.user.surname}
                     </Figure.Caption>
                     <Figure.Caption>
-                        @andrew19
+                        @{props.user.name}
                     </Figure.Caption>
                 </Figure>
                 <Typography component="legend">Your rating based by 344 votes</Typography>
