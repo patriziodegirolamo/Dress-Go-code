@@ -6,8 +6,8 @@ import { Col, Row, Container, Button, ButtonGroup, Accordion, Table, Figure } fr
 function SizeGuide(props) {
     let [type, setType] = useState("")
 
-    return <>
-        <Container>
+    /**
+     *   <Container>
             Please select your preferred size guide
             <ButtonGroup>
                 <Button size="lg" onClick={() => {
@@ -18,15 +18,17 @@ function SizeGuide(props) {
                 }}>Woman</Button>
             </ButtonGroup>
         </Container>
+     */
 
-        {type === "man" ? <Container>
+    return <>
+      
+
+        {props.type === "man" ? <Container>
             <h4>INTERNATIONAL MENS FIT GUIDE</h4>
             <h5>How to measure:</h5>
             <p>Using a tape measure, have someone take your measurements as noted below</p>
 
-            <Figure>
-                <Figure.Image src="man_guide.png" />
-            </Figure>
+            <img alt = 'noimage' className = 'small' src = 'man_guide.png' />
 
             <Accordion>
                 <Accordion.Item eventKey="0">
@@ -108,7 +110,7 @@ function SizeGuide(props) {
 
 
 
-        {type === "woman" ? <Container>
+        {props.type === "woman" ? <Container>
             <h4>INTERNATIONAL LADIES FIT GUIDE</h4>
 
             <h5>How to measure:</h5>

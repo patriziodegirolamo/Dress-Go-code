@@ -1,8 +1,8 @@
-import { Container, Card, Button, Carousel } from "react-bootstrap";
+import { Container, Card, Button, Carousel, Modal } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
 import { useState } from 'react';
 import MyAvailabilityModal from './availabilityModal';
-
+import SizeGuide from "./mySizeGuide";
 
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -36,6 +36,7 @@ function MyBigAdvertisement(props) {
 
     const [numDays, setNumDays] = useState(0);
     const [showCalendar, setShowCalendar] = useState(false);
+    const [showSizeGuide, setShowSizeGuide] = useState(false);
 
     const [startDate, setStartDate] = useState(new Date())
     const [endDate, setEndDate] = useState(new Date())
@@ -73,6 +74,14 @@ function MyBigAdvertisement(props) {
             <Card.Body>BRAND: {currentAd.brand}</Card.Body>
             <Card.Body>DESCRIPTION: {currentAd.description}</Card.Body>
             <Card.Body>SIZE: {currentAd.size}</Card.Body>
+            <Container>
+                <Button onClick={() => setShowSizeGuide(true)}>How to misure your size</Button>
+            </Container>
+            <Container>
+                <Modal show = {showSizeGuide} onClose={() => setShowSizeGuide(false)} onHide={() => setShowSizeGuide(false)}>
+                    <SizeGuide type = {currentAd.gender} />
+                </Modal>
+            </Container>
             <Card.Body>PRICE PER DAY: {currentAd.price} €/day</Card.Body>
 
             <Card.Body>
@@ -94,6 +103,10 @@ function MyBigAdvertisement(props) {
             </Container>
         </Card>
     </>
+
     );
 }
+
+
+
 export { MySmallAdvertisement, MyBigAdvertisement };
