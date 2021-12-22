@@ -13,7 +13,6 @@ import "react-datepicker/dist/react-datepicker.css";
 
 function MySmallAdvertisement(props) {
     const navigate = useNavigate();
-    console.log(props.ad.addresses[0])
     return (
         <Card key={props.idx} onClick={() => {
             navigate("/ad/" + props.ad.id_a)
@@ -42,6 +41,7 @@ function MyBigAdvertisement(props) {
     const [endDate, setEndDate] = useState(new Date())
 
     const currentAd = props.ads.filter(ad => ad.id_a === idAd)[0];
+    const currentImages = props.adsImages.filter(adImg => adImg.id_a === idAd);
 
     console.log(props.adsImages)
 
@@ -60,7 +60,7 @@ function MyBigAdvertisement(props) {
 
             <Container>
                 <Carousel variant="dark">
-                    {props.adsImages.map((img, idx) => {
+                    {currentImages.map((img, idx) => {
                         console.log(img)
                         return <Carousel.Item key = {idx}>
                             <Card.Img variant="top" src={img.url} className="mx-auto m-auto pt-2"

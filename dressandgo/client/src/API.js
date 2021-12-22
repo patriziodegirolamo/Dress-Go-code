@@ -112,6 +112,26 @@ async function getAdsImages() {
   }
 }
 
+/* TO GET THE LIST OF BRANDS */
+async function getBrands() {
+  const response = await fetch(url + '/api/allbrands');
+  const brands = await response.json();
+  if (brands.id_b === 'Empty' ) {
+      return [];
+  }
+  else {
+      if (response.ok) {
+          return brands.map((t) => ({
+              ...t,
+              id_cat: t.id_cat,
+              name: t.name
+          }));
+      } else {
+          throw brands;  // an object with the error coming from the server
+      }
+  }
+}
+
 
 /* TO MODIFY USER INFOS */
 async function modifyUsInfos(newInfos) {
@@ -185,4 +205,4 @@ async function removeKnownSize(id_ks) {
 
   
 
-export {getCategories, getUserInfos, getKnownSizes, getAds, getAdsImages, modifyUsInfos, insertKnownSize, removeKnownSize};
+export {getCategories, getUserInfos, getKnownSizes, getAds, getAdsImages, getBrands, modifyUsInfos, insertKnownSize, removeKnownSize};

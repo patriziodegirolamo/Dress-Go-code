@@ -15,7 +15,7 @@ import MyAvailabilityModal from './mycomponents/availabilityModal';
 import SizeGuide from './mycomponents/mySizeGuide';
 import { MySmallAdvertisement, MyBigAdvertisement } from './mycomponents/dress_card.js'
 
-import { getCategories, getUserInfos, getKnownSizes, getAds, getAdsImages, modifyUsInfos, insertKnownSize, removeKnownSize } from './API';
+import { getCategories, getUserInfos, getKnownSizes, getAds, getAdsImages, getBrands, modifyUsInfos, insertKnownSize, removeKnownSize } from './API';
 
 
 function App() {
@@ -24,6 +24,7 @@ function App() {
   const [knownsizes, setKnownSizes] = useState([]);
   const [ads, setAds] = useState([]);
   const [adsImages, setAdsImages] = useState([]);
+  const [brands, setBrands] = useState([]);
   const [currentState, setCurrentState] = useState("home")
   const [currentCat, setCurrentCat] = useState("");
   const [currentDress, setCurrentDress] = useState("");
@@ -68,12 +69,14 @@ function App() {
       const fetchedAds = await getAds();
       const fetchedUser = await getUserInfos();
       const fetchedAdsImages = await getAdsImages();
+      const fetchedBrands = await getBrands();
       setCategories(fetchedCategories);
       setKnownSizes(fetchedSizes);
       setAds(fetchedAds);
       setUser(fetchedUser);
       setPage(fetchedUser.gender)
       setAdsImages(fetchedAdsImages);
+      setBrands(fetchedBrands);
     }
     getCat();
   }, []);

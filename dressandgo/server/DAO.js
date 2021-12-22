@@ -90,10 +90,7 @@ exports.listKnownSizes = (id_u) => {
           id_ks: t.ID_KS,
           brand: t.Brand,
           EUsize: t.EU_Size,
-          id_cat: t.ID_CAT,
-          //TO DO: INSERT NAME CATEGORY NOT ID
-          cat:"Jackets"
-          
+          id_cat: t.ID_CAT,          
         }));
         resolve(ksizes);
       }
@@ -124,10 +121,7 @@ exports.listAds = () => {
           price: t.Price,
           size: t.Size,
           gender: t.Gender,
-          brand: t.Brand,
-          //to do: ADD ARRAY OF ADDRESSES AND CATEGORY NAME NOT ID
-          cat:"Jackets",
-          addresses:[]
+          brand: t.Brand
         }));
         resolve(ads);
       }
@@ -161,7 +155,29 @@ exports.listAdsImages = () => {
   });
 };
 
-
+//get all brands
+exports.listBrands = () => {
+  return new Promise((resolve, reject) => {
+    const sql = "SELECT * FROM BRAND";
+    db.all(sql, [], (err, rows) => {
+      if (rows === undefined || rows.length === 0) {
+        const brand = { id_b: 'Empty' };
+        resolve(brand);
+      }
+      if (err) {
+        reject(err);
+        return;
+      }
+      else {
+        const brands = rows.map((t) => ({
+          id_b: t.ID_B,
+          name: t.Name
+        }));
+        resolve(brands);
+      }
+    });
+  });
+};
 
 
 

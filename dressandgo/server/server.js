@@ -98,6 +98,19 @@ app.get("/api/alladsimages", async (req, res) => {
   }
 });
 
+// GET /api/allbrands ; to have the list of all brands
+app.get("/api/allbrands", async (req, res) => {
+  try {
+    const result = await dao.listBrands();
+    if (result.error)
+      res.status(404).json(result);
+    else
+      res.json(result);
+  } catch (err) {
+    res.status(500).end();
+  }
+});
+
 
 
 
