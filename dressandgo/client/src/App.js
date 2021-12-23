@@ -1,307 +1,241 @@
 import './App.css';
-import { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate, useNavigate } from 'react-router-dom';
-import { Col, Row, Container, Button } from "react-bootstrap";
+import { Row, Container, Button } from "react-bootstrap";
+import { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 
 import FixedBottomNavigation from './mycomponents/bottombar.js'
-import MyCategoryList from './mycomponents/category_list.js';
-import MyHeader from './mycomponents/header.js'
+import MyCategoryList from './mycomponents/category_list';
+import MyHeader from './mycomponents/header.js';
 import MyDressList from './mycomponents/dress_list.js';
-import { MySmallAdvertisement, MyBigAdvertisement } from './mycomponents/dress_card.js'
+import MyProfile from './mycomponents/profile';
+import MyUserData from './mycomponents/user_data_profile';
+import MyKnownSizes from './mycomponents/known_sizes';
+import AddKnownSizes from './mycomponents/add_size_button';
 import MyAvailabilityModal from './mycomponents/availabilityModal';
 import SizeGuide from './mycomponents/mySizeGuide';
+import { MySmallAdvertisement, MyBigAdvertisement } from './mycomponents/dress_card.js'
+
+import { getCategories, getUserInfos, getKnownSizes, getAds, getAdsImages, getBrands, modifyUsInfos, insertKnownSize, removeKnownSize } from './API';
+
+import ChatMessages from './mycomponents/ChatMessages';
+import ChatsPage from './mycomponents/ChatsPage';
 
 
-/*
-STATES:
-home
-cat
-bigcat
-*/
+const fakeUsers = [{
+  id_u: 1,
+  name: "Sara",
+  surname: "Medde"
+},
+{
+  id_u: 2,
+  name: "Aldo",
+  surname: "Baglio"
+},
+{
+  id_u: 3,
+  name: "Giacomo",
+  surname: "Poretti"
+}]
 
 
-/** page: man, woman */
-function App() {
-  const user = {
-    name: "Patrizio",
-    surname: "de Girolamo",
-    gender: "man",
+const fakeRents = [
+  {
+    id_r: 1,
+    id_a: 2,
+    idVendor: 2,
+    idBuyer: 1,
+    dataIn: "15/03/2022",
+    dataOut: "18/03/2022"
+  },
+
+  {
+    id_r: 2,
+    id_a: 2,
+    idVendor: 2,
+    idBuyer: 1,
+    dataIn: "15/05/2022",
+    dataOut: "18/05/2022"
+  },
+
+  {
+    id_r: 3,
+    id_a: 2,
+    idVendor: 2,
+    idBuyer: 3,
+    dataIn: "15/04/2022",
+    dataOut: "18/04/2022"
+  },
+
+]
+
+
+const fakeMessages = [
+  {
+    id_mess: 1,
+    id_r: 1,
+    id_a: 2,
+    idSender: 1,
+    idReceiver: 2,
+    date: new Date().toISOString(),
+    text: "ciao mi chiamo Patrizio de Girolamo"
+  },
+
+  {
+    id_mess: 2,
+    id_r: 1,
+    id_a: 2,
+    idSender: 1,
+    idReceiver: 2,
+    date: new Date().toISOString(),
+    text: "Vorrei"
+  },
+
+  {
+    id_mess: 3,
+    id_r: 1,
+    id_a: 2,
+    idSender: 1,
+    idReceiver: 2,
+    date: new Date().toISOString(),
+    text: "Sapere",
+  },
+
+  {
+    id_mess: 4,
+    id_r: 1,
+    id_a: 2,
+    idSender: 1,
+    idReceiver: 2,
+    date: new Date().toISOString(),
+    text: "Quando",
+  },
+
+  {
+    id_mess: 5,
+    id_r: 1,
+    id_a: 2,
+    idSender: 1,
+    idReceiver: 2,
+    date: new Date().toISOString(),
+    text: "E' disponibile",
+  },
+
+  {
+    id_mess: 6,
+    id_r: 1,
+    id_a: 2,
+    idSender: 2,
+    idReceiver: 1,
+    date: new Date().toISOString(),
+    text: "ciao E' disponibile sin da subito",
   }
+]
 
+
+function App() {
+  const [page, setPage] = useState("");
+  const [categories, setCategories] = useState([]);
+  const [knownsizes, setKnownSizes] = useState([]);
+  const [ads, setAds] = useState([]);
+  const [adsImages, setAdsImages] = useState([]);
+  const [brands, setBrands] = useState([]);
   const [currentState, setCurrentState] = useState("home")
   const [currentCat, setCurrentCat] = useState("");
   const [currentDress, setCurrentDress] = useState("");
-  const [page, setPage] = useState(user.gender);
+  const [modalShow, setModalShow] = useState(false);
   const [search, setSearch] = useState("");
+  const [user, setUser] = useState({});
 
-
+  const [messages, setMessages] = useState([...fakeMessages])
+  const [rents, setRents] = useState([...fakeRents])
+  const [users, setUsers] = useState([...fakeUsers])
 
   const handleChangeForwardPage = (cat) => {
     if (search) {
-      if (currentState == "home") {
+      if (currentState === "home") {
         setCurrentCat(cat)
         setCurrentState("bigCat");
       }
-      else if (currentState == "cat") {
+      else if (currentState === "cat") {
         setCurrentState("bigCat")
       }
     }
 
     else {
-      if (currentState == "home") {
+      if (currentState === "home") {
         setCurrentCat(cat)
         setCurrentState("cat")
       }
 
-      else if (currentState == "cat") {
+      else if (currentState === "cat") {
         setCurrentState("bigCat")
       }
 
-      else if (currentState == "bigCat") {
+      else if (currentState === "bigCat") {
 
       }
     }
 
   };
 
-  /**type: 
-   * top: XS-XXL, 
-   * bottom: 30-50, 
-   * shoes: 30-50 
-   * */
-
-
-  const [knownSizes, setKnownSizes] = useState([
-    {
-      brand: "Gucci",
-      cat: "Jackets",
-      gender: "man",
-      size: "M",
-
-    },
-
-    /*
-    {
-      brand: "Gucci",
-      cat: "Shoes",
-      gender: "man",
-      size: "44"
-    },
-
-    {
-      brand: "Levis",
-      cat: "Trousers",
-      gender: "unisex",
-      size: "42"
-    },
-
-    {
-      brand: "Timberland",
-      cat: "Shoes",
-      gender: "man",
-      size: "45"
-    },
-    */
-    {
-      brand: "Timberland",
-      cat: "Trousers",
-      size: "44",
-      gender: "woman",
-
+  useEffect(() => {
+    async function getCat() {
+      const fetchedCategories = await getCategories();
+      const fetchedSizes = await getKnownSizes();
+      const fetchedAds = await getAds();
+      const fetchedUser = await getUserInfos();
+      const fetchedAdsImages = await getAdsImages();
+      const fetchedBrands = await getBrands();
+      setCategories(fetchedCategories);
+      setKnownSizes(fetchedSizes);
+      setAds(fetchedAds);
+      setUser(fetchedUser);
+      setPage(fetchedUser.gender)
+      setAdsImages(fetchedAdsImages);
+      setBrands(fetchedBrands);
     }
-  ])
-  const [categories, setCategories] = useState([
-    {
-      name: "Coats",
-      gender: "unisex",
-      address: "trench-coat.png"
-    },
+    getCat();
+  }, []);
 
-    {
-      name: "Jackets",
-      gender: "unisex",
-      address: "jacket.png"
-    },
 
-    {
-      name: "Shoes",
-      gender: "woman",
-      address: "high-heels.png"
-    },
+  /* TO INSERT A NEW KNOWN SIZE*/
+  const addASize = (new_size) => {
+    insertKnownSize(new_size).then((err) => { });
+    // to avoid another call to the db
+    setKnownSizes(knownsizes => {
+      return knownsizes.concat(new_size)
+    });
+  }
 
-    {
-      name: "Shoes",
-      gender: "man",
-      address: "sneakers.png"
-    },
+  /* TO REMOVE A KNOWN SIZE INSERTED BY THE USER */
+  const removeASize = (id_ks) => {
+    removeKnownSize(id_ks).then((err) => { });
+    // to avoid another call to the db
+    const cont_ks = knownsizes.indexOf(knownsizes.find((ks) => ks.id_ks === id_ks));
 
-    {
-      name: "Shirt",
-      gender: "unisex",
-      address: "hawaiian-shirt.png"
-    },
+    setKnownSizes(knownsizes => {
+      return knownsizes.filter(
+        (ks, j) => cont_ks !== j);
+    });
 
-    {
-      name: "Pajamas",
-      gender: "man",
-      address: "pajamas.png"
-    },
+  }
 
-    {
-      name: "Skirt",
-      gender: "woman",
-      address: "skirt.png"
-    },
 
-    {
-      name: "Socks",
-      gender: "woman",
-      address: "socksfemale.png"
-    },
+  /* TO MODIFY USER INFOS */
+  const modifyUserInfos = (newInfos) => {
+    modifyUsInfos(newInfos).then((err) => { });
+    // to avoid another call to the db 
+    setUser({
+      id_u: newInfos.id_u, name: newInfos.name, surname: newInfos.surname, address: newInfos.address,
+      city: newInfos.city, cap: newInfos.cap, state: newInfos.state, zip: newInfos.zip,
+      gender: newInfos.gender, height: newInfos.height, weight: newInfos.weight, waistline: newInfos.waistline,
+      hips: newInfos.hips, legLength: newInfos.legLength, shoesNumber: newInfos.shoesNumber
+    })
+  }
 
-    {
-      name: "Socks",
-      gender: "man",
-      address: "socksmale.png"
-    },
-
-    {
-      name: "Watch",
-      gender: "unisex",
-      address: "wristwatch.png"
-    },
-
-    {
-      name: "Tshirt",
-      gender: "unisex",
-      address: "t-shirt.png"
-    },
-
-    {
-      name: "trousers",
-      gender: "unisex",
-      address: "trousers.png"
-    },
-
-    {
-      name: "suit",
-      gender: "man",
-      address: "suit.png"
-    },
-
-    {
-      name: "dress",
-      gender: "woman",
-      address: "dress.png"
-    }
-
-  ])
-
-  //gender: man, woman
-  const [ads, setAds] = useState(
-    [
-      {
-        id: 0,
-        name: "green jacket",
-        cat: "Jackets",
-        brand: "Gucci",
-        description: "beautiful green jacket",
-        price: "23.07",
-        size: "M",
-        gender: "man",
-        addresses: ["https://www.calibroshop.it/storage/immagini/d6ab39f5bc07f8bc00df0b17de696b03.jpeg",
-          "https://www.calibroshop.it/storage/immagini/d6ab39f5bc07f8bc00df0b17de696b03.jpeg",
-          "https://www.calibroshop.it/storage/immagini/d6ab39f5bc07f8bc00df0b17de696b03.jpeg"
-        ]
-      },
-
-      {
-        id: 1,
-        name: "black jacket",
-        cat: "Jackets",
-        brand: "Armani",
-        description: "beautiful black jacket",
-        price: "22.07",
-        size: "L",
-        gender: "man",
-        addresses: ["https://image.shutterstock.com/image-photo/blank-jacket-bomber-baseball-satin-260nw-1109179079.jpg",
-          "https://image.shutterstock.com/image-photo/blank-jacket-bomber-baseball-satin-260nw-1109179079.jpg"]
-      },
-
-      {
-        id: 2,
-        name: "black shoes",
-        cat: "Shoes",
-        brand: "Gucci",
-        description: "beautiful pair of black shoes",
-        price: "5.07",
-        size: "42",
-        gender: "man",
-        addresses: ["https://png.pngtree.com/png-clipart/20210613/original/pngtree-leather-shoes-black-accessories-clothing-png-image_6403650.jpg",
-          "https://png.pngtree.com/png-clipart/20210613/original/pngtree-leather-shoes-black-accessories-clothing-png-image_6403650.jpg",
-          "https://png.pngtree.com/png-clipart/20210613/original/pngtree-leather-shoes-black-accessories-clothing-png-image_6403650.jpg",
-          "https://png.pngtree.com/png-clipart/20210613/original/pngtree-leather-shoes-black-accessories-clothing-png-image_6403650.jpg"]
-      },
-
-      {
-        id: 3,
-        name: "white t-shirt",
-        cat: "Tshirts",
-        brand: "Nike",
-        description: "beautiful white t-shirt",
-        price: "1.07",
-        size: "M",
-        gender: "unisex",
-        addresses: ["https://m.media-amazon.com/images/I/81XWYTTfBkL._AC_UX679_.jpg",
-          "https://m.media-amazon.com/images/I/81XWYTTfBkL._AC_UX679_.jpg"]
-      },
-
-      {
-        id: 4,
-        name: "black trousers",
-        cat: "Trousers",
-        brand: "Gucci",
-        description: "beautiful black trousers",
-        price: "32.37",
-        size: "40",
-        gender: "man",
-        addresses: ["https://images.sportsdirect.com/images/products/36206203_l.jpg"]
-      },
-
-      {
-        id: 5,
-        name: "red skirt",
-        cat: "Skirts",
-        brand: "Gucci",
-        description: "beautiful red skirt",
-        price: "12.00",
-        size: "36",
-        gender: "woman",
-        addresses: ["https://www.rinascimento.com/media/catalog/product/cache/c03ae629b2d1553220f68bf2c378cc64/g/o/gonna-midi-in-raso-strutturato-color-nero-6-cfc0106280003b001_list_1.jpg",
-          "https://www.rinascimento.com/media/catalog/product/cache/c03ae629b2d1553220f68bf2c378cc64/g/o/gonna-midi-in-raso-strutturato-color-nero-6-cfc0106280003b001_list_1.jpg"]
-      },
-
-      {
-        id: 6,
-        name: "Blue coat",
-        cat: "Coats",
-        brand: "Barena",
-        description: "Navy-blue cotton-wool blend double-breasted tailored coat from BARENA featuring tailored cut, fine knit, double-breasted button fastening and long sleeves",
-        price: "55.00",
-        size: "M",
-        gender: "man",
-        addresses: ["https://loschiboutique.com/files/prodotti/69556_2044762_prodotti_gallery_pop_17314262_36025338.jpg",
-         "https://loschiboutique.com/files/prodotti/69556_2044761_prodotti_gallery_pop_17314262_36025333.jpg",
-        "https://loschiboutique.com/files/prodotti/69556_2044763_prodotti_gallery_pop_17314262_36025339.jpg", 
-        "https://loschiboutique.com/files/prodotti/69556_2044764_prodotti_gallery_pop_17314262_36027017.jpg", 
-        "https://loschiboutique.com/files/prodotti/69556_2044765_prodotti_gallery_pop_17314262_36027020.jpg"]
-      },
-    ]
-  )
 
 
   return <Router>
-
     <MyHeader page={page} setPage={setPage}
       currentCat={currentCat}
       setCurrentCat={setCurrentCat}
@@ -311,25 +245,35 @@ function App() {
     />
 
     <Routes >
+
+
       <Route path='/ad/:idAd' element={<>
-        <MyBigAdvertisement ads={ads} />
+        <MyBigAdvertisement ads={ads} adsImages={adsImages} users={users} currentUser={user}/>
       </>} />
 
       <Route path='/guide' element={<>
-        <SizeGuide/>
-      </>}/>
+        <SizeGuide />
+      </>} />
+
+      <Route path='/MyChats/:id_a/:id_r' element={<ChatMessages user={user} messages={messages} rents={rents}>
+      </ChatMessages>}/>
+
+      <Route path='/MyChats' element={<>
+        <ChatsPage currentUser={user} rents={rents} users={users} ads={ads} adsImages={adsImages} 
+        messages={messages.sort((a,b) => a.date - b.date)}/>
+      </>} />
 
       <Route path='/previews' element={<>
         {search ? <Container id="dressContainer">
           researched:
-          <MyDressList ads={ads.filter(ad => {
-            return ad.gender == page && (ad.name.includes(search) || ad.description.includes(search))
+          <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(ad => {
+            return ad.gender === page && (ad.title.includes(search) || ad.description.includes(search))
           })}
             handleChangeForwardPage={handleChangeForwardPage}>
           </MyDressList>
         </Container> : <MyCategoryList categories={categories.filter(c => {
 
-          if (c.gender == "unisex" || c.gender == page)
+          if (c.gender === "unisex" || c.gender === page)
             return c
         })} ads={ads}
           handleChangeForwardPage={handleChangeForwardPage}
@@ -338,7 +282,7 @@ function App() {
 
       <Route path="/dresses/:categorie" element={<>
         {search ? <Container id="dressContainer"> resarched:
-          <MyDressList ads={ads.filter(ad => (ad.cat == currentCat) && (ad.name.includes(search) || ad.description.includes(search)))}
+          <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(ad => (categories.find((el) => el.id_cat === ad.id_cat).name === currentCat) && (ad.title.includes(search) || ad.description.includes(search)))}
             handleChangeForwardPage={handleChangeForwardPage}>
           </MyDressList>
         </Container>
@@ -346,10 +290,12 @@ function App() {
           <>
             <Container id="dressContainer">
               suggested for you:
-              <MyDressList ads={ads.filter(ad => {
-                if (ad.gender === page && ad.cat === currentCat) {
-                  for (const ks of knownSizes) {
-                    if (ad.gender == ks.gender && ad.brand == ks.brand && ad.cat == ks.cat && ad.size == ks.size)
+              <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(ad => {
+                if (ad.gender === page && categories.find((el) => el.id_cat === ad.id_cat).name === currentCat) {
+                  for (const ks of knownsizes) {
+                    if (ad.gender === ks.gender && ad.brand === ks.brand &&
+                      categories.find((el) => el.id_cat === ad.id_cat).name === categories.find((el) => el.id_cat === ks.id_cat).name &&
+                      ad.size === ks.EUsize)
                       return ad
                   }
                 }
@@ -362,11 +308,11 @@ function App() {
 
             <Container id="dressContainer">
               All sizes:
-              <MyDressList ads={ads.filter(ad => {
-                if (ad.cat === currentCat) {
-                  if (ad.gender == "unisex")
+              <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(ad => {
+                if (categories.find((el) => el.id_cat === ad.id_cat).name === currentCat) {
+                  if (ad.gender === "unisex")
                     return ad;
-                  else if (ad.gender == page)
+                  else if (ad.gender === page)
                     return ad;
                 }
               })}
@@ -378,19 +324,39 @@ function App() {
       </>} />
 
       <Route path="/MyAccount" element={<>
+        <MyProfile user={user} />
+      </>} />
 
+      <Route path="/handleknownsizes" element={<>
+        <MyKnownSizes knownsizes={knownsizes} setKnownsizes={setKnownSizes} categories={categories} removeASize={removeASize}></MyKnownSizes>
+        <Row className="p-3 justify-content-center m-auto ">
+          <Button className="mb-3" variant="primary" type="submit" onClick={() => setModalShow(true)}>
+            Add known size</Button>
+        </Row>
+
+        <AddKnownSizes
+          show={modalShow}
+          categories={categories}
+          addASize={addASize}
+          user={user}
+          onHide={() => setModalShow(false)}
+        />
+      </>} />
+
+      <Route path="/editprofile" element={<>
+        <MyUserData user={user} modifyUserInfos={modifyUserInfos} />
+      </>} />
+
+      <Route path="/paymentmethods" element={<>
+        <MyProfile user={user} />
       </>} />
 
       <Route path="/" element={<Navigate to="/previews" />} />
     </Routes >
 
-
     <FixedBottomNavigation setCurrentState={setCurrentState} setPage={setPage}
       setCurrentCat={setCurrentCat} setCurrentDress={setCurrentDress} />
-
-
-  </Router >
-
+  </Router>
 }
 
 export default App;

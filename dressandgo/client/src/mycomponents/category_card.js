@@ -1,4 +1,4 @@
-import { Card, Row, Col } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import { NavLink as Link } from "react-router-dom";
 
 function MyCategory(props) {
