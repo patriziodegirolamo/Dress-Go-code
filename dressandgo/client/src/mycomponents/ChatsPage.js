@@ -9,14 +9,15 @@ import { getMessages } from '../API';
 
 function ChatsPage(props) {
     return <>
-        {
+    ciao
+        {/**
             //ogni r è un noleggio fatto dalla stessa persona e sullo stesso annuncio -> cambiano solo le date
             props.rents.filter(r => r.idBuyer == props.currentUser.id_u).map((r, idx) => {
             const image = props.adsImages.filter(adImage => adImage.id_a == r.id_a)[0]
             return <SmallChat key={idx} idx={idx} image={image.url} currentRent={r} vendor={props.users.find(u => u.id_u == r.idVendor)}
                 messages={props.messages.filter(mes => mes.id_a == r.id_a && mes.id_r == r.id_r)}>
             </SmallChat>
-        })}
+        }) */}
     </>
 
 

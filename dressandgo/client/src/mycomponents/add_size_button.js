@@ -64,19 +64,19 @@ function AddKnownSizes(props) {
             };
         */
 
-        
+
         //if (validated) {
-            const new_size = {
-                id_u: props.user.id_u,
-                brand: brand,
-                id_cat: props.categories.find((cat) => cat.name === category).id_cat,
-                EUsize: size
-            };
-            props.addASize(new_size);
-            setBrand("");
-            setCategory("");
-            setSize("");
-            onHide();
+        const new_size = {
+            id_u: props.user.id_u,
+            brand: brand,
+            id_cat: props.categories.find((cat) => cat.name === category).id_cat,
+            EUsize: size
+        };
+        props.addASize(new_size);
+        setBrand("");
+        setCategory("");
+        setSize("");
+        onHide();
         //}
     };
 
@@ -101,7 +101,7 @@ function AddKnownSizes(props) {
                             <option value='null'>Select category</option>
                             {
                                 props.categories.map((cat) => {
-                                    return <option key = {cat.id_cat} value={cat.name}>{cat.name}</option>
+                                    return <option key={cat.id_cat} value={cat.name}>{cat.name}</option>
                                 })
                             }
                         </Form.Select>

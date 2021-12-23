@@ -41,12 +41,11 @@ function MyBigAdvertisement(props) {
 
     const currentAd = props.ads.filter(ad => ad.id_a === idAd)[0];
     const currentImages = props.adsImages.filter(adImg => adImg.id_a === idAd);
-    const vendor = props.users.filter(u => u.id_u == currentAd.id_u)[0]
+    const renter = props.users.filter(u => u.id_u == currentAd.id_u)[0]
 
     const [showNewMessage, setShowNewMessage] = useState(false);
 
-    const initialMessage = "Hi " + ", I'm contacting you, " + vendor.name + " " + vendor.surname + ", for the advertisement: " + currentAd.title + ", " 
-    //TODO: aggiungere il nome del tizio che ha creato l'annuncio
+    const initialMessage = "Hi " + ", I'm contacting you, " + renter.name + " " + renter.surname + ", for the advertisement: " + currentAd.title + ", " 
 
     const [newMessage, setNewMessage] = useState(initialMessage)
 
@@ -60,6 +59,27 @@ function MyBigAdvertisement(props) {
     const onCloseNewMessageModal = () => {
         setShowNewMessage(false)
         setNewMessage(initialMessage)
+    }
+
+    const onCreateNewConversation = (event) => {
+        event.preventDefalut()
+        
+        const new_conversation = {
+            id_a: currentAd,
+            idRenter: renter.id_u,
+            idBooker: props.currentUser.id_u
+        };
+
+        /**
+        const new_message = {
+            id_conv: lastID_conv, 
+            idSender: props.currentUser.id_u, 
+            idReceiver: renter.id_u, 
+            date: new Date().toISOString(), 
+            text: newMessage
+        }
+         */
+        props.addConversations(new_conversation)
     }
 
     return (<>
@@ -128,8 +148,7 @@ function MyBigAdvertisement(props) {
                     <Modal.Footer>
                         <Container>
                             {/**TODO: invia messaggio tramite API */}
-                            <Button type="submit" onClick={() => {
-                            }}>Send</Button>
+                            <Button type="submit" onClick={onCreateNewConversation}>Send</Button>
                         </Container>
                     </Modal.Footer>
                 </Modal>

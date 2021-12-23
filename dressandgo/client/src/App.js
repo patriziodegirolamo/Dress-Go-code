@@ -16,36 +16,19 @@ import SizeGuide from './mycomponents/mySizeGuide';
 import { MySmallAdvertisement, MyBigAdvertisement } from './mycomponents/dress_card.js'
 
 import { getCategories, getUserInfos, getKnownSizes, getAds, getAdsImages, getBrands, 
-         getUsers, getConversations, modifyUsInfos, insertKnownSize, removeKnownSize } from './API';
+         getUsers, getConversations, modifyUsInfos, insertKnownSize, removeKnownSize, insertMessage } from './API';
 
 import ChatMessages from './mycomponents/ChatMessages';
 import ChatsPage from './mycomponents/ChatsPage';
-import { insertConversation } from '../../server/DAO';
-
-
-const fakeUsers = [{
-  id_u: 1,
-  name: "Sara",
-  surname: "Medde"
-},
-{
-  id_u: 2,
-  name: "Aldo",
-  surname: "Baglio"
-},
-{
-  id_u: 3,
-  name: "Giacomo",
-  surname: "Poretti"
-}]
+import {insertConversation} from './API.js'
 
 
 const fakeRents = [
   {
     id_r: 1,
     id_a: 2,
-    idVendor: 2,
-    idBuyer: 1,
+    idRenter: 2,
+    idBooker: 1,
     dataIn: "15/03/2022",
     dataOut: "18/03/2022"
   },
@@ -53,8 +36,8 @@ const fakeRents = [
   {
     id_r: 2,
     id_a: 2,
-    idVendor: 2,
-    idBuyer: 1,
+    idRenter: 2,
+    idBooker: 1,
     dataIn: "15/05/2022",
     dataOut: "18/05/2022"
   },
@@ -62,15 +45,15 @@ const fakeRents = [
   {
     id_r: 3,
     id_a: 2,
-    idVendor: 2,
-    idBuyer: 3,
+    idRenter: 2,
+    idBooker: 3,
     dataIn: "15/04/2022",
     dataOut: "18/04/2022"
   },
 
 ]
 
-
+/**
 const fakeMessages = [
   {
     id_mess: 1,
@@ -132,7 +115,7 @@ const fakeMessages = [
     text: "ciao E' disponibile sin da subito",
   }
 ]
-
+ */
 
 function App() {
   const [page, setPage] = useState("");
@@ -141,23 +124,22 @@ function App() {
   const [ads, setAds] = useState([]);
   const [adsImages, setAdsImages] = useState([]);
   const [brands, setBrands] = useState([]);
-  const [usersPROVA, setUsersPROVA] = useState([]);
-  const [conversationsPROVA, setConversationsPROVA] = useState([]); //tutte le conversazioni dell'utente loggato
 
   const [currentState, setCurrentState] = useState("home")
   const [currentCat, setCurrentCat] = useState("");
   const [currentDress, setCurrentDress] = useState("");
   const [modalShow, setModalShow] = useState(false);
   const [search, setSearch] = useState("");
+  
+  const [messages, setMessages] = useState([])
+  const [rents, setRents] = useState([])
+  const [users, setUsers] = useState([])
   const [user, setUser] = useState({});
 
-  
-  const [messages, setMessages] = useState([...fakeMessages])
-  const [rents, setRents] = useState([...fakeRents])
-  const [users, setUsers] = useState([...fakeUsers])
-  
-  
+  const [conversations, setConversations] = useState([]); //tutte le conversazioni dell'utente loggato
 
+  
+  
   const handleChangeForwardPage = (cat) => {
     if (search) {
       if (currentState === "home") {
@@ -204,16 +186,11 @@ function App() {
       setPage(fetchedUser.gender)
       setAdsImages(fetchedAdsImages);
       setBrands(fetchedBrands);
-      setUsersPROVA(fetchedUsers);
-      setConversationsPROVA(fetchedConversations);
+      setUsers(fetchedUsers);
+      setConversations(fetchedConversations);
     }
     getCat();
   }, []);
-
-  console.log('USERS');
-  console.log(usersPROVA);
-  console.log('CONV');
-  console.log(conversationsPROVA);
 
   /* TO INSERT A NEW KNOWN SIZE*/
   const addASize = (new_size) => {
@@ -224,15 +201,16 @@ function App() {
     });
   }
 
-  /*
+  
   const addAConversation = (new_conversation) => {
-    insertConversation(new_conversation).then((err) => { });
+    insertConversation(new_conversation).then((err) => { });;
+
+    //.then(insertMessage(new_message))
     // to avoid another call to the db
-    setKnownSizes(knownsizes => {
-      return knownsizes.concat(new_size)
-    });
+    setConversations(conversations => conversations.concat(new_conversation))
+    //setMessages(messages => messages.concat(new_message))
   }
-  */
+  
 
   
 
@@ -277,19 +255,22 @@ function App() {
 
 
       <Route path='/ad/:idAd' element={<>
-        <MyBigAdvertisement ads={ads} adsImages={adsImages} users={users} currentUser={user}/>
+        <MyBigAdvertisement ads={ads} adsImages={adsImages} users={users} currentUser={user}
+        addAConversation={addAConversation}/>
       </>} />
 
       <Route path='/guide' element={<>
         <SizeGuide />
       </>} />
 
+      <Route path='/MyChats/:id_a/:id_r' element={<></>}/>
+      {/**
       <Route path='/MyChats/:id_a/:id_r' element={<ChatMessages user={user} messages={messages} rents={rents}>
       </ChatMessages>}/>
-
+ */}
       <Route path='/MyChats' element={<>
-        <ChatsPage currentUser={user} rents={rents} users={users} ads={ads} adsImages={adsImages} 
-        messages={messages.sort((a,b) => a.date - b.date)}/>
+        <ChatsPage currentUser={user} conversations={conversations} rents={rents} users={users} ads={ads} 
+        adsImages={adsImages} messages={messages.sort((a,b) => a.date - b.date)}/>
       </>} />
 
       <Route path='/previews' element={<>

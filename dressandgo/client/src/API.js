@@ -170,7 +170,8 @@ async function getConversations(id_u) {
               ...t,
               id_conv: t.id_conv,
               id_a: t.id_a,
-              id_r: t.id_r
+              idRenter: t.idRenter,
+              idBooker: t.idBooker
           }));
       } else {
           throw convs;  // an object with the error coming from the server
@@ -263,7 +264,7 @@ async function insertConversation(conv) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ id_a: conv.id_a, id_r: conv.id_r }),
+      body: JSON.stringify({ id_a: conv.id_a, idRenter: conv.idRenter, idBooker: conv.idBooker }),
     }).then((response) => {
       if (response.ok) {
         resolve(response.json());
