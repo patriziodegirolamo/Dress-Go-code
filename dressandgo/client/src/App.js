@@ -15,10 +15,12 @@ import MyAvailabilityModal from './mycomponents/availabilityModal';
 import SizeGuide from './mycomponents/mySizeGuide';
 import { MySmallAdvertisement, MyBigAdvertisement } from './mycomponents/dress_card.js'
 
-import { getCategories, getUserInfos, getKnownSizes, getAds, getAdsImages, getBrands, modifyUsInfos, insertKnownSize, removeKnownSize } from './API';
+import { getCategories, getUserInfos, getKnownSizes, getAds, getAdsImages, getBrands, 
+         getUsers, getConversations, modifyUsInfos, insertKnownSize, removeKnownSize } from './API';
 
 import ChatMessages from './mycomponents/ChatMessages';
 import ChatsPage from './mycomponents/ChatsPage';
+import { insertConversation } from '../../server/DAO';
 
 
 const fakeUsers = [{
@@ -139,6 +141,9 @@ function App() {
   const [ads, setAds] = useState([]);
   const [adsImages, setAdsImages] = useState([]);
   const [brands, setBrands] = useState([]);
+  const [usersPROVA, setUsersPROVA] = useState([]);
+  const [conversationsPROVA, setConversationsPROVA] = useState([]); //tutte le conversazioni dell'utente loggato
+
   const [currentState, setCurrentState] = useState("home")
   const [currentCat, setCurrentCat] = useState("");
   const [currentDress, setCurrentDress] = useState("");
@@ -146,9 +151,12 @@ function App() {
   const [search, setSearch] = useState("");
   const [user, setUser] = useState({});
 
+  
   const [messages, setMessages] = useState([...fakeMessages])
   const [rents, setRents] = useState([...fakeRents])
   const [users, setUsers] = useState([...fakeUsers])
+  
+  
 
   const handleChangeForwardPage = (cat) => {
     if (search) {
@@ -186,6 +194,9 @@ function App() {
       const fetchedUser = await getUserInfos();
       const fetchedAdsImages = await getAdsImages();
       const fetchedBrands = await getBrands();
+      const fetchedUsers = await getUsers();
+      const fetchedConversations = await getConversations(fetchedUser.id_u);
+
       setCategories(fetchedCategories);
       setKnownSizes(fetchedSizes);
       setAds(fetchedAds);
@@ -193,10 +204,16 @@ function App() {
       setPage(fetchedUser.gender)
       setAdsImages(fetchedAdsImages);
       setBrands(fetchedBrands);
+      setUsersPROVA(fetchedUsers);
+      setConversationsPROVA(fetchedConversations);
     }
     getCat();
   }, []);
 
+  console.log('USERS');
+  console.log(usersPROVA);
+  console.log('CONV');
+  console.log(conversationsPROVA);
 
   /* TO INSERT A NEW KNOWN SIZE*/
   const addASize = (new_size) => {
@@ -206,6 +223,16 @@ function App() {
       return knownsizes.concat(new_size)
     });
   }
+
+  const addAConversation = (new_conversation) => {
+    insertConversation(new_conversation).then((err) => { });
+    // to avoid another call to the db
+    setKnownSizes(knownsizes => {
+      return knownsizes.concat(new_size)
+    });
+  }
+
+  
 
   /* TO REMOVE A KNOWN SIZE INSERTED BY THE USER */
   const removeASize = (id_ks) => {
