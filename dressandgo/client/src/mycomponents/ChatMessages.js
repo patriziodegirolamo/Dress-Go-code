@@ -8,7 +8,7 @@ import { useState } from 'react';
 function ChatMessages(props) {
     let params = useParams();
     
-    const messages = props.messages.filter(m => m.id_a == params.id_a && m.id_r == params.id_r)
+    const messages = props.messages.filter(mes => mes.id_conv == params.id_conv)
 
     const [newMessage, setNewMessage] = useState("")
 

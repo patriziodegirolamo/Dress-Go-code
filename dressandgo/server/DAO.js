@@ -104,7 +104,7 @@ exports.listRents = () => {
 //get all conversations
 exports.listConversations = (id_u) => {
   return new Promise((resolve, reject) => {
-    const sql = "SELECT * FROM CONVERSATION CONV INNER JOIN RENT ON  CONV.ID_R = RENT.ID_R WHERE RENT.ID_BOOKER = ? OR RENT.ID_RENTER = ? ";
+    const sql = "SELECT * FROM CONVERSATION CONV WHERE ID_BOOKER = ? OR ID_RENTER = ? ";
     db.all(sql, [id_u, id_u], (err, rows) => {
       if (rows === undefined || rows.length === 0) {
         const convs = { id_conv: 'Empty' };
@@ -118,7 +118,8 @@ exports.listConversations = (id_u) => {
         const convs = rows.map((t) => ({
          id_conv: t.ID_CONV,
          id_a: t.ID_A,
-         id_r: t.ID_R
+         idRenter: t.ID_RENTER,
+         idBooker: t.ID_BOOKER
         }));
         resolve(convs);
       }
@@ -326,10 +327,10 @@ exports.insertKnownSize = (ksize) => {
 exports.insertConversation = (conv) => {
   return new Promise((resolve, reject) => {
     const sql =
-      "INSERT INTO CONVERSATION(ID_CONV, ID_A, ID_R) VALUES(?, ?, ?)";
+      "INSERT INTO CONVERSATION(ID_CONV, ID_A, ID_RENTER, ID_BOOKER) VALUES(?, ?, ?, ?)";
     db.run(
       sql,
-      [this.lastID, conv.id_a, conv.id_r],
+      [this.lastID, conv.id_a, conv.idRenter, conv.idBooker],
       function (err) {
         if (err) {
           reject(err);

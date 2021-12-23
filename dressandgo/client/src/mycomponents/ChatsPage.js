@@ -9,54 +9,58 @@ import { getMessages } from '../API';
 
 function ChatsPage(props) {
     return <>
-    ciao
-        {/**
-            //ogni r è un noleggio fatto dalla stessa persona e sullo stesso annuncio -> cambiano solo le date
-            props.rents.filter(r => r.idBuyer == props.currentUser.id_u).map((r, idx) => {
-            const image = props.adsImages.filter(adImage => adImage.id_a == r.id_a)[0]
-            return <SmallChat key={idx} idx={idx} image={image.url} currentRent={r} vendor={props.users.find(u => u.id_u == r.idVendor)}
-                messages={props.messages.filter(mes => mes.id_a == r.id_a && mes.id_r == r.id_r)}>
-            </SmallChat>
-        }) */}
+        {
+            props.conversations.map((conv, idx) => {
+
+                const currentAd = props.ads.find(ad => ad.id_a == conv.id_a)
+                const image = props.adsImages.find(adImage => adImage.id_a == conv.id_a)
+                return <SmallChat key={idx} idx={idx} image={image.url} currentAd={currentAd}
+                    renter={props.users.find(u => u.id_u == conv.idRenter)} conversation={conv}
+                    messages={props.messages.filter(mes => mes.id_conv == conv.id_conv)}>
+                </SmallChat>
+            })
+        }
     </>
 
 
 }
 
 function SmallChat(props) {
+    console.log(props.currentRent)
+    /**
     const [messages, setMessages] = useState([]);
 
     console.log('MESSAGES')
 
     useEffect(() => {
         async function getMsgs() {
-          const fetchedMessages = getMessages(1);
-          setMessages(fetchedMessages);
+            const fetchedMessages = getMessages(1);
+            setMessages(fetchedMessages);
         }
         getMsgs();
-      }, []);
-    
+    }, []);
+     */
 
-    return <Link to={{ pathname: "/MyChats/" + props.currentRent.id_a + "/" + props.currentRent.id_r }}>
+    return <Link to={{ pathname: "/MyChats/" + props.conversation.id_conv }}>
         <Container key={props.idx} style={{ marginTop: 30, paddingBottom: 20, backgroundColor: "#7a6f7356" }}>
-            <Container style={{ position: "fixed", textAlign: "center", marginLeft: 10, marginTop: 10 }}>
-                <h5>{props.vendor.name}</h5>
+            <Container style={{ position: "fixed", textAlign: "center", marginLeft: 20, marginTop: 10 }}>
+                <h5>{props.renter.name}</h5>
             </Container>
 
-            {props.messages.length > 0 ?
             <Container style={{ position: "fixed", textAlign: "center", marginLeft: 30, marginTop: 50, marginRight: 10 }}>
-                <p>{props.messages.at(-1).text.substring(0, 23)}...</p>
+                <h4>{props.currentAd.title}</h4>
             </Container>
-            : <></> }
-
-            <Container style={{ position: "fixed", textAlign: "center", marginTop: 100, marginRight: 20 }}>
-                {props.currentRent.dataIn} - {props.currentRent.dataOut}
-            </Container>
-
+            {props.messages.length > 0 ? 
+                <Container style={{ position: "fixed", textAlign: "center", marginLeft: 30, marginTop: 90, marginRight: 10 }}>
+                    <p>{props.messages.at(-1).text.substring(0, 30)}...</p>
+                </Container>
+            
+                : <></>}
+        
             <Container>
                 <Image roundedCircle src={props.image} style={{ height: 100, width: 100, marginTop: 20 }}></Image>
             </Container>
-
+             
 
         </Container>
     </Link>

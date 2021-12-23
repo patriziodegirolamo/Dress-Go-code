@@ -61,6 +61,7 @@ function MyBigAdvertisement(props) {
         setNewMessage(initialMessage)
     }
 
+    /**
     const onCreateNewConversation = (event) => {
         event.preventDefalut()
         
@@ -70,7 +71,7 @@ function MyBigAdvertisement(props) {
             idBooker: props.currentUser.id_u
         };
 
-        /**
+        
         const new_message = {
             id_conv: lastID_conv, 
             idSender: props.currentUser.id_u, 
@@ -78,9 +79,10 @@ function MyBigAdvertisement(props) {
             date: new Date().toISOString(), 
             text: newMessage
         }
-         */
+         
         props.addConversations(new_conversation)
     }
+    */
 
     return (<>
         <Card key={idAd}>
@@ -148,7 +150,7 @@ function MyBigAdvertisement(props) {
                     <Modal.Footer>
                         <Container>
                             {/**TODO: invia messaggio tramite API */}
-                            <Button type="submit" onClick={onCreateNewConversation}>Send</Button>
+                            <Button type="submit" /**onClick={onCreateNewConversation}*/>Send</Button>
                         </Container>
                     </Modal.Footer>
                 </Modal>

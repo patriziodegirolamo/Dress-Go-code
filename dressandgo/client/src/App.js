@@ -15,12 +15,14 @@ import MyAvailabilityModal from './mycomponents/availabilityModal';
 import SizeGuide from './mycomponents/mySizeGuide';
 import { MySmallAdvertisement, MyBigAdvertisement } from './mycomponents/dress_card.js'
 
-import { getCategories, getUserInfos, getKnownSizes, getAds, getAdsImages, getBrands, 
-         getUsers, getConversations, modifyUsInfos, insertKnownSize, removeKnownSize, insertMessage } from './API';
+import {
+  getCategories, getUserInfos, getKnownSizes, getAds, getAdsImages, getBrands,
+  getUsers, getConversations, modifyUsInfos, insertKnownSize, removeKnownSize, insertMessage
+} from './API';
 
 import ChatMessages from './mycomponents/ChatMessages';
 import ChatsPage from './mycomponents/ChatsPage';
-import {insertConversation} from './API.js'
+import { insertConversation } from './API.js'
 
 
 const fakeRents = [
@@ -53,12 +55,33 @@ const fakeRents = [
 
 ]
 
-/**
+const fakeConversations = [
+  {
+    id_conv: 1,
+    id_a: 1,
+    idRenter: 2,
+    idBooker: 1,
+  },
+
+  {
+    id_conv: 2,
+    id_a: 2,
+    idRenter: 2,
+    idBooker: 1
+  },
+
+  {
+    id_conv: 3,
+    id_a: 3,
+    idRenter: 3,
+    idBooker: 2
+  }
+]
+
 const fakeMessages = [
   {
     id_mess: 1,
-    id_r: 1,
-    id_a: 2,
+    id_conv: 1,
     idSender: 1,
     idReceiver: 2,
     date: new Date().toISOString(),
@@ -67,8 +90,7 @@ const fakeMessages = [
 
   {
     id_mess: 2,
-    id_r: 1,
-    id_a: 2,
+    id_conv: 1,
     idSender: 1,
     idReceiver: 2,
     date: new Date().toISOString(),
@@ -77,8 +99,7 @@ const fakeMessages = [
 
   {
     id_mess: 3,
-    id_r: 1,
-    id_a: 2,
+    id_conv: 1,
     idSender: 1,
     idReceiver: 2,
     date: new Date().toISOString(),
@@ -87,8 +108,7 @@ const fakeMessages = [
 
   {
     id_mess: 4,
-    id_r: 1,
-    id_a: 2,
+    id_conv: 1,
     idSender: 1,
     idReceiver: 2,
     date: new Date().toISOString(),
@@ -97,8 +117,7 @@ const fakeMessages = [
 
   {
     id_mess: 5,
-    id_r: 1,
-    id_a: 2,
+    id_conv: 1,
     idSender: 1,
     idReceiver: 2,
     date: new Date().toISOString(),
@@ -107,15 +126,15 @@ const fakeMessages = [
 
   {
     id_mess: 6,
-    id_r: 1,
-    id_a: 2,
+    id_conv: 1,
     idSender: 2,
     idReceiver: 1,
     date: new Date().toISOString(),
     text: "ciao E' disponibile sin da subito",
-  }
+  },
+
 ]
- */
+
 
 function App() {
   const [page, setPage] = useState("");
@@ -130,16 +149,16 @@ function App() {
   const [currentDress, setCurrentDress] = useState("");
   const [modalShow, setModalShow] = useState(false);
   const [search, setSearch] = useState("");
-  
-  const [messages, setMessages] = useState([])
-  const [rents, setRents] = useState([])
+
+  const [messages, setMessages] = useState([...fakeMessages])
+  const [rents, setRents] = useState([...fakeRents])
   const [users, setUsers] = useState([])
   const [user, setUser] = useState({});
 
   const [conversations, setConversations] = useState([]); //tutte le conversazioni dell'utente loggato
 
-  
-  
+
+
   const handleChangeForwardPage = (cat) => {
     if (search) {
       if (currentState === "home") {
@@ -201,7 +220,7 @@ function App() {
     });
   }
 
-  
+  /*
   const addAConversation = (new_conversation) => {
     insertConversation(new_conversation).then((err) => { });;
 
@@ -210,9 +229,9 @@ function App() {
     setConversations(conversations => conversations.concat(new_conversation))
     //setMessages(messages => messages.concat(new_message))
   }
-  
+  */
 
-  
+
 
   /* TO REMOVE A KNOWN SIZE INSERTED BY THE USER */
   const removeASize = (id_ks) => {
@@ -256,21 +275,20 @@ function App() {
 
       <Route path='/ad/:idAd' element={<>
         <MyBigAdvertisement ads={ads} adsImages={adsImages} users={users} currentUser={user}
-        addAConversation={addAConversation}/>
+        /*addAConversation={addAConversation}*/ />
       </>} />
 
       <Route path='/guide' element={<>
         <SizeGuide />
       </>} />
 
-      <Route path='/MyChats/:id_a/:id_r' element={<></>}/>
-      {/**
-      <Route path='/MyChats/:id_a/:id_r' element={<ChatMessages user={user} messages={messages} rents={rents}>
-      </ChatMessages>}/>
- */}
+      <Route path='/MyChats/:id_conv' element={<ChatMessages user={user}
+        messages={messages.sort((a, b) => a.date - b.date)}>
+      </ChatMessages>} />
+
       <Route path='/MyChats' element={<>
-        <ChatsPage currentUser={user} conversations={conversations} rents={rents} users={users} ads={ads} 
-        adsImages={adsImages} messages={messages.sort((a,b) => a.date - b.date)}/>
+        <ChatsPage currentUser={user} conversations={conversations} users={users} ads={ads}
+          adsImages={adsImages} messages={messages.sort((a, b) => a.date - b.date)} />
       </>} />
 
       <Route path='/previews' element={<>
