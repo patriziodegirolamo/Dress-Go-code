@@ -2,6 +2,9 @@
 import { ChatEngine } from 'react-chat-engine'
 import { Row, Col, Container, Button, Image } from "react-bootstrap";
 import { useNavigate, NavLink as Link } from "react-router-dom";
+import { useState, useEffect } from 'react';
+import { getMessages } from '../API';
+
 
 
 function ChatsPage(props) {
@@ -20,6 +23,19 @@ function ChatsPage(props) {
 }
 
 function SmallChat(props) {
+    const [messages, setMessages] = useState([]);
+
+    console.log('MESSAGES')
+
+    useEffect(() => {
+        async function getMsgs() {
+          const fetchedMessages = getMessages(1);
+          setMessages(fetchedMessages);
+        }
+        getMsgs();
+      }, []);
+    
+
     return <Link to={{ pathname: "/MyChats/" + props.currentRent.id_a + "/" + props.currentRent.id_r }}>
         <Container key={props.idx} style={{ marginTop: 30, paddingBottom: 20, backgroundColor: "#7a6f7356" }}>
             <Container style={{ position: "fixed", textAlign: "center", marginLeft: 10, marginTop: 10 }}>

@@ -224,6 +224,7 @@ function App() {
     });
   }
 
+  /*
   const addAConversation = (new_conversation) => {
     insertConversation(new_conversation).then((err) => { });
     // to avoid another call to the db
@@ -231,6 +232,7 @@ function App() {
       return knownsizes.concat(new_size)
     });
   }
+  */
 
   
 

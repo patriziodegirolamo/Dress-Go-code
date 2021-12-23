@@ -35,6 +35,126 @@ exports.listCategories = (gender) => {
   });
 };
 
+//get all users
+exports.listUsers = () => {
+  return new Promise((resolve, reject) => {
+    const sql = "SELECT * FROM USER";
+    db.all(sql, [], (err, rows) => {
+      if (rows === undefined || rows.length === 0) {
+        const users = { id_u: 'Empty' };
+        resolve(users);
+      }
+      if (err) {
+        reject(err);
+        return;
+      }
+      else {
+        const users = rows.map((t) => ({
+          id_u: t.ID_U,
+          name: t.Name,
+          surname: t.Surname,
+          address: t.Address,
+          city: t.City,
+          cap: t.CAP,
+          state: t.State,
+          zip: t.Zip,
+          gender: t.Gender,
+          height: t.Height,
+          weight: t.Weight,
+          waistline: t.Waistline,
+          hips: t.Hips,
+          legLength: t.LegLength,
+          shoesNumber: t.ShoesNumber
+        }));
+        resolve(users);
+      }
+    });
+  });
+};
+
+//get all rents
+exports.listRents = () => {
+  return new Promise((resolve, reject) => {
+    const sql = "SELECT * FROM RENT";
+    db.all(sql, [], (err, rows) => {
+      if (rows === undefined || rows.length === 0) {
+        const rents = { id_r: 'Empty' };
+        resolve(rents);
+      }
+      if (err) {
+        reject(err);
+        return;
+      }
+      else {
+        const rents = rows.map((t) => ({
+          id_r: t.ID_R,
+          id_a: t.ID_A,
+          idRenter: t.ID_RENTER,
+          idBooker: t.ID_BOOKER,
+          dataIn: t.START_DATE,
+          dataOut: t.END_DATE,
+          status: t.STATUS
+        }));
+        resolve(rents);
+      }
+    });
+  });
+};
+
+//get all conversations
+exports.listConversations = (id_u) => {
+  return new Promise((resolve, reject) => {
+    const sql = "SELECT * FROM CONVERSATION CONV INNER JOIN RENT ON  CONV.ID_R = RENT.ID_R WHERE RENT.ID_BOOKER = ? OR RENT.ID_RENTER = ? ";
+    db.all(sql, [id_u, id_u], (err, rows) => {
+      if (rows === undefined || rows.length === 0) {
+        const convs = { id_conv: 'Empty' };
+        resolve(convs);
+      }
+      if (err) {
+        reject(err);
+        return;
+      }
+      else {
+        const convs = rows.map((t) => ({
+         id_conv: t.ID_CONV,
+         id_a: t.ID_A,
+         id_r: t.ID_R
+        }));
+        resolve(convs);
+      }
+    });
+  });
+};
+
+//get all messages
+exports.listMessages = (id_conv) => {
+  return new Promise((resolve, reject) => {
+    const sql = "SELECT * FROM MESSAGE WHERE ID_CONV = ? ";
+    db.all(sql, [id_conv], (err, rows) => {
+      if (rows === undefined || rows.length === 0) {
+        const msgs = { id_m: 'Empty' };
+        resolve(msgs);
+      }
+      if (err) {
+        reject(err);
+        return;
+      }
+      else {
+        const msgs = rows.map((t) => ({
+         id_m: t.ID_M,
+         id_conv: t.ID_CONV,
+         idSender: t.ID_Sender,
+         idReceiver: t.ID_Receiver,
+         date: t.DATE,
+         text: t.TEXT
+        }));
+        resolve(msgs);
+      }
+    });
+  });
+};
+
+
 //get infos about the user 
 exports.userInfos = (id_u) => {
   return new Promise((resolve, reject) => {
@@ -191,6 +311,44 @@ exports.insertKnownSize = (ksize) => {
     db.run(
       sql,
       [this.lastID, ksize.id_u, ksize.brand, ksize.eusize, ksize.id_cat],
+      function (err) {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve(this.lastID);
+      }
+    );
+  });
+};
+
+// add a new conversation
+exports.insertConversation = (conv) => {
+  return new Promise((resolve, reject) => {
+    const sql =
+      "INSERT INTO CONVERSATION(ID_CONV, ID_A, ID_R) VALUES(?, ?, ?)";
+    db.run(
+      sql,
+      [this.lastID, conv.id_a, conv.id_r],
+      function (err) {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve(this.lastID);
+      }
+    );
+  });
+};
+
+// add a new message
+exports.insertMessage= (msg) => {
+  return new Promise((resolve, reject) => {
+    const sql =
+      "INSERT INTO MESSAGE(ID_M, ID_CONV, ID_SENDER, ID_RECEIVER, ID_DATE, TEXT) VALUES(?, ?, ?, ?, ?, ?)";
+    db.run(
+      sql,
+      [this.lastID, msg.id_conv, msg.id_sender, msg.id_receiver, msg.date, msg.text],
       function (err) {
         if (err) {
           reject(err);
