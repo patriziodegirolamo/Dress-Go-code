@@ -16,13 +16,14 @@ import SizeGuide from './mycomponents/mySizeGuide';
 import { MySmallAdvertisement, MyBigAdvertisement } from './mycomponents/dress_card.js'
 
 import {
-  getCategories, getUserInfos, getKnownSizes, getAds, getAdsImages, getBrands,
-  getUsers, getConversations, modifyUsInfos, insertKnownSize, removeKnownSize, insertMessage
+  getCategories, getUserInfos, getKnownSizes, getAds, getAdsImages, getBrands, getAllUserMessages,
+  getUsers, getConversations, modifyUsInfos, insertKnownSize, removeKnownSize, insertMessage, getMessages
 } from './API';
 
 import ChatMessages from './mycomponents/ChatMessages';
 import ChatsPage from './mycomponents/ChatsPage';
 import { insertConversation } from './API.js'
+import { propTypes } from 'react-bootstrap/esm/Image';
 
 
 const fakeRents = [
@@ -158,7 +159,6 @@ function App() {
   const [conversations, setConversations] = useState([]); //tutte le conversazioni dell'utente loggato
 
 
-
   const handleChangeForwardPage = (cat) => {
     if (search) {
       if (currentState === "home") {
@@ -197,6 +197,9 @@ function App() {
       const fetchedBrands = await getBrands();
       const fetchedUsers = await getUsers();
       const fetchedConversations = await getConversations(fetchedUser.id_u);
+      
+      const fetchedMessages = await getAllUserMessages(fetchedUser.id_u);
+      setMessages(fetchedMessages);
 
       setCategories(fetchedCategories);
       setKnownSizes(fetchedSizes);
@@ -210,6 +213,7 @@ function App() {
     }
     getCat();
   }, []);
+  
 
   /* TO INSERT A NEW KNOWN SIZE*/
   const addASize = (new_size) => {
@@ -283,12 +287,15 @@ function App() {
       </>} />
 
       <Route path='/MyChats/:id_conv' element={<ChatMessages user={user}
-        messages={messages.sort((a, b) => a.date - b.date)}>
+        messages={messages.sort((a, b) => a.date - b.date)} users={users}
+        conversations={conversations} adsImages={adsImages}
+        >
       </ChatMessages>} />
 
       <Route path='/MyChats' element={<>
         <ChatsPage currentUser={user} conversations={conversations} users={users} ads={ads}
-          adsImages={adsImages} messages={messages.sort((a, b) => a.date - b.date)} />
+          adsImages={adsImages} messages={messages.sort((a, b) => a.date - b.date)} 
+          setMessages={setMessages}/>
       </>} />
 
       <Route path='/previews' element={<>

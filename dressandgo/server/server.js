@@ -151,6 +151,19 @@ app.get("/api/allmessages", async (req, res) => {
 });
 
 
+// GET /api/allmessages ; to have the list of all messages
+app.get("/api/allUsermessages", async (req, res) => {
+  try {
+    const result = await dao.listAllUserMessages(req.query.id_u);
+    if (result.error)
+      res.status(404).json(result);
+    else
+      res.json(result);
+  } catch (err) {
+    res.status(500).end();
+  }
+});
+
 
 // POST /api/newknownsize ; to create a new known size for that user
 app.post('/api/newknownsize',

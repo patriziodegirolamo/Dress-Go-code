@@ -179,7 +179,7 @@ async function getConversations(id_u) {
   }
 }
 
-/* TO GET THE LIST OF MESSAGES OF A CONVERSATION */
+// TO GET THE LIST OF MESSAGES OF A CONVERSATION 
 async function getMessages(id_conv) {
   const response = await fetch(url + '/api/allmessages?id_conv='+id_conv);
   const msgs = await response.json();
@@ -203,6 +203,29 @@ async function getMessages(id_conv) {
   }
 }
 
+// TO GET THE LIST OF MESSAGES OF THE LOGGED USER 
+async function getAllUserMessages(id_u) {
+  const response = await fetch(url + '/api/allUsermessages?id_u=' + id_u);
+  const msgs = await response.json();
+  if (msgs.id_m === 'Empty' ) {
+      return [];
+  }
+  else {
+      if (response.ok) {
+          return msgs.map((t) => ({
+              ...t,
+              id_m: t.id_m,
+              id_conv: t.id_conv,
+              idSender: t.idSender,
+              idReceiver: t.idReceiver,
+              date: t.date,
+              text: t.text
+          }));
+      } else {
+          throw msgs;  // an object with the error coming from the server
+      }
+  }
+}
 
 
 /* TO MODIFY USER INFOS */
@@ -326,5 +349,5 @@ async function removeKnownSize(id_ks) {
 
   
 
-export {getCategories, getUserInfos, getKnownSizes, getAds, getAdsImages, getBrands, 
+export {getCategories, getUserInfos, getKnownSizes, getAds, getAdsImages, getBrands, getAllUserMessages,
         getUsers, getConversations, getMessages, modifyUsInfos, insertKnownSize, insertConversation, insertMessage, removeKnownSize};

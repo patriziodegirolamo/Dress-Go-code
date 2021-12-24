@@ -156,6 +156,34 @@ exports.listMessages = (id_conv) => {
 };
 
 
+
+exports.listAllUserMessages = (id_u) => {
+  return new Promise((resolve, reject) => {
+    const sql = "SELECT * FROM MESSAGE WHERE ID_SENDER = ? OR ID_RECEIVER = ? ";
+    db.all(sql, [id_u, id_u], (err, rows) => {
+      if (rows === undefined || rows.length === 0) {
+        const msgs = { id_m: 'Empty' };
+        resolve(msgs);
+      }
+      if (err) {
+        reject(err);
+        return;
+      }
+      else {
+        const msgs = rows.map((t) => ({
+         id_m: t.ID_M,
+         id_conv: t.ID_CONV,
+         idSender: t.ID_Sender,
+         idReceiver: t.ID_Receiver,
+         date: t.DATE,
+         text: t.TEXT
+        }));
+        resolve(msgs);
+      }
+    });
+  });
+};
+
 //get infos about the user 
 exports.userInfos = (id_u) => {
   return new Promise((resolve, reject) => {
@@ -365,7 +393,6 @@ exports.insertMessage= (msg) => {
 
 // update infos of a user 
 exports.modifyUserInfos = (newInfos) => {
-  console.log(newInfos);
   return new Promise((resolve, reject) => {
     const sql = "UPDATE USER SET NAME = ?, SURNAME = ?, ADDRESS = ?, CITY = ?,"+
                 "CAP = ?, STATE = ?, ZIP = ?, GENDER = ?, HEIGHT = ?, WEIGHT = ?," + 
