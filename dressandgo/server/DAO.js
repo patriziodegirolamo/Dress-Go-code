@@ -128,6 +128,7 @@ exports.listConversations = (id_u) => {
 };
 
 //get all messages
+/*
 exports.listMessages = (id_conv) => {
   return new Promise((resolve, reject) => {
     const sql = "SELECT * FROM MESSAGE WHERE ID_CONV = ? ";
@@ -144,22 +145,23 @@ exports.listMessages = (id_conv) => {
         const msgs = rows.map((t) => ({
          id_m: t.ID_M,
          id_conv: t.ID_CONV,
-         idSender: t.ID_Sender,
-         idReceiver: t.ID_Receiver,
+         idSender: t.ID_SENDER,
+         idReceiver: t.ID_RECEIVER,
          date: t.DATE,
          text: t.TEXT
         }));
+        console.log(msgs)
         resolve(msgs);
       }
     });
   });
 };
-
+*/
 
 
 exports.listAllUserMessages = (id_u) => {
   return new Promise((resolve, reject) => {
-    const sql = "SELECT * FROM MESSAGE WHERE ID_SENDER = ? OR ID_RECEIVER = ? ";
+    const sql = "SELECT * FROM MESSAGE WHERE ID_SENDER = ? OR ID_RECEIVER = ?";
     db.all(sql, [id_u, id_u], (err, rows) => {
       if (rows === undefined || rows.length === 0) {
         const msgs = { id_m: 'Empty' };
@@ -173,8 +175,8 @@ exports.listAllUserMessages = (id_u) => {
         const msgs = rows.map((t) => ({
          id_m: t.ID_M,
          id_conv: t.ID_CONV,
-         idSender: t.ID_Sender,
-         idReceiver: t.ID_Receiver,
+         idSender: t.ID_SENDER,
+         idReceiver: t.ID_RECEIVER,
          date: t.DATE,
          text: t.TEXT
         }));
@@ -371,14 +373,14 @@ exports.insertConversation = (conv) => {
 };
 
 // add a new message
-exports.insertMessage= (msg) => {
+exports.insertMessage=(msg) => {
   return new Promise((resolve, reject) => {
-    const sql =
-      "INSERT INTO MESSAGE(ID_M, ID_CONV, ID_SENDER, ID_RECEIVER, ID_DATE, TEXT) VALUES(?, ?, ?, ?, ?, ?)";
+    const sql ="INSERT INTO MESSAGE (ID_CONV, ID_SENDER, ID_RECEIVER, DATE, TEXT) VALUES (?, ?, ?, ?, ?)";
     db.run(
       sql,
-      [this.lastID, msg.id_conv, msg.id_sender, msg.id_receiver, msg.date, msg.text],
+      [msg.id_conv, msg.idSender, msg.idReceiver, msg.date, msg.text],
       function (err) {
+
         if (err) {
           reject(err);
           return;

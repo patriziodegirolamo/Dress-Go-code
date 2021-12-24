@@ -180,6 +180,7 @@ async function getConversations(id_u) {
 }
 
 // TO GET THE LIST OF MESSAGES OF A CONVERSATION 
+/**
 async function getMessages(id_conv) {
   const response = await fetch(url + '/api/allmessages?id_conv='+id_conv);
   const msgs = await response.json();
@@ -202,6 +203,7 @@ async function getMessages(id_conv) {
       }
   }
 }
+ */
 
 // TO GET THE LIST OF MESSAGES OF THE LOGGED USER 
 async function getAllUserMessages(id_u) {
@@ -305,7 +307,7 @@ async function insertConversation(conv) {
 /* TO INSERT A NEW MESSAGE */
 async function insertMessage(msg) {
   return new Promise((resolve, reject) => {
-    fetch('/api/newconversation', {
+    fetch('/api/newmessage', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -350,4 +352,4 @@ async function removeKnownSize(id_ks) {
   
 
 export {getCategories, getUserInfos, getKnownSizes, getAds, getAdsImages, getBrands, getAllUserMessages,
-        getUsers, getConversations, getMessages, modifyUsInfos, insertKnownSize, insertConversation, insertMessage, removeKnownSize};
+        getUsers, getConversations, modifyUsInfos, insertKnownSize, insertConversation, insertMessage, removeKnownSize};

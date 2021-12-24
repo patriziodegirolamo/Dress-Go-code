@@ -138,6 +138,7 @@ app.get("/api/allconversations", async (req, res) => {
 });
 
 // GET /api/allmessages ; to have the list of all messages
+/**
 app.get("/api/allmessages", async (req, res) => {
   try {
     const result = await dao.listMessages(req.query.id_conv);
@@ -149,7 +150,7 @@ app.get("/api/allmessages", async (req, res) => {
     res.status(500).end();
   }
 });
-
+ */
 
 // GET /api/allmessages ; to have the list of all messages
 app.get("/api/allUsermessages", async (req, res) => {

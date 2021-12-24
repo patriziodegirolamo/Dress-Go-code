@@ -224,6 +224,14 @@ function App() {
     });
   }
 
+
+  const addAMessage = (new_message) => {
+    insertMessage(new_message).then((err) => { });
+    // to avoid another call to the db
+    setMessages(messages => {
+      return messages.concat(new_message)
+    });
+  }
   /*
   const addAConversation = (new_conversation) => {
     insertConversation(new_conversation).then((err) => { });;
@@ -289,6 +297,7 @@ function App() {
       <Route path='/MyChats/:id_conv' element={<ChatMessages user={user}
         messages={messages.sort((a, b) => a.date - b.date)} users={users}
         conversations={conversations} adsImages={adsImages}
+        addAMessage={addAMessage} ads={ads}
         >
       </ChatMessages>} />
 

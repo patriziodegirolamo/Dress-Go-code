@@ -62,9 +62,10 @@
 }
 
 
-
-
-
+.overflow{
+  inline-size: 200px;
+  overflow-wrap: break-word;
+}
 
 .containerMessage {
   border: 2px solid #dedede;
@@ -72,8 +73,6 @@
   border-radius: 5px;
   padding: 10px;
   margin: 10px 0;
-  
-  
 }
 
 .darker {
@@ -109,3 +108,4 @@
   float: left;
   color: #999;
 }
+
