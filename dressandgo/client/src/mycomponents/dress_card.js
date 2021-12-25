@@ -28,6 +28,7 @@ function MySmallAdvertisement(props) {
 }
 
 function MyBigAdvertisement(props) {
+    const navigate = useNavigate();
 
     let { idAd } = useParams();
     idAd = parseInt(idAd);
@@ -61,7 +62,21 @@ function MyBigAdvertisement(props) {
         setNewMessage(initialMessage)
     }
 
+    const handleOpenOrCreateConversation = () => {
+        console.log(idAd, renter, props.currentUser)
+        
+        const conv = props.conversations.find(c => c.id_a == idAd && c.idRenter == renter.id_u && c.idBooker == props.currentUser.id_u)
+        if(conv){
+            navigate("MyChats/" + conv.id_conv)
+        }
+        else {
+            setShowNewMessage(true)
+        }
+         
+    }
     /**
+    TODO: AGGIUNGI UNA CONVERSAZIONE ___> ho creato gia la conversazione e il messaggio, bisogna solo inviarli al server:
+    bisogna prima creare una nuova conversazione e poi creare il primo messaggio di quella conversazione
     const onCreateNewConversation = (event) => {
         event.preventDefalut()
         
@@ -129,7 +144,7 @@ function MyBigAdvertisement(props) {
                 : <></>}
 
             <Container>
-                <Button onClick={() => setShowNewMessage(true)}>SEND A MESSAGE</Button>
+                <Button onClick={handleOpenOrCreateConversation}>SEND A MESSAGE</Button>
             </Container>
 
             <Container>

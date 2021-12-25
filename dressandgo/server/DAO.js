@@ -104,7 +104,7 @@ exports.listRents = () => {
 //get all conversations
 exports.listConversations = (id_u) => {
   return new Promise((resolve, reject) => {
-    const sql = "SELECT * FROM CONVERSATION CONV WHERE ID_BOOKER = ? OR ID_RENTER = ? ";
+    const sql = "SELECT * FROM CONVERSATION CONV WHERE ID_BOOKER = ? OR ID_RENTER = ?";
     db.all(sql, [id_u, id_u], (err, rows) => {
       if (rows === undefined || rows.length === 0) {
         const convs = { id_conv: 'Empty' };
