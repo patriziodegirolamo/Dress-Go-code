@@ -60,3 +60,52 @@
   display: flex;
   justify-content: center;
 }
+
+
+.overflow{
+  inline-size: 200px;
+  overflow-wrap: break-word;
+}
+
+.containerMessage {
+  border: 2px solid #dedede;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+.darker {
+  background-color: #ddd;
+  border-color: #ccc;
+}
+
+.containerMessage::after{
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.messageImageUser {
+  float: left;
+  max-width: 60px;
+  width: 40%;
+  margin-right: 20px;
+  border-radius: 50%;
+}
+.righter {
+  float: right;
+  margin-left: 20px;
+  margin-right: 0;
+}
+
+.time-right {
+  float: right;
+  color: #aaa;
+}
+
+.time-left {
+  float: left;
+  color: #999;
+}
+

@@ -15,7 +15,127 @@ import MyAvailabilityModal from './mycomponents/availabilityModal';
 import SizeGuide from './mycomponents/mySizeGuide';
 import { MySmallAdvertisement, MyBigAdvertisement } from './mycomponents/dress_card.js'
 
-import { getCategories, getUserInfos, getKnownSizes, getAds, getAdsImages, getBrands, modifyUsInfos, insertKnownSize, removeKnownSize } from './API';
+import {
+  getCategories, getUserInfos, getKnownSizes, getAds, getAdsImages, getBrands, getAllUserMessages,
+  getUsers, getConversations, getReviews, getMessages,
+  modifyUsInfos, modifyRentStatus, insertKnownSize, removeKnownSize, insertMessage, insertRent
+} from './API';
+
+import ChatMessages from './mycomponents/ChatMessages.js';
+import ChatsPage from './mycomponents/ChatsPage';
+import { insertConversation } from './API.js'
+import { propTypes } from 'react-bootstrap/esm/Image';
+
+
+const fakeRents = [
+  {
+    id_r: 1,
+    id_a: 2,
+    idRenter: 2,
+    idBooker: 1,
+    dataIn: "15/03/2022",
+    dataOut: "18/03/2022"
+  },
+
+  {
+    id_r: 2,
+    id_a: 2,
+    idRenter: 2,
+    idBooker: 1,
+    dataIn: "15/05/2022",
+    dataOut: "18/05/2022"
+  },
+
+  {
+    id_r: 3,
+    id_a: 2,
+    idRenter: 2,
+    idBooker: 3,
+    dataIn: "15/04/2022",
+    dataOut: "18/04/2022"
+  },
+
+]
+
+const fakeConversations = [
+  {
+    id_conv: 1,
+    id_a: 1,
+    idRenter: 2,
+    idBooker: 1,
+  },
+
+  {
+    id_conv: 2,
+    id_a: 2,
+    idRenter: 2,
+    idBooker: 1
+  },
+
+  {
+    id_conv: 3,
+    id_a: 3,
+    idRenter: 3,
+    idBooker: 2
+  }
+]
+
+const fakeMessages = [
+  {
+    id_mess: 1,
+    id_conv: 1,
+    idSender: 1,
+    idReceiver: 2,
+    date: new Date().toISOString(),
+    text: "ciao mi chiamo Patrizio de Girolamo"
+  },
+
+  {
+    id_mess: 2,
+    id_conv: 1,
+    idSender: 1,
+    idReceiver: 2,
+    date: new Date().toISOString(),
+    text: "Vorrei"
+  },
+
+  {
+    id_mess: 3,
+    id_conv: 1,
+    idSender: 1,
+    idReceiver: 2,
+    date: new Date().toISOString(),
+    text: "Sapere",
+  },
+
+  {
+    id_mess: 4,
+    id_conv: 1,
+    idSender: 1,
+    idReceiver: 2,
+    date: new Date().toISOString(),
+    text: "Quando",
+  },
+
+  {
+    id_mess: 5,
+    id_conv: 1,
+    idSender: 1,
+    idReceiver: 2,
+    date: new Date().toISOString(),
+    text: "E' disponibile",
+  },
+
+  {
+    id_mess: 6,
+    id_conv: 1,
+    idSender: 2,
+    idReceiver: 1,
+    date: new Date().toISOString(),
+    text: "ciao E' disponibile sin da subito",
+  },
+
+]
 
 
 function App() {
@@ -25,13 +145,19 @@ function App() {
   const [ads, setAds] = useState([]);
   const [adsImages, setAdsImages] = useState([]);
   const [brands, setBrands] = useState([]);
+
   const [currentState, setCurrentState] = useState("home")
   const [currentCat, setCurrentCat] = useState("");
   const [currentDress, setCurrentDress] = useState("");
   const [modalShow, setModalShow] = useState(false);
   const [search, setSearch] = useState("");
+
+  const [messages, setMessages] = useState([...fakeMessages])
+  const [rents, setRents] = useState([...fakeRents])
+  const [users, setUsers] = useState([])
   const [user, setUser] = useState({});
 
+  const [conversations, setConversations] = useState([]); //tutte le conversazioni dell'utente loggato
 
 
   const handleChangeForwardPage = (cat) => {
@@ -70,6 +196,12 @@ function App() {
       const fetchedUser = await getUserInfos();
       const fetchedAdsImages = await getAdsImages();
       const fetchedBrands = await getBrands();
+      const fetchedUsers = await getUsers();
+      const fetchedConversations = await getConversations(fetchedUser.id_u);
+      
+      const fetchedMessages = await getAllUserMessages(fetchedUser.id_u);
+      setMessages(fetchedMessages);
+
       setCategories(fetchedCategories);
       setKnownSizes(fetchedSizes);
       setAds(fetchedAds);
@@ -77,10 +209,12 @@ function App() {
       setPage(fetchedUser.gender)
       setAdsImages(fetchedAdsImages);
       setBrands(fetchedBrands);
+      setUsers(fetchedUsers);
+      setConversations(fetchedConversations);
     }
     getCat();
   }, []);
-
+  
 
   /* TO INSERT A NEW KNOWN SIZE*/
   const addASize = (new_size) => {
@@ -90,6 +224,27 @@ function App() {
       return knownsizes.concat(new_size)
     });
   }
+
+
+  const addAMessage = (new_message) => {
+    insertMessage(new_message).then((err) => { });
+    // to avoid another call to the db
+    setMessages(messages => {
+      return messages.concat(new_message)
+    });
+  }
+  /*
+  const addAConversation = (new_conversation) => {
+    insertConversation(new_conversation).then((err) => { });;
+
+    //.then(insertMessage(new_message))
+    // to avoid another call to the db
+    setConversations(conversations => conversations.concat(new_conversation))
+    //setMessages(messages => messages.concat(new_message))
+  }
+  */
+
+
 
   /* TO REMOVE A KNOWN SIZE INSERTED BY THE USER */
   const removeASize = (id_ks) => {
@@ -137,6 +292,20 @@ function App() {
 
       <Route path='/guide' element={<>
         <SizeGuide />
+      </>
+      }/>
+
+      <Route path='/MyChats/:id_conv' element={<ChatMessages user={user}
+        messages={messages.sort((a, b) => a.date - b.date)} users={users}
+        conversations={conversations} adsImages={adsImages}
+        addAMessage={addAMessage} ads={ads}
+        >
+      </ChatMessages>} />
+
+      <Route path='/MyChats' element={<>
+        <ChatsPage currentUser={user} conversations={conversations} users={users} ads={ads}
+          adsImages={adsImages} messages={messages.sort((a, b) => a.date - b.date)} 
+          setMessages={setMessages}/>
       </>} />
 
       <Route path='/previews' element={<>

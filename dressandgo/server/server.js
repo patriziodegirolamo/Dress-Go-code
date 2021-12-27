@@ -111,7 +111,73 @@ app.get("/api/allbrands", async (req, res) => {
   }
 });
 
+// GET /api/allusers ; to have the list of all users
+app.get("/api/allusers", async (req, res) => {
+  try {
+    const result = await dao.listUsers();
+    if (result.error)
+      res.status(404).json(result);
+    else
+      res.json(result);
+  } catch (err) {
+    res.status(500).end();
+  }
+});
 
+// GET /api/allconversations ; to have the list of all conversations
+app.get("/api/allconversations", async (req, res) => {
+  try {
+    const result = await dao.listConversations(req.query.id_u);
+    if (result.error)
+      res.status(404).json(result);
+    else
+      res.json(result);
+  } catch (err) {
+    res.status(500).end();
+  }
+});
+
+// GET /api/allmessages ; to have the list of all messages
+/**
+app.get("/api/allmessages", async (req, res) => {
+  try {
+    const result = await dao.listMessages(req.query.id_conv);
+    if (result.error)
+      res.status(404).json(result);
+    else
+      res.json(result);
+  } catch (err) {
+    res.status(500).end();
+  }
+});
+ */
+
+// GET /api/allmessages ; to have the list of all messages
+app.get("/api/allUsermessages", async (req, res) => {
+  try {
+    const result = await dao.listAllUserMessages(req.query.id_u);
+    if (result.error)
+      res.status(404).json(result);
+    else
+      res.json(result);
+  } catch (err) {
+    res.status(500).end();
+  }
+});
+
+// GET /api/allUserReviews ; to have the list of all reviews of a user
+app.get("/api/allUserReviews?id_u=", async (req, res) => {
+  const id_u = req.query.id_u;
+  try {
+    const result = await dao.listReviews(id_u);
+    if (result.error)
+      res.status(404).json(result);
+    else
+      res.json(result);
+  } catch (err) {
+    res.status(500).end();
+  }
+});
 
 
 // POST /api/newknownsize ; to create a new known size for that user
@@ -125,6 +191,43 @@ app.post('/api/newknownsize',
       res.status(503).json({ error: `Database error during the creation of submission` });
     }
   });
+
+  
+// POST /api/newconversation ; to create a new conversation
+app.post('/api/newconversation',
+async (req, res) => {
+  const conv = {id_a: req.body.id_a, id_r: req.body.id_r };
+  try {
+    const result = await dao.insertConversation(conv);
+    return res.json(result);
+  } catch (err) {
+    res.status(503).json({ error: `Database error during the creation of submission` });
+  }
+});
+
+// POST /api/newmessage ; to create a new message
+app.post('/api/newmessage',
+async (req, res) => {
+  const msg = {id_conv: req.body.id_conv, idSender: req.body.idSender, idReceiver: req.body.idReceiver, date: req.body.date, text: req.body.text};
+  try {
+    const result = await dao.insertMessage(msg);
+    return res.json(result);
+  } catch (err) {
+    res.status(503).json({ error: `Database error during the creation of submission` });
+  }
+});
+
+// POST /api/newrent ; to create a new rent
+app.post('/api/newrent',
+async (req, res) => {
+  const rent = {id_a: req.body.id_a, id_renter: req.body.id_renter, id_booker: req.body.id_booker, startDate: req.body.startDate, endDate: req.body.endDate, status: req.body.status};
+  try {
+    const result = await dao.insertRent(rent);
+    return res.json(result);
+  } catch (err) {
+    res.status(503).json({ error: `Database error during the creation of submission` });
+  }
+});
 
   // PATCH /api/modifyUserInfo ; to update user infos
   app.patch('/api/modifyUserInfo',
@@ -140,6 +243,19 @@ app.post('/api/newknownsize',
       res.status(503).json({ error: `Database error during the creation of submission` });
     }
   });
+
+    // PATCH /api/modifyRentStatus ; to update the status of a rent 
+    app.patch('/api/modifyRentStatus',
+    async (req, res) => {
+      const newstatus = req.body.newstatus;
+      const id_r = req.body.id_r;
+      try {
+        const result = await dao.modifyRentStatus(newstatus, id_r);
+        return res.json(result);
+      } catch (err) {
+        res.status(503).json({ error: `Database error during the creation of submission` });
+      }
+    });
 
 
 

@@ -132,6 +132,125 @@ async function getBrands() {
   }
 }
 
+/* TO GET THE LIST OF USERS */
+async function getUsers() {
+  const response = await fetch(url + '/api/allusers');
+  const users = await response.json();
+  if (users.id_u === 'Empty' ) {
+      return [];
+  }
+  else {
+      if (response.ok) {
+          return users.map((t) => ({
+              ...t,
+              id_r: t.id_r,
+              id_a: t.id_a,
+              idRenter: t.idRenter,
+              idBooker: t.idBooker,
+              dataIn: t.dataIn,
+              dataOut: t.dataOut,
+              status: t.status
+          }));
+      } else {
+          throw users;  // an object with the error coming from the server
+      }
+  }
+}
+
+/* TO GET THE LIST OF CONVERSATIONS */
+async function getConversations(id_u) {
+  const response = await fetch(url + '/api/allconversations?id_u='+id_u);
+  const convs = await response.json();
+  if (convs.id_conv === 'Empty' ) {
+      return [];
+  }
+  else {
+      if (response.ok) {
+          return convs.map((t) => ({
+              ...t,
+              id_conv: t.id_conv,
+              id_a: t.id_a,
+              idRenter: t.idRenter,
+              idBooker: t.idBooker
+          }));
+      } else {
+          throw convs;  // an object with the error coming from the server
+      }
+  }
+}
+
+// TO GET THE LIST OF MESSAGES OF A CONVERSATION 
+/**
+async function getMessages(id_conv) {
+  const response = await fetch(url + '/api/allmessages?id_conv='+id_conv);
+  const msgs = await response.json();
+  if (msgs.id_m === 'Empty' ) {
+      return [];
+  }
+  else {
+      if (response.ok) {
+          return msgs.map((t) => ({
+              ...t,
+              id_m: t.id_m,
+              id_conv: t.id_conv,
+              idSender: t.idSender,
+              idReceiver: t.idReceiver,
+              date: t.date,
+              text: t.text
+          }));
+      } else {
+          throw msgs;  // an object with the error coming from the server
+      }
+  }
+}
+ */
+
+// TO GET THE LIST OF MESSAGES OF THE LOGGED USER 
+async function getAllUserMessages(id_u) {
+  const response = await fetch(url + '/api/allUsermessages?id_u=' + id_u);
+  const msgs = await response.json();
+  if (msgs.id_m === 'Empty' ) {
+      return [];
+  }
+  else {
+      if (response.ok) {
+          return msgs.map((t) => ({
+              ...t,
+              id_m: t.id_m,
+              id_conv: t.id_conv,
+              idSender: t.idSender,
+              idReceiver: t.idReceiver,
+              date: t.date,
+              text: t.text
+          }));
+      } else {
+          throw msgs;  // an object with the error coming from the server
+      }
+  }
+}
+
+/* TO GET THE LIST OF REVIEWS OF A USER */
+async function getReviews(id_u) {
+  const response = await fetch(url + '/api/allUserReviews?id_u='+id_u);
+  const reviews = await response.json();
+  if (reviews.id_reviews === 'Empty' ) {
+      return [];
+  }
+  else {
+      if (response.ok) {
+          return reviews.map((t) => ({
+              ...t,
+              id_reviews: t.id_reviews,
+              id_u: t.id_u,
+              vote: t.vote
+          }));
+      } else {
+          throw reviews;  // an object with the error coming from the server
+      }
+  }
+}
+
+
 
 /* TO MODIFY USER INFOS */
 async function modifyUsInfos(newInfos) {
@@ -145,6 +264,30 @@ async function modifyUsInfos(newInfos) {
         city: newInfos.city, cap: newInfos.cap, state: newInfos.state, zip: newInfos.zip, 
         gender: newInfos.gender, height: newInfos.height, weight: newInfos.weight, waistline: newInfos.waistline,
         hips: newInfos.hips, legLength: newInfos.legLength, shoesNumber: newInfos.shoesNumber }),
+    }).then((response) => {
+      if (response.ok) {
+        resolve(response.json());
+      } else {
+        response.json()
+          .then((message) => { reject(message); })
+          .catch(() => reject({ error: 'Cannot parse the response.' }));
+      }
+    }).catch(() => {
+      reject({ error: 'Cannot communicate with the server.' });
+    })
+  });
+}
+
+
+/* TO MODIFY STATUS OF A RENT */
+async function modifyRentStatus(newstatus, id_r) {
+  return new Promise((resolve, reject) => {
+    fetch('/api/modifyRentStatus', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ newstatus: newstatus, id_r: id_r }),
     }).then((response) => {
       if (response.ok) {
         resolve(response.json());
@@ -183,6 +326,77 @@ async function insertKnownSize(ksize) {
     });
   }
 
+  
+/* TO INSERT A NEW CONVERSATION */
+async function insertConversation(conv) {
+  return new Promise((resolve, reject) => {
+    fetch('/api/newconversation', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ id_a: conv.id_a, idRenter: conv.idRenter, idBooker: conv.idBooker }),
+    }).then((response) => {
+      if (response.ok) {
+        resolve(response.json());
+      } else {
+        response.json()
+          .then((message) => { reject(message); })
+          .catch(() => reject({ error: 'Cannot parse the response.' }));
+      }
+    }).catch(() => {
+      reject({ error: 'Cannot communicate with the server.' });
+    })
+  });
+}
+
+/* TO INSERT A NEW MESSAGE */
+async function insertMessage(msg) {
+  return new Promise((resolve, reject) => {
+    fetch('/api/newmessage', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({id_conv: msg.id_conv, idSender: msg.idSender, idReceiver: msg.idReceiver, date: msg.date, text: msg.text}),
+    }).then((response) => {
+      if (response.ok) {
+        resolve(response.json());
+      } else {
+        response.json()
+          .then((message) => { reject(message); })
+          .catch(() => reject({ error: 'Cannot parse the response.' }));
+      }
+    }).catch(() => {
+      reject({ error: 'Cannot communicate with the server.' });
+    })
+  });
+}
+
+/* TO INSERT A NEW RENT */
+async function insertRent(rent) {
+  return new Promise((resolve, reject) => {
+    fetch('/api/newrent', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({id_a: rent.id_a, id_renter: rent.id_renter, id_booker: rent.id_booker, startDate: rent.startDate, endDate: rent.endDate, status: rent.status}),
+    }).then((response) => {
+      if (response.ok) {
+        resolve(response.json());
+      } else {
+        response.json()
+          .then((message) => { reject(message); })
+          .catch(() => reject({ error: 'Cannot parse the response.' }));
+      }
+    }).catch(() => {
+      reject({ error: 'Cannot communicate with the server.' });
+    })
+  });
+}
+
+
 
 /* TO REMOVE A KNOWN SIZE INSERTED BY THE USER*/
 async function removeKnownSize(id_ks) {
@@ -205,4 +419,6 @@ async function removeKnownSize(id_ks) {
 
   
 
-export {getCategories, getUserInfos, getKnownSizes, getAds, getAdsImages, getBrands, modifyUsInfos, insertKnownSize, removeKnownSize};
+export {getCategories, getUserInfos, getKnownSizes, getAds, getAdsImages, getBrands, getAllUserMessages,
+        getUsers, getConversations, getReviews, modifyUsInfos, modifyRentStatus, insertKnownSize, insertConversation, insertMessage, insertRent,
+         removeKnownSize};

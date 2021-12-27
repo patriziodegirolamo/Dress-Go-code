@@ -1,4 +1,4 @@
-import { Container, Card, Button, Carousel, Modal } from "react-bootstrap";
+import { Container, Card, Button, Carousel, Modal, Form } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
 import { useState } from 'react';
 import MyAvailabilityModal from './availabilityModal';
@@ -31,6 +31,8 @@ function MySmallAdvertisement(props) {
 }
 
 function MyBigAdvertisement(props) {
+    const navigate = useNavigate();
+
     let { idAd } = useParams();
     idAd = parseInt(idAd);
 
@@ -43,6 +45,13 @@ function MyBigAdvertisement(props) {
 
     const currentAd = props.ads.filter(ad => ad.id_a === idAd)[0];
     const currentImages = props.adsImages.filter(adImg => adImg.id_a === idAd);
+    const renter = props.users.filter(u => u.id_u == currentAd.id_u)[0]
+
+    const [showNewMessage, setShowNewMessage] = useState(false);
+
+    const initialMessage = "Hi " + ", I'm contacting you, " + renter.name + " " + renter.surname + ", for the advertisement: " + currentAd.title + ", " 
+
+    const [newMessage, setNewMessage] = useState(initialMessage)
 
     console.log(props.adsImages)
 
@@ -52,6 +61,43 @@ function MyBigAdvertisement(props) {
         setEndDate(end);
     };
 
+
+    const handleOpenOrCreateConversation = () => {
+        console.log(idAd, renter, props.currentUser)
+        
+        const conv = props.conversations.find(c => c.id_a == idAd && c.idRenter == renter.id_u && c.idBooker == props.currentUser.id_u)
+        if(conv){
+            navigate("MyChats/" + conv.id_conv)
+        }
+        else {
+            setShowNewMessage(true)
+        }
+         
+    }
+    /**
+    TODO: AGGIUNGI UNA CONVERSAZIONE ___> ho creato gia la conversazione e il messaggio, bisogna solo inviarli al server:
+    bisogna prima creare una nuova conversazione e poi creare il primo messaggio di quella conversazione
+    const onCreateNewConversation = (event) => {
+        event.preventDefalut()
+        
+        const new_conversation = {
+            id_a: currentAd,
+            idRenter: renter.id_u,
+            idBooker: props.currentUser.id_u
+        };
+
+        
+        const new_message = {
+            id_conv: lastID_conv, 
+            idSender: props.currentUser.id_u, 
+            idReceiver: renter.id_u, 
+            date: new Date().toISOString(), 
+            text: newMessage
+        }
+         
+        props.addConversations(new_conversation)
+    }
+    */
 
     return (<>
         <Card key={idAd}>
@@ -98,6 +144,11 @@ function MyBigAdvertisement(props) {
                 <Card.Body>OVERALL PRICE: {(numDays * currentAd.price).toPrecision(4)}</Card.Body>
                 : <></>}
 
+            <Container>
+                <Button onClick={handleOpenOrCreateConversation}>SEND A MESSAGE</Button>
+            </Container>
+
+        
             <Container id="middleButtonContainer">
                 <Button>RENT</Button>
             </Container>
