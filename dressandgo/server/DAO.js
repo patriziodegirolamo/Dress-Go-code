@@ -357,10 +357,10 @@ exports.insertKnownSize = (ksize) => {
 exports.insertConversation = (conv) => {
   return new Promise((resolve, reject) => {
     const sql =
-      "INSERT INTO CONVERSATION(ID_CONV, ID_A, ID_RENTER, ID_BOOKER) VALUES(?, ?, ?, ?)";
+      "INSERT INTO CONVERSATION(ID_A, ID_RENTER, ID_BOOKER) VALUES(?, ?, ?)";
     db.run(
       sql,
-      [this.lastID, conv.id_a, conv.idRenter, conv.idBooker],
+      [conv.id_a, conv.idRenter, conv.idBooker],
       function (err) {
         if (err) {
           reject(err);
@@ -385,6 +385,7 @@ exports.insertMessage=(msg) => {
           reject(err);
           return;
         }
+        console.log(this.lastID)
         resolve(this.lastID);
       }
     );

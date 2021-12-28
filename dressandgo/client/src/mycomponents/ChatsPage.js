@@ -1,14 +1,12 @@
 
-import { ChatEngine } from 'react-chat-engine'
-import { Row, Col, Container, Button, Image } from "react-bootstrap";
+import { Row, Col, Container, Button, Image, Spinner } from "react-bootstrap";
 import { useNavigate, NavLink as Link } from "react-router-dom";
 import { useState, useEffect } from 'react';
-import { getMessages } from '../API';
 
 
 
-function ChatsPage(props) {    
-    
+function ChatsPage(props) {
+
     return <>
         {
             props.conversations.map((conv, idx) => {
@@ -28,31 +26,40 @@ function ChatsPage(props) {
 }
 
 function SmallChat(props) {
-    
-    return <Link to={{ pathname: "/MyChats/" + props.conversation.id_conv }}>
-        <Container key={props.idx} style={{ marginTop: 30, paddingBottom: 20, backgroundColor: "#7a6f7356" }}>
-            <Container style={{ position: "fixed", textAlign: "center", marginLeft: 20, marginTop: 10 }}>
-                <h5>{props.renter.name}</h5>
-            </Container>
 
-            <Container style={{ position: "fixed", textAlign: "center", marginLeft: 30, marginTop: 50, marginRight: 10 }}>
-                <h4>{props.currentAd.title}</h4>
-            </Container>
-            {props.messages.length > 0 ? 
-                <Container style={{ position: "fixed", textAlign: "center", marginLeft: 30, marginTop: 90, marginRight: 10 }}>
-                    <p>{props.messages.at(-1).text.substring(0, 30)}...</p>
-                </Container>
-            
-                : <></>}
-        
-            <Container>
-                <Image roundedCircle src={props.image} style={{ height: 100, width: 100, marginTop: 20 }}></Image>
-            </Container>
-             
+    return <>
+        {
+        props.messages.length > 0 ?
+        <Link to={{ pathname: "/MyChats/" + props.conversation.id_conv }}>
+        <Container key={props.idx} style={{ marginTop: 30, paddingBottom: 20, backgroundColor: "#7a6f7356" }}>
+            <Row>
+                <Col xs={3} sm={3} >
+                    <Image roundedCircle src={props.image} style={{ height: 100, width: 100, marginTop: 20 }}></Image>
+                </Col>
+
+                <Col>
+                    <Container style={{ position: "sticky", textAlign: "center", marginTop: 10 }}>
+                        <h5>{props.renter.name}</h5>
+                    </Container>
+
+                    <Container style={{ position: "sticky", textAlign: "center", marginTop: 20 }}>
+                        <h4>{props.currentAd.title}</h4>
+                    </Container>
+
+                    <Container style={{ position: "sticky", textAlign: "center", marginTop: 40 }}>
+                        <p>{props.messages.at(-1).text.substring(0, 30)}...</p>
+                    </Container>
+
+                </Col>
+
+            </Row>
 
         </Container>
     </Link>
-
+ : <Spinner></Spinner>
+        }
+    </>
+    
 
 }
 

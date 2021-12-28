@@ -282,14 +282,15 @@ async function insertKnownSize(ksize) {
 
   
 /* TO INSERT A NEW CONVERSATION */
-async function insertConversation(conv) {
+async function insertConversation(conv, mess) {
   return new Promise((resolve, reject) => {
     fetch('/api/newconversation', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ id_a: conv.id_a, idRenter: conv.idRenter, idBooker: conv.idBooker }),
+      body: JSON.stringify({ id_a: conv.id_a, idRenter: conv.idRenter, idBooker: conv.idBooker, 
+        idSender: mess.idSender, idReceiver: mess.idReceiver, date: mess.date, text: mess.text }),
     }).then((response) => {
       if (response.ok) {
         resolve(response.json());

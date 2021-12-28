@@ -40,26 +40,30 @@ export default function FixedBottomNavigation(props) {
 
             if( newValue === 0){
               props.setCurrentState("home");
+              localStorage.setItem("currentState","home" );
               props.setCurrentCat("");
-              props.setCurrentDress("");
-
+              localStorage.setItem("currentCat", "");
               navigate("/");
             }
             else if(newValue === 1){
               props.setCurrentState("faq");
+              localStorage.setItem("currentState","faq" );
               navigate('/guide');
               //navigate("/FAQ");
             }
             else if(newValue === 2){
               props.setCurrentState("chat");
+              localStorage.setItem("currentState","chat" );
               navigate("/MyChats");
             }
             else if(newValue === 3){
               props.setCurrentState("rents");
+              localStorage.setItem("currentState","rents" );
               navigate("/MyRents");
             }
             else if(newValue === 4){
               props.setCurrentState("account");
+              localStorage.setItem("currentState","account" );
               navigate("/MyAccount");
             }
 

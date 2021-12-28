@@ -20,12 +20,16 @@ function MyHeader(props) {
 
     else if (props.currentState === "cat") {
       props.setCurrentCat("");
+      localStorage.setItem("currentCat", "");
+      
       props.setCurrentState("home");
+      localStorage.setItem("currentState","home" );
       navigate("/previews");
     }
 
     else if (props.currentState === "bigCat") {
       props.setCurrentState("cat");
+      localStorage.setItem("currentState","cat" );
       navigate("dresses/" + props.currentCat);
     }
   };
@@ -74,6 +78,7 @@ function MyHeader(props) {
                 <Button size="lg" variant="light" onClick={(event) => {
                   handleChangeBackardPage()
                   props.setPage("man");
+                  localStorage.setItem("page", "man");
                 }}>
                   <FcBusinessman size={30}></FcBusinessman>
                 </Button>
@@ -92,6 +97,7 @@ function MyHeader(props) {
                 <Button size="lg" variant="light" onClick={(event) => {
                   handleChangeBackardPage()
                   props.setPage("woman");
+                  localStorage.setItem("page", "woman");
                 }}>
                   <FcBusinesswoman size={30}></FcBusinesswoman>
                 </Button>

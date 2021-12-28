@@ -138,46 +138,79 @@ const fakeMessages = [
 
 
 function App() {
-  const [page, setPage] = useState("");
+
+  const [page, setPage] = useState(() => {
+    const p = localStorage.getItem("page");
+    if (p)
+      return p;
+    else return "";
+  });
+
   const [categories, setCategories] = useState([]);
   const [knownsizes, setKnownSizes] = useState([]);
   const [ads, setAds] = useState([]);
   const [adsImages, setAdsImages] = useState([]);
-  const [brands, setBrands] = useState([]);
+  const [currentState, setCurrentState] = useState(() => {
+    const cs = localStorage.getItem("currentState");
+    if (cs)
+      return cs;
+    else return "home";
+  });
 
-  const [currentState, setCurrentState] = useState("home")
-  const [currentCat, setCurrentCat] = useState("");
-  const [currentDress, setCurrentDress] = useState("");
+  const [currentCat, setCurrentCat] = useState(() => {
+    const cc = localStorage.getItem("currentCat");
+    if (cc)
+      return cc;
+    else return "";
+  });
+
   const [modalShow, setModalShow] = useState(false);
   const [search, setSearch] = useState("");
 
   const [messages, setMessages] = useState([...fakeMessages])
   const [rents, setRents] = useState([...fakeRents])
   const [users, setUsers] = useState([])
-  const [user, setUser] = useState({});
+
+  const [user, setUser] = useState(() => {
+    const u = localStorage.getItem("user");
+    const newObj = {}
+    if (u)
+      return JSON.parse(u);
+    else return newObj;
+  });
 
   const [conversations, setConversations] = useState([]); //tutte le conversazioni dell'utente loggato
 
+  const [dirty, setDirty] = useState(true);
 
   const handleChangeForwardPage = (cat) => {
     if (search) {
       if (currentState === "home") {
         setCurrentCat(cat)
+        localStorage.setItem("currentCat", cat)
+
         setCurrentState("bigCat");
+        localStorage.setItem("currentState", "bigCat");
       }
       else if (currentState === "cat") {
         setCurrentState("bigCat")
+        localStorage.setItem("currentState", "bigCat");
       }
     }
 
     else {
       if (currentState === "home") {
         setCurrentCat(cat)
+        localStorage.setItem("currentCat", cat)
+
         setCurrentState("cat")
+        localStorage.setItem("currentState", "cat");
       }
 
       else if (currentState === "cat") {
         setCurrentState("bigCat")
+        localStorage.setItem("currentState", "bigCat");
+
       }
 
       else if (currentState === "bigCat") {
@@ -192,28 +225,45 @@ function App() {
       const fetchedCategories = await getCategories();
       const fetchedSizes = await getKnownSizes();
       const fetchedAds = await getAds();
-      const fetchedUser = await getUserInfos();
+
       const fetchedAdsImages = await getAdsImages();
       const fetchedBrands = await getBrands();
       const fetchedUsers = await getUsers();
-      const fetchedConversations = await getConversations(fetchedUser.id_u);
-      
-      const fetchedMessages = await getAllUserMessages(fetchedUser.id_u);
-      setMessages(fetchedMessages);
 
+      let fetchedUser = null;
+      let fetchedConversations;
+      let fetchedMessages;
+      if (Object.keys(user).length === 0) {
+        fetchedUser = await getUserInfos();
+        fetchedConversations = await getConversations(fetchedUser.id_u);
+        fetchedMessages = await getAllUserMessages(fetchedUser.id_u);
+        localStorage.setItem("user", JSON.stringify(fetchedUser));
+        localStorage.setItem("page", fetchedUser.gender);
+        setPage(fetchedUser.gender);
+
+      }
+      else {
+        fetchedUser = JSON.parse(localStorage.getItem("user"));
+        fetchedConversations = await getConversations(fetchedUser.id_u);
+        fetchedMessages = await getAllUserMessages(fetchedUser.id_u);
+        setPage(localStorage.getItem("page"));
+
+      }
+
+      setUser(fetchedUser);
+
+      setMessages(fetchedMessages);
       setCategories(fetchedCategories);
       setKnownSizes(fetchedSizes);
       setAds(fetchedAds);
-      setUser(fetchedUser);
-      setPage(fetchedUser.gender)
       setAdsImages(fetchedAdsImages);
-      setBrands(fetchedBrands);
       setUsers(fetchedUsers);
       setConversations(fetchedConversations);
+      setDirty(false);
     }
     getCat();
-  }, []);
-  
+  }, [dirty]);
+
 
   /* TO INSERT A NEW KNOWN SIZE*/
   const addASize = (new_size) => {
@@ -232,16 +282,25 @@ function App() {
       return messages.concat(new_message)
     });
   }
-  /*
-  const addAConversation = (new_conversation) => {
-    insertConversation(new_conversation).then((err) => { });;
+  
 
-    //.then(insertMessage(new_message))
-    // to avoid another call to the db
-    setConversations(conversations => conversations.concat(new_conversation))
-    //setMessages(messages => messages.concat(new_message))
+  const addAConversation = (new_conversation, new_message) => {
+    
+    insertConversation(new_conversation, new_message).then((res) => { 
+      const fullNewConv =  {...new_conversation, id_conv: res.id_conv}
+      const fullNewMsg = {...new_message, id_m: res.id_m}
+
+      console.log(fullNewMsg)
+      setConversations([...conversations, fullNewConv])
+      setMessages([...messages, fullNewMsg])
+      setDirty(true);
+    });
+
+    
+    
   }
-  */
+  
+
 
 
 
@@ -287,8 +346,8 @@ function App() {
 
       <Route path='/ad/:idAd' element={<>
         <MyBigAdvertisement ads={ads} adsImages={adsImages} users={users} currentUser={user}
-        conversations={conversations}
-        /*addAConversation={addAConversation}*/ />
+          conversations={conversations}
+          addAConversation={addAConversation} />
       </>} />
 
       <Route path='/guide' element={<>
@@ -299,13 +358,13 @@ function App() {
         messages={messages.sort((a, b) => a.date - b.date)} users={users}
         conversations={conversations} adsImages={adsImages}
         addAMessage={addAMessage} ads={ads}
-        >
+      >
       </ChatMessages>} />
 
       <Route path='/MyChats' element={<>
         <ChatsPage currentUser={user} conversations={conversations} users={users} ads={ads}
-          adsImages={adsImages} messages={messages.sort((a, b) => a.date - b.date)} 
-          setMessages={setMessages}/>
+          adsImages={adsImages} messages={messages.sort((a, b) => a.date - b.date)}
+          setMessages={setMessages} />
       </>} />
 
       <Route path='/previews' element={<>
@@ -400,7 +459,7 @@ function App() {
     </Routes >
 
     <FixedBottomNavigation setCurrentState={setCurrentState} setPage={setPage}
-      setCurrentCat={setCurrentCat} setCurrentDress={setCurrentDress} />
+      setCurrentCat={setCurrentCat} />
   </Router>
 }
 

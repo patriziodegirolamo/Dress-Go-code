@@ -182,9 +182,16 @@ app.post('/api/newknownsize',
 // POST /api/newconversation ; to create a new conversation
 app.post('/api/newconversation',
 async (req, res) => {
-  const conv = {id_a: req.body.id_a, id_r: req.body.id_r };
+  const conv = {id_a: req.body.id_a, idRenter: req.body.idRenter, idBooker: req.body.idBooker };
+  const newMess = {idSender: req.body.idSender, idReceiver: req.body.idReceiver, 
+    date: req.body.date, text: req.body.text}
+
   try {
-    const result = await dao.insertConversation(conv);
+    const result = await dao.insertConversation(conv).then((id_conv) => {
+      const messaggio = {...newMess, id_conv: id_conv}
+      const r = dao.insertMessage(messaggio).then(id_m => {return {id_conv: id_conv, id_m: id_m}})
+      return r;
+    });
     return res.json(result);
   } catch (err) {
     res.status(503).json({ error: `Database error during the creation of submission` });

@@ -8,6 +8,7 @@ function MyDressList(props) {
                 <Row xs={2} md={2} className="g-4">
                   {props.ads.map( (ad, idx) => {
                       return <Col key={idx}>
+                          {/** */}
                         <MySmallAdvertisement adsImages = {props.adsImages.filter((el) => el.id_a === ad.id_a)} idx={idx} ad={ad} categories={props.categories}
                         handleChangeForwardPage={props.handleChangeForwardPage}/>
                         
