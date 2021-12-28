@@ -181,6 +181,8 @@ function App() {
 
   const [conversations, setConversations] = useState([]); //tutte le conversazioni dell'utente loggato
 
+  const [brands, setBrands] = useState([]);
+
   const [dirty, setDirty] = useState(true);
 
   const handleChangeForwardPage = (cat) => {
@@ -233,6 +235,7 @@ function App() {
       let fetchedUser = null;
       let fetchedConversations;
       let fetchedMessages;
+      
       if (Object.keys(user).length === 0) {
         fetchedUser = await getUserInfos();
         fetchedConversations = await getConversations(fetchedUser.id_u);
@@ -259,6 +262,7 @@ function App() {
       setAdsImages(fetchedAdsImages);
       setUsers(fetchedUsers);
       setConversations(fetchedConversations);
+      setBrands(fetchedBrands);
       setDirty(false);
     }
     getCat();
@@ -443,6 +447,7 @@ function App() {
           categories={categories}
           addASize={addASize}
           user={user}
+          brands={brands}
           onHide={() => setModalShow(false)}
         />
       </>} />
