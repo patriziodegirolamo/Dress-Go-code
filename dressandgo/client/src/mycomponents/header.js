@@ -32,50 +32,7 @@ function MyHeader(props) {
         </Container>
 
       </Navbar>
-      <Container>
-        <Row>
-          <Col xs={7}>
-            <Form>
-              <Form.Control placeholder="Search..." />
-            </Form>
-          </Col>
-
-          {
-            props.page === "man" ?
-              <Col xs={2}>
-                <Button variant="light" disabled>
-                  <IoMan></IoMan>
-                </Button>
-              </Col>
-              :
-              <Col xs={2}>
-                <Button variant="light" onClick={(event) => {
-                  props.setPage("man")
-                }}>
-                  <IoMan></IoMan>
-                </Button>
-              </Col>
-          }
-
-          {
-            props.page === "woman" ?
-              <Col xs={2}>
-                <Button variant="light" disabled>
-                  <IoWoman></IoWoman>
-                </Button>
-              </Col>
-              :
-              <Col xs={2}>
-                <Button variant="light" onClick={(event) => {
-                  props.setPage("woman")
-                }}>
-                  <IoWoman></IoWoman>
-                </Button>
-              </Col>
-          }
-
-        </Row>
-      </Container>
+     
     </>
   );
 }

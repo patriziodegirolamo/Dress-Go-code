@@ -8,7 +8,7 @@ import MyCategoryList from './mycomponents/category_list.js';
 import MyHeader from './mycomponents/header.js'
 import MyDressList from './mycomponents/dress_list.js';
 import {MySmallAdvertisement, MyBigAdvertisement} from './mycomponents/dress_card.js'
-
+import Faq from './mycomponents/accordion.js'
 
 
 function App() {
@@ -110,6 +110,7 @@ function App() {
     ]
   )
 
+
   return <Router>
     <MyHeader page={page} setPage={setPage} currentCat={currentCat}
       handleChangeCurrentCategorie={handleChangeCurrentCategorie} />
@@ -129,8 +130,14 @@ function App() {
         </MyDressList>
       </>} />
 
+      <Route path="/FAQ" element={<>
+        <Faq faq/>;
+      </>}/>
+
+
       <Route path="/" element={<Navigate to="/previews" />} />
     </Routes >
+
 
 
     <FixedBottomNavigation />
