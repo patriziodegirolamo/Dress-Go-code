@@ -30,8 +30,8 @@ function SmallChat(props) {
     return <>
         {
         props.messages.length > 0 ?
-        <Link to={{ pathname: "/MyChats/" + props.conversation.id_conv }}>
-        <Container key={props.idx} style={{ marginTop: 30, paddingBottom: 20, backgroundColor: "#7a6f7356" }}>
+        <Link className='text-link' to={{ pathname: "/MyChats/" + props.conversation.id_conv }}>
+        <Container key={props.idx} style={{ marginTop: 10, paddingBottom: 20, backgroundColor: "#7a6f7356" }}>
             <Row>
                 <Col xs={3} sm={3} >
                     <Image roundedCircle src={props.image} style={{ height: 100, width: 100, marginTop: 20 }}></Image>
@@ -42,11 +42,11 @@ function SmallChat(props) {
                         <h5>{props.renter.name}</h5>
                     </Container>
 
-                    <Container style={{ position: "sticky", textAlign: "center", marginTop: 20 }}>
-                        <h4>{props.currentAd.title}</h4>
+                    <Container style={{ position: "sticky", textAlign: "center", marginTop: 10 }}>
+                        <p>{props.currentAd.title}</p>
                     </Container>
 
-                    <Container style={{ position: "sticky", textAlign: "center", marginTop: 40 }}>
+                    <Container style={{ position: "sticky", textAlign: "center", marginTop: 10 }}>
                         <p>{props.messages.at(-1).text.substring(0, 30)}...</p>
                     </Container>
 

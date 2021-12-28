@@ -48,7 +48,8 @@ function MyHeader(props) {
         <Container>
           <Navbar.Brand className='m-auto'>
             <b id="title">Dress&Go</b>
-            <sub id="pedice"><i>{props.page}</i></sub>
+            {props.currentState == "home" || props.currentState == "cat" || props.currentState == "bigCat" ? 
+            <sub id="pedice"><i>{props.page}</i></sub> : <></>}
           </Navbar.Brand>
 
         </Container>

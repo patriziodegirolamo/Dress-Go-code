@@ -10,6 +10,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ChatIcon from '@mui/icons-material/Chat';
 import { useNavigate } from "react-router-dom";
 import { useState } from 'react';
+import {  } from "react-bootstrap";
 
 
 
@@ -24,11 +25,16 @@ export default function FixedBottomNavigation(props) {
   Account: 4
   */
   let navigate = useNavigate();
-  const [value, setValue] = useState(0)
-  const ref = React.useRef(null);
 
-  return (
-    <Box sx={{ pb: 7 }} ref={ref} >
+  const [value, setValue] = useState(() => {
+    const bottomNav = localStorage.getItem("currentBottomNav");
+    if (bottomNav)
+      return parseInt(bottomNav);
+    else return 0;
+  });
+
+  return <>
+    <Box sx={{ pb: 7 }}  >
     
       <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
         <BottomNavigation
@@ -36,7 +42,10 @@ export default function FixedBottomNavigation(props) {
           value={value}
 
           onChange={(event, newValue) => {
+            console.log(newValue)
+            localStorage.setItem("currentBottomNav", newValue);
             setValue(newValue);
+            
 
             if( newValue === 0){
               props.setCurrentState("home");
@@ -84,6 +93,6 @@ export default function FixedBottomNavigation(props) {
         </BottomNavigation>
       </Paper>
     </Box>
-  );
+  </>
 }
 

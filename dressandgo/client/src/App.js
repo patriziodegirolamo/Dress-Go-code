@@ -369,14 +369,13 @@ function App() {
 
       <Route path='/previews' element={<>
         {search ? <Container id="dressContainer">
-          researched:
+          <h4>researched:</h4>
           <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(ad => {
             return ad.gender === page && (ad.title.includes(search) || ad.description.includes(search))
           })}
             handleChangeForwardPage={handleChangeForwardPage}>
           </MyDressList>
         </Container> : <MyCategoryList categories={categories.filter(c => {
-
           if (c.gender === "unisex" || c.gender === page)
             return c
         })} ads={ads}
@@ -385,7 +384,8 @@ function App() {
       </>} />
 
       <Route path="/dresses/:categorie" element={<>
-        {search ? <Container id="dressContainer"> resarched:
+        {search ? <Container id="dressContainer"> 
+        <h4>researched:</h4>
           <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(ad => (categories.find((el) => el.id_cat === ad.id_cat).name === currentCat) && (ad.title.includes(search) || ad.description.includes(search)))}
             handleChangeForwardPage={handleChangeForwardPage}>
           </MyDressList>
@@ -393,7 +393,7 @@ function App() {
           :
           <>
             <Container id="dressContainer">
-              suggested for you:
+              <h4>suggested for you:</h4>
               <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(ad => {
                 if (ad.gender === page && categories.find((el) => el.id_cat === ad.id_cat).name === currentCat) {
                   for (const ks of knownsizes) {
@@ -411,7 +411,7 @@ function App() {
 
 
             <Container id="dressContainer">
-              All sizes:
+            <h4>All sizes:</h4>
               <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(ad => {
                 if (categories.find((el) => el.id_cat === ad.id_cat).name === currentCat) {
                   if (ad.gender === "unisex")
@@ -459,7 +459,7 @@ function App() {
     </Routes >
 
     <FixedBottomNavigation setCurrentState={setCurrentState} setPage={setPage}
-      setCurrentCat={setCurrentCat} />
+      setCurrentCat={setCurrentCat}/>
   </Router>
 }
 
