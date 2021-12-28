@@ -42,7 +42,6 @@ export default function FixedBottomNavigation(props) {
           value={value}
 
           onChange={(event, newValue) => {
-            console.log(newValue)
             localStorage.setItem("currentBottomNav", newValue);
             setValue(newValue);
             
@@ -57,8 +56,7 @@ export default function FixedBottomNavigation(props) {
             else if(newValue === 1){
               props.setCurrentState("faq");
               localStorage.setItem("currentState","faq" );
-              navigate('/guide');
-              //navigate("/FAQ");
+              navigate("/FAQ");
             }
             else if(newValue === 2){
               props.setCurrentState("chat");

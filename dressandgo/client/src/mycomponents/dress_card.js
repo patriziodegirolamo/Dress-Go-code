@@ -99,11 +99,12 @@ function MyBigAdvertisement(props) {
             text: newMessage
         }
          
-        props.addAConversation(new_conversation, new_message)
-        setShowNewMessage(false);
+        props.addAConversation(new_conversation, new_message).then(res => {
+            setShowNewMessage(false);
+            navigate("/MyChats/"+ res.id_conv)
+          })
     }
     
-    console.log(currentAd)
     return (<>
         {!currentAd ? <Container id="containerSpinner">
             <Spinner animation="border" variant="danger" />

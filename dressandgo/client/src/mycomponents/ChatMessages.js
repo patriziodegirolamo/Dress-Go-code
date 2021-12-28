@@ -6,14 +6,21 @@ import { useState } from 'react';
 
 function ChatMessages(props) {
     let params = useParams();
+
     const id_conv = parseInt(params.id_conv)
 
-    
-    const currentConv = props.conversations.find(c => c.id_conv == id_conv)
-    const currentAd = props.ads.find(ad => ad.id_a == currentConv.id_a)
+    const currentConv = props.conversations.find(c => c.id_conv == id_conv);
+    let currentAd = null;
+    let renter = null;
+    let image = null;
+
+    if(currentConv){
+        currentAd = props.ads.find(ad => ad.id_a == currentConv.id_a)
+        renter = props.users.find(u => u.id_u == currentConv.idRenter)
+        image = props.adsImages.find(adImage => adImage.id_a == currentConv.id_a)
+    }
     const messages = props.messages.filter(mes => mes.id_conv == id_conv)
-    const renter = props.users.find(u => u.id_u == currentConv.idRenter)
-    const image = props.adsImages.find(adImage => adImage.id_a == currentConv.id_a)
+    
     const [newMessage, setNewMessage] = useState("")
 
     const handleCreateMessage = (event) => {
@@ -33,7 +40,10 @@ function ChatMessages(props) {
         document.getElementById("formNewMessage").reset();
     }
 
-    return <Container>
+    return <>
+    {image && currentAd &&
+    <Container>
+        
         <Container style={{backgroundColor: "white"}}>
             <Row>
                 <Col>
@@ -45,9 +55,8 @@ function ChatMessages(props) {
                 </Col>
             </Row>
             
-            
-            
         </Container>
+
         <Container style={{ minHeight: "60vh" }}>
             {messages.map((m, idx) => {
                 const yyyymmdd = m.date.split("T")[0];
@@ -88,7 +97,10 @@ function ChatMessages(props) {
 
             </Form>
         </Container>
+        
     </Container>
+}
+</>
 
 }
 

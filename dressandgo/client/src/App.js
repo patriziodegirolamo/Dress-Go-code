@@ -14,6 +14,8 @@ import AddKnownSizes from './mycomponents/add_size_button';
 import MyAvailabilityModal from './mycomponents/availabilityModal';
 import SizeGuide from './mycomponents/mySizeGuide';
 import { MySmallAdvertisement, MyBigAdvertisement } from './mycomponents/dress_card.js'
+import Faq from './mycomponents/accordion.js'
+
 
 import {
   getCategories, getUserInfos, getKnownSizes, getAds, getAdsImages, getBrands, getAllUserMessages,
@@ -24,7 +26,8 @@ import ChatMessages from './mycomponents/ChatMessages';
 import ChatsPage from './mycomponents/ChatsPage';
 import { insertConversation } from './API.js'
 import { propTypes } from 'react-bootstrap/esm/Image';
-
+import OrderSummary from './mycomponents/order_summary';
+import MyRents from './mycomponents/my_rents';
 
 const fakeRents = [
   {
@@ -33,16 +36,20 @@ const fakeRents = [
     idRenter: 2,
     idBooker: 1,
     dataIn: "15/03/2022",
-    dataOut: "18/03/2022"
+    dataOut: "18/03/2022",
+    status: "PASSED",
+    total: 456
   },
 
   {
     id_r: 2,
-    id_a: 2,
+    id_a: 3,
     idRenter: 2,
     idBooker: 1,
     dataIn: "15/05/2022",
-    dataOut: "18/05/2022"
+    dataOut: "18/05/2022",
+    status: "ARRIVING",
+    total: 456
   },
 
   {
@@ -51,7 +58,9 @@ const fakeRents = [
     idRenter: 2,
     idBooker: 3,
     dataIn: "15/04/2022",
-    dataOut: "18/04/2022"
+    dataOut: "18/04/2022",
+    status: "ARRIVING",
+    total: 456
   },
 
 ]
@@ -290,16 +299,16 @@ function App() {
 
   const addAConversation = (new_conversation, new_message) => {
     
-    insertConversation(new_conversation, new_message).then((res) => { 
+    return insertConversation(new_conversation, new_message).then((res) => { 
       const fullNewConv =  {...new_conversation, id_conv: res.id_conv}
       const fullNewMsg = {...new_message, id_m: res.id_m}
 
-      console.log(fullNewMsg)
       setConversations([...conversations, fullNewConv])
       setMessages([...messages, fullNewMsg])
       setDirty(true);
+      return res
     });
-
+    
     
     
   }
@@ -369,6 +378,15 @@ function App() {
         <ChatsPage currentUser={user} conversations={conversations} users={users} ads={ads}
           adsImages={adsImages} messages={messages.sort((a, b) => a.date - b.date)}
           setMessages={setMessages} />
+      </>} />
+
+      <Route path="/MyRents" element={<>
+        <MyRents user={user} rents={rents} ads={ads}/>
+      </>} />
+
+      <Route path='/MyRents/:id_r' element={<>
+        <OrderSummary rents={rents} ads={ads} adsImages={adsImages} conversations={conversations}
+        addAConversation={addAConversation}/>
       </>} />
 
       <Route path='/previews' element={<>
@@ -459,6 +477,10 @@ function App() {
       <Route path="/paymentmethods" element={<>
         <MyProfile user={user} />
       </>} />
+
+      <Route path="/FAQ" element={<>
+        <Faq/>;
+      </>}/>
 
       <Route path="/" element={<Navigate to="/previews" />} />
     </Routes >

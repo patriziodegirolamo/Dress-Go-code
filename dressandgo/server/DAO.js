@@ -127,37 +127,6 @@ exports.listConversations = (id_u) => {
   });
 };
 
-//get all messages
-/*
-exports.listMessages = (id_conv) => {
-  return new Promise((resolve, reject) => {
-    const sql = "SELECT * FROM MESSAGE WHERE ID_CONV = ? ";
-    db.all(sql, [id_conv], (err, rows) => {
-      if (rows === undefined || rows.length === 0) {
-        const msgs = { id_m: 'Empty' };
-        resolve(msgs);
-      }
-      if (err) {
-        reject(err);
-        return;
-      }
-      else {
-        const msgs = rows.map((t) => ({
-         id_m: t.ID_M,
-         id_conv: t.ID_CONV,
-         idSender: t.ID_SENDER,
-         idReceiver: t.ID_RECEIVER,
-         date: t.DATE,
-         text: t.TEXT
-        }));
-        console.log(msgs)
-        resolve(msgs);
-      }
-    });
-  });
-};
-*/
-
 
 exports.listAllUserMessages = (id_u) => {
   return new Promise((resolve, reject) => {
@@ -385,7 +354,6 @@ exports.insertMessage=(msg) => {
           reject(err);
           return;
         }
-        console.log(this.lastID)
         resolve(this.lastID);
       }
     );
