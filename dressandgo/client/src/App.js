@@ -19,7 +19,8 @@ import Faq from './mycomponents/accordion.js'
 
 import {
   getCategories, getUserInfos, getKnownSizes, getAds, getAdsImages, getBrands, getAllUserMessages,
-  getUsers, getConversations, modifyUsInfos, insertKnownSize, removeKnownSize, insertMessage, getMessages
+  getUsers, getConversations, modifyUsInfos, insertKnownSize, removeKnownSize, insertMessage, 
+  getOperators, getConversationsCS, getAllUserMessagesCS, insertMessageCS
 } from './API';
 
 import ChatMessages from './mycomponents/ChatMessages';
@@ -28,6 +29,7 @@ import { insertConversation } from './API.js'
 import { propTypes } from 'react-bootstrap/esm/Image';
 import OrderSummary from './mycomponents/order_summary';
 import MyRents from './mycomponents/my_rents';
+import CSMessages from './mycomponents/ChatMessageCS';
 
 const fakeRents = [
   {
@@ -192,6 +194,11 @@ function App() {
 
   const [brands, setBrands] = useState([]);
 
+  const [operatorsCS, setOperatorsCS] = useState([]);
+  const [conversationsCS, setConversationsCS] = useState([]);
+  const [messagesCS, setMessagesCS] = useState([]);
+  const [contactCS, setContactCS] = useState(false);
+
   const [dirty, setDirty] = useState(true);
 
   const handleChangeForwardPage = (cat) => {
@@ -278,6 +285,23 @@ function App() {
   }, [dirty]);
 
 
+  useEffect(() => {
+    async function getCS() {      
+      if(user){
+        const fetchedOperators = await getOperators();
+        const fetchedConversationsCS = await getConversationsCS(user.id_u);
+        const fetchedMessagesCS = await getAllUserMessagesCS(user.id_u);
+
+        setOperatorsCS(fetchedOperators);
+        setConversationsCS(fetchedConversationsCS);
+        setMessagesCS(fetchedMessagesCS);
+        setContactCS(false);
+      }
+    }
+    getCS();
+  }, [contactCS]);
+
+
   /* TO INSERT A NEW KNOWN SIZE*/
   const addASize = (new_size) => {
     insertKnownSize(new_size).then((err) => { });
@@ -287,6 +311,15 @@ function App() {
     });
   }
 
+  const addAMessageCS = (new_message) => {
+    insertMessageCS(new_message).then((err) => { });
+    // to avoid another call to the db
+    setContactCS(true);
+    setMessages(messages => {
+      return messages.concat(new_message)
+    });
+  }
+  
 
   const addAMessage = (new_message) => {
     insertMessage(new_message).then((err) => { });
@@ -309,14 +342,8 @@ function App() {
       return res
     });
     
-    
-    
   }
   
-
-
-
-
   /* TO REMOVE A KNOWN SIZE INSERTED BY THE USER */
   const removeASize = (id_ks) => {
     removeKnownSize(id_ks).then((err) => { });
@@ -374,10 +401,25 @@ function App() {
       >
       </ChatMessages>} />
 
+      <Route path='/CustomerServiceChat' element={<>
+        {conversationsCS.length > 0 ? <CSMessages
+        operatorsCS={operatorsCS}
+        user={user}
+        conversationsCS={conversationsCS} 
+        addAMessageCS={addAMessageCS}
+        messagesCS={messagesCS.sort((a, b) => a.date - b.date)}
+        addAMessageCS={addAMessageCS}
+      >
+      </CSMessages> : <></>}
+      
+      </>
+      } />
+
       <Route path='/MyChats' element={<>
         <ChatsPage currentUser={user} conversations={conversations} users={users} ads={ads}
           adsImages={adsImages} messages={messages.sort((a, b) => a.date - b.date)}
-          setMessages={setMessages} />
+          setMessages={setMessages} conversationsCS={conversationsCS} 
+          messagesCS={messagesCS.sort((a, b) => a.date - b.date)}/>
       </>} />
 
       <Route path="/MyRents" element={<>

@@ -1,68 +1,63 @@
-
 import { Row, Col, Container, Button, Form } from "react-bootstrap";
 import { useNavigate, NavLink as Link, useParams } from "react-router-dom";
 import { useState } from 'react';
 
 
-function ChatMessages(props) {
-    let params = useParams();
-
-    const id_conv = parseInt(params.id_conv)
-
-    const currentConv = props.conversations.find(c => c.id_conv == id_conv);
-    let currentAd = null;
-    let renter = null;
-    let image = null;
-
-    if(currentConv){
-        currentAd = props.ads.find(ad => ad.id_a == currentConv.id_a)
-        renter = props.users.find(u => u.id_u == currentConv.idRenter)
-        image = props.adsImages.find(adImage => adImage.id_a == currentConv.id_a)
-    }
-    const messages = props.messages.filter(mes => mes.id_conv == id_conv)
+function CSMessages(props) {
     
+    const conv = props.conversationsCS.find(c => c.id_u == props.user.id_u)
+    const messages = props.messagesCS.filter(m => m.id_conv == conv.id_conv)
+    
+    const currentOperator = props.operatorsCS.find(op => conv.id_cs == op.id_cs)
+    console.log(messages)
     const [newMessage, setNewMessage] = useState("")
 
+    
     const handleCreateMessage = (event) => {
         event.preventDefault();
 
         const new_message = {
-            id_conv: id_conv,
-            idSender: props.user.id_u,
-            idReceiver: renter.id_u,
+            id_conv: conv.id_conv,
+            idUser: props.user.id_u,
+            idCS: currentOperator.id_cs,
             date: new Date().toISOString(),
-            text: newMessage
+            text: newMessage,
+            isSenderAUser: 1
         };
 
-        props.addAMessage(new_message);
+        props.addAMessageCS(new_message);
         setNewMessage("")
 
-        document.getElementById("formNewMessage").reset();
+        document.getElementById("formNewMessageCS").reset();
     }
+ 
 
     return <>
-    {image && currentAd &&
+
     <Container>
         
         <Container style={{backgroundColor: "white"}}>
             <Row>
                 <Col>
-                    <img style={{position: "relative", width: "40%"}}src={image.url}></img>    
+                    <img style={{position: "relative", width: "40%"}}src={"customer-service.png"}></img>    
                 </Col>
+                
                 <Col>
-                    <h4 style={{textAlign: "center"}}>{renter.name}</h4>    
-                    <h5 style={{textAlign: "center"}}>{currentAd.title}</h5> 
+                    <h4 style={{textAlign: "center"}}>OPERATOR #{currentOperator.id_cs}</h4>    
+                    <h5 style={{textAlign: "center"}}>{currentOperator.name}</h5> 
                 </Col>
+                 
             </Row>
             
         </Container>
 
+        
         <Container style={{ minHeight: "60vh" }}>
             {messages.map((m, idx) => {
                 const yyyymmdd = m.date.split("T")[0];
                 const hh1 = m.date.split("T")[1].split(":")[0]
                 const hh2 = m.date.split("T")[1].split(":")[1]
-                if (props.user.id_u == m.idSender) {
+                if (m.isSenderAUser) {
                     //sto inviando il messaggio
                     return <Container className="containerMessage" key={idx} >
                         <img className="messageImageUser righter" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Avatar" />
@@ -70,18 +65,20 @@ function ChatMessages(props) {
                         <span className="time-right">{yyyymmdd} {hh1}:{hh2}</span>
                     </Container>
                 }
-                else if (props.user.id_u == m.idReceiver) {
+                else{
                     //sto ricevendo il messaggio
                     return <Container className="containerMessage darker" key={idx}>
-                        <img className="messageImageUser" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Avatar"/>
+                        <img className="messageImageUser" src="customer-service.png" alt="Avatar"/>
                         <p className="overflow">{m.text}</p>
                         <span className="time-left">{yyyymmdd} {hh1}:{hh2}</span>
                     </Container>
                 }
             })}
         </Container>
-        <Container id="textAreaMessages">
-            <Form id="formNewMessage" onChange={(event) => {
+        
+        <Container style={{position: 'sticky', bottom: 40, backgroundColor: "white",
+        padding: 20, marginBottom: 10, marginTop: 20}}>
+            <Form id="formNewMessageCS" onChange={(event) => {
                 setNewMessage(event.target.value)
             }}>
                 <Row className="justify-content-xs-center">
@@ -97,10 +94,11 @@ function ChatMessages(props) {
             </Form>
         </Container>
         
+
     </Container>
-}
+
 </>
 
 }
 
-export default ChatMessages;
+export default CSMessages;

@@ -230,6 +230,85 @@ async function getAllUserMessages(id_u) {
 }
 
 
+
+
+//DA QUI
+
+/* TO GET THE LIST OF USERS */
+async function getOperators() {
+  const response = await fetch(url + '/api/alloperators');
+  const operators = await response.json();
+  if (operators.id_cs === 'Empty' ) {
+      return [];
+  }
+  else {
+      if (response.ok) {
+          return operators.map((t) => ({
+              ...t,
+              id_cs: t.id_cs,
+              name: t.name,
+              surname: t.surname
+          }));
+      } else {
+          throw operators;  // an object with the error coming from the server
+      }
+  }
+}
+
+/* TO GET THE LIST OF CONVERSATIONS */
+async function getConversationsCS(id_u) {
+  const response = await fetch(url + '/api/allconversationsCS?id_u='+id_u);
+  const convs = await response.json();
+  if (convs.id_conv === 'Empty' ) {
+      return [];
+  }
+  else {
+      if (response.ok) {
+          return convs.map((t) => ({
+              ...t,
+              id_conv: t.id_conv,
+              id_u: t.id_u,
+              id_cs: t.id_cs,
+              name_cs : t.name_cs
+          }));
+      } else {
+          throw convs;  // an object with the error coming from the server
+      }
+  }
+}
+
+// TO GET THE LIST OF MESSAGES OF THE LOGGED USER 
+async function getAllUserMessagesCS(id_u) {
+  const response = await fetch(url + '/api/allUsermessagesCS?id_u=' + id_u);
+  const msgs = await response.json();
+  if (msgs.id_m === 'Empty' ) {
+      return [];
+  }
+  else {
+      if (response.ok) {
+          return msgs.map((t) => ({
+              ...t,
+              id_m: t.id_m,
+              id_conv: t.id_conv,
+              idSender: t.idSender,
+              idReceiver: t.idReceiver,
+              date: t.date,
+              text: t.text
+          }));
+      } else {
+          throw msgs;  // an object with the error coming from the server
+      }
+  }
+}
+
+
+
+
+
+//A QUI
+
+
+
 /* TO MODIFY USER INFOS */
 async function modifyUsInfos(newInfos) {
   return new Promise((resolve, reject) => {
@@ -350,7 +429,33 @@ async function removeKnownSize(id_ks) {
   });
 }
 
+
+
+/* TO INSERT A NEW MESSAGE */
+async function insertMessageCS(msg) {
+  return new Promise((resolve, reject) => {
+    fetch('/api/newmessageCS', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({id_conv: msg.id_conv, idUser: msg.idUser, idCS: msg.idCS, date: msg.date, text: msg.text, isSenderAUser: msg.isSenderAUser}),
+    }).then((response) => {
+      if (response.ok) {
+        resolve(response.json());
+      } else {
+        response.json()
+          .then((message) => { reject(message); })
+          .catch(() => reject({ error: 'Cannot parse the response.' }));
+      }
+    }).catch(() => {
+      reject({ error: 'Cannot communicate with the server.' });
+    })
+  });
+}
+
   
 
 export {getCategories, getUserInfos, getKnownSizes, getAds, getAdsImages, getBrands, getAllUserMessages,
-        getUsers, getConversations, modifyUsInfos, insertKnownSize, insertConversation, insertMessage, removeKnownSize};
+        getUsers, getConversations, modifyUsInfos, insertKnownSize, insertConversation, insertMessage,
+        removeKnownSize, getOperators, getConversationsCS, getAllUserMessagesCS, insertMessageCS};

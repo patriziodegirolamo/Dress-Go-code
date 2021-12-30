@@ -70,14 +70,18 @@
 .containerMessage {
   border: 2px solid #dedede;
   background-color: #f1f1f1;
-  border-radius: 5px;
+  border-radius: 23px;
   padding: 10px;
   margin: 10px 0;
+  text-align: left;
 }
+
 
 .darker {
   background-color: #ddd;
   border-color: #ccc;
+  text-align: -webkit-right;
+  
 }
 
 .containerMessage::after{
@@ -93,6 +97,7 @@
   margin-right: 20px;
   border-radius: 50%;
 }
+
 .righter {
   float: right;
   margin-left: 20px;
@@ -114,3 +119,4 @@
   justify-content: center;
   padding-top: 50px;
 }
+
