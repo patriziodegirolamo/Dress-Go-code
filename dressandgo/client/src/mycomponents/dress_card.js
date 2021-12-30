@@ -73,8 +73,14 @@ function MyBigAdvertisement(props) {
 
     const handleOpenOrCreateConversation = () => {
 
+        const currParam = {"id": idAd, "cat": props.currentCat}
         const conv = props.conversations.find(c => c.id_a == idAd && c.idRenter == renter.id_u && c.idBooker == props.currentUser.id_u)
         if (conv) {
+            localStorage.setItem("historyStack", JSON.stringify([...props.historyStack, "chat"]))
+            props.setHistoryStack(() => ([...props.historyStack, "chat"]));
+            props.setCurrentCat("");
+            props.setCurrentState("chat");
+            localStorage.setItem("currParam", JSON.stringify(currParam))
             navigate("/MyChats/" + conv.id_conv)
         }
         else {
@@ -100,6 +106,13 @@ function MyBigAdvertisement(props) {
         }
          
         props.addAConversation(new_conversation, new_message).then(res => {
+            const currParam = {"id": idAd, "cat": props.currentCat}
+            localStorage.setItem("historyStack", JSON.stringify([...props.historyStack, "chat"]))
+            props.setHistoryStack(() => ([...props.historyStack, "chat"]));
+            props.setCurrentCat("");
+            props.setCurrentState("chat");
+            localStorage.setItem("currParam", JSON.stringify(currParam))
+            
             setShowNewMessage(false);
             navigate("/MyChats/"+ res.id_conv)
           })

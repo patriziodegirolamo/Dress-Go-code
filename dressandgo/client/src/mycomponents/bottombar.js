@@ -33,6 +33,7 @@ export default function FixedBottomNavigation(props) {
     else return 0;
   });
 
+
   return <>
     <Box sx={{ pb: 7 }}  >
     
@@ -45,12 +46,15 @@ export default function FixedBottomNavigation(props) {
             localStorage.setItem("currentBottomNav", newValue);
             setValue(newValue);
             
+            props.setHistoryStack(() => [])
+            localStorage.setItem("historyStack", "[]");
+            props.setCurrentCat("");
+            localStorage.setItem("currentCat", "");
 
+              
             if( newValue === 0){
               props.setCurrentState("home");
               localStorage.setItem("currentState","home" );
-              props.setCurrentCat("");
-              localStorage.setItem("currentCat", "");
               navigate("/");
             }
             else if(newValue === 1){
@@ -59,8 +63,8 @@ export default function FixedBottomNavigation(props) {
               navigate("/FAQ");
             }
             else if(newValue === 2){
-              props.setCurrentState("chat");
-              localStorage.setItem("currentState","chat" );
+              props.setCurrentState("chats");
+              localStorage.setItem("currentState","chats" );
               navigate("/MyChats");
             }
             else if(newValue === 3){

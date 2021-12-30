@@ -13,7 +13,7 @@ function OrderSummary(props) {
   const currentRent = props.rents.find(r => r.id_r === id_r);
   const ads = props.ads.find(ad => ad.id_a === currentRent.id_a);
   const currentImages = props.adsImages.filter(adImg => adImg.id_a === currentRent.id_a);
-  
+
 
   const [showNewMessage, setShowNewMessage] = useState(false);
 
@@ -27,13 +27,17 @@ function OrderSummary(props) {
 
 
   const handleOpenOrCreateConversation = () => {
-    
+    const currParam = { "id": id_r }
     const conv = props.conversations.find(c => {
       const cr = props.rents.find(r => r.id_r === id_r);
       if (c.id_a == cr.id_a && c.idRenter == cr.idRenter && c.idBooker == cr.idBooker)
         return c;
     })
     if (conv) {
+      localStorage.setItem("historyStack", JSON.stringify([...props.historyStack, "chat"]))
+      props.setHistoryStack(() => ([...props.historyStack, "chat"]));
+      props.setCurrentState("chat");
+      localStorage.setItem("currParam", JSON.stringify(currParam))
       navigate("/MyChats/" + conv.id_conv)
     }
     else {
@@ -60,8 +64,17 @@ function OrderSummary(props) {
 
     props.addAConversation(new_conversation, new_message).then(res => {
       setShowNewMessage(false);
-      navigate("/MyChats/"+ res.id_conv)
+      //TODO
+      localStorage.setItem("historyStack", JSON.stringify(props.historyStack))
+      navigate("/MyChats/" + res.id_conv)
     })
+  }
+
+  const onClickHandler = () => {
+    props.setCurrentState("chat");
+    localStorage.setItem("currentState", "chat");
+    localStorage.setItem("historyStack", JSON.stringify([...props.historyStack, "chat"]))
+    props.setHistoryStack(() => ([...props.historyStack, "chat"]));
   }
 
   return <>
@@ -129,7 +142,7 @@ function OrderSummary(props) {
                 </Modal>
               </Container>
 
-              <Link className="btn btn-primary btn-md w-75 justify-content-center" role="button" to="/handleknownsizes"  >
+              <Link onClick={onClickHandler} className="btn btn-primary btn-md w-75 justify-content-center" role="button" to="/CustomerServiceChat"  >
                 Contact customer service
               </Link>
 

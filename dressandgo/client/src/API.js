@@ -290,10 +290,12 @@ async function getAllUserMessagesCS(id_u) {
               ...t,
               id_m: t.id_m,
               id_conv: t.id_conv,
-              idSender: t.idSender,
-              idReceiver: t.idReceiver,
+              idUser: t.idUser,
+              idCS: t.idCS,
               date: t.date,
-              text: t.text
+              text: t.text,
+              isSenderAUser: t.isSenderAUser
+
           }));
       } else {
           throw msgs;  // an object with the error coming from the server

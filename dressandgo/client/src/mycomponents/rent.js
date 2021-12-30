@@ -6,11 +6,14 @@ function Rent(props) {
 
   let navigate = useNavigate();
   const adss = props.ads.find(ad => ad.id_a === props.myrent.id_a);
-  
 
+  const onClickHandler = () => {
+    props.setCurrentState("rent");
+    localStorage.setItem("currentState", "rent");
+    localStorage.setItem("historyStack", JSON.stringify([...props.historyStack, "rent"]))
+    props.setHistoryStack(() => ([...props.historyStack, "rent"]));
 
-
-  
+  }
 
   return <>
     {
@@ -22,7 +25,7 @@ function Rent(props) {
             {adss.description}
           </Card.Text>
 
-          <Link to={{ pathname: "/MyRents/" + props.myrent.id_r }} className="my-2 btn btn-primary btn-md w-75" role="button" >
+          <Link onClick={onClickHandler} to={{ pathname: "/MyRents/" + props.myrent.id_r }} className="my-2 btn btn-primary btn-md w-75" role="button" >
             View details
           </Link>
         </Card.Body>

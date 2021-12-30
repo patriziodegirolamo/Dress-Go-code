@@ -1,4 +1,4 @@
-import { Row, Container, Figure } from "react-bootstrap";
+import { Row, Container, Figure, Button } from "react-bootstrap";
 import { NavLink as Link } from "react-router-dom";
 import Rating from '@mui/material/Rating';
 import Typography from '@mui/material/Typography';
@@ -12,11 +12,18 @@ function MyProfile(props) {
 
     // const { surveys, setSurveyToCompile, setCompiled } = props;
 
-    function handleClick() {
+    const onClickHandlerEdit = () =>{
+        props.setCurrentState("editProfile");
+        localStorage.setItem("currentState","editProfile" );
+        localStorage.setItem("historyStack", [...props.historyStack, "editProfile"])
+        props.setHistoryStack(() => ([...props.historyStack, "editProfile"]))
+    }
 
-        //setSurveyToCompile(surveys.id_s)
-        //setCompiled(false);
-
+    const onClickHandlerKS = () =>{
+        props.setCurrentState("ks");
+        localStorage.setItem("currentState","ks" );
+        localStorage.setItem("historyStack", [...props.historyStack, "ks"])
+        props.setHistoryStack(() => ([...props.historyStack, "ks"]))
     }
 
     return (
@@ -43,17 +50,17 @@ function MyProfile(props) {
             </Row>
             <Row className="pt-5 justify-content-center">
 
-                <Link className=" my-2 btn btn-primary btn-md w-75 " role="button" to="/editprofile" onClick={handleClick} >
+                <Link onClick={onClickHandlerEdit} className=" my-2 btn btn-primary btn-md w-75 " role="button" to="/editprofile">
                     Edit profile
                 </Link>
 
-                <Link className="btn btn-primary btn-md w-75 justify-content-center" role="button" to="/handleknownsizes" onClick={handleClick} >
+                <Link onClick={onClickHandlerKS}className="btn btn-primary btn-md w-75 justify-content-center" role="button" to="/handleknownsizes" >
                     Handle know sizes
                 </Link>
 
-                <Link className="my-2 btn btn-primary btn-md w-75" role="button" to="/paymentmethods" onClick={handleClick} >
+                <Button disabled className="my-2 btn btn-primary btn-md w-75" >
                     Payment methods
-                </Link>
+                </Button>
 
             </Row>
         </Container>

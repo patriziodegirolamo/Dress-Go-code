@@ -9,7 +9,9 @@ function MyRents(props) {
             {props.rents.map((x, idx) => {
                 return <Row key={idx}>
                     <Rent myrent={x} ads={props.ads}
-                    conversations={props.conversations}></Rent>
+                    conversations={props.conversations}
+                    setCurrentState={props.setCurrentState}
+                    setHistoryStack={props.setHistoryStack} historyStack={props.historyStack}></Rent>
                 </Row>
             })}
 

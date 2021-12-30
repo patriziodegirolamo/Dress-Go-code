@@ -13,13 +13,13 @@ import MyKnownSizes from './mycomponents/known_sizes';
 import AddKnownSizes from './mycomponents/add_size_button';
 import MyAvailabilityModal from './mycomponents/availabilityModal';
 import SizeGuide from './mycomponents/mySizeGuide';
-import { MySmallAdvertisement, MyBigAdvertisement } from './mycomponents/dress_card.js'
+import { MyBigAdvertisement } from './mycomponents/dress_card.js'
 import Faq from './mycomponents/accordion.js'
 
 
 import {
   getCategories, getUserInfos, getKnownSizes, getAds, getAdsImages, getBrands, getAllUserMessages,
-  getUsers, getConversations, modifyUsInfos, insertKnownSize, removeKnownSize, insertMessage, 
+  getUsers, getConversations, modifyUsInfos, insertKnownSize, removeKnownSize, insertMessage,
   getOperators, getConversationsCS, getAllUserMessagesCS, insertMessageCS
 } from './API';
 
@@ -168,6 +168,8 @@ function App() {
     else return "home";
   });
 
+  const [historyStack, setHistoryStack] = useState([])
+
   const [currentCat, setCurrentCat] = useState(() => {
     const cc = localStorage.getItem("currentCat");
     if (cc)
@@ -202,6 +204,7 @@ function App() {
   const [dirty, setDirty] = useState(true);
 
   const handleChangeForwardPage = (cat) => {
+    let x = null;
     if (search) {
       if (currentState === "home") {
         setCurrentCat(cat)
@@ -209,11 +212,15 @@ function App() {
 
         setCurrentState("bigCat");
         localStorage.setItem("currentState", "bigCat");
+
       }
       else if (currentState === "cat") {
         setCurrentState("bigCat")
         localStorage.setItem("currentState", "bigCat");
       }
+      x = JSON.stringify([...historyStack, "bigCat"]);
+      setHistoryStack(() => ([...historyStack, "bigCat"]));
+      localStorage.setItem("historyStack", x)
     }
 
     else {
@@ -223,15 +230,21 @@ function App() {
 
         setCurrentState("cat")
         localStorage.setItem("currentState", "cat");
+
+
+        x = JSON.stringify([...historyStack, "cat"]);
+        setHistoryStack(() => ([...historyStack, "cat"]));
+        localStorage.setItem("historyStack", x)
+
       }
 
       else if (currentState === "cat") {
         setCurrentState("bigCat")
         localStorage.setItem("currentState", "bigCat");
 
-      }
-
-      else if (currentState === "bigCat") {
+        x = JSON.stringify([...historyStack, "bigCat"]);
+        setHistoryStack(() => ([...historyStack, "bigCat"]));
+        localStorage.setItem("historyStack", x)
 
       }
     }
@@ -251,7 +264,7 @@ function App() {
       let fetchedUser = null;
       let fetchedConversations;
       let fetchedMessages;
-      
+
       if (Object.keys(user).length === 0) {
         fetchedUser = await getUserInfos();
         fetchedConversations = await getConversations(fetchedUser.id_u);
@@ -259,14 +272,13 @@ function App() {
         localStorage.setItem("user", JSON.stringify(fetchedUser));
         localStorage.setItem("page", fetchedUser.gender);
         setPage(fetchedUser.gender);
-
       }
+
       else {
         fetchedUser = JSON.parse(localStorage.getItem("user"));
         fetchedConversations = await getConversations(fetchedUser.id_u);
         fetchedMessages = await getAllUserMessages(fetchedUser.id_u);
         setPage(localStorage.getItem("page"));
-
       }
 
       setUser(fetchedUser);
@@ -286,8 +298,8 @@ function App() {
 
 
   useEffect(() => {
-    async function getCS() {      
-      if(user){
+    async function getCS() {
+      if (user) {
         const fetchedOperators = await getOperators();
         const fetchedConversationsCS = await getConversationsCS(user.id_u);
         const fetchedMessagesCS = await getAllUserMessagesCS(user.id_u);
@@ -319,7 +331,7 @@ function App() {
       return messages.concat(new_message)
     });
   }
-  
+
 
   const addAMessage = (new_message) => {
     insertMessage(new_message).then((err) => { });
@@ -328,22 +340,22 @@ function App() {
       return messages.concat(new_message)
     });
   }
-  
+
 
   const addAConversation = (new_conversation, new_message) => {
-    
-    return insertConversation(new_conversation, new_message).then((res) => { 
-      const fullNewConv =  {...new_conversation, id_conv: res.id_conv}
-      const fullNewMsg = {...new_message, id_m: res.id_m}
+
+    return insertConversation(new_conversation, new_message).then((res) => {
+      const fullNewConv = { ...new_conversation, id_conv: res.id_conv }
+      const fullNewMsg = { ...new_message, id_m: res.id_m }
 
       setConversations([...conversations, fullNewConv])
       setMessages([...messages, fullNewMsg])
       setDirty(true);
       return res
     });
-    
+
   }
-  
+
   /* TO REMOVE A KNOWN SIZE INSERTED BY THE USER */
   const removeASize = (id_ks) => {
     removeKnownSize(id_ks).then((err) => { });
@@ -370,7 +382,7 @@ function App() {
     })
   }
 
-
+  console.log(historyStack)
 
   return <Router>
     <MyHeader page={page} setPage={setPage}
@@ -379,6 +391,9 @@ function App() {
       currentState={currentState}
       setCurrentState={setCurrentState}
       search={search} setSearch={setSearch}
+      historyStack={historyStack}
+      setHistoryStack={setHistoryStack}
+
     />
 
     <Routes >
@@ -387,7 +402,8 @@ function App() {
       <Route path='/ad/:idAd' element={<>
         <MyBigAdvertisement ads={ads} adsImages={adsImages} users={users} currentUser={user}
           conversations={conversations}
-          addAConversation={addAConversation} />
+          addAConversation={addAConversation} currentCat={currentCat}
+          setHistoryStack={setHistoryStack} historyStack={historyStack} setCurrentCat={setCurrentCat} setCurrentState={setCurrentState} />
       </>} />
 
       <Route path='/guide' element={<>
@@ -403,32 +419,36 @@ function App() {
 
       <Route path='/CustomerServiceChat' element={<>
         {conversationsCS.length > 0 ? <CSMessages
-        operatorsCS={operatorsCS}
-        user={user}
-        conversationsCS={conversationsCS} 
-        addAMessageCS={addAMessageCS}
-        messagesCS={messagesCS.sort((a, b) => a.date - b.date)}
-        addAMessageCS={addAMessageCS}
-      >
-      </CSMessages> : <></>}
-      
+          operatorsCS={operatorsCS}
+          user={user}
+          conversationsCS={conversationsCS}
+          addAMessageCS={addAMessageCS}
+          messagesCS={messagesCS.sort((a, b) => a.date - b.date)}
+          addAMessageCS={addAMessageCS}
+        >
+        </CSMessages> : <></>}
+
       </>
       } />
 
       <Route path='/MyChats' element={<>
         <ChatsPage currentUser={user} conversations={conversations} users={users} ads={ads}
           adsImages={adsImages} messages={messages.sort((a, b) => a.date - b.date)}
-          setMessages={setMessages} conversationsCS={conversationsCS} 
-          messagesCS={messagesCS.sort((a, b) => a.date - b.date)}/>
+          setMessages={setMessages} conversationsCS={conversationsCS}
+          messagesCS={messagesCS.sort((a, b) => a.date - b.date)}
+          setCurrentState={setCurrentState}
+          historyStack={historyStack} setHistoryStack={setHistoryStack} />
       </>} />
 
       <Route path="/MyRents" element={<>
-        <MyRents user={user} rents={rents} ads={ads}/>
+        <MyRents user={user} rents={rents} ads={ads} setCurrentState={setCurrentState}
+          setHistoryStack={setHistoryStack} historyStack={historyStack} />
       </>} />
 
       <Route path='/MyRents/:id_r' element={<>
         <OrderSummary rents={rents} ads={ads} adsImages={adsImages} conversations={conversations}
-        addAConversation={addAConversation}/>
+          addAConversation={addAConversation} setCurrentState={setCurrentState}
+          setHistoryStack={setHistoryStack} historyStack={historyStack} />
       </>} />
 
       <Route path='/previews' element={<>
@@ -448,8 +468,8 @@ function App() {
       </>} />
 
       <Route path="/dresses/:categorie" element={<>
-        {search ? <Container id="dressContainer"> 
-        <h4>researched:</h4>
+        {search ? <Container id="dressContainer">
+          <h4>researched:</h4>
           <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(ad => (categories.find((el) => el.id_cat === ad.id_cat).name === currentCat) && (ad.title.includes(search) || ad.description.includes(search)))}
             handleChangeForwardPage={handleChangeForwardPage}>
           </MyDressList>
@@ -475,7 +495,7 @@ function App() {
 
 
             <Container id="dressContainer">
-            <h4>All sizes:</h4>
+              <h4>All sizes:</h4>
               <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(ad => {
                 if (categories.find((el) => el.id_cat === ad.id_cat).name === currentCat) {
                   if (ad.gender === "unisex")
@@ -492,8 +512,10 @@ function App() {
       </>} />
 
       <Route path="/MyAccount" element={<>
-        <MyProfile user={user} />
+        <MyProfile user={user} setCurrentState={setCurrentState}
+          setHistoryStack={setHistoryStack} historyStack={historyStack} />
       </>} />
+
 
       <Route path="/handleknownsizes" element={<>
         <MyKnownSizes knownsizes={knownsizes} setKnownsizes={setKnownSizes} categories={categories} removeASize={removeASize}></MyKnownSizes>
@@ -516,19 +538,17 @@ function App() {
         <MyUserData user={user} modifyUserInfos={modifyUserInfos} />
       </>} />
 
-      <Route path="/paymentmethods" element={<>
-        <MyProfile user={user} />
-      </>} />
-
       <Route path="/FAQ" element={<>
-        <Faq/>;
-      </>}/>
+        <Faq />;
+      </>} />
 
       <Route path="/" element={<Navigate to="/previews" />} />
     </Routes >
 
     <FixedBottomNavigation setCurrentState={setCurrentState} setPage={setPage}
-      setCurrentCat={setCurrentCat}/>
+      setCurrentCat={setCurrentCat}
+      setHistoryStack={setHistoryStack}
+    />
   </Router>
 }
 
