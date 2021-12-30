@@ -116,10 +116,10 @@ exports.listConversations = (id_u) => {
       }
       else {
         const convs = rows.map((t) => ({
-         id_conv: t.ID_CONV,
-         id_a: t.ID_A,
-         idRenter: t.ID_RENTER,
-         idBooker: t.ID_BOOKER
+          id_conv: t.ID_CONV,
+          id_a: t.ID_A,
+          idRenter: t.ID_RENTER,
+          idBooker: t.ID_BOOKER
         }));
         resolve(convs);
       }
@@ -142,12 +142,12 @@ exports.listAllUserMessages = (id_u) => {
       }
       else {
         const msgs = rows.map((t) => ({
-         id_m: t.ID_M,
-         id_conv: t.ID_CONV,
-         idSender: t.ID_SENDER,
-         idReceiver: t.ID_RECEIVER,
-         date: t.DATE,
-         text: t.TEXT
+          id_m: t.ID_M,
+          id_conv: t.ID_CONV,
+          idSender: t.ID_SENDER,
+          idReceiver: t.ID_RECEIVER,
+          date: t.DATE,
+          text: t.TEXT
         }));
         resolve(msgs);
       }
@@ -185,7 +185,7 @@ exports.userInfos = (id_u) => {
           hips: row[0].Hips,
           legLength: row[0].LegLength,
           shoesNumber: row[0].ShoesNumber
-      };
+        };
         resolve(user);
       }
     });
@@ -210,7 +210,7 @@ exports.listKnownSizes = (id_u) => {
           id_ks: t.ID_KS,
           brand: t.Brand,
           EUsize: t.EU_Size,
-          id_cat: t.ID_CAT,          
+          id_cat: t.ID_CAT,
         }));
         resolve(ksizes);
       }
@@ -341,10 +341,11 @@ exports.insertConversation = (conv) => {
   });
 };
 
+
 // add a new message
-exports.insertMessage=(msg) => {
+exports.insertMessage = (msg) => {
   return new Promise((resolve, reject) => {
-    const sql ="INSERT INTO MESSAGE (ID_CONV, ID_SENDER, ID_RECEIVER, DATE, TEXT) VALUES (?, ?, ?, ?, ?)";
+    const sql = "INSERT INTO MESSAGE (ID_CONV, ID_SENDER, ID_RECEIVER, DATE, TEXT) VALUES (?, ?, ?, ?, ?)";
     db.run(
       sql,
       [msg.id_conv, msg.idSender, msg.idReceiver, msg.date, msg.text],
@@ -365,14 +366,14 @@ exports.insertMessage=(msg) => {
 // update infos of a user 
 exports.modifyUserInfos = (newInfos) => {
   return new Promise((resolve, reject) => {
-    const sql = "UPDATE USER SET NAME = ?, SURNAME = ?, ADDRESS = ?, CITY = ?,"+
-                "CAP = ?, STATE = ?, ZIP = ?, GENDER = ?, HEIGHT = ?, WEIGHT = ?," + 
-                "WAISTLINE = ?, HIPS = ?, LEGLENGTH = ?, SHOESNUMBER = ? WHERE ID_U =?";
+    const sql = "UPDATE USER SET NAME = ?, SURNAME = ?, ADDRESS = ?, CITY = ?," +
+      "CAP = ?, STATE = ?, ZIP = ?, GENDER = ?, HEIGHT = ?, WEIGHT = ?," +
+      "WAISTLINE = ?, HIPS = ?, LEGLENGTH = ?, SHOESNUMBER = ? WHERE ID_U =?";
     db.run(
       sql,
-      [newInfos.name, newInfos.surname, newInfos.address, newInfos.city, newInfos.cap, 
-       newInfos.state, newInfos.zip, newInfos.gender, newInfos.height, newInfos.weight, 
-       newInfos.waistline, newInfos.hips, newInfos.legLength, newInfos.shoesNumber,newInfos.id_u],
+      [newInfos.name, newInfos.surname, newInfos.address, newInfos.city, newInfos.cap,
+      newInfos.state, newInfos.zip, newInfos.gender, newInfos.height, newInfos.weight,
+      newInfos.waistline, newInfos.hips, newInfos.legLength, newInfos.shoesNumber, newInfos.id_u],
       function (err) {
         if (err) {
           reject(err);
@@ -397,5 +398,112 @@ exports.removeKnownSize = (id_ks) => {
         return;
       } else resolve(null);
     });
+  });
+};
+
+
+
+
+
+
+//get all users
+exports.listOperators = () => {
+  return new Promise((resolve, reject) => {
+    const sql = "SELECT * FROM CUSTOMER_SERVICE";
+    db.all(sql, [], (err, rows) => {
+      if (rows === undefined || rows.length === 0) {
+        const operators = { id_cs: 'Empty' };
+        resolve(operators);
+      }
+      if (err) {
+        reject(err);
+        return;
+      }
+      else {
+        const operators = rows.map((t) => ({
+          id_cs: t.ID_CS,
+          name: t.NAME,
+          surname: t.SURNAME,
+        }));
+        resolve(operators);
+      }
+    });
+  });
+};
+
+
+//get all conversations
+exports.listConversationsCS = (id_u) => {
+  return new Promise((resolve, reject) => {
+    const sql = "SELECT * FROM CONVERSATION_CS CONV WHERE ID_USER = ?";
+    db.all(sql, [id_u], (err, rows) => {
+      if (rows === undefined || rows.length === 0) {
+        const convs = { id_conv: 'Empty' };
+        resolve(convs);
+      }
+      if (err) {
+        reject(err);
+        return;
+      }
+      else {
+        const convs = rows.map((t) => ({
+          id_conv: t.ID_CONV,
+          id_u: t.ID_USER,
+          id_cs: t.ID_CS,
+          name_cs: t.NAME_CS
+        }));
+        resolve(convs);
+      }
+    });
+  });
+};
+
+
+exports.listAllUserMessagesCS = (id_u) => {
+  return new Promise((resolve, reject) => {
+    const sql = "SELECT * FROM MESSAGE_CS WHERE ID_USER = ?";
+    db.all(sql, [id_u], (err, rows) => {
+      if (rows === undefined || rows.length === 0) {
+        const msgs = { id_m: 'Empty' };
+        resolve(msgs);
+      }
+      if (err) {
+        reject(err);
+        return;
+      }
+      else {
+        const msgs = rows.map((t) => ({
+              id_m: t.ID_M,
+              id_conv: t.ID_CONV,
+              idUser: t.ID_USER,
+              idCS: t.ID_CS,
+              date: t.DATE,
+              text: t.TEXT,
+              isSenderAUser: t.IS_SENDER_A_USER
+        }));
+        resolve(msgs);
+      }
+    });
+  });
+};
+
+
+
+// add a new message
+exports.insertMessageCS = (msg) => {
+  return new Promise((resolve, reject) => {
+    const sql = "INSERT INTO MESSAGE_CS (ID_CONV, ID_USER, ID_CS, DATE, TEXT, IS_SENDER_A_USER) VALUES (?,?, ?, ?, ?, ?)";
+    db.run(
+      sql,
+      [msg.id_conv, msg.idUser, msg.idCS, msg.date, msg.text, msg.isSenderAUser],
+      function (err) {
+
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve(this.lastID);
+      }
+    );
   });
 };

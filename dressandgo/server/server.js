@@ -198,6 +198,7 @@ async (req, res) => {
   }
 });
 
+
 // POST /api/newmessage ; to create a new message
 app.post('/api/newmessage',
 async (req, res) => {
@@ -234,6 +235,61 @@ app.delete('/api/removeksize',  async (req, res) => {
     res.end();
   } catch (error) {
     res.status(500).json(error);
+  }
+});
+
+
+
+
+app.get("/api/alloperators", async (req, res) => {
+  try {
+    const result = await dao.listOperators();
+    if (result.error)
+      res.status(404).json(result);
+    else
+      res.json(result);
+  } catch (err) {
+    res.status(500).end();
+  }
+});
+
+// GET /api/allconversations ; to have the list of all conversations
+app.get("/api/allconversationsCS", async (req, res) => {
+  try {
+    const result = await dao.listConversationsCS(req.query.id_u);
+    if (result.error)
+      res.status(404).json(result);
+    else
+      res.json(result);
+  } catch (err) {
+    res.status(500).end();
+  }
+});
+
+
+app.get("/api/allUsermessagesCS", async (req, res) => {
+  try {
+    const result = await dao.listAllUserMessagesCS(req.query.id_u);
+    if (result.error)
+      res.status(404).json(result);
+    else
+      res.json(result);
+  } catch (err) {
+    res.status(500).end();
+  }
+});
+
+
+
+// POST /api/newmessage ; to create a new message
+app.post('/api/newmessageCS',
+async (req, res) => {
+  const msg = {id_conv: req.body.id_conv, idUser: req.body.idUser, idCS: req.body.idCS, date: req.body.date, text: req.body.text, isSenderAUser: req.body.isSenderAUser};
+  try {
+    const result = await dao.insertMessageCS(msg);
+    return res.json(result);
+  } catch (err) {
+    res.status(503).json({ error: `Database error during the creation of submission` });
   }
 });
 
