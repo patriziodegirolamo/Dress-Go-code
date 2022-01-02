@@ -37,6 +37,7 @@ function OrderSummary(props) {
       localStorage.setItem("historyStack", JSON.stringify([...props.historyStack, "chat"]))
       props.setHistoryStack(() => ([...props.historyStack, "chat"]));
       props.setCurrentState("chat");
+      localStorage.setItem("currentState", "chat");
       localStorage.setItem("currParam", JSON.stringify(currParam))
       navigate("/MyChats/" + conv.id_conv)
     }
@@ -49,6 +50,7 @@ function OrderSummary(props) {
   const handleCreateNewConversation = (event) => {
     event.preventDefault();
     const cr = props.rents.find(r => r.id_r === id_r);
+    const currParam = { "id": id_r }
     const new_conversation = {
       id_a: cr.id_a,
       idRenter: cr.idRenter,
@@ -64,8 +66,11 @@ function OrderSummary(props) {
 
     props.addAConversation(new_conversation, new_message).then(res => {
       setShowNewMessage(false);
-      //TODO
-      localStorage.setItem("historyStack", JSON.stringify(props.historyStack))
+      localStorage.setItem("historyStack", JSON.stringify([...props.historyStack, "chat"]))
+      props.setHistoryStack(() => ([...props.historyStack, "chat"]));
+      props.setCurrentState("chat");
+      localStorage.setItem("currentState", "chat");
+      localStorage.setItem("currParam", JSON.stringify(currParam))
       navigate("/MyChats/" + res.id_conv)
     })
   }

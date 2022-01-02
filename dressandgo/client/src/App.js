@@ -59,90 +59,21 @@ const fakeRents = [
     id_a: 2,
     idRenter: 2,
     idBooker: 3,
-    dataIn: "15/04/2022",
-    dataOut: "18/04/2022",
+    dataIn: "23/12/2022",
+    dataOut: "02/01/2023",
     status: "ARRIVING",
     total: 456
   },
 
-]
-
-const fakeConversations = [
   {
-    id_conv: 1,
-    id_a: 1,
-    idRenter: 2,
-    idBooker: 1,
-  },
-
-  {
-    id_conv: 2,
+    id_r: 4,
     id_a: 2,
     idRenter: 2,
-    idBooker: 1
-  },
-
-  {
-    id_conv: 3,
-    id_a: 3,
-    idRenter: 3,
-    idBooker: 2
-  }
-]
-
-const fakeMessages = [
-  {
-    id_mess: 1,
-    id_conv: 1,
-    idSender: 1,
-    idReceiver: 2,
-    date: new Date().toISOString(),
-    text: "ciao mi chiamo Patrizio de Girolamo"
-  },
-
-  {
-    id_mess: 2,
-    id_conv: 1,
-    idSender: 1,
-    idReceiver: 2,
-    date: new Date().toISOString(),
-    text: "Vorrei"
-  },
-
-  {
-    id_mess: 3,
-    id_conv: 1,
-    idSender: 1,
-    idReceiver: 2,
-    date: new Date().toISOString(),
-    text: "Sapere",
-  },
-
-  {
-    id_mess: 4,
-    id_conv: 1,
-    idSender: 1,
-    idReceiver: 2,
-    date: new Date().toISOString(),
-    text: "Quando",
-  },
-
-  {
-    id_mess: 5,
-    id_conv: 1,
-    idSender: 1,
-    idReceiver: 2,
-    date: new Date().toISOString(),
-    text: "E' disponibile",
-  },
-
-  {
-    id_mess: 6,
-    id_conv: 1,
-    idSender: 2,
-    idReceiver: 1,
-    date: new Date().toISOString(),
-    text: "ciao E' disponibile sin da subito",
+    idBooker: 4,
+    dataIn: "01/01/2022",
+    dataOut: "13/02/2022",
+    status: "PASSED",
+    total: 456
   },
 
 ]
@@ -168,7 +99,12 @@ function App() {
     else return "home";
   });
 
-  const [historyStack, setHistoryStack] = useState([])
+  const [historyStack, setHistoryStack] = useState(() => {
+    const hs = localStorage.getItem("historyStack");
+    if (hs !== "[]")
+      return JSON.parse(hs);
+    else return [];
+  });
 
   const [currentCat, setCurrentCat] = useState(() => {
     const cc = localStorage.getItem("currentCat");
@@ -180,7 +116,7 @@ function App() {
   const [modalShow, setModalShow] = useState(false);
   const [search, setSearch] = useState("");
 
-  const [messages, setMessages] = useState([...fakeMessages])
+  const [messages, setMessages] = useState([])
   const [rents, setRents] = useState([...fakeRents])
   const [users, setUsers] = useState([])
 
@@ -260,6 +196,8 @@ function App() {
       const fetchedAdsImages = await getAdsImages();
       const fetchedBrands = await getBrands();
       const fetchedUsers = await getUsers();
+
+      //TODO: AGGIUNGERE I RENTS
 
       let fetchedUser = null;
       let fetchedConversations;
@@ -382,8 +320,6 @@ function App() {
     })
   }
 
-  console.log(historyStack)
-
   return <Router>
     <MyHeader page={page} setPage={setPage}
       currentCat={currentCat}
@@ -401,7 +337,7 @@ function App() {
 
       <Route path='/ad/:idAd' element={<>
         <MyBigAdvertisement ads={ads} adsImages={adsImages} users={users} currentUser={user}
-          conversations={conversations}
+          conversations={conversations} rents={rents}
           addAConversation={addAConversation} currentCat={currentCat}
           setHistoryStack={setHistoryStack} historyStack={historyStack} setCurrentCat={setCurrentCat} setCurrentState={setCurrentState} />
       </>} />
@@ -446,10 +382,15 @@ function App() {
       </>} />
 
       <Route path='/MyRents/:id_r' element={<>
-        <OrderSummary rents={rents} ads={ads} adsImages={adsImages} conversations={conversations}
-          addAConversation={addAConversation} setCurrentState={setCurrentState}
-          setHistoryStack={setHistoryStack} historyStack={historyStack} />
-      </>} />
+        {
+          ads.length > 0 && rents.length ?
+            <OrderSummary rents={rents} ads={ads} adsImages={adsImages} conversations={conversations}
+              addAConversation={addAConversation} setCurrentState={setCurrentState}
+              setHistoryStack={setHistoryStack} historyStack={historyStack} />
+            : <></>
+        }
+      </>
+      } />
 
       <Route path='/previews' element={<>
         {search ? <Container id="dressContainer">

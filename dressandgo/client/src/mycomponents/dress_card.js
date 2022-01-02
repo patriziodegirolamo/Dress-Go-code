@@ -16,7 +16,7 @@ function MySmallAdvertisement(props) {
 
         {
             !currentImg ? <Container id="containerSpinner">
-                <Spinner animation="border" variant="danger"/>
+                <Spinner animation="border" variant="danger" />
             </Container> :
 
                 <Card key={props.idx} onClick={() => {
@@ -73,7 +73,7 @@ function MyBigAdvertisement(props) {
 
     const handleOpenOrCreateConversation = () => {
 
-        const currParam = {"id": idAd, "cat": props.currentCat}
+        const currParam = { "id": idAd, "cat": props.currentCat }
         const conv = props.conversations.find(c => c.id_a == idAd && c.idRenter == renter.id_u && c.idBooker == props.currentUser.id_u)
         if (conv) {
             localStorage.setItem("historyStack", JSON.stringify([...props.historyStack, "chat"]))
@@ -88,7 +88,7 @@ function MyBigAdvertisement(props) {
         }
 
     }
-    
+
     const handleCreateNewConversation = (event) => {
         event.preventDefault();
 
@@ -99,25 +99,26 @@ function MyBigAdvertisement(props) {
         };
 
         const new_message = {
-            idSender: props.currentUser.id_u, 
-            idReceiver: props.users.filter(u => u.id_u == currentAd.id_u)[0].id_u, 
-            date: new Date().toISOString(), 
+            idSender: props.currentUser.id_u,
+            idReceiver: props.users.filter(u => u.id_u == currentAd.id_u)[0].id_u,
+            date: new Date().toISOString(),
             text: newMessage
         }
-         
+
         props.addAConversation(new_conversation, new_message).then(res => {
-            const currParam = {"id": idAd, "cat": props.currentCat}
+            const currParam = { "id": idAd, "cat": props.currentCat }
             localStorage.setItem("historyStack", JSON.stringify([...props.historyStack, "chat"]))
             props.setHistoryStack(() => ([...props.historyStack, "chat"]));
             props.setCurrentCat("");
             props.setCurrentState("chat");
+            localStorage.setItem("currentState", "chat");
             localStorage.setItem("currParam", JSON.stringify(currParam))
-            
+
             setShowNewMessage(false);
-            navigate("/MyChats/"+ res.id_conv)
-          })
+            navigate("/MyChats/" + res.id_conv)
+        })
     }
-    
+
     return (<>
         {!currentAd ? <Container id="containerSpinner">
             <Spinner animation="border" variant="danger" />
@@ -140,24 +141,38 @@ function MyBigAdvertisement(props) {
                 <Card.Body>BRAND: {currentAd.brand}</Card.Body>
                 <Card.Body>DESCRIPTION: {currentAd.description}</Card.Body>
                 <Card.Body>SIZE: {currentAd.size}</Card.Body>
+
                 <Container>
                     <Button onClick={() => setShowSizeGuide(true)}>How to measure your size</Button>
                 </Container>
+
                 <Container>
                     <Modal show={showSizeGuide} onClose={() => setShowSizeGuide(false)} onHide={() => setShowSizeGuide(false)}>
-                        <SizeGuide type={currentAd.gender} />
+                        <Modal.Header>
+                            <Button onClick={() => setShowSizeGuide(false)}>X</Button>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <SizeGuide type={currentAd.gender} />
+                        </Modal.Body>
                     </Modal>
                 </Container>
+
                 <Card.Body>PRICE PER DAY: {currentAd.price} €/day</Card.Body>
 
                 <Card.Body>
                     <Container id="middleButtonContainer">
                         <Button onClick={() => setShowCalendar(true)}>Select dates:</Button>
                     </Container>
-                    <MyAvailabilityModal show={showCalendar} setShow={setShowCalendar}
-                        startDate={startDate} setStartDate={setStartDate} setNumDays={setNumDays}
-                        onChange={onChange} endDate={endDate} setEndDate={setEndDate}>
-                    </MyAvailabilityModal>
+                    {
+                        props.rents ?
+                            <MyAvailabilityModal show={showCalendar} setShow={setShowCalendar}
+                                startDate={startDate} setStartDate={setStartDate} setNumDays={setNumDays}
+                                onChange={onChange} endDate={endDate} setEndDate={setEndDate}
+                                rents={props.rents} currentAd={currentAd}>
+                            </MyAvailabilityModal>
+                            : <></>
+                    }
+
                 </Card.Body>
 
                 {numDays !== 0 ?
@@ -178,9 +193,9 @@ function MyBigAdvertisement(props) {
                             <Button onClick={onCloseNewMessageModal}>X</Button>
                         </Modal.Header>
 
-                        
+
                         <Form onChange={(event) => setNewMessage(event.target.value)}>
-                            <Form.Control as="textarea" defaultValue={ newMessage + currentAd.title + ", "} rows={15} />
+                            <Form.Control as="textarea" defaultValue={newMessage + currentAd.title + ", "} rows={15} />
                         </Form>
 
                         <Modal.Footer>

@@ -10,7 +10,6 @@ function CSMessages(props) {
     const messages = props.messagesCS.filter(m => m.id_conv == conv.id_conv)
 
     const currentOperator = props.operatorsCS.find(op => conv.id_cs == op.id_cs)
-    console.log(messages)
     const [newMessage, setNewMessage] = useState("")
 
 
