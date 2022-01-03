@@ -287,7 +287,7 @@ function App() {
 
 
       <Route path='/ad/:idAd' element={<>
-        <MyBigAdvertisement ads={ads} adsImages = {adsImages} />
+        <MyBigAdvertisement ads={ads} adsImages = {adsImages} users = {users} />
       </>} />
 
       <Route path='/guide' element={<>
