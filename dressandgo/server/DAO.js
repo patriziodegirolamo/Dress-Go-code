@@ -199,7 +199,7 @@ exports.listKnownSizes = (id_u) => {
     db.all(sql, [id_u], (err, rows) => {
       if (rows === undefined || rows.length === 0) {
         const ksizes = { id_ks: 'Empty' };
-        resolve(cat);
+        resolve(ksizes);
       }
       if (err) {
         reject(err);
@@ -497,7 +497,7 @@ exports.insertMessageCS = (msg) => {
       sql,
       [msg.id_conv, msg.idUser, msg.idCS, msg.date, msg.text, msg.isSenderAUser],
       function (err) {
-
+        console.log(msg)
         if (err) {
           reject(err);
           return;

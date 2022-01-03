@@ -51,7 +51,7 @@ function ChatMessages(props) {
                 <Container style={{ backgroundColor: "white" }}>
                     <Row>
                         <Col>
-                            <img style={{ position: "relative", width: "40%" }} src={image.url}></img>
+                            <img style={{ position: "relative", width: "40%" }} src={"/ad/" + image.url}></img>
                         </Col>
                         <Col>
                             <h4 style={{ textAlign: "center" }}>{renter.name}</h4>

@@ -286,6 +286,7 @@ app.post('/api/newmessageCS',
 async (req, res) => {
   const msg = {id_conv: req.body.id_conv, idUser: req.body.idUser, idCS: req.body.idCS, date: req.body.date, text: req.body.text, isSenderAUser: req.body.isSenderAUser};
   try {
+    console.log(msg)
     const result = await dao.insertMessageCS(msg);
     return res.json(result);
   } catch (err) {
