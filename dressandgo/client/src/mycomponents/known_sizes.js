@@ -10,10 +10,7 @@ function MyKnownSizes(props) {
     
     return (
         <Container fluid>
-
             {props.knownsizes.length === 0 ? (<></>) : (
-
-
                 <Row className="p-3">
                     <Col className="text-center justify-content-center">
                         <b>BRAND</b>
@@ -26,12 +23,11 @@ function MyKnownSizes(props) {
                     </Col>
                     <Col></Col>
                 </Row>)}
-
-
-            {props.knownsizes.map(x => {
+                
+            {props.knownsizes.map((x, idx) => {
                 return (
 
-                    <Card className="mt-1" key={x.id_ks}>
+                    <Card className="mt-1" key={idx}>
                         <Card.Header>
                             <Row>
                                 <div className="d-flex justify-content-between">

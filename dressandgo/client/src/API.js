@@ -112,6 +112,204 @@ async function getAdsImages() {
   }
 }
 
+/* TO GET THE LIST OF BRANDS */
+async function getBrands() {
+  const response = await fetch(url + '/api/allbrands');
+  const brands = await response.json();
+  if (brands.id_b === 'Empty' ) {
+      return [];
+  }
+  else {
+      if (response.ok) {
+          return brands.map((t) => ({
+              ...t,
+              id_cat: t.id_cat,
+              name: t.name
+          }));
+      } else {
+          throw brands;  // an object with the error coming from the server
+      }
+  }
+}
+
+/* TO GET THE LIST OF USERS */
+async function getUsers() {
+  const response = await fetch(url + '/api/allusers');
+  const users = await response.json();
+  if (users.id_u === 'Empty' ) {
+      return [];
+  }
+  else {
+      if (response.ok) {
+          return users.map((t) => ({
+              ...t,
+              id_r: t.id_r,
+              id_a: t.id_a,
+              idRenter: t.idRenter,
+              idBooker: t.idBooker,
+              dataIn: t.dataIn,
+              dataOut: t.dataOut,
+              status: t.status
+          }));
+      } else {
+          throw users;  // an object with the error coming from the server
+      }
+  }
+}
+
+/* TO GET THE LIST OF CONVERSATIONS */
+async function getConversations(id_u) {
+  const response = await fetch(url + '/api/allconversations?id_u='+id_u);
+  const convs = await response.json();
+  if (convs.id_conv === 'Empty' ) {
+      return [];
+  }
+  else {
+      if (response.ok) {
+          return convs.map((t) => ({
+              ...t,
+              id_conv: t.id_conv,
+              id_a: t.id_a,
+              idRenter: t.idRenter,
+              idBooker: t.idBooker
+          }));
+      } else {
+          throw convs;  // an object with the error coming from the server
+      }
+  }
+}
+
+// TO GET THE LIST OF MESSAGES OF A CONVERSATION 
+/**
+async function getMessages(id_conv) {
+  const response = await fetch(url + '/api/allmessages?id_conv='+id_conv);
+  const msgs = await response.json();
+  if (msgs.id_m === 'Empty' ) {
+      return [];
+  }
+  else {
+      if (response.ok) {
+          return msgs.map((t) => ({
+              ...t,
+              id_m: t.id_m,
+              id_conv: t.id_conv,
+              idSender: t.idSender,
+              idReceiver: t.idReceiver,
+              date: t.date,
+              text: t.text
+          }));
+      } else {
+          throw msgs;  // an object with the error coming from the server
+      }
+  }
+}
+ */
+
+// TO GET THE LIST OF MESSAGES OF THE LOGGED USER 
+async function getAllUserMessages(id_u) {
+  const response = await fetch(url + '/api/allUsermessages?id_u=' + id_u);
+  const msgs = await response.json();
+  if (msgs.id_m === 'Empty' ) {
+      return [];
+  }
+  else {
+      if (response.ok) {
+          return msgs.map((t) => ({
+              ...t,
+              id_m: t.id_m,
+              id_conv: t.id_conv,
+              idSender: t.idSender,
+              idReceiver: t.idReceiver,
+              date: t.date,
+              text: t.text
+          }));
+      } else {
+          throw msgs;  // an object with the error coming from the server
+      }
+  }
+}
+
+
+
+
+//DA QUI
+
+/* TO GET THE LIST OF USERS */
+async function getOperators() {
+  const response = await fetch(url + '/api/alloperators');
+  const operators = await response.json();
+  if (operators.id_cs === 'Empty' ) {
+      return [];
+  }
+  else {
+      if (response.ok) {
+          return operators.map((t) => ({
+              ...t,
+              id_cs: t.id_cs,
+              name: t.name,
+              surname: t.surname
+          }));
+      } else {
+          throw operators;  // an object with the error coming from the server
+      }
+  }
+}
+
+/* TO GET THE LIST OF CONVERSATIONS */
+async function getConversationsCS(id_u) {
+  const response = await fetch(url + '/api/allconversationsCS?id_u='+id_u);
+  const convs = await response.json();
+  if (convs.id_conv === 'Empty' ) {
+      return [];
+  }
+  else {
+      if (response.ok) {
+          return convs.map((t) => ({
+              ...t,
+              id_conv: t.id_conv,
+              id_u: t.id_u,
+              id_cs: t.id_cs,
+              name_cs : t.name_cs
+          }));
+      } else {
+          throw convs;  // an object with the error coming from the server
+      }
+  }
+}
+
+// TO GET THE LIST OF MESSAGES OF THE LOGGED USER 
+async function getAllUserMessagesCS(id_u) {
+  const response = await fetch(url + '/api/allUsermessagesCS?id_u=' + id_u);
+  const msgs = await response.json();
+  if (msgs.id_m === 'Empty' ) {
+      return [];
+  }
+  else {
+      if (response.ok) {
+          return msgs.map((t) => ({
+              ...t,
+              id_m: t.id_m,
+              id_conv: t.id_conv,
+              idUser: t.idUser,
+              idCS: t.idCS,
+              date: t.date,
+              text: t.text,
+              isSenderAUser: t.isSenderAUser
+
+          }));
+      } else {
+          throw msgs;  // an object with the error coming from the server
+      }
+  }
+}
+
+
+
+
+
+//A QUI
+
+
 
 /* TO MODIFY USER INFOS */
 async function modifyUsInfos(newInfos) {
@@ -163,6 +361,56 @@ async function insertKnownSize(ksize) {
     });
   }
 
+  
+/* TO INSERT A NEW CONVERSATION */
+async function insertConversation(conv, mess) {
+  return new Promise((resolve, reject) => {
+    fetch('/api/newconversation', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ id_a: conv.id_a, idRenter: conv.idRenter, idBooker: conv.idBooker, 
+        idSender: mess.idSender, idReceiver: mess.idReceiver, date: mess.date, text: mess.text }),
+    }).then((response) => {
+      if (response.ok) {
+        resolve(response.json());
+      } else {
+        response.json()
+          .then((message) => { reject(message); })
+          .catch(() => reject({ error: 'Cannot parse the response.' }));
+      }
+    }).catch(() => {
+      reject({ error: 'Cannot communicate with the server.' });
+    })
+  });
+}
+
+/* TO INSERT A NEW MESSAGE */
+async function insertMessage(msg) {
+  return new Promise((resolve, reject) => {
+    fetch('/api/newmessage', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({id_conv: msg.id_conv, idSender: msg.idSender, idReceiver: msg.idReceiver, date: msg.date, text: msg.text}),
+    }).then((response) => {
+      if (response.ok) {
+        resolve(response.json());
+      } else {
+        response.json()
+          .then((message) => { reject(message); })
+          .catch(() => reject({ error: 'Cannot parse the response.' }));
+      }
+    }).catch(() => {
+      reject({ error: 'Cannot communicate with the server.' });
+    })
+  });
+}
+
+
+
 
 /* TO REMOVE A KNOWN SIZE INSERTED BY THE USER*/
 async function removeKnownSize(id_ks) {
@@ -183,6 +431,33 @@ async function removeKnownSize(id_ks) {
   });
 }
 
+
+
+/* TO INSERT A NEW MESSAGE */
+async function insertMessageCS(msg) {
+  return new Promise((resolve, reject) => {
+    fetch('/api/newmessageCS', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({id_conv: msg.id_conv, idUser: msg.idUser, idCS: msg.idCS, date: msg.date, text: msg.text, isSenderAUser: msg.isSenderAUser}),
+    }).then((response) => {
+      if (response.ok) {
+        resolve(response.json());
+      } else {
+        response.json()
+          .then((message) => { reject(message); })
+          .catch(() => reject({ error: 'Cannot parse the response.' }));
+      }
+    }).catch(() => {
+      reject({ error: 'Cannot communicate with the server.' });
+    })
+  });
+}
+
   
 
-export {getCategories, getUserInfos, getKnownSizes, getAds, getAdsImages, modifyUsInfos, insertKnownSize, removeKnownSize};
+export {getCategories, getUserInfos, getKnownSizes, getAds, getAdsImages, getBrands, getAllUserMessages,
+        getUsers, getConversations, modifyUsInfos, insertKnownSize, insertConversation, insertMessage,
+        removeKnownSize, getOperators, getConversationsCS, getAllUserMessagesCS, insertMessageCS};

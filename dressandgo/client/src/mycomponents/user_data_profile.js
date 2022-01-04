@@ -90,7 +90,7 @@ function MyUserData(props) {
 
           <Form.Group as={Col} controlId="formGridCity">
             <Form.Label>Gender</Form.Label>
-            <FloatingLabel controlId="floatingSelect" label={props.user.gender ? (props.user.gender == 1 ? 'Male' : (props.user.gender == 2 ? 'Female' : 'Other')) : ''}>
+            <FloatingLabel controlId="floatingSelect" label={props.user.gender ? (props.user.gender === 1 ? 'Male' : (props.user.gender === 2 ? 'Female' : 'Other')) : ''}>
               <Form.Select aria-label={props.user.gender ? props.user.gender : ''} onChange={ev => setGender(ev.target.value)}>
                 <option>---</option>
                 <option value="1">Male</option>
