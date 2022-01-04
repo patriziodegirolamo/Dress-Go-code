@@ -61,7 +61,11 @@
   justify-content: center;
 }
 
-
+#rotationimage {
+	transform: rotate(-34deg);
+  	/*to rotate an image you have to use the transform function in CSS and rotate
+  	in degrees*/
+}
 
 
 #containerSpinner{

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Container } from 'react-bootstrap';
+import { Container, Row } from 'react-bootstrap';
 import Accordion from 'react-bootstrap/Accordion';
 import YoutubeEmbed from "./youtubeEmbed";
 
@@ -13,9 +13,12 @@ export default function Faq(){
 return(
 
 <Accordion>
-<Container>          
-      <b id="title" className="mx-auto ">FAQ</b>
-</Container>
+<Container>
+        <Row className="pt-2">
+          <h3 style={{ textAlign: "center" }}>FAQ</h3>
+        </Row>
+
+      </Container>
 
 
   <Accordion.Item eventKey="0">

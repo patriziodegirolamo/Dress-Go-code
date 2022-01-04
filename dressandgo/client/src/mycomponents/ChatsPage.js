@@ -15,8 +15,7 @@ function ChatsPage(props) {
     }
 
     return <>
-        <h2 style={{ textAlign: "center" }}>Messages with:</h2>
-
+        
         <Container style={{ paddingTop: 10}}>
             {props.conversationsCS.length > 0 ?
                 <Container className="containerChatPreview">
