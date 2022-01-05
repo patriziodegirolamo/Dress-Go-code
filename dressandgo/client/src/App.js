@@ -124,8 +124,8 @@ function App() {
         else return "";
       }
     }
-    const urlArray =window.location.pathname.split("/").splice(1)
-    if(urlArray[0] === "dresses")
+    const urlArray = window.location.pathname.split("/").splice(1)
+    if (urlArray[0] === "dresses")
       return urlArray[1]
     else return "";
   });
@@ -463,7 +463,9 @@ function App() {
       <Route path="/dresses/:categorie" element={<>
         {search ? <Container id="dressContainer">
           <h4>RESULTS:</h4>
-          <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(ad => (categories.find((el) => el.id_cat === ad.id_cat).name === currentCat) && (ad.title.includes(search) || ad.description.includes(search)))}
+          <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(ad => (
+            categories.find((el) => el.id_cat === ad.id_cat).name === currentCat)
+            && (ad.title.includes(search) || ad.description.includes(search)))}
             handleChangeForwardPage={handleChangeForwardPage}>
           </MyDressList>
         </Container>
@@ -539,6 +541,7 @@ function App() {
     <FixedBottomNavigation setCurrentState={setCurrentState} setPage={setPage}
       setCurrentCat={setCurrentCat}
       setHistoryStack={setHistoryStack}
+      setSearch={setSearch}
     />
   </Router>
 }

@@ -32,7 +32,7 @@ return(
         That's it.
         For any further problems see our video
         <Container className="mt-3">
-          <YoutubeEmbed  embedId="ffja9u6MS-s" />
+          {/**<YoutubeEmbed  embedId={"ffja9u6MS-s"} />*/}
         </Container>
         </Accordion.Body>
     </Accordion.Item>
@@ -47,7 +47,7 @@ return(
        By pressing this button you can finally print the return label to attach to the product you want to return back.
        For any further problems see our video
        <Container className="mt-3">
-          <YoutubeEmbed  embedId="KWEHq5FAmCM" />
+          {/**<YoutubeEmbed  embedId="KWEHq5FAmCM" />
         </Container>
         </Accordion.Body>
     </Accordion.Item>
@@ -60,7 +60,7 @@ return(
         After completing this procedure the transaction is blocked and you will have your money back.
         For any further problems see our video
         <Container className="mt-3">
-          <YoutubeEmbed  embedId="F6EeZDaa2fM" />
+          {/**<YoutubeEmbed  embedId="F6EeZDaa2fM" />*/}
         </Container>
         </Accordion.Body>
     </Accordion.Item>
@@ -72,7 +72,7 @@ return(
         BY ACCESSING OR USING THE App, YOU CONFIRM THAT YOU ACCEPT THESE TERMS AND THAT YOU AGREE TO COMPLY WITH THEM AND BE LEGALLY BOUND BY THEM.
         For any further problems see our video
         <Container className="mt-3">
-          <YoutubeEmbed  embedId="nS-13-oxemk" />
+          {/**<YoutubeEmbed  embedId="nS-13-oxemk" />*/}
         </Container>
         </Accordion.Body>
     </Accordion.Item>
@@ -83,7 +83,7 @@ return(
         We accept Visa, MasterCard, Apple Pay or Google Pay.
         For any further problems see our video
         <Container className="mt-3">
-          <YoutubeEmbed  embedId="PUVmX986ZDA" />
+          {/**<YoutubeEmbed  embedId="PUVmX986ZDA"/>*/}
         </Container>
         </Accordion.Body>
     </Accordion.Item>
@@ -94,7 +94,7 @@ return(
         There are three shipping methods available. Home delivery through UPS. Service point delivery.
         Meet-up option. 
         <Container className="mt-3">
-          <YoutubeEmbed  embedId="Aqn2rK9pP9g" />
+          {/**<YoutubeEmbed  embedId="Aqn2rK9pP9g" />*/}
         </Container>
         </Accordion.Body>
  </Accordion.Item>

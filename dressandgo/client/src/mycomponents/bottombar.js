@@ -67,14 +67,11 @@ export default function FixedBottomNavigation(props) {
             localStorage.setItem("historyStack", "[]");
             props.setCurrentCat("");
             localStorage.setItem("currentCat", "");
-
+            props.setSearch("")
 
             if (newValue === 0) {
               props.setCurrentState("home");
               localStorage.setItem("currentState", "home");
-
-              //console.log(document.getElementById("formFilterDress"))
-              //document.getElementById("formFilterDress").reset();
               navigate("/");
             }
             else if (newValue === 1) {

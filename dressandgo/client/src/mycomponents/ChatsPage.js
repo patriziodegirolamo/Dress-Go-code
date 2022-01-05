@@ -110,7 +110,7 @@ function ChatCustomerService(props) {
 
                             {messages.length > 0 ?
                                 <Container style={{ position: "sticky", textAlign: "center", marginTop: 10 }}>
-                                    <p>{messages.at(-1).text.substring(0, 30)}...</p>
+                                    <p>{messages.at(-1).text.substring(0, 20)}...</p>
                                 </Container>
                                 : <></>
                             }
