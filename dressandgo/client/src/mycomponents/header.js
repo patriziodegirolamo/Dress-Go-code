@@ -20,6 +20,16 @@ function MyHeader(props) {
     let curr = null;
     let currParam = JSON.parse(localStorage.getItem("currParam"));
 
+    if (props.historyStack.length === 0) {
+      props.setCurrentCat("");
+      localStorage.setItem("currentCat", "");
+
+      props.historyStack.pop()
+      localStorage.setItem("historyStack", JSON.stringify(props.historyStack))
+      props.setCurrentState("home")
+      navigate("/previews");
+
+    }
     switch (props.currentState) {
 
       case "cat":
@@ -35,7 +45,7 @@ function MyHeader(props) {
       case "bigCat":
         prev = props.historyStack.pop()
         curr = props.historyStack.at(-1);
-        
+
         if (curr === "cat") {
           props.setCurrentState(curr);
           localStorage.setItem("historyStack", JSON.stringify(props.historyStack))
@@ -45,7 +55,7 @@ function MyHeader(props) {
         else {
           props.setCurrentState("home");
           props.setCurrentCat("");
-          
+
           localStorage.setItem("historyStack", JSON.stringify(props.historyStack))
           navigate("previews");
         }
@@ -140,6 +150,7 @@ function MyHeader(props) {
     }
 
 
+
   };
 
 
@@ -168,7 +179,7 @@ function MyHeader(props) {
         <Container>
           <Row>
             <Col xs={7}>
-              <Form>
+              <Form id="formFilterDress">
                 <Form.Control value={props.search} placeholder="Search..." onChange={(event) => {
                   props.setSearch(event.target.value)
                 }} />

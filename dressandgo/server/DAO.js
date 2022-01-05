@@ -497,7 +497,6 @@ exports.insertMessageCS = (msg) => {
       sql,
       [msg.id_conv, msg.idUser, msg.idCS, msg.date, msg.text, msg.isSenderAUser],
       function (err) {
-        console.log(msg)
         if (err) {
           reject(err);
           return;

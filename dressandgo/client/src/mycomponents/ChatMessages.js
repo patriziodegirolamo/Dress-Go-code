@@ -20,6 +20,7 @@ function ChatMessages(props) {
         currentAd = props.ads.find(ad => ad.id_a == currentConv.id_a)
         renter = props.users.find(u => u.id_u == currentConv.idRenter)
         image = props.adsImages.find(adImage => adImage.id_a == currentConv.id_a)
+        console.log(image)
     }
     const messages = props.messages.filter(mes => mes.id_conv == id_conv)
 
@@ -51,7 +52,7 @@ function ChatMessages(props) {
                 <Container style={{ backgroundColor: "white" }}>
                     <Row>
                         <Col>
-                            <img style={{ position: "relative", width: "40%" }} src={"/ad/" + image.url}></img>
+                            <img style={{ position: "relative", width: "40%" }} src={image.url}></img>
                         </Col>
                         <Col>
                             <h4 style={{ textAlign: "center" }}>{renter.name}</h4>

@@ -75,19 +75,15 @@ function MyAvailabilityModal(props) {
         }
         return newObj
     })
-    console.log(noAvailableDates)
 
     let excludedDates = []
     noAvailableDates.map(d => {
-        console.log("PROVA", d.dataIn, d.dataOut)
         const prova = getDates(d.dataIn, d.dataOut)
-        console.log("PROVA",prova)
         excludedDates = excludedDates.concat(prova)
     });
 
     const [attention, setAttention] = useState("");
 
-    console.log(excludedDates)
 
     return <Modal show={props.show} onHide={() => props.setShow(false)}>
         <Modal.Header>

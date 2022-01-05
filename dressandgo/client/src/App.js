@@ -103,7 +103,6 @@ function App() {
     if (window.performance) {
       if (performance.navigation.type == 1) {
         const hs = localStorage.getItem("historyStack");
-        console.log(hs)
         if (hs !== "[]")
           return JSON.parse(hs);
         else return [];
@@ -117,12 +116,19 @@ function App() {
   });
 
   const [currentCat, setCurrentCat] = useState(() => {
-    const cc = localStorage.getItem("currentCat");
-    if (cc)
-      return cc;
+    if (window.performance) {
+      if (performance.navigation.type == 1) {
+        const cc = localStorage.getItem("currentCat");
+        if (cc)
+          return cc;
+        else return "";
+      }
+    }
+    const urlArray =window.location.pathname.split("/").splice(1)
+    if(urlArray[0] === "dresses")
+      return urlArray[1]
     else return "";
   });
-
   const [modalShow, setModalShow] = useState(false);
   const [search, setSearch] = useState("");
 
@@ -463,7 +469,6 @@ function App() {
         </Container>
           :
           <>
-
             <Container >
               <Row className="pt-3">
                 <Col className="text-center mx-auto my-auto">

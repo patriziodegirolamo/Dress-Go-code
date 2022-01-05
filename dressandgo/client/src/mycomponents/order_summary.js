@@ -95,7 +95,7 @@ function OrderSummary(props) {
             <Carousel variant="dark">
               {currentImages.map((img, idx) => {
                 return <Carousel.Item key={idx}>
-                  <Card.Img variant="top" src={"/ad/" + img.url} className="mx-auto m-auto pt-2"
+                  <Card.Img variant="top" src={img.url} className="mx-auto m-auto pt-2"
                     style={{ paddingLeft: 30, paddingRight: 50 }} />
                 </Carousel.Item>
               })}
