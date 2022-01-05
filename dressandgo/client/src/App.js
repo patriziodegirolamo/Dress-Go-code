@@ -320,6 +320,19 @@ function App() {
     })
   }
 
+  const filterSuggestedDresses = (ad) => {
+    const cat = categories.find( el => el.id_cat === ad.id_cat)
+    if(ad.gender === page && cat.name === currentCat){
+      for(const ks of knownsizes){
+        const ksCat = categories.find((el) => el.id_cat === ks.id_cat)
+        console.log(ks)
+        if(cat.id_cat === ksCat.id_cat && ad.brand === ks.brand && ad.size === ks.EUsize)
+          return ad
+        
+      }
+    }
+  }
+
   return <Router>
     <MyHeader page={page} setPage={setPage}
       currentCat={currentCat}
@@ -419,17 +432,7 @@ function App() {
           <>
             <Container id="dressContainer">
               <h4>suggested for you:</h4>
-              <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(ad => {
-                if (ad.gender === page && categories.find((el) => el.id_cat === ad.id_cat).name === currentCat) {
-                  for (const ks of knownsizes) {
-                    if (ad.gender === ks.gender && ad.brand === ks.brand &&
-                      categories.find((el) => el.id_cat === ad.id_cat).name === categories.find((el) => el.id_cat === ks.id_cat).name &&
-                      ad.size === ks.EUsize)
-                      return ad
-                  }
-                }
-              }
-              )}
+              <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(filterSuggestedDresses)}
                 handleChangeForwardPage={handleChangeForwardPage}>
               </MyDressList>
             </Container>
