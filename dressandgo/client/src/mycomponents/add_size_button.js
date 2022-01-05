@@ -172,10 +172,12 @@ function AddKnownSizes(props) {
 
 
 
-                            (category === "Trousers" || category === "Skirts") ? (
+                            (category === "Trousers" || category === "Skirts" || category === "Blouses") ? (
                                 <Form.Select name="size" aria-label="Select size" required isValid={submitted && size ? true : false} isInvalid={submitted && !size ? true : false} onChange={handleChange}>
                                     {/*lista completa categorie*/}
                                     <option></option>
+                                    <option value="32" key="32IT">32IT</option>
+                                    <option value="34" key="34IT">34IT</option>
                                     <option value="36" key="36IT">36IT</option>
                                     <option value="37" key="37IT">37IT</option>
                                     <option value="38" key="38IT">38IT</option>
