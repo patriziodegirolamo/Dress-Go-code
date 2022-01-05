@@ -27,12 +27,26 @@ export default function FixedBottomNavigation(props) {
   let navigate = useNavigate();
 
   const [value, setValue] = useState(() => {
+    if (window.performance) {
+      if (performance.navigation.type !== 1) {
+        switch(window.location.href){
+          case "http://localhost:3000/previews": return 0;
+          case "http://localhost:3000/FAQ": return 1;
+          case "http://localhost:3000/MyChats": return 2;
+          case "http://localhost:3000/MyRents": return 3;
+          case "http://localhost:3000/MyAccount": return 4;
+          default: return 0;
+        }
+      }
+      else{
+        //rel
+      }
+    }
     const bottomNav = localStorage.getItem("currentBottomNav");
     if (bottomNav)
       return parseInt(bottomNav);
     else return 0;
   });
-
 
   return <>
     <Box sx={{ pb: 7 }}  >

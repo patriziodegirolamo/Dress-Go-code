@@ -1,4 +1,4 @@
-import { Container, Card, Button, Carousel, Modal, Form, Spinner } from "react-bootstrap";
+import { Container, Card, Button, Carousel, Modal, Form, Spinner, Row } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
 import { useState } from 'react';
 import MyAvailabilityModal from './availabilityModal';
@@ -25,7 +25,10 @@ function MySmallAdvertisement(props) {
                 }
                 }>
                     <Card.Title>
-                        {props.ad.title}
+                        <Row className="text-center">
+                            <h5> {props.ad.title} </h5>
+                        </Row>
+
                     </Card.Title>
 
                     <Card.Img variant="top" src={currentImg.url} className="mx-auto m-auto pt-2" style={{ width: '50%' }} />
@@ -125,26 +128,82 @@ function MyBigAdvertisement(props) {
         </Container>
             : <Card key={idAd}>
                 <Card.Title>
-                    {currentAd.title}
+                    <Row className="pt-3">
+                        <h3 style={{ textAlign: "center" }}>{currentAd.title}</h3>
+                    </Row>
+
                 </Card.Title>
                 <Container>
                     <Carousel variant="dark">
                         {currentImages.map((img, idx) => {
                             return <Carousel.Item key={idx}>
                                 <Card.Img variant="top" src={img.url} className="mx-auto m-auto pt-2"
-                                    style={{ paddingLeft: 30, paddingRight: 50 }} />
+                                    style={{ paddingLeft: 50, paddingRight: 50 }} />
                             </Carousel.Item>
                         })}
                     </Carousel>
                 </Container>
 
-                <Card.Body>BRAND: {currentAd.brand}</Card.Body>
-                <Card.Body>DESCRIPTION: {currentAd.description}</Card.Body>
-                <Card.Body>SIZE: {currentAd.size}</Card.Body>
+                <Row className="justify-content-center pt-3 text-center">
 
-                <Container>
-                    <Button onClick={() => setShowSizeGuide(true)}>How to measure your size</Button>
-                </Container>
+BRAND: {currentAd.brand}
+
+</Row>
+
+<Container>
+<Row className="justify-content-center  text-center">
+DESCRIPTION: {currentAd.description}
+
+</Row>
+</Container>
+
+<Row className="justify-content-center  text-center">
+
+SIZE: {currentAd.size}
+
+</Row>
+<Row className="justify-content-center  text-center pt-2 pb-2">
+PRICE PER DAY: {currentAd.price} €/day
+
+</Row>
+
+<Container>
+<Row className="justify-content-center">
+<Button onClick={() => setShowSizeGuide(true)} className="my-2 btn btn-secondary btn-md w-75" >
+How to measure your size
+</Button>
+
+</Row>
+
+
+
+
+<Row className="justify-content-center">
+<Button onClick={handleOpenOrCreateConversation} className="my-2 btn btn-secondary btn-md w-75" >
+Contact the renter
+</Button>
+
+</Row>
+
+
+
+
+<Row className="justify-content-center">
+<Button  onClick={() => setShowCalendar(true)} className="mt-5 btn btn-primary btn-md w-75" >
+Select dates
+</Button>
+
+</Row>
+
+
+<Row className="justify-content-center">
+<Button disabled={numDays === 0 ? true : false}  onClick={() => setShowCalendar(true)} className="my-2 btn btn-primary btn-md w-75" >
+RENT
+</Button>
+
+</Row>
+
+</Container>
 
                 <Container>
                     <Modal show={showSizeGuide} onClose={() => setShowSizeGuide(false)} onHide={() => setShowSizeGuide(false)}>
@@ -157,12 +216,10 @@ function MyBigAdvertisement(props) {
                     </Modal>
                 </Container>
 
-                <Card.Body>PRICE PER DAY: {currentAd.price} €/day</Card.Body>
+
 
                 <Card.Body>
-                    <Container id="middleButtonContainer">
-                        <Button onClick={() => setShowCalendar(true)}>Select dates:</Button>
-                    </Container>
+                   
                     {
                         props.rents ?
                             <MyAvailabilityModal show={showCalendar} setShow={setShowCalendar}
@@ -179,9 +236,7 @@ function MyBigAdvertisement(props) {
                     <Card.Body>OVERALL PRICE: {(numDays * currentAd.price).toPrecision(4)}</Card.Body>
                     : <></>}
 
-                <Container>
-                    <Button onClick={handleOpenOrCreateConversation}>SEND A MESSAGE</Button>
-                </Container>
+                
 
                 <Container>
                     <Modal show={showNewMessage} onClose={onCloseNewMessageModal}
@@ -207,9 +262,7 @@ function MyBigAdvertisement(props) {
                     </Modal>
                 </Container>
 
-                <Container id="middleButtonContainer">
-                    <Button>RENT</Button>
-                </Container>
+          
             </Card>
         }
     </>

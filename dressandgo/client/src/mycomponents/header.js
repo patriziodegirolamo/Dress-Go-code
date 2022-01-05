@@ -32,8 +32,6 @@ function MyHeader(props) {
         navigate("/previews");
         break;
 
-
-
       case "bigCat":
         prev = props.historyStack.pop()
         curr = props.historyStack.at(-1);
@@ -53,10 +51,6 @@ function MyHeader(props) {
         }
 
         break;
-
-
-
-
 
       case "chat":
         prev = props.historyStack.pop()

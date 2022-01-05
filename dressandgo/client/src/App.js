@@ -1,5 +1,5 @@
 import './App.css';
-import { Row, Container, Button } from "react-bootstrap";
+import { Row, Container, Button, Col } from "react-bootstrap";
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 
@@ -100,10 +100,20 @@ function App() {
   });
 
   const [historyStack, setHistoryStack] = useState(() => {
-    const hs = localStorage.getItem("historyStack");
-    if (hs !== "[]")
-      return JSON.parse(hs);
-    else return [];
+    if (window.performance) {
+      if (performance.navigation.type == 1) {
+        const hs = localStorage.getItem("historyStack");
+        console.log(hs)
+        if (hs !== "[]")
+          return JSON.parse(hs);
+        else return [];
+      }
+      else {
+        return []
+      }
+
+    }
+
   });
 
   const [currentCat, setCurrentCat] = useState(() => {
@@ -321,15 +331,23 @@ function App() {
   }
 
   const filterSuggestedDresses = (ad) => {
-    const cat = categories.find( el => el.id_cat === ad.id_cat)
-    if(ad.gender === page && cat.name === currentCat){
-      for(const ks of knownsizes){
+    const cat = categories.find(el => el.id_cat === ad.id_cat)
+    if (ad.gender === page && cat.name === currentCat) {
+      for (const ks of knownsizes) {
         const ksCat = categories.find((el) => el.id_cat === ks.id_cat)
-        console.log(ks)
-        if(cat.id_cat === ksCat.id_cat && ad.brand === ks.brand && ad.size === ks.EUsize)
+        if (cat.id_cat === ksCat.id_cat && ad.brand === ks.brand && ad.size === ks.EUsize)
           return ad
-        
+
       }
+    }
+  }
+
+  const filterAllDresses = (ad) => {
+    if (categories.find((el) => el.id_cat === ad.id_cat).name === currentCat) {
+      if (ad.gender === "unisex")
+        return ad;
+      else if (ad.gender === page)
+        return ad;
     }
   }
 
@@ -407,50 +425,74 @@ function App() {
 
       <Route path='/previews' element={<>
         {search ? <Container id="dressContainer">
-          <h4>researched:</h4>
+          <h4>RESULTS:</h4>
           <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(ad => {
             return ad.gender === page && (ad.title.includes(search) || ad.description.includes(search))
           })}
             handleChangeForwardPage={handleChangeForwardPage}>
           </MyDressList>
-        </Container> : <MyCategoryList categories={categories.filter(c => {
-          if (c.gender === "unisex" || c.gender === page)
-            return c
-        })} ads={ads}
-          handleChangeForwardPage={handleChangeForwardPage}
-        />}
+        </Container> :
+
+          <>
+            <Container>
+              <Row className="pt-3">
+                <h3 style={{ textAlign: "center" }}>Category</h3>
+              </Row>
+              <Row>
+                <p style={{ textAlign: "center" }}>Choose a category to find the perfect dress for you.</p>
+              </Row>
+
+            </Container>
+
+            <MyCategoryList categories={categories.filter(c => {
+              if (c.gender === "unisex" || c.gender === page)
+                return c
+            })} ads={ads}
+              handleChangeForwardPage={handleChangeForwardPage}
+            />
+          </>}
       </>} />
+
 
       <Route path="/dresses/:categorie" element={<>
         {search ? <Container id="dressContainer">
-          <h4>researched:</h4>
+          <h4>RESULTS:</h4>
           <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(ad => (categories.find((el) => el.id_cat === ad.id_cat).name === currentCat) && (ad.title.includes(search) || ad.description.includes(search)))}
             handleChangeForwardPage={handleChangeForwardPage}>
           </MyDressList>
         </Container>
           :
           <>
-            <Container id="dressContainer">
-              <h4>suggested for you:</h4>
+
+            <Container >
+              <Row className="pt-3">
+                <Col className="text-center mx-auto my-auto">
+                  You are watching
+                  <h1>{currentCat}</h1>
+                </Col>
+                <Col>
+                  {categories.length > 0 && currentCat ? <img src={"/" + categories.find(x => x.name === currentCat).address} className="img-fluid" id="rotationimage" alt="Responsive image" width="120"></img> : <></>}
+                </Col>
+              </Row>
+            </Container>
+
+            {ads.filter(filterSuggestedDresses).length > 0 ? <Container id="dressContainer">
+              <h4>SUGGESTED:</h4>
               <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(filterSuggestedDresses)}
                 handleChangeForwardPage={handleChangeForwardPage}>
               </MyDressList>
-            </Container>
+            </Container> : <></>}
 
 
-            <Container id="dressContainer">
-              <h4>All sizes:</h4>
-              <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(ad => {
-                if (categories.find((el) => el.id_cat === ad.id_cat).name === currentCat) {
-                  if (ad.gender === "unisex")
-                    return ad;
-                  else if (ad.gender === page)
-                    return ad;
-                }
-              })}
+            {ads.filter(filterAllDresses).length > 0 ? <Container id="dressContainer">
+              <h4>ALL SIZES:</h4>
+              <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(filterAllDresses)}
                 handleChangeForwardPage={handleChangeForwardPage}>
               </MyDressList>
-            </Container>
+            </Container> : <></>}
+
+
+
           </>
         }
       </>} />
