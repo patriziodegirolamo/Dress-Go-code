@@ -156,19 +156,19 @@ function MyHeader(props) {
 
   return (
     <>
-      <Navbar >
+      <Navbar>
         {initialStates.includes(props.currentState) ?
           <></>
           :
-          <Button variant="light" size="sm" onClick={handleChangeBackardPage}>
-            <IoArrowBackCircleOutline style={{ color: "black", fontSize: "2em" }} />
+          <Button id="back-button" size="sm" variant="light" onClick={handleChangeBackardPage}>
+            <IoArrowBackCircleOutline style={{ color: "rgb(70, 133, 204)", fontSize: "2.5em" }} />
           </Button>
         }
         <Container>
           <Navbar.Brand className='m-auto'>
-            <b id="title">Dress&Go</b>
+            <b id="title" style={{color: "rgb(70, 133, 204)"}}>Dress&Go</b>
             {props.currentState == "home" || props.currentState == "cat" || props.currentState == "bigCat" ?
-              <sub id="pedice"><i>{props.page}</i></sub> : <></>}
+              <sub id="pedice" style={{color: "rgb(70, 133, 204)"}}><i>{props.page}</i></sub> : <></>}
           </Navbar.Brand>
 
         </Container>
@@ -189,13 +189,13 @@ function MyHeader(props) {
             {
               props.page === "man" ?
                 <Col xs={2}>
-                  <Button size="lg" variant="light" disabled>
+                  <Button style={{backgroundColor: "white"}} size="lg" variant="light" disabled>
                     <FcBusinessman size={35}></FcBusinessman>
                   </Button>
                 </Col>
                 :
                 <Col xs={2}>
-                  <Button size="lg" variant="light" onClick={(event) => {
+                  <Button style={{backgroundColor: "white"}} size="lg" variant="light" onClick={(event) => {
                     handleChangeBackardPage()
                     props.setPage("man");
                     localStorage.setItem("page", "man");
@@ -208,13 +208,13 @@ function MyHeader(props) {
             {
               props.page === "woman" ?
                 <Col xs={2}>
-                  <Button size="lg" variant="light" disabled>
+                  <Button style={{backgroundColor: "white"}} size="lg" variant="light" disabled>
                     <FcBusinesswoman size={35}></FcBusinesswoman>
                   </Button>
                 </Col>
                 :
                 <Col xs={2}>
-                  <Button size="lg" variant="light" onClick={(event) => {
+                  <Button style={{backgroundColor: "white"}} size="lg" variant="light" onClick={(event) => {
                     handleChangeBackardPage()
                     props.setPage("woman");
                     localStorage.setItem("page", "woman");

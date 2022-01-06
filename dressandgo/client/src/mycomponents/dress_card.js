@@ -136,9 +136,12 @@ function MyBigAdvertisement(props) {
                 <Container>
                     <Carousel variant="dark">
                         {currentImages.map((img, idx) => {
-                            return <Carousel.Item key={idx}>
+                            return <Carousel.Item key={idx} style={{textAlign: "center"}}>
                                 <Card.Img variant="top" src={img.url} className="mx-auto m-auto pt-2"
-                                    style={{ paddingLeft: 50, paddingRight: 50 }} />
+                                    style={{
+                                        width: "auto",
+                                        maxHeight: "330px"
+                                    }} />
                             </Carousel.Item>
                         })}
                     </Carousel>
@@ -146,64 +149,64 @@ function MyBigAdvertisement(props) {
 
                 <Row className="justify-content-center pt-3 text-center">
 
-BRAND: {currentAd.brand}
+                    BRAND: {currentAd.brand}
 
-</Row>
+                </Row>
 
-<Container>
-<Row className="justify-content-center  text-center">
-DESCRIPTION: {currentAd.description}
+                <Container>
+                    <Row className="justify-content-center  text-center">
+                        DESCRIPTION: {currentAd.description}
 
-</Row>
-</Container>
+                    </Row>
+                </Container>
 
-<Row className="justify-content-center  text-center">
+                <Row className="justify-content-center  text-center">
 
-SIZE: {currentAd.size}
+                    SIZE: {currentAd.size}
 
-</Row>
-<Row className="justify-content-center  text-center pt-2 pb-2">
-PRICE PER DAY: {currentAd.price} €/day
+                </Row>
+                <Row className="justify-content-center  text-center pt-2 pb-2">
+                    PRICE PER DAY: {currentAd.price} €/day
 
-</Row>
+                </Row>
 
-<Container>
-<Row className="justify-content-center">
-<Button onClick={() => setShowSizeGuide(true)} className="my-2 btn btn-secondary btn-md w-75" >
-How to measure your size
-</Button>
+                <Container>
+                    <Row className="justify-content-center">
+                        <Button onClick={() => setShowSizeGuide(true)} className="my-2 btn btn-secondary btn-md w-75" >
+                            How to measure your size
+                        </Button>
 
-</Row>
-
-
-
-
-<Row className="justify-content-center">
-<Button onClick={handleOpenOrCreateConversation} className="my-2 btn btn-secondary btn-md w-75" >
-Contact the renter
-</Button>
-
-</Row>
+                    </Row>
 
 
 
 
-<Row className="justify-content-center">
-<Button  onClick={() => setShowCalendar(true)} className="mt-5 btn btn-primary btn-md w-75" >
-Select dates
-</Button>
+                    <Row className="justify-content-center">
+                        <Button onClick={handleOpenOrCreateConversation} className="my-2 btn btn-secondary btn-md w-75" >
+                            Contact the renter
+                        </Button>
 
-</Row>
+                    </Row>
 
 
-<Row className="justify-content-center">
-<Button disabled={numDays === 0 ? true : false}  onClick={() => setShowCalendar(true)} className="my-2 btn btn-primary btn-md w-75" >
-RENT
-</Button>
 
-</Row>
 
-</Container>
+                    <Row className="justify-content-center">
+                        <Button onClick={() => setShowCalendar(true)} className="mt-5 btn btn-primary btn-md w-75" >
+                            Select dates
+                        </Button>
+
+                    </Row>
+
+
+                    <Row className="justify-content-center">
+                        <Button disabled={numDays === 0 ? true : false} onClick={() => setShowCalendar(true)} className="my-2 btn btn-primary btn-md w-75" >
+                            RENT
+                        </Button>
+
+                    </Row>
+
+                </Container>
 
                 <Container>
                     <Modal show={showSizeGuide} onClose={() => setShowSizeGuide(false)} onHide={() => setShowSizeGuide(false)}>
@@ -219,7 +222,7 @@ RENT
 
 
                 <Card.Body>
-                   
+
                     {
                         props.rents ?
                             <MyAvailabilityModal show={showCalendar} setShow={setShowCalendar}
@@ -236,7 +239,7 @@ RENT
                     <Card.Body>OVERALL PRICE: {(numDays * currentAd.price).toPrecision(4)}</Card.Body>
                     : <></>}
 
-                
+
 
                 <Container>
                     <Modal show={showNewMessage} onClose={onCloseNewMessageModal}
@@ -262,7 +265,7 @@ RENT
                     </Modal>
                 </Container>
 
-          
+
             </Card>
         }
     </>

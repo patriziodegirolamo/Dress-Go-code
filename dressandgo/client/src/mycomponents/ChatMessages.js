@@ -1,5 +1,5 @@
 
-import { Row, Col, Container, Button, Form } from "react-bootstrap";
+import { Row, Col, Container, Button, Form, Image } from "react-bootstrap";
 import { useNavigate, NavLink as Link, useParams } from "react-router-dom";
 import { useState } from 'react';
 import {GrSend} from "react-icons/gr"; 
@@ -49,10 +49,10 @@ function ChatMessages(props) {
         {image && currentAd &&
             <Container>
 
-                <Container style={{ backgroundColor: "white" }}>
+                <Container className="headerChat" >
                     <Row>
-                        <Col>
-                            <img style={{ position: "relative", width: "40%" }} src={image.url}></img>
+                        <Col xs={3}>
+                            <Image roundedCircle style={{ position: "relative", width: "90%" }} src={image.url}></Image>
                         </Col>
                         <Col>
                             <h4 style={{ textAlign: "center" }}>{renter.name}</h4>

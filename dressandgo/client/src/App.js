@@ -532,7 +532,7 @@ function App() {
       </>} />
 
       <Route path="/FAQ" element={<>
-        <Faq />;
+        <Faq />
       </>} />
 
       <Route path="/" element={<Navigate to="/previews" />} />

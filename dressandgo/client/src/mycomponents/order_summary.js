@@ -94,9 +94,11 @@ function OrderSummary(props) {
           <Container>
             <Carousel variant="dark">
               {currentImages.map((img, idx) => {
-                return <Carousel.Item key={idx}>
+                return <Carousel.Item key={idx} style={{textAlign:"center"}}>
                   <Card.Img variant="top" src={img.url} className="mx-auto m-auto pt-2"
-                    style={{ paddingLeft: 30, paddingRight: 50 }} />
+                    style={{ 
+                      width: "auto",
+                      maxHeight: "330px"}} />
                 </Carousel.Item>
               })}
             </Carousel>
