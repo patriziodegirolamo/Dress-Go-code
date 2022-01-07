@@ -211,6 +211,18 @@ async (req, res) => {
   }
 });
 
+// POST /api/newrent ; to create a new rent
+app.post('/api/newrent',
+async (req, res) => {
+  const rent = {id_a: req.body.id_a, id_renter: req.body.id_renter, id_booker: req.body.id_booker, startDate: req.body.startDate, endDate: req.body.endDate, status: req.body.status};
+  try {
+    const result = await dao.insertRent(rent);
+    return res.json(result);
+  } catch (err) {
+    res.status(503).json({ error: `Database error during the creation of submission` });
+  }
+});
+
   // PATCH /api/modifyUserInfo ; to update user infos
   app.patch('/api/modifyUserInfo',
   async (req, res) => {

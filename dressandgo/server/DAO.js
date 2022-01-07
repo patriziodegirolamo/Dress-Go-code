@@ -361,6 +361,27 @@ exports.insertMessage = (msg) => {
   });
 };
 
+// add a new rent
+exports.insertRent = (newrent) => {
+  return new Promise((resolve, reject) => {
+    const sql = "INSERT INTO RENT (ID_R, ID_A, ID_RENTER, ID_BOOKER, START_DATE, END_DATE, STATUS) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    db.run(
+      sql,
+      [this.lastID, newrent.id_a, newrent.id_renter, newrent.id_booker, newrent.startDate, newrent.endDate, newrent.status],
+      function (err) {
+
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve(this.lastID);
+      }
+    );
+  });
+};
+
+
+
 /* UPDATE */
 
 // update infos of a user 

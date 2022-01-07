@@ -19,7 +19,7 @@ import Faq from './mycomponents/accordion.js'
 
 import {
   getCategories, getUserInfos, getKnownSizes, getAds, getAdsImages, getBrands, getAllUserMessages,
-  getUsers, getConversations, modifyUsInfos, insertKnownSize, removeKnownSize, insertMessage,
+  getUsers, getConversations, modifyUsInfos, insertKnownSize, removeKnownSize, insertMessage, insertRent,
   getOperators, getConversationsCS, getAllUserMessagesCS, insertMessageCS
 } from './API';
 
@@ -310,6 +310,14 @@ function App() {
 
   }
 
+  const addARent = (newRent) => {
+    insertRent(newRent).then((err) => { });
+    // to avoid another call to the db
+    setRents(rents => {
+      return rents.concat(newRent)
+    });
+  }
+
   /* TO REMOVE A KNOWN SIZE INSERTED BY THE USER */
   const removeASize = (id_ks) => {
     removeKnownSize(id_ks).then((err) => { });
@@ -376,7 +384,8 @@ function App() {
         <MyBigAdvertisement ads={ads} adsImages={adsImages} users={users} currentUser={user}
           conversations={conversations} rents={rents}
           addAConversation={addAConversation} currentCat={currentCat}
-          setHistoryStack={setHistoryStack} historyStack={historyStack} setCurrentCat={setCurrentCat} setCurrentState={setCurrentState} />
+          setHistoryStack={setHistoryStack} historyStack={historyStack} setCurrentCat={setCurrentCat} setCurrentState={setCurrentState} 
+          addARent = {addARent}/>
       </>} />
 
       <Route path='/guide' element={<>
@@ -397,7 +406,6 @@ function App() {
           conversationsCS={conversationsCS}
           addAMessageCS={addAMessageCS}
           messagesCS={messagesCS.sort((a, b) => a.date - b.date)}
-          addAMessageCS={addAMessageCS}
         >
         </CSMessages> : <></>}
 

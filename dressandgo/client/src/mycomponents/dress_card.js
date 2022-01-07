@@ -122,6 +122,7 @@ function MyBigAdvertisement(props) {
         })
     }
 
+
     return (<>
         {!currentAd ? <Container id="containerSpinner">
             <Spinner animation="border" variant="danger" />

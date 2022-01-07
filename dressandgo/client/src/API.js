@@ -409,6 +409,28 @@ async function insertMessage(msg) {
   });
 }
 
+/* TO INSERT A NEW RENT */
+async function insertRent(rent) {
+  return new Promise((resolve, reject) => {
+    fetch('/api/newrent', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({id_a: rent.id_a, id_renter: rent.id_renter, id_booker: rent.id_booker, startDate: rent.startDate, endDate: rent.endDate, status: rent.status}),
+    }).then((response) => {
+      if (response.ok) {
+        resolve(response.json());
+      } else {
+        response.json()
+          .then((message) => { reject(message); })
+          .catch(() => reject({ error: 'Cannot parse the response.' }));
+      }
+    }).catch(() => {
+      reject({ error: 'Cannot communicate with the server.' });
+    })
+  });
+}
 
 
 
@@ -459,5 +481,5 @@ async function insertMessageCS(msg) {
   
 
 export {getCategories, getUserInfos, getKnownSizes, getAds, getAdsImages, getBrands, getAllUserMessages,
-        getUsers, getConversations, modifyUsInfos, insertKnownSize, insertConversation, insertMessage,
+        getUsers, getConversations, modifyUsInfos, insertKnownSize, insertConversation, insertMessage, insertRent,
         removeKnownSize, getOperators, getConversationsCS, getAllUserMessagesCS, insertMessageCS};
