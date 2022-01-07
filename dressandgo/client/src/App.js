@@ -20,7 +20,7 @@ import Faq from './mycomponents/accordion.js'
 import {
   getCategories, getUserInfos, getKnownSizes, getAds, getAdsImages, getBrands, getAllUserMessages,
   getUsers, getConversations, modifyUsInfos, insertKnownSize, removeKnownSize, insertMessage, insertRent,
-  getOperators, getConversationsCS, getAllUserMessagesCS, insertMessageCS
+  getOperators, getConversationsCS, getAllUserMessagesCS, insertMessageCS, getRents
 } from './API';
 
 import ChatMessages from './mycomponents/ChatMessages';
@@ -30,53 +30,6 @@ import { propTypes } from 'react-bootstrap/esm/Image';
 import OrderSummary from './mycomponents/order_summary';
 import MyRents from './mycomponents/my_rents';
 import CSMessages from './mycomponents/ChatMessageCS';
-
-const fakeRents = [
-  {
-    id_r: 1,
-    id_a: 2,
-    idRenter: 2,
-    idBooker: 1,
-    dataIn: "15/03/2022",
-    dataOut: "18/03/2022",
-    status: "PASSED",
-    total: 456
-  },
-
-  {
-    id_r: 2,
-    id_a: 3,
-    idRenter: 2,
-    idBooker: 1,
-    dataIn: "15/05/2022",
-    dataOut: "18/05/2022",
-    status: "ARRIVING",
-    total: 456
-  },
-
-  {
-    id_r: 3,
-    id_a: 2,
-    idRenter: 2,
-    idBooker: 3,
-    dataIn: "23/12/2022",
-    dataOut: "02/01/2023",
-    status: "ARRIVING",
-    total: 456
-  },
-
-  {
-    id_r: 4,
-    id_a: 2,
-    idRenter: 2,
-    idBooker: 4,
-    dataIn: "01/01/2022",
-    dataOut: "13/02/2022",
-    status: "PASSED",
-    total: 456
-  },
-
-]
 
 
 function App() {
@@ -132,9 +85,9 @@ function App() {
   const [modalShow, setModalShow] = useState(false);
   const [search, setSearch] = useState("");
 
-  const [messages, setMessages] = useState([])
-  const [rents, setRents] = useState([...fakeRents])
-  const [users, setUsers] = useState([])
+  const [messages, setMessages] = useState([]);
+  const [rents, setRents] = useState([]);
+  const [users, setUsers] = useState([]);
 
   const [user, setUser] = useState(() => {
     const u = localStorage.getItem("user");
@@ -218,11 +171,13 @@ function App() {
       let fetchedUser = null;
       let fetchedConversations;
       let fetchedMessages;
+      let fetchedRents;
 
       if (Object.keys(user).length === 0) {
         fetchedUser = await getUserInfos();
         fetchedConversations = await getConversations(fetchedUser.id_u);
         fetchedMessages = await getAllUserMessages(fetchedUser.id_u);
+        fetchedRents = await getRents(fetchedUser.id_u)
         localStorage.setItem("user", JSON.stringify(fetchedUser));
         localStorage.setItem("page", fetchedUser.gender);
         setPage(fetchedUser.gender);
@@ -232,6 +187,7 @@ function App() {
         fetchedUser = JSON.parse(localStorage.getItem("user"));
         fetchedConversations = await getConversations(fetchedUser.id_u);
         fetchedMessages = await getAllUserMessages(fetchedUser.id_u);
+        fetchedRents = await getRents(fetchedUser.id_u);
         setPage(localStorage.getItem("page"));
       }
 
@@ -245,6 +201,7 @@ function App() {
       setUsers(fetchedUsers);
       setConversations(fetchedConversations);
       setBrands(fetchedBrands);
+      setRents(fetchedRents);
       setDirty(false);
     }
     getCat();

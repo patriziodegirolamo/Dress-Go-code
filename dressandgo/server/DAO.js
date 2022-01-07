@@ -73,10 +73,10 @@ exports.listUsers = () => {
 };
 
 //get all rents
-exports.listRents = () => {
+exports.listRents = (id_u) => {
   return new Promise((resolve, reject) => {
-    const sql = "SELECT * FROM RENT";
-    db.all(sql, [], (err, rows) => {
+    const sql = "SELECT * FROM RENT WHERE ID_BOOKER = ? OR ID_RENTER = ?";
+    db.all(sql, [id_u, id_u], (err, rows) => {
       if (rows === undefined || rows.length === 0) {
         const rents = { id_r: 'Empty' };
         resolve(rents);

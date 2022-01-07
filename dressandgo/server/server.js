@@ -137,6 +137,19 @@ app.get("/api/allconversations", async (req, res) => {
   }
 });
 
+// GET /api/allrents ; to have the list of all rents
+app.get("/api/allrents", async (req, res) => {
+  try {
+    const result = await dao.listRents(req.query.id_u);
+    if (result.error)
+      res.status(404).json(result);
+    else
+      res.json(result);
+  } catch (err) {
+    res.status(500).end();
+  }
+});
+
 // GET /api/allmessages ; to have the list of all messages
 /**
 app.get("/api/allmessages", async (req, res) => {

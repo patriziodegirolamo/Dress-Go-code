@@ -179,6 +179,31 @@ async function getConversations(id_u) {
   }
 }
 
+/* TO GET THE LIST OF RENTS */
+async function getRents(id_u) {
+  const response = await fetch(url + '/api/allrents?id_u='+id_u);
+  const rents = await response.json();
+  if (rents.id_r === 'Empty' ) {
+      return [];
+  }
+  else {
+      if (response.ok) {
+          return rents.map((t) => ({
+              ...t,
+              id_r: t.id_r,
+              id_a: t.id_a,
+              idRenter: t.idRenter,
+              idBooker: t.idBooker,
+              startDate: t.startDate,
+              endDate: t.endDate, 
+              status: t.status
+          }));
+      } else {
+          throw rents;  // an object with the error coming from the server
+      }
+  }
+}
+
 // TO GET THE LIST OF MESSAGES OF A CONVERSATION 
 /**
 async function getMessages(id_conv) {
@@ -302,6 +327,7 @@ async function getAllUserMessagesCS(id_u) {
       }
   }
 }
+
 
 
 
@@ -482,4 +508,4 @@ async function insertMessageCS(msg) {
 
 export {getCategories, getUserInfos, getKnownSizes, getAds, getAdsImages, getBrands, getAllUserMessages,
         getUsers, getConversations, modifyUsInfos, insertKnownSize, insertConversation, insertMessage, insertRent,
-        removeKnownSize, getOperators, getConversationsCS, getAllUserMessagesCS, insertMessageCS};
+        removeKnownSize, getOperators, getConversationsCS, getAllUserMessagesCS, getRents, insertMessageCS};
