@@ -65,6 +65,7 @@ function MyHeader(props) {
       case "chat":
         prev = props.historyStack.pop()
         curr = props.historyStack.at(-1);
+        console.log(prev, curr)
         if (props.historyStack.length === 0) {
           if (prev === "chat") {
             props.setCurrentState("chats");

@@ -194,9 +194,10 @@ async function getRents(id_u) {
               id_a: t.id_a,
               idRenter: t.idRenter,
               idBooker: t.idBooker,
-              startDate: t.startDate,
-              endDate: t.endDate, 
+              dataIn: t.dataIn,
+              dataOut: t.dataOut, 
               status: t.status
+            
           }));
       } else {
           throw rents;  // an object with the error coming from the server
@@ -443,7 +444,7 @@ async function insertRent(rent) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({id_a: rent.id_a, id_renter: rent.id_renter, id_booker: rent.id_booker, startDate: rent.startDate, endDate: rent.endDate, status: rent.status}),
+      body: JSON.stringify({id_a: rent.id_a, id_renter: rent.id_renter, id_booker: rent.id_booker, dataIn: rent.dataIn, dataOut: rent.dataOut, status: rent.status}),
     }).then((response) => {
       if (response.ok) {
         resolve(response.json());

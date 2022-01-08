@@ -227,7 +227,7 @@ async (req, res) => {
 // POST /api/newrent ; to create a new rent
 app.post('/api/newrent',
 async (req, res) => {
-  const rent = {id_a: req.body.id_a, id_renter: req.body.id_renter, id_booker: req.body.id_booker, startDate: req.body.startDate, endDate: req.body.endDate, status: req.body.status};
+  const rent = {id_a: req.body.id_a, id_renter: req.body.id_renter, id_booker: req.body.id_booker, dataIn: req.body.dataIn, dataOut: req.body.dataOut, status: req.body.status};
   try {
     const result = await dao.insertRent(rent);
     return res.json(result);

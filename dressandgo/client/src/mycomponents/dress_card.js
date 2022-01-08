@@ -51,8 +51,8 @@ function MyBigAdvertisement(props) {
     const [showCalendar, setShowCalendar] = useState(false);
     const [showSizeGuide, setShowSizeGuide] = useState(false);
 
-    const [startDate, setStartDate] = useState(new Date())
-    const [endDate, setEndDate] = useState(new Date())
+    const [dataIn, setDataIn] = useState(new Date())
+    const [dataOut, setDataOut] = useState(new Date())
 
     const currentAd = props.ads.filter(ad => ad.id_a === idAd)[0];
     const currentImages = props.adsImages.filter(adImg => adImg.id_a === idAd);
@@ -62,11 +62,12 @@ function MyBigAdvertisement(props) {
 
     const initialMessage = "Hi , I'm contacting you, for the advertisement: ";
     const [newMessage, setNewMessage] = useState(initialMessage)
+    const [submitted, setSubmitted] = useState(false)
 
     const onChange = (dates) => {
         const [start, end] = dates;
-        setStartDate(start);
-        setEndDate(end);
+        setDataIn(start);
+        setDataOut(end);
     };
 
     const onCloseNewMessageModal = () => {
@@ -122,6 +123,34 @@ function MyBigAdvertisement(props) {
         })
     }
 
+    const handlePressRent = () =>{
+
+        setSubmitted(true);
+        const newdataIn = new Date(dataIn).toISOString().split("T")[0].replaceAll("-", "/")
+        const newdataOut = new Date(dataOut).toISOString().split("T")[0].replaceAll("-", "/")
+
+
+        const newRent = {
+            id_a: parseInt(currentAd.id_a),
+            id_renter: props.users.find(u => u.id_u == currentAd.id_u).id_u, 
+            id_booker: props.currentUser.id_u, 
+            dataIn: newdataIn,
+            dataOut: newdataOut, 
+            status: "ARRIVING"
+        } 
+
+        props.addARent(newRent)
+
+        props.setCurrentState("rents");
+        localStorage.setItem("currentState", "rents");
+        localStorage.setItem("historyStack", JSON.stringify([]))
+        localStorage.setItem("currentCat", "")
+        props.setCurrentCat("")
+        props.setHistoryStack(() => ([]));
+            
+        navigate("/MyRents")
+        
+    }
 
     return (<>
         {!currentAd ? <Container id="containerSpinner">
@@ -201,7 +230,7 @@ function MyBigAdvertisement(props) {
 
 
                     <Row className="justify-content-center">
-                        <Button disabled={numDays === 0 ? true : false} onClick={() => setShowCalendar(true)} className="my-2 btn btn-primary btn-md w-75" >
+                        <Button disabled={!submitted} onClick={handlePressRent} className="my-2 btn btn-primary btn-md w-75" >
                             RENT
                         </Button>
 
@@ -227,9 +256,9 @@ function MyBigAdvertisement(props) {
                     {
                         props.rents ?
                             <MyAvailabilityModal show={showCalendar} setShow={setShowCalendar}
-                                startDate={startDate} setStartDate={setStartDate} setNumDays={setNumDays}
-                                onChange={onChange} endDate={endDate} setEndDate={setEndDate}
-                                rents={props.rents} currentAd={currentAd}>
+                                dataIn={dataIn} setDataIn={setDataIn} setNumDays={setNumDays}
+                                onChange={onChange} dataOut={dataOut} setDataOut={setDataOut}
+                                rents={props.rents} currentAd={currentAd} setSubmitted={setSubmitted}>
                             </MyAvailabilityModal>
                             : <></>
                     }

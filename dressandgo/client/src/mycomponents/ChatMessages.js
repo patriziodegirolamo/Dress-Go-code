@@ -20,7 +20,6 @@ function ChatMessages(props) {
         currentAd = props.ads.find(ad => ad.id_a == currentConv.id_a)
         renter = props.users.find(u => u.id_u == currentConv.idRenter)
         image = props.adsImages.find(adImage => adImage.id_a == currentConv.id_a)
-        console.log(image)
     }
     const messages = props.messages.filter(mes => mes.id_conv == id_conv)
 

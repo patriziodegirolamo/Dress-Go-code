@@ -367,7 +367,7 @@ exports.insertRent = (newrent) => {
     const sql = "INSERT INTO RENT (ID_R, ID_A, ID_RENTER, ID_BOOKER, START_DATE, END_DATE, STATUS) VALUES (?, ?, ?, ?, ?, ?, ?)";
     db.run(
       sql,
-      [this.lastID, newrent.id_a, newrent.id_renter, newrent.id_booker, newrent.startDate, newrent.endDate, newrent.status],
+      [this.lastID, newrent.id_a, newrent.id_renter, newrent.id_booker, newrent.dataIn, newrent.dataOut, newrent.status],
       function (err) {
 
         if (err) {

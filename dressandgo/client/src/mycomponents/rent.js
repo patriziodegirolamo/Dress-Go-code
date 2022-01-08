@@ -1,16 +1,17 @@
 import { Card } from "react-bootstrap";
-import { NavLink as Link, useNavigate } from "react-router-dom";
+import { NavLink as Link, useParams } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function Rent(props) {
 
-  let navigate = useNavigate();
+  const params = useParams();
   const adss = props.ads.find(ad => ad.id_a === props.myrent.id_a);
 
   const onClickHandler = () => {
     props.setCurrentState("rent");
     localStorage.setItem("currentState", "rent");
     localStorage.setItem("historyStack", JSON.stringify([...props.historyStack, "rent"]))
+    localStorage.setItem("currParam", "{\"id\":" + props.myrent.id_r +"}")
     props.setHistoryStack(() => ([...props.historyStack, "rent"]));
 
   }

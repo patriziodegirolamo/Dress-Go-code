@@ -1,6 +1,5 @@
 import { Container, Card, Carousel, Row, Modal, Button, Form } from "react-bootstrap";
-import { useParams, } from "react-router-dom";
-import { NavLink as Link, useNavigate } from "react-router-dom";
+import { NavLink as Link, useNavigate, useParams } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useState } from 'react';
 
@@ -9,6 +8,8 @@ function OrderSummary(props) {
   let navigate = useNavigate();
   let { id_r } = useParams();
   id_r = parseInt(id_r);
+
+  console.log(id_r)
 
   const currentRent = props.rents.find(r => r.id_r === id_r);
   const ads = props.ads.find(ad => ad.id_a === currentRent.id_a);
@@ -142,7 +143,6 @@ function OrderSummary(props) {
 
                   <Modal.Footer>
                     <Container>
-                      {/**TODO: invia messaggio tramite API */}
                       <Button type="submit" onClick={handleCreateNewConversation}>Send</Button>
                     </Container>
                   </Modal.Footer>
@@ -163,7 +163,7 @@ function OrderSummary(props) {
       </>
 
         : <> </>
-    }
+      }
 
 
   </>

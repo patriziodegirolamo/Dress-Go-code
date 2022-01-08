@@ -166,8 +166,6 @@ function App() {
       const fetchedBrands = await getBrands();
       const fetchedUsers = await getUsers();
 
-      //TODO: AGGIUNGERE I RENTS
-
       let fetchedUser = null;
       let fetchedConversations;
       let fetchedMessages;
@@ -192,7 +190,6 @@ function App() {
       }
 
       setUser(fetchedUser);
-
       setMessages(fetchedMessages);
       setCategories(fetchedCategories);
       setKnownSizes(fetchedSizes);
@@ -268,10 +265,12 @@ function App() {
   }
 
   const addARent = (newRent) => {
-    insertRent(newRent).then((err) => { });
-    // to avoid another call to the db
-    setRents(rents => {
-      return rents.concat(newRent)
+    insertRent(newRent).then((res) => {
+      const completeRent = {...newRent, id_r:res}
+      setRents(rents => {
+        return rents.concat(completeRent)
+      });
+      return res;
     });
   }
 
@@ -341,8 +340,8 @@ function App() {
         <MyBigAdvertisement ads={ads} adsImages={adsImages} users={users} currentUser={user}
           conversations={conversations} rents={rents}
           addAConversation={addAConversation} currentCat={currentCat}
-          setHistoryStack={setHistoryStack} historyStack={historyStack} setCurrentCat={setCurrentCat} setCurrentState={setCurrentState} 
-          addARent = {addARent}/>
+          setHistoryStack={setHistoryStack} historyStack={historyStack} setCurrentCat={setCurrentCat} setCurrentState={setCurrentState}
+          addARent={addARent} setRents={setRents} />
       </>} />
 
       <Route path='/guide' element={<>
@@ -385,7 +384,7 @@ function App() {
 
       <Route path='/MyRents/:id_r' element={<>
         {
-          ads.length > 0 && rents.length ?
+          ads.length > 0 && rents ?
             <OrderSummary rents={rents} ads={ads} adsImages={adsImages} conversations={conversations}
               addAConversation={addAConversation} setCurrentState={setCurrentState}
               setHistoryStack={setHistoryStack} historyStack={historyStack} />
