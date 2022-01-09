@@ -391,6 +391,7 @@ async function insertKnownSize(ksize) {
   
 /* TO INSERT A NEW CONVERSATION */
 async function insertConversation(conv, mess) {
+  console.log(conv, mess)
   return new Promise((resolve, reject) => {
     fetch('/api/newconversation', {
       method: 'POST',

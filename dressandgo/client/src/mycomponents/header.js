@@ -20,6 +20,7 @@ function MyHeader(props) {
     let curr = null;
     let currParam = JSON.parse(localStorage.getItem("currParam"));
 
+    console.log(currParam, props.currentState)
     if (props.historyStack.length === 0) {
       props.setCurrentCat("");
       localStorage.setItem("currentCat", "");
@@ -52,12 +53,20 @@ function MyHeader(props) {
           navigate("dresses/" + props.currentCat);
         }
 
+        else if (curr === "bigCat") {
+          props.setCurrentState("bigCat");
+          localStorage.setItem("currentState", "bigCat");
+          props.setCurrentCat(currParam.cat)
+          localStorage.setItem("historyStack", JSON.stringify(props.historyStack))
+          navigate("ad/" + currParam.id);
+        }
         else {
           props.setCurrentState("home");
           props.setCurrentCat("");
 
           localStorage.setItem("historyStack", JSON.stringify(props.historyStack))
           navigate("previews");
+
         }
 
         break;
@@ -92,6 +101,7 @@ function MyHeader(props) {
           }
 
           else if (curr === "bigCat") {
+            console.log("here", currParam)
             props.setCurrentState("bigCat");
             localStorage.setItem("currentState", "bigCat");
             props.setCurrentCat(currParam.cat)
@@ -167,9 +177,9 @@ function MyHeader(props) {
         }
         <Container>
           <Navbar.Brand className='m-auto'>
-            <b id="title" style={{color: "rgb(70, 133, 204)"}}>Dress&Go</b>
+            <b id="title" style={{ color: "rgb(70, 133, 204)" }}>Dress&Go</b>
             {props.currentState == "home" || props.currentState == "cat" || props.currentState == "bigCat" ?
-              <sub id="pedice" style={{color: "rgb(70, 133, 204)"}}><i>{props.page}</i></sub> : <></>}
+              <sub id="pedice" style={{ color: "rgb(70, 133, 204)" }}><i>{props.page}</i></sub> : <></>}
           </Navbar.Brand>
 
         </Container>
@@ -190,13 +200,13 @@ function MyHeader(props) {
             {
               props.page === "man" ?
                 <Col xs={2}>
-                  <Button style={{backgroundColor: "white"}} size="lg" variant="light" disabled>
+                  <Button style={{ backgroundColor: "white" }} size="lg" variant="light" disabled>
                     <FcBusinessman size={35}></FcBusinessman>
                   </Button>
                 </Col>
                 :
                 <Col xs={2}>
-                  <Button style={{backgroundColor: "white"}} size="lg" variant="light" onClick={(event) => {
+                  <Button style={{ backgroundColor: "white" }} size="lg" variant="light" onClick={(event) => {
                     handleChangeBackardPage()
                     props.setPage("man");
                     localStorage.setItem("page", "man");
@@ -209,13 +219,13 @@ function MyHeader(props) {
             {
               props.page === "woman" ?
                 <Col xs={2}>
-                  <Button style={{backgroundColor: "white"}} size="lg" variant="light" disabled>
+                  <Button style={{ backgroundColor: "white" }} size="lg" variant="light" disabled>
                     <FcBusinesswoman size={35}></FcBusinesswoman>
                   </Button>
                 </Col>
                 :
                 <Col xs={2}>
-                  <Button style={{backgroundColor: "white"}} size="lg" variant="light" onClick={(event) => {
+                  <Button style={{ backgroundColor: "white" }} size="lg" variant="light" onClick={(event) => {
                     handleChangeBackardPage()
                     props.setPage("woman");
                     localStorage.setItem("page", "woman");

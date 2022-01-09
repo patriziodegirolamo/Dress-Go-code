@@ -26,7 +26,6 @@ import {
 import ChatMessages from './mycomponents/ChatMessages';
 import ChatsPage from './mycomponents/ChatsPage';
 import { insertConversation } from './API.js'
-import { propTypes } from 'react-bootstrap/esm/Image';
 import OrderSummary from './mycomponents/order_summary';
 import MyRents from './mycomponents/my_rents';
 import CSMessages from './mycomponents/ChatMessageCS';
@@ -266,7 +265,7 @@ function App() {
 
   const addARent = (newRent) => {
     insertRent(newRent).then((res) => {
-      const completeRent = {...newRent, id_r:res}
+      const completeRent = { ...newRent, id_r: res }
       setRents(rents => {
         return rents.concat(completeRent)
       });
@@ -320,6 +319,10 @@ function App() {
         return ad;
     }
   }
+
+  window.addEventListener('popstate', function (event) {
+    
+  }, false);
 
   return <Router>
     <MyHeader page={page} setPage={setPage}
@@ -386,7 +389,8 @@ function App() {
         {
           ads.length > 0 && rents ?
             <OrderSummary rents={rents} ads={ads} adsImages={adsImages} conversations={conversations}
-              addAConversation={addAConversation} setCurrentState={setCurrentState}
+              addAConversation={addAConversation}
+              setCurrentState={setCurrentState}
               setHistoryStack={setHistoryStack} historyStack={historyStack} />
             : <></>
         }

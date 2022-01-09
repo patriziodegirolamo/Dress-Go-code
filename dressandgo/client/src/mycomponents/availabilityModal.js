@@ -1,4 +1,4 @@
-import { Col, Row, Container, Button, Modal, Alert } from "react-bootstrap";
+import { Col, Row, Container, Button, Modal, Alert, Accordion } from "react-bootstrap";
 import { useState } from 'react';
 
 import DatePicker from "react-datepicker";
@@ -9,7 +9,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 
 function MyAvailabilityModal(props) {
-    
+
     const getDates = (start, stop) => {
         const yyyy1 = start.split("/")[0]
         const mm1 = start.split("/")[1]
@@ -19,19 +19,19 @@ function MyAvailabilityModal(props) {
         const mm2 = stop.split("/")[1]
         const dd2 = stop.split("/")[2]
 
-        const startDate = new Date(yyyy1, mm1-1, dd1)
-        const stopDate = new Date(yyyy2, mm2-1, dd2)
+        const startDate = new Date(yyyy1, mm1 - 1, dd1)
+        const stopDate = new Date(yyyy2, mm2 - 1, dd2)
 
         const dateArray = new Array();
         let currentDate = startDate;
-        
-        console.log(start,stop)
+
+        console.log(start, stop)
         console.log(startDate.toISOString(), stopDate.toISOString())
-          while (currentDate <= stopDate) {
+        while (currentDate <= stopDate) {
             dateArray.push(currentDate);
             currentDate = addDays(currentDate, 1)
         }
-        
+
         return dateArray;
     }
 
@@ -93,6 +93,21 @@ function MyAvailabilityModal(props) {
             <Button onClick={() => props.setShow(false)}>X</Button>
         </Modal.Header>
         <Modal.Body>
+            <Accordion style={{paddingBottom:40}}>
+                <Accordion.Item eventKey="0">
+                    <Accordion.Header>Instructions</Accordion.Header>
+                    <Accordion.Body>
+                        <h4>Steps:</h4>
+                        <p>1) tap a day to select the starting date</p>
+                        <p>2) tap a day to select the ending date</p>
+                        <p>3) if you did a mistake in either 1) or 2), you can: </p>
+                        <p>3.1) complete tre procedure and start again without pressinc ACCEPT</p>
+                        <p>3.2) press CLEAR</p>
+
+                    </Accordion.Body>
+
+                </Accordion.Item>
+            </Accordion>
             <Container id="datePickerContainer">
                 <DatePicker
                     minDate={new Date()}
@@ -108,17 +123,17 @@ function MyAvailabilityModal(props) {
             </Container>
 
             <Container>
-                    <Row>
-                        <Col>
-                            {/*Start date: {props.dataIn.toISOString().split("T")[0]} */}
-                        </Col>
+                <Row>
+                    <Col>
+                        Start date: {props.dataIn.toISOString().split("T")[0]}
+                    </Col>
 
-                        <Col>
-                            {/*End date: {props.dataOut ? props.dataOut.toISOString().split("T")[0] : ""} */}
-                        </Col>
-                    
-                    </Row>
-                </Container>
+                    <Col>
+                        End date: {props.dataOut ? props.dataOut.toISOString().split("T")[0] : ""}
+                    </Col>
+
+                </Row>
+            </Container>
         </Modal.Body>
         <Modal.Footer>
             <Row>

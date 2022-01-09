@@ -56,7 +56,6 @@ function MyBigAdvertisement(props) {
 
     const currentAd = props.ads.filter(ad => ad.id_a === idAd)[0];
     const currentImages = props.adsImages.filter(adImg => adImg.id_a === idAd);
-    const [renter, setRenter] = useState(() => props.users.filter(u => u.id_u == currentAd.id_u)[0])
 
     const [showNewMessage, setShowNewMessage] = useState(false);
 
@@ -78,7 +77,7 @@ function MyBigAdvertisement(props) {
     const handleOpenOrCreateConversation = () => {
 
         const currParam = { "id": idAd, "cat": props.currentCat }
-        const conv = props.conversations.find(c => c.id_a == idAd && c.idRenter == renter.id_u && c.idBooker == props.currentUser.id_u)
+        const conv = props.conversations.find(c => c.id_a == idAd && c.idRenter == props.users.filter(u => u.id_u == currentAd.id_u)[0].id_u && c.idBooker == props.currentUser.id_u)
         if (conv) {
             localStorage.setItem("historyStack", JSON.stringify([...props.historyStack, "chat"]))
             props.setHistoryStack(() => ([...props.historyStack, "chat"]));
