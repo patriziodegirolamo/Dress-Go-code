@@ -83,6 +83,15 @@ function OrderSummary(props) {
     props.setHistoryStack(() => ([...props.historyStack, "chat"]));
   }
 
+  const countDays = (dataIn, dataOut) => {
+    if (dataOut === dataIn)
+        return dataIn;
+    else
+        return 1 + (new Date(dataOut).getTime() - new Date(dataIn).getTime()) / (1000 * 3600 * 24)
+}
+
+  const shippingCost = 3;
+  
   return <>
 
     {
@@ -113,9 +122,9 @@ function OrderSummary(props) {
 
           <Row className="pt-3 justify-content-center">START RENT: {currentRent.dataIn}</Row>
           <Row className="justify-content-center">END RENT: {currentRent.dataOut}</Row>
-          <Row className="justify-content-center">SHIPPING COST: €9 </Row>
+          <Row className="justify-content-center">SHIPPING COST: {shippingCost}€ </Row>
 
-          <Row className="pt-3 justify-content-center">TOTAL: €{currentRent.total}</Row>
+          <Row className="pt-3 justify-content-center">TOTAL: €{shippingCost + countDays(currentRent.dataIn, currentRent.dataOut)}</Row>
 
           <Container fluid>
 

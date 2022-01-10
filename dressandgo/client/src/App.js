@@ -387,7 +387,7 @@ function App() {
 
       <Route path='/MyRents/:id_r' element={<>
         {
-          ads.length > 0 && rents ?
+          ads.length > 0 && rents.length ?
             <OrderSummary rents={rents} ads={ads} adsImages={adsImages} conversations={conversations}
               addAConversation={addAConversation}
               setCurrentState={setCurrentState}
