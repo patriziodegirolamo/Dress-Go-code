@@ -36,6 +36,12 @@ function MyUserData(props) {
     };
 
     props.modifyUserInfos(newInfos);
+    
+    
+    props.setCurrentState("account")
+    props.setHistoryStack("[]")
+    localStorage.setItem("currentState","account");
+    localStorage.setItem("historyStack","[]")
     navigate("/MyAccount")
 
   }

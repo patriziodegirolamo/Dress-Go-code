@@ -291,12 +291,14 @@ function App() {
   const modifyUserInfos = (newInfos) => {
     modifyUsInfos(newInfos).then((err) => { });
     // to avoid another call to the db 
-    setUser({
+    const newUser = {
       id_u: newInfos.id_u, name: newInfos.name, surname: newInfos.surname, address: newInfos.address,
       city: newInfos.city, cap: newInfos.cap, state: newInfos.state, zip: newInfos.zip,
       gender: newInfos.gender, height: newInfos.height, weight: newInfos.weight, waistline: newInfos.waistline,
       hips: newInfos.hips, legLength: newInfos.legLength, shoesNumber: newInfos.shoesNumber
-    })
+    }
+    setUser(newUser)
+    localStorage.setItem("user", JSON.stringify(newUser))
   }
 
   const filterSuggestedDresses = (ad) => {
@@ -333,7 +335,6 @@ function App() {
       search={search} setSearch={setSearch}
       historyStack={historyStack}
       setHistoryStack={setHistoryStack}
-
     />
 
     <Routes >
@@ -496,7 +497,7 @@ function App() {
       </>} />
 
       <Route path="/editprofile" element={<>
-        <MyUserData user={user} modifyUserInfos={modifyUserInfos} />
+        <MyUserData user={user} modifyUserInfos={modifyUserInfos} setCurrentState={setCurrentState} setHistoryStack={setHistoryStack}/>
       </>} />
 
       <Route path="/FAQ" element={<>
