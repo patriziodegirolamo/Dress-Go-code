@@ -19,64 +19,16 @@ import Faq from './mycomponents/accordion.js'
 
 import {
   getCategories, getUserInfos, getKnownSizes, getAds, getAdsImages, getBrands, getAllUserMessages,
-  getUsers, getConversations, modifyUsInfos, insertKnownSize, removeKnownSize, insertMessage,
-  getOperators, getConversationsCS, getAllUserMessagesCS, insertMessageCS
+  getUsers, getConversations, modifyUsInfos, insertKnownSize, removeKnownSize, insertMessage, insertRent,
+  getOperators, getConversationsCS, getAllUserMessagesCS, insertMessageCS, getRents
 } from './API';
 
 import ChatMessages from './mycomponents/ChatMessages';
 import ChatsPage from './mycomponents/ChatsPage';
 import { insertConversation } from './API.js'
-import { propTypes } from 'react-bootstrap/esm/Image';
 import OrderSummary from './mycomponents/order_summary';
 import MyRents from './mycomponents/my_rents';
 import CSMessages from './mycomponents/ChatMessageCS';
-
-const fakeRents = [
-  {
-    id_r: 1,
-    id_a: 2,
-    idRenter: 2,
-    idBooker: 1,
-    dataIn: "15/03/2022",
-    dataOut: "18/03/2022",
-    status: "PASSED",
-    total: 456
-  },
-
-  {
-    id_r: 2,
-    id_a: 3,
-    idRenter: 2,
-    idBooker: 1,
-    dataIn: "15/05/2022",
-    dataOut: "18/05/2022",
-    status: "ARRIVING",
-    total: 456
-  },
-
-  {
-    id_r: 3,
-    id_a: 2,
-    idRenter: 2,
-    idBooker: 3,
-    dataIn: "23/12/2022",
-    dataOut: "02/01/2023",
-    status: "ARRIVING",
-    total: 456
-  },
-
-  {
-    id_r: 4,
-    id_a: 2,
-    idRenter: 2,
-    idBooker: 4,
-    dataIn: "01/01/2022",
-    dataOut: "13/02/2022",
-    status: "PASSED",
-    total: 456
-  },
-
-]
 
 
 function App() {
@@ -100,25 +52,41 @@ function App() {
   });
 
   const [historyStack, setHistoryStack] = useState(() => {
-    const hs = localStorage.getItem("historyStack");
-    if (hs !== "[]")
-      return JSON.parse(hs);
-    else return [];
+    if (window.performance) {
+      if (performance.navigation.type == 1) {
+        const hs = localStorage.getItem("historyStack");
+        if (hs !== "[]")
+          return JSON.parse(hs);
+        else return [];
+      }
+      else {
+        return []
+      }
+
+    }
+
   });
 
   const [currentCat, setCurrentCat] = useState(() => {
-    const cc = localStorage.getItem("currentCat");
-    if (cc)
-      return cc;
+    if (window.performance) {
+      if (performance.navigation.type == 1) {
+        const cc = localStorage.getItem("currentCat");
+        if (cc)
+          return cc;
+        else return "";
+      }
+    }
+    const urlArray = window.location.pathname.split("/").splice(1)
+    if (urlArray[0] === "dresses")
+      return urlArray[1]
     else return "";
   });
-
   const [modalShow, setModalShow] = useState(false);
   const [search, setSearch] = useState("");
 
-  const [messages, setMessages] = useState([])
-  const [rents, setRents] = useState([...fakeRents])
-  const [users, setUsers] = useState([])
+  const [messages, setMessages] = useState([]);
+  const [rents, setRents] = useState([]);
+  const [users, setUsers] = useState([]);
 
   const [user, setUser] = useState(() => {
     const u = localStorage.getItem("user");
@@ -197,16 +165,16 @@ function App() {
       const fetchedBrands = await getBrands();
       const fetchedUsers = await getUsers();
 
-      //TODO: AGGIUNGERE I RENTS
-
       let fetchedUser = null;
       let fetchedConversations;
       let fetchedMessages;
+      let fetchedRents;
 
       if (Object.keys(user).length === 0) {
         fetchedUser = await getUserInfos();
         fetchedConversations = await getConversations(fetchedUser.id_u);
         fetchedMessages = await getAllUserMessages(fetchedUser.id_u);
+        fetchedRents = await getRents(fetchedUser.id_u)
         localStorage.setItem("user", JSON.stringify(fetchedUser));
         localStorage.setItem("page", fetchedUser.gender);
         setPage(fetchedUser.gender);
@@ -216,11 +184,11 @@ function App() {
         fetchedUser = JSON.parse(localStorage.getItem("user"));
         fetchedConversations = await getConversations(fetchedUser.id_u);
         fetchedMessages = await getAllUserMessages(fetchedUser.id_u);
+        fetchedRents = await getRents(fetchedUser.id_u);
         setPage(localStorage.getItem("page"));
       }
 
       setUser(fetchedUser);
-
       setMessages(fetchedMessages);
       setCategories(fetchedCategories);
       setKnownSizes(fetchedSizes);
@@ -229,6 +197,7 @@ function App() {
       setUsers(fetchedUsers);
       setConversations(fetchedConversations);
       setBrands(fetchedBrands);
+      setRents(fetchedRents);
       setDirty(false);
     }
     getCat();
@@ -294,6 +263,16 @@ function App() {
 
   }
 
+  const addARent = (newRent) => {
+    insertRent(newRent).then((res) => {
+      const completeRent = { ...newRent, id_r: res }
+      setRents(rents => {
+        return rents.concat(completeRent)
+      });
+      return res;
+    });
+  }
+
   /* TO REMOVE A KNOWN SIZE INSERTED BY THE USER */
   const removeASize = (id_ks) => {
     removeKnownSize(id_ks).then((err) => { });
@@ -312,13 +291,40 @@ function App() {
   const modifyUserInfos = (newInfos) => {
     modifyUsInfos(newInfos).then((err) => { });
     // to avoid another call to the db 
-    setUser({
+    const newUser = {
       id_u: newInfos.id_u, name: newInfos.name, surname: newInfos.surname, address: newInfos.address,
       city: newInfos.city, cap: newInfos.cap, state: newInfos.state, zip: newInfos.zip,
       gender: newInfos.gender, height: newInfos.height, weight: newInfos.weight, waistline: newInfos.waistline,
       hips: newInfos.hips, legLength: newInfos.legLength, shoesNumber: newInfos.shoesNumber
-    })
+    }
+    setUser(newUser)
+    localStorage.setItem("user", JSON.stringify(newUser))
   }
+
+  const filterSuggestedDresses = (ad) => {
+    const cat = categories.find(el => el.id_cat === ad.id_cat)
+    if (ad.gender === page && cat.name === currentCat) {
+      for (const ks of knownsizes) {
+        const ksCat = categories.find((el) => el.id_cat === ks.id_cat)
+        if (cat.id_cat === ksCat.id_cat && ad.brand === ks.brand && ad.size === ks.EUsize)
+          return ad
+
+      }
+    }
+  }
+
+  const filterAllDresses = (ad) => {
+    if (categories.find((el) => el.id_cat === ad.id_cat).name === currentCat) {
+      if (ad.gender === "unisex")
+        return ad;
+      else if (ad.gender === page)
+        return ad;
+    }
+  }
+
+  window.addEventListener('popstate', function (event) {
+    
+  }, false);
 
   return <Router>
     <MyHeader page={page} setPage={setPage}
@@ -329,7 +335,6 @@ function App() {
       search={search} setSearch={setSearch}
       historyStack={historyStack}
       setHistoryStack={setHistoryStack}
-
     />
 
     <Routes >
@@ -339,7 +344,8 @@ function App() {
         <MyBigAdvertisement ads={ads} adsImages={adsImages} users={users} currentUser={user}
           conversations={conversations} rents={rents}
           addAConversation={addAConversation} currentCat={currentCat}
-          setHistoryStack={setHistoryStack} historyStack={historyStack} setCurrentCat={setCurrentCat} setCurrentState={setCurrentState} />
+          setHistoryStack={setHistoryStack} historyStack={historyStack} setCurrentCat={setCurrentCat} setCurrentState={setCurrentState}
+          addARent={addARent} setRents={setRents} />
       </>} />
 
       <Route path='/guide' element={<>
@@ -360,7 +366,6 @@ function App() {
           conversationsCS={conversationsCS}
           addAMessageCS={addAMessageCS}
           messagesCS={messagesCS.sort((a, b) => a.date - b.date)}
-          addAMessageCS={addAMessageCS}
         >
         </CSMessages> : <></>}
 
@@ -385,7 +390,8 @@ function App() {
         {
           ads.length > 0 && rents.length ?
             <OrderSummary rents={rents} ads={ads} adsImages={adsImages} conversations={conversations}
-              addAConversation={addAConversation} setCurrentState={setCurrentState}
+              addAConversation={addAConversation}
+              setCurrentState={setCurrentState}
               setHistoryStack={setHistoryStack} historyStack={historyStack} />
             : <></>
         }
@@ -423,81 +429,46 @@ function App() {
       </>} />
 
 
-
       <Route path="/dresses/:categorie" element={<>
         {search ? <Container id="dressContainer">
           <h4>RESULTS:</h4>
-          <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(ad => (categories.find((el) => el.id_cat === ad.id_cat).name === currentCat) && (ad.title.includes(search) || ad.description.includes(search)))}
+          <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(ad => (
+            categories.find((el) => el.id_cat === ad.id_cat).name === currentCat)
+            && (ad.title.includes(search) || ad.description.includes(search)))}
             handleChangeForwardPage={handleChangeForwardPage}>
           </MyDressList>
         </Container>
           :
           <>
-
             <Container >
               <Row className="pt-3">
                 <Col className="text-center mx-auto my-auto">
                   You are watching
-                  <h1>{currentCat}</h1>
+                  <h1><b>{currentCat}</b></h1>
                 </Col>
                 <Col>
-                  {categories.length > 0 && currentCat ? <img src={"/" + categories.find(x => x.name === currentCat).address} class="img-fluid" id="rotationimage" alt="Responsive image" width="120"></img> : <></>}
+                  {categories.length > 0 && currentCat ? <img src={"/" + categories.find(x => x.name === currentCat).address} className="img-fluid" id="rotationimage" alt="Responsive image" width="120"></img> : <></>}
                 </Col>
               </Row>
             </Container>
 
-{ads.filter(ad => {
-                if (ad.gender === page && categories.find((el) => el.id_cat === ad.id_cat).name === currentCat) {
-                  for (const ks of knownsizes) {
-                    if (ad.gender === ks.gender && ad.brand === ks.brand &&
-                      categories.find((el) => el.id_cat === ad.id_cat).name === categories.find((el) => el.id_cat === ks.id_cat).name &&
-                      ad.size === ks.EUsize)
-                      return ad
-                  }
-                }
-              }
-              ).length >0 ?    <Container id="dressContainer">
+            {ads.filter(filterSuggestedDresses).length > 0 ? <Container id="dressContainer">
               <h4>SUGGESTED:</h4>
-              <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(ad => {
-                if (ad.gender === page && categories.find((el) => el.id_cat === ad.id_cat).name === currentCat) {
-                  for (const ks of knownsizes) {
-                    if (ad.gender === ks.gender && ad.brand === ks.brand &&
-                      categories.find((el) => el.id_cat === ad.id_cat).name === categories.find((el) => el.id_cat === ks.id_cat).name &&
-                      ad.size === ks.EUsize)
-                      return ad
-                  }
-                }
-              }
-              )}
-
+              <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(filterSuggestedDresses)}
                 handleChangeForwardPage={handleChangeForwardPage}>
               </MyDressList>
-            </Container> : <></>   }
+            </Container> : <></>}
 
 
-          {ads.filter(ad => {
-                if (categories.find((el) => el.id_cat === ad.id_cat).name === currentCat) {
-                  if (ad.gender === "unisex")
-                    return ad;
-                  else if (ad.gender === page)
-                    return ad;
-                }
-              }).length>0 ? <Container id="dressContainer">
+            {ads.filter(filterAllDresses).length > 0 ? <Container id="dressContainer">
               <h4>ALL SIZES:</h4>
-              <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(ad => {
-                if (categories.find((el) => el.id_cat === ad.id_cat).name === currentCat) {
-                  if (ad.gender === "unisex")
-                    return ad;
-                  else if (ad.gender === page)
-                    return ad;
-                }
-              })}
+              <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(filterAllDresses)}
                 handleChangeForwardPage={handleChangeForwardPage}>
               </MyDressList>
-            </Container> : <></> }
+            </Container> : <></>}
 
 
-            
+
           </>
         }
       </>} />
@@ -526,11 +497,11 @@ function App() {
       </>} />
 
       <Route path="/editprofile" element={<>
-        <MyUserData user={user} modifyUserInfos={modifyUserInfos} />
+        <MyUserData user={user} modifyUserInfos={modifyUserInfos} setCurrentState={setCurrentState} setHistoryStack={setHistoryStack}/>
       </>} />
 
       <Route path="/FAQ" element={<>
-        <Faq />;
+        <Faq />
       </>} />
 
       <Route path="/" element={<Navigate to="/previews" />} />
@@ -539,6 +510,7 @@ function App() {
     <FixedBottomNavigation setCurrentState={setCurrentState} setPage={setPage}
       setCurrentCat={setCurrentCat}
       setHistoryStack={setHistoryStack}
+      setSearch={setSearch}
     />
   </Router>
 }

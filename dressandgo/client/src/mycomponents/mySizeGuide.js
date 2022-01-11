@@ -23,13 +23,17 @@ function SizeGuide(props) {
       
 
         {props.type === "man" ? <Container>
-            <h4>INTERNATIONAL MENS FIT GUIDE</h4>
+
+                    <Row className="mt-3">
             <h5>How to measure:</h5>
             <p>Using a tape measure, have someone take your measurements as noted below</p>
+            </Row>
 
-            <img alt = 'noimage' className = 'small' src = 'man_guide.png' />
+            <Row className="my-3"><img alt = 'noimage' className = 'small' src = '/man_guide.png' /></Row>           
 
-            <Accordion>
+            
+
+            <Accordion className="my-3">
                 <Accordion.Item eventKey="0">
                     <Accordion.Header>Chest Measurements:</Accordion.Header>
                     <Accordion.Body>
@@ -78,7 +82,7 @@ function SizeGuide(props) {
 
             </Accordion>
 
-            <Table striped bordered>
+            <Table className="mt-3" striped bordered>
                 <thead>
                     <tr>
                         <th colSpan={5}>
@@ -107,16 +111,13 @@ function SizeGuide(props) {
         </Container> : <></>}
 
 
-
-
         {props.type === "woman" ? <Container>
-            <h4>INTERNATIONAL LADIES FIT GUIDE</h4>
-
+            
             <h5>How to measure:</h5>
             <p>Using a tape measure, have someone take your measurements as noted below</p>
 
             <Figure>
-                <Figure.Image src="woman_guide.png" />
+                <Figure.Image src="/woman_guide.png" />
             </Figure>
             <Accordion>
                 <Accordion.Item eventKey="0">

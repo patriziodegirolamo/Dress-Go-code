@@ -1,4 +1,4 @@
-import { Container, Card, Button, Carousel, Modal, Form, Spinner, Row } from "react-bootstrap";
+import { Container, Card, Button, Carousel, Modal, Form, Spinner, Row, Col } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
 import { useState } from 'react';
 import MyAvailabilityModal from './availabilityModal';
@@ -51,22 +51,22 @@ function MyBigAdvertisement(props) {
     const [showCalendar, setShowCalendar] = useState(false);
     const [showSizeGuide, setShowSizeGuide] = useState(false);
 
-    const [startDate, setStartDate] = useState(new Date())
-    const [endDate, setEndDate] = useState(new Date())
+    const [dataIn, setDataIn] = useState(new Date())
+    const [dataOut, setDataOut] = useState(new Date())
 
     const currentAd = props.ads.filter(ad => ad.id_a === idAd)[0];
     const currentImages = props.adsImages.filter(adImg => adImg.id_a === idAd);
-    const [renter, setRenter] = useState(() => props.users.filter(u => u.id_u == currentAd.id_u)[0])
 
     const [showNewMessage, setShowNewMessage] = useState(false);
 
     const initialMessage = "Hi , I'm contacting you, for the advertisement: ";
     const [newMessage, setNewMessage] = useState(initialMessage)
+    const [submitted, setSubmitted] = useState(false)
 
     const onChange = (dates) => {
         const [start, end] = dates;
-        setStartDate(start);
-        setEndDate(end);
+        setDataIn(start);
+        setDataOut(end);
     };
 
     const onCloseNewMessageModal = () => {
@@ -77,7 +77,7 @@ function MyBigAdvertisement(props) {
     const handleOpenOrCreateConversation = () => {
 
         const currParam = { "id": idAd, "cat": props.currentCat }
-        const conv = props.conversations.find(c => c.id_a == idAd && c.idRenter == renter.id_u && c.idBooker == props.currentUser.id_u)
+        const conv = props.conversations.find(c => c.id_a == idAd && c.idRenter == props.users.filter(u => u.id_u == currentAd.id_u)[0].id_u && c.idBooker == props.currentUser.id_u)
         if (conv) {
             localStorage.setItem("historyStack", JSON.stringify([...props.historyStack, "chat"]))
             props.setHistoryStack(() => ([...props.historyStack, "chat"]));
@@ -122,6 +122,35 @@ function MyBigAdvertisement(props) {
         })
     }
 
+    const handlePressRent = () => {
+
+        setSubmitted(true);
+        const newdataIn = new Date(dataIn).toISOString().split("T")[0].replaceAll("-", "/")
+        const newdataOut = new Date(dataOut).toISOString().split("T")[0].replaceAll("-", "/")
+
+
+        const newRent = {
+            id_a: parseInt(currentAd.id_a),
+            id_renter: props.users.find(u => u.id_u == currentAd.id_u).id_u,
+            id_booker: props.currentUser.id_u,
+            dataIn: newdataIn,
+            dataOut: newdataOut,
+            status: "ARRIVING"
+        }
+
+        props.addARent(newRent)
+
+        props.setCurrentState("rents");
+        localStorage.setItem("currentState", "rents");
+        localStorage.setItem("historyStack", JSON.stringify([]))
+        localStorage.setItem("currentCat", "")
+        props.setCurrentCat("")
+        props.setHistoryStack(() => ([]));
+
+        navigate("/MyRents")
+
+    }
+
     return (<>
         {!currentAd ? <Container id="containerSpinner">
             <Spinner animation="border" variant="danger" />
@@ -136,79 +165,150 @@ function MyBigAdvertisement(props) {
                 <Container>
                     <Carousel variant="dark">
                         {currentImages.map((img, idx) => {
-                            return <Carousel.Item key={idx}>
+                            return <Carousel.Item key={idx} style={{ textAlign: "center" }}>
                                 <Card.Img variant="top" src={img.url} className="mx-auto m-auto pt-2"
-                                    style={{ paddingLeft: 50, paddingRight: 50 }} />
+                                    style={{
+                                        width: "auto",
+                                        maxHeight: "330px"
+                                    }} />
                             </Carousel.Item>
                         })}
                     </Carousel>
                 </Container>
 
-                <Row className="justify-content-center pt-3 text-center">
 
-BRAND: {currentAd.brand}
+                <Row className="my-3 justify-content-center" >
+                    <Col className="col-4" > <b> BRAND:</b>
+                    </Col>
+                    <Col className="col-4"> {currentAd.brand}
+                    </Col>
+                </Row>
 
-</Row>
 
-<Container>
-<Row className="justify-content-center  text-center">
-DESCRIPTION: {currentAd.description}
 
-</Row>
-</Container>
+                <Row className="my-1 justify-content-center" >
+                    <Col className="col-4" > <b> DESCRIPTION:</b>
+                    </Col>
+                    <Col className="col-4">
+                    </Col>
 
-<Row className="justify-content-center  text-center">
+                </Row>
+                <Row className="my-1 justify-content-center" >
+                    <Col className="col-8">   {currentAd.description}
+                    </Col>
 
-SIZE: {currentAd.size}
 
-</Row>
-<Row className="justify-content-center  text-center pt-2 pb-2">
-PRICE PER DAY: {currentAd.price} €/day
-
-</Row>
-
-<Container>
-<Row className="justify-content-center">
-<Button onClick={() => setShowSizeGuide(true)} className="my-2 btn btn-secondary btn-md w-75" >
-How to measure your size
-</Button>
-
-</Row>
+                </Row>
 
 
 
 
-<Row className="justify-content-center">
-<Button onClick={handleOpenOrCreateConversation} className="my-2 btn btn-secondary btn-md w-75" >
-Contact the renter
-</Button>
 
-</Row>
+                <Row className="my-1 justify-content-center" >
+                    <Col className="col-4" > <b> SIZE:</b>
+                    </Col>
+                    <Col className="col-4"> {currentAd.size}
+                    </Col>
 
-
-
-
-<Row className="justify-content-center">
-<Button  onClick={() => setShowCalendar(true)} className="mt-5 btn btn-primary btn-md w-75" >
-Select dates
-</Button>
-
-</Row>
+                </Row>
 
 
-<Row className="justify-content-center">
-<Button disabled={numDays === 0 ? true : false}  onClick={() => setShowCalendar(true)} className="my-2 btn btn-primary btn-md w-75" >
-RENT
-</Button>
+                <Row className="my-1 justify-content-center" >
+                    <Col className="col-4" > <b> PRICE PER DAY:</b>
+                    </Col>
+                    <Col className="col-4">  {currentAd.price} €/day
+                    </Col>
 
-</Row>
+                </Row>
 
-</Container>
+
+
+
+
+                <Container>
+                    <Row className="justify-content-center mt-3">
+                        <Button onClick={() => setShowSizeGuide(true)} className="my-2 btn btn-secondary btn-md w-75" >
+                            How to measure your size
+                        </Button>
+
+                    </Row>
+
+
+
+
+                    <Row className="justify-content-center">
+                        <Button onClick={handleOpenOrCreateConversation} className="my-2 btn btn-secondary btn-md w-75" >
+                            Contact the renter
+                        </Button>
+
+                    </Row>
+
+
+
+
+                    <Row className="justify-content-center">
+                        <Button onClick={() => setShowCalendar(true)} className="mt-5 btn btn-primary btn-md w-75" >
+                            Select dates
+                        </Button>
+
+                    </Row>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    {((submitted) && (numDays !== 0)) ? <>
+                        <Row className="my-3 justify-content-center" >
+                            <Col className="col-4" > <b>End rent:</b>
+                            </Col>
+                            <Col className="col-4"> 08/08/0808
+                            </Col>
+                        </Row>
+
+                        <Row className="my-3 justify-content-center" >
+                            <Col className="col-4" > <b>End rent:</b>
+                            </Col>
+                            <Col className="col-4"> 08/08/0808
+                            </Col>
+
+                        </Row>
+
+                        <Row className="my-3 justify-content-center" >
+                            <Col className="col-4" > <b>OVERALL PRICE:</b>
+                            </Col>
+                            <Col className="col-4"> {(numDays * currentAd.price).toPrecision(4)}
+                            </Col>
+
+                        </Row>
+                    </>
+                        :
+                        <></>
+
+                    }
+
+                    <Row className="justify-content-center">
+                        <Button disabled={!submitted} onClick={handlePressRent} className="my-2 btn btn-primary btn-md w-75" >
+                            RENT
+                        </Button>
+
+                    </Row>
+
+                </Container>
 
                 <Container>
                     <Modal show={showSizeGuide} onClose={() => setShowSizeGuide(false)} onHide={() => setShowSizeGuide(false)}>
-                        <Modal.Header>
-                            <Button onClick={() => setShowSizeGuide(false)}>X</Button>
+                        <Modal.Header closeButton>
+                            <Modal.Title>{currentAd.gender == "man" ? "International men fit guide" : "International ladies fit guide"} </Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
                             <SizeGuide type={currentAd.gender} />
@@ -216,53 +316,44 @@ RENT
                     </Modal>
                 </Container>
 
-
-
                 <Card.Body>
-                   
+
                     {
                         props.rents ?
                             <MyAvailabilityModal show={showCalendar} setShow={setShowCalendar}
-                                startDate={startDate} setStartDate={setStartDate} setNumDays={setNumDays}
-                                onChange={onChange} endDate={endDate} setEndDate={setEndDate}
-                                rents={props.rents} currentAd={currentAd}>
+                                dataIn={dataIn} setDataIn={setDataIn} setNumDays={setNumDays}
+                                onChange={onChange} dataOut={dataOut} setDataOut={setDataOut}
+                                rents={props.rents} currentAd={currentAd} setSubmitted={setSubmitted}>
                             </MyAvailabilityModal>
                             : <></>
                     }
 
                 </Card.Body>
 
-                {numDays !== 0 ?
-                    <Card.Body>OVERALL PRICE: {(numDays * currentAd.price).toPrecision(4)}</Card.Body>
-                    : <></>}
+                <Modal show={showNewMessage} onClose={onCloseNewMessageModal}
+                    onHide={onCloseNewMessageModal}>
 
-                
+                    <Modal.Header closeButton>
+                        <Modal.Title>Contact the renter</Modal.Title>
+                    </Modal.Header>
 
-                <Container>
-                    <Modal show={showNewMessage} onClose={onCloseNewMessageModal}
-                        onHide={onCloseNewMessageModal}>
-                        <Modal.Header>
-                            <Container>
-                                <h3>Contact the user</h3>
-                            </Container>
-                            <Button onClick={onCloseNewMessageModal}>X</Button>
-                        </Modal.Header>
-
-
-                        <Form onChange={(event) => setNewMessage(event.target.value)}>
-                            <Form.Control as="textarea" defaultValue={newMessage + currentAd.title + ", "} rows={15} />
+                    <Modal.Body>
+                        Message:
+                        s
+                        <Form onChange={(event) => setNewMessage(event.target.value)} className="mt-3">
+                            <Form.Control as="textarea" defaultValue={newMessage + currentAd.title + ", "} rows={13} />
                         </Form>
 
-                        <Modal.Footer>
-                            <Container>
-                                {/**TODO: invia messaggio tramite API */}
-                                <Button type="submit" onClick={handleCreateNewConversation}>Send</Button>
-                            </Container>
-                        </Modal.Footer>
-                    </Modal>
-                </Container>
+                    </Modal.Body>
+                    <Modal.Footer>
 
-          
+                        <Button variant="primary" onClick={handleCreateNewConversation}>
+                            Send
+                        </Button>
+                    </Modal.Footer>
+
+                </Modal>
+
             </Card>
         }
     </>

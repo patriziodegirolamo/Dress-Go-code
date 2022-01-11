@@ -179,6 +179,32 @@ async function getConversations(id_u) {
   }
 }
 
+/* TO GET THE LIST OF RENTS */
+async function getRents(id_u) {
+  const response = await fetch(url + '/api/allrents?id_u='+id_u);
+  const rents = await response.json();
+  if (rents.id_r === 'Empty' ) {
+      return [];
+  }
+  else {
+      if (response.ok) {
+          return rents.map((t) => ({
+              ...t,
+              id_r: t.id_r,
+              id_a: t.id_a,
+              idRenter: t.idRenter,
+              idBooker: t.idBooker,
+              dataIn: t.dataIn,
+              dataOut: t.dataOut, 
+              status: t.status
+            
+          }));
+      } else {
+          throw rents;  // an object with the error coming from the server
+      }
+  }
+}
+
 // TO GET THE LIST OF MESSAGES OF A CONVERSATION 
 /**
 async function getMessages(id_conv) {
@@ -307,6 +333,7 @@ async function getAllUserMessagesCS(id_u) {
 
 
 
+
 //A QUI
 
 
@@ -364,6 +391,7 @@ async function insertKnownSize(ksize) {
   
 /* TO INSERT A NEW CONVERSATION */
 async function insertConversation(conv, mess) {
+  console.log(conv, mess)
   return new Promise((resolve, reject) => {
     fetch('/api/newconversation', {
       method: 'POST',
@@ -409,6 +437,28 @@ async function insertMessage(msg) {
   });
 }
 
+/* TO INSERT A NEW RENT */
+async function insertRent(rent) {
+  return new Promise((resolve, reject) => {
+    fetch('/api/newrent', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({id_a: rent.id_a, id_renter: rent.id_renter, id_booker: rent.id_booker, dataIn: rent.dataIn, dataOut: rent.dataOut, status: rent.status}),
+    }).then((response) => {
+      if (response.ok) {
+        resolve(response.json());
+      } else {
+        response.json()
+          .then((message) => { reject(message); })
+          .catch(() => reject({ error: 'Cannot parse the response.' }));
+      }
+    }).catch(() => {
+      reject({ error: 'Cannot communicate with the server.' });
+    })
+  });
+}
 
 
 
@@ -459,5 +509,5 @@ async function insertMessageCS(msg) {
   
 
 export {getCategories, getUserInfos, getKnownSizes, getAds, getAdsImages, getBrands, getAllUserMessages,
-        getUsers, getConversations, modifyUsInfos, insertKnownSize, insertConversation, insertMessage,
-        removeKnownSize, getOperators, getConversationsCS, getAllUserMessagesCS, insertMessageCS};
+        getUsers, getConversations, modifyUsInfos, insertKnownSize, insertConversation, insertMessage, insertRent,
+        removeKnownSize, getOperators, getConversationsCS, getAllUserMessagesCS, getRents, insertMessageCS};

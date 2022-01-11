@@ -291,6 +291,7 @@
   text-align: left;
   padding: 3px 13px 10px 13px;
   font-size: 16px;
+  word-wrap: break-word;
 }
 
 .message.my-message .message-body {
@@ -398,4 +399,8 @@
 }
 
 
+#back-button{
+  background-color: white;
+  border-color: white;
+}
 

@@ -61,7 +61,7 @@ function SmallChat(props) {
                     <Container key={props.idx}>
                         <Row>
                             <Col xs={3} sm={3} >
-                                <Image roundedCircle src={"/ad/" + props.image} style={{ height: 100, width: 100, marginTop: 20 }}></Image>
+                                <Image roundedCircle src={props.image} style={{ height: 100, width: 100, marginTop: 20 }}></Image>
                             </Col>
 
                             <Col>
@@ -110,7 +110,7 @@ function ChatCustomerService(props) {
 
                             {messages.length > 0 ?
                                 <Container style={{ position: "sticky", textAlign: "center", marginTop: 10 }}>
-                                    <p>{messages.at(-1).text.substring(0, 30)}...</p>
+                                    <p>{messages.at(-1).text.substring(0, 20)}...</p>
                                 </Container>
                                 : <></>
                             }
