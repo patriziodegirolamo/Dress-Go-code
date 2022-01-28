@@ -1,7 +1,8 @@
 import './App.css';
-import { Row, Container, Button, Col } from "react-bootstrap";
+import { Row, Container, Button, Col, Spinner } from "react-bootstrap";
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate, useNavigate } from 'react-router-dom';
+
 
 import FixedBottomNavigation from './mycomponents/bottombar.js'
 import MyCategoryList from './mycomponents/category_list';
@@ -33,9 +34,32 @@ import CSMessages from './mycomponents/ChatMessageCS';
 
 function App() {
 
+  const navigate = useNavigate();
+
+  const url = window.location.href.split("/")
+  const diz1 = {
+    '': "home",
+    "previews": "home",
+    "FAQ": "faq",
+    "MyRents": "rents",
+    "MyChats": "chats",
+    "CustomerServiceChat": "chat",
+    "MyAccount": "account",
+    "editprofile": "editprofile",
+    "handleknownsizes": "ks"
+  }
+
+  const diz2 = {
+    "dresses": "cat",
+    "MyRents": "rent",
+    "MyChats": "chat",
+    "ad": "bigCat",
+  }
+
+
   const [page, setPage] = useState(() => {
     const p = localStorage.getItem("page");
-    if (p)
+    if ((url[3] === "" || url[3] === "previews" || url[3] === "dresses" || url[3] === "ad") && p)
       return p;
     else return "";
   });
@@ -46,39 +70,41 @@ function App() {
   const [adsImages, setAdsImages] = useState([]);
   const [currentState, setCurrentState] = useState(() => {
     const cs = localStorage.getItem("currentState");
-    if (cs)
-      return cs;
-    else return "home";
+    let urlstate;
+
+    if (url.length === 4)
+      urlstate = diz1[url[3]]
+    else if (url.length === 5)
+      urlstate = diz2[url[3]]
+
+    if (cs) {
+      if (urlstate !== cs) {
+        localStorage.setItem("currentState", urlstate);
+        return urlstate;
+      }
+
+      else return cs;
+    }
+    return "home";
   });
 
   const [historyStack, setHistoryStack] = useState(() => {
-    if (window.performance) {
-      if (performance.navigation.type == 1) {
-        const hs = localStorage.getItem("historyStack");
-        if (hs !== "[]")
-          return JSON.parse(hs);
-        else return [];
-      }
-      else {
-        return []
-      }
-
-    }
-
+    const hs = localStorage.getItem("historyStack");
+    if (hs !== "[]")
+      return JSON.parse(hs);
+    else return [];
   });
 
+
   const [currentCat, setCurrentCat] = useState(() => {
-    if (window.performance) {
-      if (performance.navigation.type == 1) {
-        const cc = localStorage.getItem("currentCat");
-        if (cc)
-          return cc;
-        else return "";
-      }
+    const cc = localStorage.getItem("currentCat")
+    if (url[3] === "dresses") {
+      localStorage.setItem("currentCat", url[4])
+      return url[4]
     }
-    const urlArray = window.location.pathname.split("/").splice(1)
-    if (urlArray[0] === "dresses")
-      return urlArray[1]
+    else if (cc != url[4]) {
+      return cc
+    }
     else return "";
   });
   const [modalShow, setModalShow] = useState(false);
@@ -154,6 +180,174 @@ function App() {
     }
 
   };
+
+  const [backButtonPressed, setBackButtonPressed] = useState(false)
+
+  const pressBackButton = () => {
+    setBackButtonPressed(true)
+  }
+
+
+  window.onpopstate = function (event) {
+    event.preventDefault();
+
+    pressBackButton()
+  }
+
+
+  useEffect(() => {
+    async function getAllLocalStorage() {
+      setBackButtonPressed(false)
+
+      if (backButtonPressed) {
+        setSearch("")
+        let prev = null;
+        let curr = null;
+        let currParam = JSON.parse(localStorage.getItem("currParam"));
+
+        if (historyStack.length === 0) {
+          setCurrentCat("");
+          localStorage.setItem("currentCat", "");
+
+          historyStack.pop()
+          localStorage.setItem("historyStack", JSON.stringify(historyStack))
+          setCurrentState("home")
+          navigate("/previews");
+
+        }
+        switch (currentState) {
+
+          case "cat":
+            setCurrentCat("");
+            localStorage.setItem("currentCat", "");
+
+            historyStack.pop()
+            localStorage.setItem("historyStack", JSON.stringify(historyStack))
+            setCurrentState("home")
+            localStorage.setItem("currentState", "home");
+            navigate("/previews");
+            break;
+
+          case "bigCat":
+            prev = historyStack.pop()
+            curr = historyStack.at(-1);
+
+            if (curr === "cat") {
+              setCurrentState(curr);
+              localStorage.setItem("historyStack", JSON.stringify(historyStack))
+              navigate("dresses/" + currentCat);
+            }
+
+            else if (curr === "bigCat") {
+              setCurrentState("bigCat");
+              localStorage.setItem("currentState", "bigCat");
+              setCurrentCat(currParam.cat)
+              localStorage.setItem("historyStack", JSON.stringify(historyStack))
+              navigate("ad/" + currParam.id);
+            }
+            else {
+              setCurrentState("home");
+              setCurrentCat("");
+
+              localStorage.setItem("historyStack", JSON.stringify(historyStack))
+              navigate("previews");
+
+            }
+
+            break;
+
+          case "chat":
+            prev = historyStack.pop()
+            curr = historyStack.at(-1);
+            if (historyStack.length === 0) {
+              if (prev === "chat") {
+                setCurrentState("chats");
+                localStorage.setItem("currentState", "chat");
+                localStorage.setItem("historyStack", JSON.stringify(historyStack))
+                navigate("/MyChats");
+              }
+            }
+            else {
+
+              if (curr === "chats") {
+                setCurrentState("chats");
+                localStorage.setItem("currentState", "chat");
+                localStorage.setItem("historyStack", JSON.stringify(historyStack))
+                navigate("/MyChats");
+              }
+
+
+              else if (curr === "rent") {
+                setCurrentState("rent");
+                localStorage.setItem("currentState", "rent");
+                localStorage.setItem("historyStack", JSON.stringify(historyStack))
+                navigate("MyRents/" + currParam.id);
+              }
+
+              else if (curr === "bigCat") {
+                setCurrentState("bigCat");
+                localStorage.setItem("currentState", "bigCat");
+                setCurrentCat(currParam.cat)
+                localStorage.setItem("historyStack", JSON.stringify(historyStack))
+                navigate("ad/" + currParam.id);
+              }
+            }
+
+
+            break;
+
+          case "rent":
+            prev = historyStack.pop()
+            curr = historyStack.at(-1);
+
+            if (prev === "rent") {
+              setCurrentState("rents");
+              localStorage.setItem("currentState", "rents");
+              localStorage.setItem("historyStack", JSON.stringify(historyStack))
+              navigate("MyRents");
+            }
+            if (curr === "bigCat") {
+              setCurrentState("bigCat");
+              localStorage.setItem("currentState", "bigCat");
+              localStorage.setItem("historyStack", JSON.stringify(historyStack))
+              navigate("ad/" + currParam.id);
+            }
+            else if (curr === "rents") {
+              setCurrentState("rents");
+              localStorage.setItem("currentState", "rent");
+              localStorage.setItem("historyStack", JSON.stringify(historyStack))
+              navigate("/MyRents");
+            }
+
+            break;
+
+          case "editProfile":
+            prev = historyStack.pop();
+            setCurrentState("account");
+            localStorage.setItem("historyStack", "[]")
+            localStorage.setItem("currentState", "account");
+            navigate("/MyAccount");
+
+            break;
+
+          case "ks":
+            prev = historyStack.pop();
+            setCurrentState("account");
+            localStorage.setItem("historyStack", "[]")
+            localStorage.setItem("currentState", "account");
+            navigate("/MyAccount");
+
+            break;
+
+          default:
+            break;
+        }
+
+      }
+    }
+    getAllLocalStorage();
+  }, [backButtonPressed]);
+
 
   useEffect(() => {
     async function getCat() {
@@ -322,11 +516,8 @@ function App() {
     }
   }
 
-  window.addEventListener('popstate', function (event) {
-    
-  }, false);
 
-  return <Router>
+  return <>
     <MyHeader page={page} setPage={setPage}
       currentCat={currentCat}
       setCurrentCat={setCurrentCat}
@@ -345,7 +536,7 @@ function App() {
           conversations={conversations} rents={rents}
           addAConversation={addAConversation} currentCat={currentCat}
           setHistoryStack={setHistoryStack} historyStack={historyStack} setCurrentCat={setCurrentCat} setCurrentState={setCurrentState}
-          addARent={addARent} setRents={setRents} />
+          addARent={addARent} setRents={setRents} dirty={dirty} />
       </>} />
 
       <Route path='/guide' element={<>
@@ -355,7 +546,7 @@ function App() {
       <Route path='/MyChats/:id_conv' element={<ChatMessages user={user}
         messages={messages.sort((a, b) => a.date - b.date)} users={users}
         conversations={conversations} adsImages={adsImages}
-        addAMessage={addAMessage} ads={ads}
+        addAMessage={addAMessage} ads={ads} dirty={dirty}
       >
       </ChatMessages>} />
 
@@ -366,6 +557,7 @@ function App() {
           conversationsCS={conversationsCS}
           addAMessageCS={addAMessageCS}
           messagesCS={messagesCS.sort((a, b) => a.date - b.date)}
+          dirty={dirty}
         >
         </CSMessages> : <></>}
 
@@ -378,22 +570,26 @@ function App() {
           setMessages={setMessages} conversationsCS={conversationsCS}
           messagesCS={messagesCS.sort((a, b) => a.date - b.date)}
           setCurrentState={setCurrentState}
-          historyStack={historyStack} setHistoryStack={setHistoryStack} />
+          historyStack={historyStack} setHistoryStack={setHistoryStack}
+          dirty={dirty} />
       </>} />
 
       <Route path="/MyRents" element={<>
         <MyRents user={user} rents={rents} ads={ads} setCurrentState={setCurrentState}
-          setHistoryStack={setHistoryStack} historyStack={historyStack} />
+          setHistoryStack={setHistoryStack} historyStack={historyStack} dirty={dirty} />
       </>} />
 
       <Route path='/MyRents/:id_r' element={<>
         {
-          ads.length > 0 && rents.length ?
+          !dirty ?
             <OrderSummary rents={rents} ads={ads} adsImages={adsImages} conversations={conversations}
               addAConversation={addAConversation}
               setCurrentState={setCurrentState}
-              setHistoryStack={setHistoryStack} historyStack={historyStack} />
-            : <></>
+              setHistoryStack={setHistoryStack} historyStack={historyStack}
+            />
+            : <Container id="containerSpinner">
+              <Spinner animation="border" variant="primary" />
+            </Container>
         }
       </>
       } />
@@ -404,7 +600,8 @@ function App() {
           <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(ad => {
             return ad.gender === page && (ad.title.includes(search) || ad.description.includes(search))
           })}
-            handleChangeForwardPage={handleChangeForwardPage}>
+            handleChangeForwardPage={handleChangeForwardPage}
+            dirty={dirty}>
           </MyDressList>
         </Container> :
 
@@ -424,6 +621,7 @@ function App() {
                 return c
             })} ads={ads}
               handleChangeForwardPage={handleChangeForwardPage}
+              dirty={dirty}
             />
           </>}
       </>} />
@@ -435,69 +633,98 @@ function App() {
           <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(ad => (
             categories.find((el) => el.id_cat === ad.id_cat).name === currentCat)
             && (ad.title.includes(search) || ad.description.includes(search)))}
-            handleChangeForwardPage={handleChangeForwardPage}>
+            handleChangeForwardPage={handleChangeForwardPage}
+            dirty={dirty}>
           </MyDressList>
         </Container>
           :
           <>
-            <Container >
-              <Row className="pt-3">
-                <Col className="text-center mx-auto my-auto">
-                  You are watching
-                  <h1>{currentCat}</h1>
-                </Col>
-                <Col>
-                  {categories.length > 0 && currentCat ? <img src={"/" + categories.find(x => x.name === currentCat).address} className="img-fluid" id="rotationimage" alt="Responsive image" width="120"></img> : <></>}
-                </Col>
-              </Row>
-            </Container>
+            {
+              dirty ?
+                <Container id="containerSpinner">
+                  <Spinner animation="border" variant="primary" />
+                </Container> : <>
+                  <Row className="pt-3">
+                    <Col className="text-center mx-auto my-auto">
+                      You are watching
+                      <h1>{currentCat}</h1>
+                    </Col>
+                    <Col>
+                      {categories.length > 0 && currentCat ? <img src={"/" + categories.find(x => x.name === currentCat).address} className="img-fluid" id="rotationimage" alt="Responsive image" width="120"></img> : <></>}
+                    </Col>
+                  </Row>
 
-            {ads.filter(filterSuggestedDresses).length > 0 ? <Container id="dressContainer">
-              <h4>SUGGESTED:</h4>
-              <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(filterSuggestedDresses)}
-                handleChangeForwardPage={handleChangeForwardPage}>
-              </MyDressList>
-            </Container> : <></>}
+                  {ads.filter(filterSuggestedDresses).length > 0 ?
+                    <Container id="dressContainer">
+                      <h4>SUGGESTED:</h4>
+                      <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(filterSuggestedDresses)}
+                        handleChangeForwardPage={handleChangeForwardPage}
+                        dirty={dirty}>
+                      </MyDressList>
+                    </Container>
+                    : <></>}
 
+                  {ads.filter(filterAllDresses).length > 0 ?
+                    <Container id="dressContainer">
+                      <h4>ALL SIZES:</h4>
+                      <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(filterAllDresses)}
+                        handleChangeForwardPage={handleChangeForwardPage}
+                        dirty={dirty}>
+                      </MyDressList>
+                    </Container>
+                    : <></>}
 
-            {ads.filter(filterAllDresses).length > 0 ? <Container id="dressContainer">
-              <h4>ALL SIZES:</h4>
-              <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(filterAllDresses)}
-                handleChangeForwardPage={handleChangeForwardPage}>
-              </MyDressList>
-            </Container> : <></>}
-
-
+                </>}
 
           </>
         }
       </>} />
 
       <Route path="/MyAccount" element={<>
-        <MyProfile user={user} setCurrentState={setCurrentState}
-          setHistoryStack={setHistoryStack} historyStack={historyStack} />
+        {
+          dirty ? <Container id="containerSpinner">
+            <Spinner animation="border" variant="primary" />
+          </Container> : <>
+            <MyProfile user={user} setCurrentState={setCurrentState}
+              setHistoryStack={setHistoryStack} historyStack={historyStack}
+            />
+          </>}
       </>} />
 
 
       <Route path="/handleknownsizes" element={<>
-        <MyKnownSizes knownsizes={knownsizes} setKnownsizes={setKnownSizes} categories={categories} removeASize={removeASize}></MyKnownSizes>
-        <Row className="p-3 justify-content-center m-auto ">
-          <Button className="mb-3" variant="primary" type="submit" onClick={() => setModalShow(true)}>
-            Add known size</Button>
-        </Row>
+        {
+          dirty ? <Container id="containerSpinner">
+            <Spinner animation="border" variant="primary" />
+          </Container> : <>
 
-        <AddKnownSizes
-          show={modalShow}
-          categories={categories}
-          addASize={addASize}
-          user={user}
-          brands={brands}
-          onHide={() => setModalShow(false)}
-        />
+            <MyKnownSizes knownsizes={knownsizes} setKnownsizes={setKnownSizes} categories={categories}
+              removeASize={removeASize} />
+            <Row className="p-3 justify-content-center m-auto ">
+              <Button className="mb-3" variant="primary" type="submit" onClick={() => setModalShow(true)}>
+                Add known size</Button>
+            </Row>
+
+            <AddKnownSizes
+              show={modalShow}
+              categories={categories}
+              addASize={addASize}
+              user={user}
+              brands={brands}
+              onHide={() => setModalShow(false)}
+            />
+          </>}
       </>} />
 
       <Route path="/editprofile" element={<>
-        <MyUserData user={user} modifyUserInfos={modifyUserInfos} setCurrentState={setCurrentState} setHistoryStack={setHistoryStack}/>
+        {
+          dirty ? <Container id="containerSpinner">
+            <Spinner animation="border" variant="primary" />
+          </Container> : <>y
+            <MyUserData user={user} modifyUserInfos={modifyUserInfos} setCurrentState={setCurrentState}
+              setHistoryStack={setHistoryStack}
+            />
+          </>}
       </>} />
 
       <Route path="/FAQ" element={<>
@@ -512,7 +739,7 @@ function App() {
       setHistoryStack={setHistoryStack}
       setSearch={setSearch}
     />
-  </Router>
+  </>
 }
 
 export default App;

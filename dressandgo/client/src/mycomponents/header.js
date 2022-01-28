@@ -20,7 +20,6 @@ function MyHeader(props) {
     let curr = null;
     let currParam = JSON.parse(localStorage.getItem("currParam"));
 
-    console.log(currParam, props.currentState)
     if (props.historyStack.length === 0) {
       props.setCurrentCat("");
       localStorage.setItem("currentCat", "");
@@ -40,6 +39,7 @@ function MyHeader(props) {
         props.historyStack.pop()
         localStorage.setItem("historyStack", JSON.stringify(props.historyStack))
         props.setCurrentState("home")
+        localStorage.setItem("currentState", "home");
         navigate("/previews");
         break;
 
@@ -74,7 +74,6 @@ function MyHeader(props) {
       case "chat":
         prev = props.historyStack.pop()
         curr = props.historyStack.at(-1);
-        console.log(prev, curr)
         if (props.historyStack.length === 0) {
           if (prev === "chat") {
             props.setCurrentState("chats");
@@ -101,7 +100,6 @@ function MyHeader(props) {
           }
 
           else if (curr === "bigCat") {
-            console.log("here", currParam)
             props.setCurrentState("bigCat");
             localStorage.setItem("currentState", "bigCat");
             props.setCurrentCat(currParam.cat)

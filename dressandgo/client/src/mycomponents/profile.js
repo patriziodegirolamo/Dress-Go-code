@@ -24,7 +24,7 @@ function MyProfile(props) {
         const str = "[" + "\"ks\"" + "]" 
         props.setCurrentState("ks");
         localStorage.setItem("currentState","ks" );
-        localStorage.setItem("historyStack", [...props.historyStack, str])
+        localStorage.setItem("historyStack", [str])
         props.setHistoryStack(() => ([...props.historyStack, "ks"]))
     }
 
@@ -57,7 +57,7 @@ function MyProfile(props) {
                 </Link>
 
                 <Link onClick={onClickHandlerKS}className="btn btn-primary btn-md w-75 justify-content-center" role="button" to="/handleknownsizes" >
-                    Handle know sizes
+                    Handle known sizes
                 </Link>
 
                 <Button disabled className="my-2 btn btn-primary btn-md w-75" >

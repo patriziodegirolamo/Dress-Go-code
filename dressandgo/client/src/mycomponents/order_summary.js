@@ -9,7 +9,6 @@ function OrderSummary(props) {
   let { id_r } = useParams();
   id_r = parseInt(id_r);
 
-  console.log(id_r)
 
   const currentRent = props.rents.find(r => r.id_r === id_r);
   const ads = props.ads.find(ad => ad.id_a === currentRent.id_a);

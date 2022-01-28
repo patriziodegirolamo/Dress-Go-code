@@ -13,30 +13,21 @@ function MySmallAdvertisement(props) {
 
     const currentImg = props.adsImages.find((el) => el.position === 1);
     return <>
-
-        {
-            !currentImg ? <Container id="containerSpinner">
-                <Spinner animation="border" variant="danger" />
-            </Container> :
-
-                <Card key={props.idx} onClick={() => {
-                    navigate("/ad/" + props.ad.id_a)
-                    return props.handleChangeForwardPage(props.categories.find((el) => el.id_cat === props.ad.id_cat).name)
-                }
-                }>
-                    <Card.Title>
-                        <Row className="text-center">
-                            <h5> {props.ad.title} </h5>
-                        </Row>
-
-                    </Card.Title>
-
-                    <Card.Img variant="top" src={currentImg.url} className="mx-auto m-auto pt-2" style={{ width: '50%' }} />
-
-                </Card>
+        <Card key={props.idx} onClick={() => {
+            navigate("/ad/" + props.ad.id_a)
+            return props.handleChangeForwardPage(props.categories.find((el) => el.id_cat === props.ad.id_cat).name)
         }
+        }>
+            <Card.Title>
+                <Row className="text-center">
+                    <h5> {props.ad.title} </h5>
+                </Row>
 
+            </Card.Title>
 
+            <Card.Img variant="top" src={currentImg.url} className="mx-auto m-auto pt-2" style={{ width: '50%' }} />
+
+        </Card>
 
     </>
 }
@@ -122,7 +113,7 @@ function MyBigAdvertisement(props) {
         })
     }
 
-    const handlePressRent = () =>{
+    const handlePressRent = () => {
 
         setSubmitted(true);
         const newdataIn = new Date(dataIn).toISOString().split("T")[0].replaceAll("-", "/")
@@ -131,12 +122,12 @@ function MyBigAdvertisement(props) {
 
         const newRent = {
             id_a: parseInt(currentAd.id_a),
-            id_renter: props.users.find(u => u.id_u == currentAd.id_u).id_u, 
-            id_booker: props.currentUser.id_u, 
+            id_renter: props.users.find(u => u.id_u == currentAd.id_u).id_u,
+            id_booker: props.currentUser.id_u,
             dataIn: newdataIn,
-            dataOut: newdataOut, 
+            dataOut: newdataOut,
             status: "ARRIVING"
-        } 
+        }
 
         props.addARent(newRent)
 
@@ -146,14 +137,14 @@ function MyBigAdvertisement(props) {
         localStorage.setItem("currentCat", "")
         props.setCurrentCat("")
         props.setHistoryStack(() => ([]));
-            
+
         navigate("/MyRents")
-        
+
     }
 
     return (<>
-        {!currentAd ? <Container id="containerSpinner">
-            <Spinner animation="border" variant="danger" />
+        {props.dirty ? <Container id="containerSpinner">
+            <Spinner animation="border" variant="primary" />
         </Container>
             : <Card key={idAd}>
                 <Card.Title>
@@ -165,7 +156,7 @@ function MyBigAdvertisement(props) {
                 <Container>
                     <Carousel variant="dark">
                         {currentImages.map((img, idx) => {
-                            return <Carousel.Item key={idx} style={{textAlign: "center"}}>
+                            return <Carousel.Item key={idx} style={{ textAlign: "center" }}>
                                 <Card.Img variant="top" src={img.url} className="mx-auto m-auto pt-2"
                                     style={{
                                         width: "auto",

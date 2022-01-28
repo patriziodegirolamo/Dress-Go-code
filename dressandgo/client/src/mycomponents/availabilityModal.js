@@ -25,8 +25,6 @@ function MyAvailabilityModal(props) {
         const dateArray = new Array();
         let currentDate = startDate;
 
-        console.log(start, stop)
-        console.log(startDate.toISOString(), stopDate.toISOString())
         while (currentDate <= stopDate) {
             dateArray.push(currentDate);
             currentDate = addDays(currentDate, 1)
@@ -84,7 +82,6 @@ function MyAvailabilityModal(props) {
         excludedDates = excludedDates.concat(prova)
     });
 
-    console.log(excludedDates)
     const [attention, setAttention] = useState("");
 
 
