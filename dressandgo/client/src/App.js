@@ -359,6 +359,10 @@ function App() {
       const fetchedBrands = await getBrands();
       const fetchedUsers = await getUsers();
 
+      const fetchedOperators = await getOperators();
+      let fetchedConversationsCS;;
+      let fetchedMessagesCS;
+
       let fetchedUser = null;
       let fetchedConversations;
       let fetchedMessages;
@@ -369,6 +373,8 @@ function App() {
         fetchedConversations = await getConversations(fetchedUser.id_u);
         fetchedMessages = await getAllUserMessages(fetchedUser.id_u);
         fetchedRents = await getRents(fetchedUser.id_u)
+        fetchedConversationsCS = await getConversationsCS(fetchedUser.id_u);
+        fetchedMessagesCS = await getAllUserMessagesCS(fetchedUser.id_u);
         localStorage.setItem("user", JSON.stringify(fetchedUser));
         localStorage.setItem("page", fetchedUser.gender);
         setPage(fetchedUser.gender);
@@ -379,6 +385,8 @@ function App() {
         fetchedConversations = await getConversations(fetchedUser.id_u);
         fetchedMessages = await getAllUserMessages(fetchedUser.id_u);
         fetchedRents = await getRents(fetchedUser.id_u);
+        fetchedConversationsCS = await getConversationsCS(fetchedUser.id_u);
+        fetchedMessagesCS = await getAllUserMessagesCS(fetchedUser.id_u);
         setPage(localStorage.getItem("page"));
       }
 
@@ -392,6 +400,9 @@ function App() {
       setConversations(fetchedConversations);
       setBrands(fetchedBrands);
       setRents(fetchedRents);
+      setOperatorsCS(fetchedOperators);
+      setConversationsCS(fetchedConversationsCS);
+      setMessagesCS(fetchedMessagesCS);
       setDirty(false);
     }
     getCat();
@@ -571,7 +582,7 @@ function App() {
           messagesCS={messagesCS.sort((a, b) => a.date - b.date)}
           setCurrentState={setCurrentState}
           historyStack={historyStack} setHistoryStack={setHistoryStack}
-          dirty={dirty} />
+          dirty={dirty} contactCS={contactCS}/>
       </>} />
 
       <Route path="/MyRents" element={<>

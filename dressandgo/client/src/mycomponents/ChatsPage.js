@@ -14,41 +14,43 @@ function ChatsPage(props) {
         props.setHistoryStack(() => ([...props.historyStack, "chat"]))
     }
 
+    console.log(props.dirty, props.contactCS)
     return <>
 
         {
-            props.dirty ? <Container id="containerSpinner">
-                <Spinner animation="border" variant="primary" />
-            </Container> : <>
+            props.dirty || props.contactCS ?
+                <Container id="containerSpinner">
+                    <Spinner animation="border" variant="primary" />
+                </Container> : <>
 
-                <Container style={{ paddingTop: 10 }}>
-                    <Container className="containerChatPreview">
-                        <ChatCustomerService conversationsCS={props.conversationsCS}
-                            currentUser={props.currentUser} messagesCS={props.messagesCS}
-                            setCurrentState={props.setCurrentState}
-                            onClickHandler={onClickHandler}
-                            historyStack={props.historyStack} setHistoryStack={props.setHistoryStack} />
-                    </Container>
-                </Container>
-
-
-                {
-                    props.conversations.map((conv, idx) => {
-
-                        const currentAd = props.ads.find(ad => ad.id_a == conv.id_a)
-                        const image = props.adsImages.find(adImage => adImage.id_a == conv.id_a)
-                        return <Container className="containerChatPreview" key={idx}>
-                            <SmallChat idx={idx} image={image.url} currentAd={currentAd}
-                                renter={props.users.find(u => u.id_u == conv.idRenter)} conversation={conv}
-                                messages={props.messages.filter(mes => mes.id_conv == conv.id_conv)}
-                                setMessages={props.setMessages} setCurrentState={props.setCurrentState}
+                    <Container style={{ paddingTop: 10 }}>
+                        <Container className="containerChatPreview">
+                            <ChatCustomerService conversationsCS={props.conversationsCS}
+                                currentUser={props.currentUser} messagesCS={props.messagesCS}
+                                setCurrentState={props.setCurrentState}
                                 onClickHandler={onClickHandler}
-                                historyStack={props.historyStack} setHistoryStack={props.setHistoryStack}>
-                            </SmallChat>
+                                historyStack={props.historyStack} setHistoryStack={props.setHistoryStack} />
                         </Container>
-                    })
-                }
-            </>}
+                    </Container>
+
+
+                    {
+                        props.conversations.map((conv, idx) => {
+
+                            const currentAd = props.ads.find(ad => ad.id_a == conv.id_a)
+                            const image = props.adsImages.find(adImage => adImage.id_a == conv.id_a)
+                            return <Container className="containerChatPreview" key={idx}>
+                                <SmallChat idx={idx} image={image.url} currentAd={currentAd}
+                                    renter={props.users.find(u => u.id_u == conv.idRenter)} conversation={conv}
+                                    messages={props.messages.filter(mes => mes.id_conv == conv.id_conv)}
+                                    setMessages={props.setMessages} setCurrentState={props.setCurrentState}
+                                    onClickHandler={onClickHandler}
+                                    historyStack={props.historyStack} setHistoryStack={props.setHistoryStack}>
+                                </SmallChat>
+                            </Container>
+                        })
+                    }
+                </>}
     </>
 
 
@@ -58,37 +60,36 @@ function SmallChat(props) {
 
 
     return <>
-        {
-            props.messages.length > 0 ?
-                <Link className='text-link' to={{ pathname: "/MyChats/" + props.conversation.id_conv }}
-                    onClick={props.onClickHandler}>
-                    <Container key={props.idx}>
-                        <Row>
-                            <Col xs={3} sm={3} >
-                                <Image roundedCircle src={props.image} style={{ height: 100, width: 100, marginTop: 20 }}></Image>
-                            </Col>
 
-                            <Col>
-                                <Container style={{ position: "sticky", textAlign: "center", marginTop: 10 }}>
-                                    <h5>{props.renter.name}</h5>
-                                </Container>
+        <Link className='text-link' to={{ pathname: "/MyChats/" + props.conversation.id_conv }}
+            onClick={props.onClickHandler}>
+            <Container key={props.idx}>
+                <Row>
+                    <Col xs={3} sm={3} >
+                        <Image roundedCircle src={props.image} style={{ height: 100, width: 100, marginTop: 20 }}></Image>
+                    </Col>
 
-                                <Container style={{ position: "sticky", textAlign: "center", marginTop: 10 }}>
-                                    <p>{props.currentAd.title}</p>
-                                </Container>
+                    <Col>
+                        <Container style={{ position: "sticky", textAlign: "center", marginTop: 10 }}>
+                            <h5>{props.renter.name}</h5>
+                        </Container>
 
-                                <Container style={{ position: "sticky", textAlign: "center", marginTop: 10 }}>
-                                    <p>{props.messages.at(-1).text.substring(0, 30)}...</p>
-                                </Container>
+                        <Container style={{ position: "sticky", textAlign: "center", marginTop: 10 }}>
+                            <p>{props.currentAd.title}</p>
+                        </Container>
 
-                            </Col>
+                        <Container style={{ position: "sticky", textAlign: "center", marginTop: 10 }}>
+                            <p>{props.messages[props.messages.length-1].text.substring(0, 30)}...</p>
+                        </Container>
 
-                        </Row>
+                    </Col>
 
-                    </Container>
-                </Link>
-                : <Spinner></Spinner>
-        }
+                </Row>
+
+            </Container>
+        </Link>
+
+
     </>
 }
 
@@ -96,8 +97,11 @@ function ChatCustomerService(props) {
     const conv = props.conversationsCS.find(c => c.id_u == props.currentUser.id_u)
     const messages = props.messagesCS.filter(m => m.id_conv == conv.id_conv)
 
+    console.log(props.conversationsCS, props.currentUser)
+
     return <>
-        {props.conversationsCS.length > 0 ? <Link className='text-link' to={{ pathname: "/CustomerServiceChat" }}
+    {conv ? 
+        <Link className='text-link' to={{ pathname: "/CustomerServiceChat" }}
             onClick={props.onClickHandler}>
             <Container key={props.idx}>
                 <Row>
@@ -109,21 +113,19 @@ function ChatCustomerService(props) {
                         <Col>
                             <Container style={{ position: "sticky", textAlign: "center", marginTop: 10 }}>
                                 <h4>Customer Service</h4>
-                                <h5>{conv.name_cs}</h5>
                             </Container>
 
-                            {messages.length > 0 ?
-                                <Container style={{ position: "sticky", textAlign: "center", marginTop: 10 }}>
-                                    <p>{messages.at(-1).text.substring(0, 20)}...</p>
-                                </Container>
-                                : <></>
-                            }
+                            <Container style={{ position: "sticky", textAlign: "center", marginTop: 10 }}>
+                                <p>{messages[messages.length-1].text.substring(0, 20)}...</p>
+                            </Container>
+
                         </Col>
                     }
                 </Row>
 
             </Container>
-        </Link> : <></>}
+        </Link>
+        :<></>}
 
     </>
 }
