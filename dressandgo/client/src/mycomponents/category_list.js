@@ -11,7 +11,11 @@ function MyCategoryList(props) {
       </Container> : <>
         <Container>
           <Row xs={2} md={2} className="g-4">
-            {props.categories.map((cat, idx) => {
+            {props.categories.sort(function (a, b) {
+              if (a.name < b.name) return -1; 
+              else if (a.name > b.name) return 1;
+              else return 0;
+            }).map((cat, idx) => {
               return <Col key={idx}>
                 <MyCategory key={idx} handleChangeForwardPage={props.handleChangeForwardPage}
                   categorie={cat} idx={idx}></MyCategory>
@@ -20,8 +24,8 @@ function MyCategoryList(props) {
             }
           </Row>
         </Container>
-      </> 
-            }
+      </>
+      }
     </>
   );
 }

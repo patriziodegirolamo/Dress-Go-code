@@ -62,7 +62,7 @@
 }
 
 #rotationimage {
-	transform: rotate(-34deg);
+	transform: rotate(0deg);
   	/*to rotate an image you have to use the transform function in CSS and rotate
   	in degrees*/
 }

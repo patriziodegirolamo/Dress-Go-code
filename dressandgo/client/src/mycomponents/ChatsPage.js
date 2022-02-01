@@ -75,11 +75,11 @@ function SmallChat(props) {
                         </Container>
 
                         <Container style={{ position: "sticky", textAlign: "center", marginTop: 10 }}>
-                            <p>{props.currentAd.title}</p>
+                            <p>{props.currentAd.title.substring(0, 15)}...</p>
                         </Container>
 
                         <Container style={{ position: "sticky", textAlign: "center", marginTop: 10 }}>
-                            <p>{props.messages[props.messages.length-1].text.substring(0, 30)}...</p>
+                            <p>{props.messages[props.messages.length-1].text.substring(0, 28)}...</p>
                         </Container>
 
                     </Col>

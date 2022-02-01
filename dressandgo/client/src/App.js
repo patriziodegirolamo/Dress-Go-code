@@ -230,7 +230,7 @@ function App() {
 
           case "bigCat":
             prev = historyStack.pop()
-            curr = historyStack.at(-1);
+            curr = historyStack[historyStack.length-1]
 
             if (curr === "cat") {
               setCurrentState(curr);
@@ -258,7 +258,7 @@ function App() {
 
           case "chat":
             prev = historyStack.pop()
-            curr = historyStack.at(-1);
+            curr = historyStack[historyStack.length-1]
             if (historyStack.length === 0) {
               if (prev === "chat") {
                 setCurrentState("chats");
@@ -298,7 +298,7 @@ function App() {
 
           case "rent":
             prev = historyStack.pop()
-            curr = historyStack.at(-1);
+            curr = historyStack[historyStack.length-1]
 
             if (prev === "rent") {
               setCurrentState("rents");

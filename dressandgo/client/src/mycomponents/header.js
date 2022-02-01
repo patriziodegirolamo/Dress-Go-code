@@ -1,4 +1,4 @@
-import { Container, Navbar, Form, Row, Col, Button } from "react-bootstrap";
+import { Container, Navbar, Form, Row, Col, Button, Dropdown, DropdownButton } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -45,7 +45,7 @@ function MyHeader(props) {
 
       case "bigCat":
         prev = props.historyStack.pop()
-        curr = props.historyStack.at(-1);
+        curr = props.historyStack[props.historyStack.length - 1]
 
         console.log("from", prev, "to", curr)
 
@@ -75,7 +75,7 @@ function MyHeader(props) {
 
       case "chat":
         prev = props.historyStack.pop()
-        curr = props.historyStack.at(-1);
+        curr = props.historyStack[props.historyStack.length - 1]
 
         console.log("from", prev, "to", curr)
         if (props.historyStack.length === 0) {
@@ -117,7 +117,7 @@ function MyHeader(props) {
 
       case "rent":
         prev = props.historyStack.pop()
-        curr = props.historyStack.at(-1);
+        curr = props.historyStack[props.historyStack.length - 1]
 
         console.log("from", prev, "to", curr)
 
@@ -196,7 +196,7 @@ function MyHeader(props) {
       {props.currentState === "home" || props.currentState === "cat" ?
         <Container>
           <Row>
-            <Col xs={7}>
+            <Col xs={props.currentState ==="home" ? 7 : 12}>
               <Form id="formFilterDress">
                 <Form.Control value={props.search} placeholder="Search..." onChange={(event) => {
                   props.setSearch(event.target.value)
@@ -204,43 +204,62 @@ function MyHeader(props) {
               </Form>
             </Col>
 
-            {
-              props.page === "man" ?
-                <Col xs={2}>
-                  <Button style={{ backgroundColor: "white" }} size="lg" variant="light" disabled>
-                    <FcBusinessman size={35}></FcBusinessman>
-                  </Button>
-                </Col>
-                :
-                <Col xs={2}>
-                  <Button style={{ backgroundColor: "white" }} size="lg" variant="light" onClick={(event) => {
-                    handleChangeBackardPage()
-                    props.setPage("man");
-                    localStorage.setItem("page", "man");
-                  }}>
-                    <FcBusinessman size={30}></FcBusinessman>
-                  </Button>
-                </Col>
-            }
+            {props.currentState === "home" ? <>
 
-            {
-              props.page === "woman" ?
-                <Col xs={2}>
-                  <Button style={{ backgroundColor: "white" }} size="lg" variant="light" disabled>
-                    <FcBusinesswoman size={35}></FcBusinesswoman>
-                  </Button>
-                </Col>
-                :
-                <Col xs={2}>
-                  <Button style={{ backgroundColor: "white" }} size="lg" variant="light" onClick={(event) => {
-                    handleChangeBackardPage()
-                    props.setPage("woman");
-                    localStorage.setItem("page", "woman");
-                  }}>
-                    <FcBusinesswoman size={30}></FcBusinesswoman>
-                  </Button>
-                </Col>
-            }
+              {
+                props.page === "man" ?
+                  <Col xs={2}>
+                    <Button style={{ backgroundColor: "white" }} size="lg" variant="light" disabled>
+                      <FcBusinessman size={35}></FcBusinessman>
+                    </Button>
+                  </Col>
+                  :
+                  <Col xs={2}>
+                    <Button style={{ backgroundColor: "white" }} size="lg" variant="light" onClick={(event) => {
+                      handleChangeBackardPage()
+                      props.setPage("man");
+                      localStorage.setItem("page", "man");
+                    }}>
+                      <FcBusinessman size={30}></FcBusinessman>
+                    </Button>
+                  </Col>
+              }
+
+              {
+                props.page === "woman" ?
+                  <Col xs={2}>
+                    <Button style={{ backgroundColor: "white" }} size="lg" variant="light" disabled>
+                      <FcBusinesswoman size={35}></FcBusinesswoman>
+                    </Button>
+                  </Col>
+                  :
+                  <Col xs={2}>
+                    <Button style={{ backgroundColor: "white" }} size="lg" variant="light" onClick={(event) => {
+                      handleChangeBackardPage()
+                      props.setPage("woman");
+                      localStorage.setItem("page", "woman");
+                    }}>
+                      <FcBusinesswoman size={30}></FcBusinesswoman>
+                    </Button>
+                  </Col>
+              }
+            </> : <>
+            {/**
+              <Col xs={2}>
+                <Button style={{ backgroundColor: "white" }} size="lg" variant="light">
+                  F
+                </Button>
+              </Col>
+              <Col xs={2}>
+                <DropdownButton id="dropdown-basic-button" title="O">
+                  <Dropdown.Item >by color</Dropdown.Item>
+                  <Dropdown.Item >by size</Dropdown.Item>
+                  <Dropdown.Item >Something else</Dropdown.Item>
+                </DropdownButton>
+            
+              </Col>
+               */}
+            </>}
 
           </Row>
         </Container>
