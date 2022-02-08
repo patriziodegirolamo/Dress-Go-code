@@ -183,15 +183,24 @@ function App() {
 
   const [backButtonPressed, setBackButtonPressed] = useState(false)
 
-  const pressBackButton = () => {
-    setBackButtonPressed(true)
+  window.onbeforeunload = function (event) {
+    if (sessionStorage.getItem('reloaded') != null) {
+    } 
+    else {
+      setHistoryStack([]);
+      setCurrentCat("");
+      setCurrentState("");
+
+      localStorage.setItem("historyStack", "[]")
+      localStorage.setItem("currentCat", "")
+      localStorage.setItem("currentState", "")
+      localStorage.setItem("currentBottomNav", "0")
+    }
+    sessionStorage.setItem("reloaded", "1");
   }
-
-
   window.onpopstate = function (event) {
-    event.preventDefault();
-
-    pressBackButton()
+    console.log("back")
+    setBackButtonPressed(true)
   }
 
 
@@ -230,7 +239,7 @@ function App() {
 
           case "bigCat":
             prev = historyStack.pop()
-            curr = historyStack[historyStack.length-1]
+            curr = historyStack[historyStack.length - 1]
 
             if (curr === "cat") {
               setCurrentState(curr);
@@ -258,7 +267,7 @@ function App() {
 
           case "chat":
             prev = historyStack.pop()
-            curr = historyStack[historyStack.length-1]
+            curr = historyStack[historyStack.length - 1]
             if (historyStack.length === 0) {
               if (prev === "chat") {
                 setCurrentState("chats");
@@ -298,7 +307,7 @@ function App() {
 
           case "rent":
             prev = historyStack.pop()
-            curr = historyStack[historyStack.length-1]
+            curr = historyStack[historyStack.length - 1]
 
             if (prev === "rent") {
               setCurrentState("rents");
@@ -582,7 +591,7 @@ function App() {
           messagesCS={messagesCS.sort((a, b) => a.date - b.date)}
           setCurrentState={setCurrentState}
           historyStack={historyStack} setHistoryStack={setHistoryStack}
-          dirty={dirty} contactCS={contactCS}/>
+          dirty={dirty} contactCS={contactCS} />
       </>} />
 
       <Route path="/MyRents" element={<>
