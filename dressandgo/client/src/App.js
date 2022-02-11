@@ -90,6 +90,7 @@ function App() {
 
   const [historyStack, setHistoryStack] = useState(() => {
     const hs = localStorage.getItem("historyStack");
+    console.log(hs);
     if (hs !== "[]")
       return JSON.parse(hs);
     else return [];
@@ -740,7 +741,7 @@ function App() {
         {
           dirty ? <Container id="containerSpinner">
             <Spinner animation="border" variant="primary" />
-          </Container> : <>y
+          </Container> : <>
             <MyUserData user={user} modifyUserInfos={modifyUserInfos} setCurrentState={setCurrentState}
               setHistoryStack={setHistoryStack}
             />

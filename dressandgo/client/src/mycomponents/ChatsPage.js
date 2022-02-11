@@ -67,19 +67,18 @@ function SmallChat(props) {
                 <Row>
                     <Col xs={3} sm={3} >
                         <Image roundedCircle src={props.image} style={{ height: 100, width: 100, marginTop: 20 }}></Image>
+                        <Container style={{ textAlign: "center", marginTop: 10 }}>
+                            <h6>{props.renter.name}</h6>
+                        </Container>
                     </Col>
 
                     <Col>
                         <Container style={{ position: "sticky", textAlign: "center", marginTop: 10 }}>
-                            <h5>{props.renter.name}</h5>
+                            <h5>{props.currentAd.title.substring(0, 15)}...</h5>
                         </Container>
 
-                        <Container style={{ position: "sticky", textAlign: "center", marginTop: 10 }}>
-                            <p>{props.currentAd.title.substring(0, 15)}...</p>
-                        </Container>
-
-                        <Container style={{ position: "sticky", textAlign: "center", marginTop: 10 }}>
-                            <p>{props.messages[props.messages.length-1].text.substring(0, 28)}...</p>
+                        <Container style={{ position: "sticky", textAlign: "center", marginTop: 30 }}>
+                            <p>{props.messages[props.messages.length-1].text.substring(0, 40)}...</p>
                         </Container>
 
                     </Col>
@@ -107,16 +106,15 @@ function ChatCustomerService(props) {
                 <Row>
                     <Col xs={3} sm={3} >
                         <Image roundedCircle src={"customer-service.png"} style={{ height: 100, width: 100, marginTop: 20 }}></Image>
+                        <Container style={{ textAlign: "center", marginTop: 10 }}>
+                            <h6>Customer Service</h6>
+                        </Container>
                     </Col>
 
                     {
                         <Col>
-                            <Container style={{ position: "sticky", textAlign: "center", marginTop: 10 }}>
-                                <h4>Customer Service</h4>
-                            </Container>
-
-                            <Container style={{ position: "sticky", textAlign: "center", marginTop: 10 }}>
-                                <p>{messages[messages.length-1].text.substring(0, 20)}...</p>
+                            <Container style={{ position: "sticky", textAlign: "center", marginTop: 80 }}>
+                                <p>{messages[messages.length-1].text.substring(0, 40)}...</p>
                             </Container>
 
                         </Col>

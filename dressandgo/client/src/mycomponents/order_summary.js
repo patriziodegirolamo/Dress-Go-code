@@ -80,6 +80,7 @@ function OrderSummary(props) {
     localStorage.setItem("currentState", "chat");
     localStorage.setItem("historyStack", JSON.stringify([...props.historyStack, "chat"]))
     props.setHistoryStack(() => ([...props.historyStack, "chat"]));
+    
   }
 
   const countDays = (dataIn, dataOut) => {

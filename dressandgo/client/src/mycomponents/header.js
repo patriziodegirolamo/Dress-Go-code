@@ -14,6 +14,10 @@ function MyHeader(props) {
   const navigate = useNavigate();
   const initialStates = ["home", "faq", "chats", "rents", "account"]
 
+  const handleSearchBar = () => {
+    
+  }
+
   const handleChangeBackardPage = () => {
     props.setSearch("")
     let prev = null;
@@ -185,7 +189,7 @@ function MyHeader(props) {
         <Container>
           <Navbar.Brand className='m-auto'>
             <b id="title" style={{ color: "rgb(70, 133, 204)" }}>Dress&Go</b>
-            {props.currentState == "home" || props.currentState == "cat" || props.currentState == "bigCat" ?
+            {props.currentState === "home" || props.currentState === "cat" || props.currentState === "bigCat" ?
               <sub id="pedice" style={{ color: "rgb(70, 133, 204)" }}><i>{props.page}</i></sub> : <></>}
           </Navbar.Brand>
 
@@ -198,8 +202,9 @@ function MyHeader(props) {
           <Row>
             <Col xs={props.currentState ==="home" ? 7 : 12}>
               <Form id="formFilterDress">
-                <Form.Control value={props.search} placeholder="Search..." onChange={(event) => {
-                  props.setSearch(event.target.value)
+                <Form.Control value={props.search} placeholder="Search a product..." onChange={(event) => {
+                  event.preventDefault();
+                  props.setSearch(event.target.value);
                 }} />
               </Form>
             </Col>

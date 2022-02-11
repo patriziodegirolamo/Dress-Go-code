@@ -28,15 +28,29 @@ return(
         You just have to follow very few and simple steps. 
         Once you have found the t-shirt of your dream for your very special occasion, check if it fits you perfectly using the size guide.
         Then select the starting and ending date of your rent, checking the availability on the calendar.
-        A small recap of your imminent order will appear on the screen. Finally press the "Rent" button.
-        That's it.
+        Finally press the "Rent" button and a small recap of your imminent order will appear on the screen. 
+        You can confirm or reject it.
+        That's it. Inside your package you will receive the "Shipment label" to give the product back at the end of the rent.
+        If you have any problems you can contact our customer service or the renter himself at any time!
         For any further problems see our video
         <Container className="mt-3">
           {/**<YoutubeEmbed  embedId={"ffja9u6MS-s"} />*/}
         </Container>
         </Accordion.Body>
     </Accordion.Item>
-  <Accordion.Item eventKey="1">
+    <Accordion.Item eventKey="1">
+    <Accordion.Header onClick={stopAllVideos}>How to manage known sizes</Accordion.Header>
+        <Accordion.Body >
+        Don't feel like wasting time looking for your perfect size? No problem, in our app you can go to the "Account" section 
+        and you will find a "Handle known sizes" button. You can comfortably view the sizes already entered for your favorite 
+        brands and you can add others, in order to immediately view the perfect products for you in the list of suggested
+        products in each category.
+        <Container className="mt-3">
+          {/**<YoutubeEmbed  embedId={"ffja9u6MS-s"} />*/}
+        </Container>
+        </Accordion.Body>
+    </Accordion.Item>
+  <Accordion.Item eventKey="2">
     <Accordion.Header onClick={stopAllVideos}>How to make a return</Accordion.Header>
         <Accordion.Body>
        For any problems with your rent you can anytime ask for the return of the product.
