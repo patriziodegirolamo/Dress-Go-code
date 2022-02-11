@@ -1,7 +1,7 @@
 import './App.css';
-import { Row, Container, Button, Col } from "react-bootstrap";
-import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { Row, Container, Button, Col, Overlay, Badge} from "react-bootstrap";
+import { useState, useEffect, useRef } from 'react';
+import { BrowserRouter as Router, Route, Routes, Navigate, NavLink as Link } from 'react-router-dom';
 
 import FixedBottomNavigation from './mycomponents/bottombar.js'
 import MyCategoryList from './mycomponents/category_list';
@@ -104,6 +104,13 @@ function App() {
   const [conversationsCS, setConversationsCS] = useState([]);
   const [messagesCS, setMessagesCS] = useState([]);
   const [contactCS, setContactCS] = useState(false);
+
+
+  const [show, setShow] = useState(false);
+  const [show1, setShow1] = useState(false);
+  const target = useRef(null);
+  const target1 = useRef(null);
+
 
   const [dirty, setDirty] = useState(true);
 
@@ -453,7 +460,46 @@ function App() {
             </Container>
 
             {ads.filter(filterSuggestedDresses).length > 0 ? <Container id="dressContainer">
-              <h4>SUGGESTED:</h4>
+
+              <h4 id="titlebar">
+                
+              <Link ref={target} onClick={() => setShow(!show)} className="" role="button" to="">
+<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+  <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+</svg>
+                </Link>
+                
+                
+                &nbsp;SUGGESTED: 
+              
+          
+          <Container>
+      <Overlay target={target.current} show={show} placement="top">
+        {({ placement, arrowProps, show: _show, popper, ...props }) => (
+          <div
+            {...props}
+            style={{
+              backgroundColor: 'rgb(189, 195, 199)',
+              padding: '2px 10px',
+              color: 'white',
+              borderRadius: 3,
+              ...props.style,
+            }}
+          >
+           Products that may perfect fill to you!
+          </div>
+        )}
+      </Overlay>
+      </Container>
+
+
+              </h4>
+
+
+            
+
+
               <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(filterSuggestedDresses)}
                 handleChangeForwardPage={handleChangeForwardPage}>
               </MyDressList>
@@ -461,7 +507,42 @@ function App() {
 
 
             {ads.filter(filterAllDresses).length > 0 ? <Container id="dressContainer">
-              <h4>ALL SIZES:</h4>
+
+            <h4  id="titlebar"> 
+
+
+
+<Link ref={target1} onClick={() => setShow1(!show1)} className="" role="button" to="">
+<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+  <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+</svg>
+                </Link>
+
+                &nbsp;ALL SIZES:  
+             
+          
+          <Container>
+      <Overlay  target={target1.current} show={show1} placement="top">
+        {({ placement, arrowProps, show: _show, popper, ...props }) => (
+          <div
+            {...props}
+            style={{
+              backgroundColor: 'rgb(189, 195, 199)',
+              padding: '2px 10px',
+              color: 'white',
+              borderRadius: 3,
+              ...props.style,
+            }}
+          >
+           Products of all sizes
+          </div>
+        )}
+      </Overlay>
+      </Container>
+
+
+              </h4>
               <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(filterAllDresses)}
                 handleChangeForwardPage={handleChangeForwardPage}>
               </MyDressList>

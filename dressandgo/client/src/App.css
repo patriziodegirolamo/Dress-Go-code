@@ -44,10 +44,19 @@
 
 #dressContainer{
   margin-top: 30px;
-  margin-bottom: 80px;
   padding-bottom: 30px;
   display: grid;
-  background-color: #7a6f7356;
+
+
+}
+
+#titlebar{
+  background-color: #F8F8F8;
+
+}
+#infobutton{
+
+  border-radius: 50%;
 
 }
 
