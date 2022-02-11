@@ -1,4 +1,5 @@
-import { Container, Card, Button, Carousel, Modal, Form, Spinner, Row } from "react-bootstrap";
+import '../css/dress_card.css';
+import { Container, Card, Button, Carousel, Modal, Form, Spinner, Row, Col } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
 import { useState } from 'react';
 import MyAvailabilityModal from './availabilityModal';
@@ -6,7 +7,9 @@ import SizeGuide from "./mySizeGuide";
 
 import "react-datepicker/dist/react-datepicker.css";
 
-
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@1,600&display=swap');
+</style>
 
 function MySmallAdvertisement(props) {
     const navigate = useNavigate();
@@ -18,14 +21,32 @@ function MySmallAdvertisement(props) {
             return props.handleChangeForwardPage(props.categories.find((el) => el.id_cat === props.ad.id_cat).name)
         }
         }>
-            <Card.Title>
-                <Row className="text-center">
-                    <h5> {props.ad.title} </h5>
-                </Row>
+             <Card.Img variant="top" src={currentImg.url} className="mx-auto" style={{ width: '100%' }} />
 
-            </Card.Title>
+<Card.Body>
 
-            <Card.Img variant="top" src={currentImg.url} className="mx-auto m-auto pt-2" style={{ width: '50%' }} />
+    <Row>
+        <h5 id="titlead" > {props.ad.title}</h5>
+    </Row>
+
+    <Row className="justify-content-center" >
+        <Col>SIZE:
+        </Col>
+        <Col > {props.ad.size}
+        </Col>
+
+    </Row>
+
+
+    <Row className="justify-content-center" >
+        <Col > <b> PRICE:</b>
+        </Col>
+        <Col > <b>{props.ad.price}€/d</b>
+        </Col>
+
+    </Row>
+
+</Card.Body>
 
         </Card>
 
@@ -149,7 +170,7 @@ function MyBigAdvertisement(props) {
             : <Card key={idAd}>
                 <Card.Title>
                     <Row className="pt-3">
-                        <h3 style={{ textAlign: "center" }}>{currentAd.title}</h3>
+                        <h3 id="titlecard" style={{ textAlign: "center" }}>{currentAd.title}</h3>
                     </Row>
 
                 </Card.Title>

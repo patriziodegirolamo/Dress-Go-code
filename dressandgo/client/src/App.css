@@ -44,11 +44,15 @@
 
 #dressContainer{
   margin-top: 30px;
-  margin-bottom: 80px;
   padding-bottom: 30px;
   display: grid;
-  background-color: #7a6f7356;
+}
 
+#titlebar{
+  background-color: #F8F8F8;
+}
+#infobutton{
+  border-radius: 50%;
 }
 
 #middleButtonContainer{
@@ -62,7 +66,7 @@
 }
 
 #rotationimage {
-	transform: rotate(0deg);
+	transform: rotate(-34deg);
   	/*to rotate an image you have to use the transform function in CSS and rotate
   	in degrees*/
 }

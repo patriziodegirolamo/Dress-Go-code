@@ -27,9 +27,10 @@ function SizeGuide(props) {
             <h5>How to measure:</h5>
             <p>Using a tape measure, have someone take your measurements as noted below</p>
 
-            <img alt = 'noimage' className = 'small' src = '/man_guide.png' />
+<img alt = 'noimage' className = 'small' src = '/man_guide.png' width="100%" />
+            
 
-            <Accordion>
+            <Accordion className="pb-3">
                 <Accordion.Item eventKey="0">
                     <Accordion.Header>Chest Measurements:</Accordion.Header>
                     <Accordion.Body>
