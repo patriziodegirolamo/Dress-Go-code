@@ -23,7 +23,7 @@ function SizeGuide(props) {
       
 
         {props.type === "man" ? <Container>
-            <h4>INTERNATIONAL MENS FIT GUIDE</h4>
+            
             <h5>How to measure:</h5>
             <p>Using a tape measure, have someone take your measurements as noted below</p>
 
@@ -111,7 +111,7 @@ function SizeGuide(props) {
 
 
         {props.type === "woman" ? <Container>
-            <h4>INTERNATIONAL LADIES FIT GUIDE</h4>
+           
 
             <h5>How to measure:</h5>
             <p>Using a tape measure, have someone take your measurements as noted below</p>

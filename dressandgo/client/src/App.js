@@ -602,7 +602,7 @@ function App() {
       </>} />
 
       <Route path="/MyRents" element={<>
-        <MyRents user={user} rents={rents} ads={ads} setCurrentState={setCurrentState}
+        <MyRents user={user} rents={rents} ads={ads} adsImages={adsImages} setCurrentState={setCurrentState}
           setHistoryStack={setHistoryStack} historyStack={historyStack} dirty={dirty} />
       </>} />
 
@@ -623,7 +623,7 @@ function App() {
 
       <Route path='/previews' element={<>
         {search ? <Container id="dressContainer">
-          <h4>RESULTS:</h4>
+          <h4 id="titlebar">RESULTS:</h4>
           <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(ad => {
             return ad.gender === page && (ad.title.includes(search) || ad.description.includes(search))
           })}

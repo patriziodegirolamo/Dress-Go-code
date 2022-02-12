@@ -10,7 +10,7 @@ function MyCategoryList(props) {
         <Spinner animation="border" variant="primary" />
       </Container> : <>
         <Container>
-          <Row xs={2} md={2} className="g-4">
+          <Row xs={2} md={2} className="g-4 mb-3">
             {props.categories.sort(function (a, b) {
               if (a.name < b.name) return -1; 
               else if (a.name > b.name) return 1;

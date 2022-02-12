@@ -32,10 +32,8 @@ return(
         You can confirm or reject it.
         That's it. Inside your package you will receive the "Shipment label" to give the product back at the end of the rent.
         If you have any problems you can contact our customer service or the renter himself at any time!
-        For any further problems see our video
-        <Container className="mt-3">
-          {/**<YoutubeEmbed  embedId={"ffja9u6MS-s"} />*/}
-        </Container>
+        <br></br> <br></br>
+        For any further problems see our <a href="https://www.youtube.com/watch?v=drJ5njTsj7c"> video tutorial</a>.
         </Accordion.Body>
     </Accordion.Item>
     <Accordion.Item eventKey="1">
@@ -45,9 +43,8 @@ return(
         and you will find a "Handle known sizes" button. You can comfortably view the sizes already entered for your favorite 
         brands and you can add others, in order to immediately view the perfect products for you in the list of suggested
         products in each category.
-        <Container className="mt-3">
-          {/**<YoutubeEmbed  embedId={"ffja9u6MS-s"} />*/}
-        </Container>
+        <br></br> <br></br>
+        For any further problems see our <a href="https://www.youtube.com/watch?v=drJ5njTsj7c"> video tutorial</a>.
         </Accordion.Body>
     </Accordion.Item>
   <Accordion.Item eventKey="2">
@@ -59,8 +56,9 @@ return(
        After choosing the order that you want to return you have the possibility to chat with the vendor or contact our customer service.
        Calling our customer service number will directly allows you talk with one of our assistant that will enable you the "Return Product" button.
        By pressing this button you can finally print the return label to attach to the product you want to return back.
-       For any further problems see our video
-       <Container className="mt-3">
+       <br></br> <br></br>
+        For any further problems see our <a href="https://www.youtube.com/watch?v=drJ5njTsj7c"> video tutorial</a>.
+       <a href="https://www.youtube.com/watch?v=drJ5njTsj7c"> Video Tutorial</a>
           {/**<YoutubeEmbed  embedId="KWEHq5FAmCM" />
         </Container>
         </Accordion.Body>
@@ -75,7 +73,7 @@ return(
         For any further problems see our video
         <Container className="mt-3">
           {/**<YoutubeEmbed  embedId="F6EeZDaa2fM" />*/}
-        </Container>
+      
         </Accordion.Body>
     </Accordion.Item>
   <Accordion.Item eventKey="3">
@@ -84,10 +82,7 @@ return(
         The platform Dress&Go is managed and hosted by Dress&Go INC.a company registered in Torino, with a business location at Politecnico di Torino. 
         These Terms and Conditions (“Terms”) are a legally binding agreement between you and Dress&Go regarding your access and use of the App. 
         BY ACCESSING OR USING THE App, YOU CONFIRM THAT YOU ACCEPT THESE TERMS AND THAT YOU AGREE TO COMPLY WITH THEM AND BE LEGALLY BOUND BY THEM.
-        For any further problems see our video
-        <Container className="mt-3">
-          {/**<YoutubeEmbed  embedId="nS-13-oxemk" />*/}
-        </Container>
+        
         </Accordion.Body>
     </Accordion.Item>
   <Accordion.Item eventKey="4">
@@ -95,10 +90,8 @@ return(
         <Accordion.Body>
         After pressing the Rent button, you’ll be able to choose the payment method for your order. 
         We accept Visa, MasterCard, Apple Pay or Google Pay.
-        For any further problems see our video
-        <Container className="mt-3">
-          {/**<YoutubeEmbed  embedId="PUVmX986ZDA"/>*/}
-        </Container>
+        <br></br> <br></br>
+        For any further problems see our <a href="https://www.youtube.com/watch?v=drJ5njTsj7c"> video tutorial</a>.
         </Accordion.Body>
     </Accordion.Item>
   <Accordion.Item eventKey="5">
@@ -107,9 +100,8 @@ return(
         Renters select their preferred shipping option at checkout and cover the corresponding shipping costs. 
         There are three shipping methods available. Home delivery through UPS. Service point delivery.
         Meet-up option. 
-        <Container className="mt-3">
-          {/**<YoutubeEmbed  embedId="Aqn2rK9pP9g" />*/}
-        </Container>
+        <br></br> <br></br>
+        For any further problems see our <a href="https://www.youtube.com/watch?v=drJ5njTsj7c"> video tutorial</a>.
         </Accordion.Body>
  </Accordion.Item>
 </Accordion>

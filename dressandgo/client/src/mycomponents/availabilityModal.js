@@ -6,8 +6,6 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 
-
-
 function MyAvailabilityModal(props) {
 
     const getDates = (start, stop) => {
@@ -45,7 +43,7 @@ function MyAvailabilityModal(props) {
         const d1 = new Date(props.dataIn).toISOString().split('T')[0].split("-")
         const d2 = new Date(props.dataOut).toISOString().split('T')[0].split("-")
 
-        
+
         var from = new Date(d1[0], parseInt(d1[1]) - 1, d1[2]);  // -1 because months are from 0 to 11
         var to = new Date(d2[0], parseInt(d2[1]) - 1, d2[2]);
         let ok = 1;
@@ -86,11 +84,12 @@ function MyAvailabilityModal(props) {
 
 
     return <Modal show={props.show} onHide={() => props.setShow(false)}>
-        <Modal.Header>
-            <Button onClick={() => props.setShow(false)}>X</Button>
+        <Modal.Header >
+            <Modal.Title> Select dates for your rent</Modal.Title>
+
         </Modal.Header>
         <Modal.Body>
-            <Accordion style={{paddingBottom:40}}>
+            <Accordion style={{ paddingBottom: 40 }}>
                 <Accordion.Item eventKey="0">
                     <Accordion.Header>Instructions</Accordion.Header>
                     <Accordion.Body>
@@ -119,66 +118,70 @@ function MyAvailabilityModal(props) {
                 />
             </Container>
 
-            <Container>
-                <Row>
-                    <Col>
-                        Start date: {props.dataIn.toISOString().split("T")[0]}
+            <Container className="mt-3  justify-content-around">
+                <Row className="justify-content-around">
+                    <Col style={{ textAlign: "center" }}>
+                        <b>Start date:</b> <br></br>{props.dataIn.toISOString().split("T")[0]}
                     </Col>
 
-                    <Col>
-                        End date: {props.dataOut ? props.dataOut.toISOString().split("T")[0] : ""}
+                    <Col style={{ textAlign: "center" }}>
+                        <b>End date:</b> <br></br>{props.dataOut ? props.dataOut.toISOString().split("T")[0] : ""}
                     </Col>
 
                 </Row>
+                <Row>
+
+                </Row>
+            </Container>
+            <Container className="my-3" style={{ textAlign: "center" }}>
+                <Button id="clear"
+     onClick={() => {
+                    props.setDataIn(new Date())
+                    props.setDataOut(new Date())
+                    props.setNumDays(0)
+                    props.setSubmitted(false)
+
+                }}>
+                    Clear selection
+                </Button>
             </Container>
         </Modal.Body>
+
+
         <Modal.Footer>
-            <Row>
-                <Col>
-                    <Button onClick={() => {
-                        props.setDataIn(new Date())
-                        props.setDataOut(new Date())
-                        props.setShow(false)
-                        props.setNumDays(0)
-                        props.setSubmitted(false)
+            <Button variant="secondary" onClick={() => {
+                props.setDataIn(new Date())
+                props.setDataOut(new Date())
+                props.setShow(false)
+                props.setNumDays(0)
+                props.setSubmitted(false)
 
-                    }}>
-                        REJECT
-                    </Button>
-                </Col>
+            }}>
+                Close
+            </Button>
 
-                <Col>
-                    <Button onClick={() => {
-                        props.setDataIn(new Date())
-                        props.setDataOut(new Date())
-                        props.setNumDays(0)
-                        props.setSubmitted(false)
+            <Button type="submit" onClick={() => {
+                if (checkDate(excludedDates)) {
+                    props.setShow(false)
+                    setAttention("")
+                    countDays()
+                    props.setSubmitted(true)
 
-                    }}>
-                        CLEAR
-                    </Button>
-                </Col>
+                }
+                else {
+                    setAttention("THERE ARE SOME UNAVAILABLE DATES");
+                    props.setSubmitted(false)
 
-                <Col>
-                    <Button type="submit" onClick={() => {
-                        if (checkDate(excludedDates)) {
-                            props.setShow(false)
-                            setAttention("")
-                            countDays()
-                            props.setSubmitted(true)
-
-                        }
-                        else {
-                            setAttention("THERE ARE SOME UNAVAILABLE DATES");
-                            props.setSubmitted(false)
-
-                        }
-                    }}>
-                        ACCEPT
-                    </Button>
-                </Col>
-            </Row>
+                }
+            }}>
+                Accept
+            </Button>
         </Modal.Footer>
+
+
+
+
+
 
 
         {

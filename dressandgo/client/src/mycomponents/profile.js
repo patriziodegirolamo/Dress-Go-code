@@ -29,7 +29,7 @@ function MyProfile(props) {
     }
 
     return (
-        <Container fluid>
+        <Container fluid className="h-100">
             <Row className="pt-3 justify-content-center text-center">
                 <Figure >
                     <Figure.Image
@@ -60,8 +60,12 @@ function MyProfile(props) {
                     Handle known sizes
                 </Link>
 
-                <Button disabled className="my-2 btn btn-primary btn-md w-75" >
+                <Button  className="my-2 btn btn-primary btn-md w-75" >
                     Payment methods
+                </Button>
+
+                <Button  className="my-5 btn btn-danger btn-md w-75" >
+                    LOGOUT
                 </Button>
 
             </Row>
