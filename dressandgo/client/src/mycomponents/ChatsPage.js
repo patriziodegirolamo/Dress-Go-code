@@ -22,8 +22,14 @@ function ChatsPage(props) {
                 <Container id="containerSpinner">
                     <Spinner animation="border" variant="primary" />
                 </Container> : <>
+                <Container>
+                <Row className="pt-2">
+          <h3 style={{ textAlign: "center" }}>MESSAGES</h3>
+        </Row>
 
-                    <Container style={{ paddingTop: 10 }}>
+                </Container>
+               
+                    <Container >
                         <Container className="containerChatPreview">
                             <ChatCustomerService conversationsCS={props.conversationsCS}
                                 currentUser={props.currentUser} messagesCS={props.messagesCS}
@@ -102,7 +108,7 @@ function ChatCustomerService(props) {
     {conv ? 
         <Link className='text-link' to={{ pathname: "/CustomerServiceChat" }}
             onClick={props.onClickHandler}>
-            <Container key={props.idx}>
+            <Container key={props.idx} className="border-top">
                 <Row>
                     <Col xs={3} sm={3} >
                         <Image roundedCircle src={"customer-service.png"} style={{ height: 100, width: 100, marginTop: 20 }}></Image>

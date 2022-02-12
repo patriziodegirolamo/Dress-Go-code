@@ -170,7 +170,7 @@ function MyBigAdvertisement(props) {
             : <Card key={idAd}>
                 <Card.Title>
                     <Row className="pt-3">
-                        <h3 id="titlecard" style={{ textAlign: "center" }}>{currentAd.title}</h3>
+                        <h3 id="titlecard" style={{ textAlign: "center" }}><b>{currentAd.title}</b></h3>
                     </Row>
 
                 </Card.Title>
@@ -190,24 +190,24 @@ function MyBigAdvertisement(props) {
 
                 <Row className="justify-content-center pt-3 text-center">
 
-                    BRAND: {currentAd.brand}
+                    <b>BRAND:</b> {currentAd.brand}
 
                 </Row>
 
                 <Container>
-                    <Row className="justify-content-center  text-center">
-                        DESCRIPTION: {currentAd.description}
+                    <Row className="justify-content-center mx-1 text-center">
+                        <b>DESCRIPTION:</b> {currentAd.description}
 
                     </Row>
                 </Container>
 
                 <Row className="justify-content-center  text-center">
 
-                    SIZE: {currentAd.size}
+                    <b>SIZE:</b> {currentAd.size}
 
                 </Row>
                 <Row className="justify-content-center  text-center pt-2 pb-2">
-                    PRICE PER DAY: {currentAd.price} €/day
+                    <b>PRICE PER DAY:</b> {currentAd.price} €/day
 
                 </Row>
 
@@ -252,11 +252,22 @@ function MyBigAdvertisement(props) {
                 <Container>
                     <Modal show={showSizeGuide} onClose={() => setShowSizeGuide(false)} onHide={() => setShowSizeGuide(false)}>
                         <Modal.Header>
-                            <Button onClick={() => setShowSizeGuide(false)}>X</Button>
+                            <Modal.Title>
+                            {currentAd.gender === "man" ? <>INTERNATIONAL MENS FIT GUIDE</> :  <>INTERNATIONAL LADIES FIT GUIDE</>}
+
+                            </Modal.Title>
+                       
                         </Modal.Header>
                         <Modal.Body>
                             <SizeGuide type={currentAd.gender} />
                         </Modal.Body>
+                        <Modal.Footer>
+                <Button variant="secondary" onClick={() => setShowSizeGuide(false)}>
+                    Close
+                </Button>
+                
+                
+            </Modal.Footer>
                     </Modal>
                 </Container>
 

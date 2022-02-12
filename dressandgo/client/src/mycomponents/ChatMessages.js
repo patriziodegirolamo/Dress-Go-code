@@ -51,14 +51,16 @@ function ChatMessages(props) {
             </Container> : <>{image && currentAd &&
                 <Container>
 
-                    <Container className="headerChat" >
+                    <Container className="headerChat border-top border-bottom" >
                         <Row>
-                            <Col xs={3}>
-                                <Image roundedCircle style={{ position: "relative", width: "90%" }} src={image.url}></Image>
+                            <Col xs={4}>
+                                <Image className="my-2"roundedCircle style={{ position: "relative", width: "70%" }} src={image.url}></Image>
+                                
                             </Col>
                             <Col>
-                                <h4 style={{ textAlign: "center" }}>{renter.name}</h4>
-                                <h5 style={{ textAlign: "center" }}>{currentAd.title}</h5>
+                           
+                                <h3 className="mt-2"style={{ textAlign: "center" }}>{currentAd.title}</h3>
+                                <p style={{ textAlign: "center" }}> Renter: {renter.name} </p>
                             </Col>
                         </Row>
 
@@ -120,7 +122,7 @@ function ChatMessages(props) {
                             }}>
                                 <Row className="justify-content-xs-center">
                                     <Col xs={10}>
-                                        <Form.Control as="textarea" placeholder="type here..." />
+                                        <Form.Control as="textarea" placeholder="Type here..." />
                                     </Col>
 
                                     <Col xs={2} >

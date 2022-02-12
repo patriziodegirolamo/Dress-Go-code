@@ -32,35 +32,55 @@ return(
         You can confirm or reject it.
         That's it. Inside your package you will receive the "Shipment label" to give the product back at the end of the rent.
         If you have any problems you can contact our customer service or the renter himself at any time!
-        For any further problems see our video
-        <Container className="mt-3">
-          {/**<YoutubeEmbed  embedId={"ffja9u6MS-s"} />*/}
-        </Container>
+        <br></br> <br></br>
+        For any further problems see our <a href="https://www.youtube.com/watch?v=drJ5njTsj7c"> video tutorial</a>.
         </Accordion.Body>
     </Accordion.Item>
     <Accordion.Item eventKey="1">
+    <Accordion.Header onClick={stopAllVideos}>How to send back a product</Accordion.Header>
+        <Accordion.Body>
+        When the rental period expires you have 3 days to send back the product. 
+        It is your responsibility that the product is well packaged so as not to be damaged in transit. 
+        You will find the shipment label inside the package.
+        Once he arrives at his destination, the renter will have 2 days to report any problems, and if everything will be fine 
+        the deposit will be returned
+        to you.
+        <br></br> <br></br>
+        For any further problems see our <a href="https://www.youtube.com/watch?v=drJ5njTsj7c"> video tutorial</a>.
+        </Accordion.Body>
+    </Accordion.Item>
+    <Accordion.Item eventKey="2">
     <Accordion.Header onClick={stopAllVideos}>How to manage known sizes</Accordion.Header>
         <Accordion.Body >
         Don't feel like wasting time looking for your perfect size? No problem, in our app you can go to the "Account" section 
         and you will find a "Handle known sizes" button. You can comfortably view the sizes already entered for your favorite 
         brands and you can add others, in order to immediately view the perfect products for you in the list of suggested
         products in each category.
-        <Container className="mt-3">
-          {/**<YoutubeEmbed  embedId={"ffja9u6MS-s"} />*/}
-        </Container>
+        <br></br> <br></br>
+        For any further problems see our <a href="https://www.youtube.com/watch?v=drJ5njTsj7c"> video tutorial</a>.
         </Accordion.Body>
     </Accordion.Item>
-  <Accordion.Item eventKey="2">
-    <Accordion.Header onClick={stopAllVideos}>How to make a return</Accordion.Header>
+  <Accordion.Item eventKey="3">
+    <Accordion.Header onClick={stopAllVideos}>How to make a return in case of problems</Accordion.Header>
         <Accordion.Body>
+          <p>
        For any problems with your rent you can anytime ask for the return of the product.
        All you have to do is to navigate to your "My Rents" page, easily accessible through the bottom navigation bar.
-       Here all yours orders will appear sorted by month. 
-       After choosing the order that you want to return you have the possibility to chat with the vendor or contact our customer service.
-       Calling our customer service number will directly allows you talk with one of our assistant that will enable you the "Return Product" button.
-       By pressing this button you can finally print the return label to attach to the product you want to return back.
-       For any further problems see our video
-       <Container className="mt-3">
+       Here all your orders will appear. 
+       After choosing the order that you want to return you have two possibilities:
+       </p>
+       <p>
+        - you can contact the renter pressing the button "Contact the renter", show your problem and make a deal with him. In this case he will unlock the "Return Procedure" in advance;
+        </p>
+        <p>
+        - you can contact the Customer Service pressing the button "Contact customer service", show your problem and if the operator recognizes the same problem (you have to give photos or
+          an accurate description of the problems) you have the "Return Procedure" unlocked in advance.
+          </p>
+       By pressing the "Return Procedure" button, unlocked by the renter or by the customer service, you can finally print the return label to attach to the product you want to return back.
+       When the product arrives at destination, you will obtain a refund.
+       <br></br> <br></br>
+        For any further problems see our <a href="https://www.youtube.com/watch?v=drJ5njTsj7c"> video tutorial</a>.
+       <a href="https://www.youtube.com/watch?v=drJ5njTsj7c"> Video Tutorial</a>
           {/**<YoutubeEmbed  embedId="KWEHq5FAmCM" />
         </Container>
         </Accordion.Body>
@@ -75,41 +95,35 @@ return(
         For any further problems see our video
         <Container className="mt-3">
           {/**<YoutubeEmbed  embedId="F6EeZDaa2fM" />*/}
-        </Container>
+      
         </Accordion.Body>
     </Accordion.Item>
-  <Accordion.Item eventKey="3">
+  <Accordion.Item eventKey="4">
     <Accordion.Header onClick={stopAllVideos}>Our terms</Accordion.Header>
         <Accordion.Body>
         The platform Dress&Go is managed and hosted by Dress&Go INC.a company registered in Torino, with a business location at Politecnico di Torino. 
         These Terms and Conditions (“Terms”) are a legally binding agreement between you and Dress&Go regarding your access and use of the App. 
         BY ACCESSING OR USING THE App, YOU CONFIRM THAT YOU ACCEPT THESE TERMS AND THAT YOU AGREE TO COMPLY WITH THEM AND BE LEGALLY BOUND BY THEM.
-        For any further problems see our video
-        <Container className="mt-3">
-          {/**<YoutubeEmbed  embedId="nS-13-oxemk" />*/}
-        </Container>
+        
         </Accordion.Body>
     </Accordion.Item>
-  <Accordion.Item eventKey="4">
+  <Accordion.Item eventKey="5">
     <Accordion.Header onClick={stopAllVideos}>Payments</Accordion.Header>
         <Accordion.Body>
         After pressing the Rent button, you’ll be able to choose the payment method for your order. 
         We accept Visa, MasterCard, Apple Pay or Google Pay.
-        For any further problems see our video
-        <Container className="mt-3">
-          {/**<YoutubeEmbed  embedId="PUVmX986ZDA"/>*/}
-        </Container>
+        <br></br> <br></br>
+        For any further problems see our <a href="https://www.youtube.com/watch?v=drJ5njTsj7c"> video tutorial</a>.
         </Accordion.Body>
     </Accordion.Item>
-  <Accordion.Item eventKey="5">
+  <Accordion.Item eventKey="6">
     <Accordion.Header onClick={stopAllVideos}>Shipments</Accordion.Header>
         <Accordion.Body>
         Renters select their preferred shipping option at checkout and cover the corresponding shipping costs. 
         There are three shipping methods available. Home delivery through UPS. Service point delivery.
         Meet-up option. 
-        <Container className="mt-3">
-          {/**<YoutubeEmbed  embedId="Aqn2rK9pP9g" />*/}
-        </Container>
+        <br></br> <br></br>
+        For any further problems see our <a href="https://www.youtube.com/watch?v=drJ5njTsj7c"> video tutorial</a>.
         </Accordion.Body>
  </Accordion.Item>
 </Accordion>

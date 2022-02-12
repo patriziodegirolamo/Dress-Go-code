@@ -202,7 +202,7 @@ function MyHeader(props) {
           <Row>
             <Col xs={props.currentState ==="home" ? 7 : 12}>
               <Form id="formFilterDress">
-                <Form.Control value={props.search} placeholder="Search a product..." onChange={(event) => {
+                <Form.Control style={{ height: 54 }} value={props.search} placeholder="Search a product..." onChange={(event) => {
                   event.preventDefault();
                   props.setSearch(event.target.value);
                 }} />
@@ -214,7 +214,7 @@ function MyHeader(props) {
               {
                 props.page === "man" ?
                   <Col xs={2}>
-                    <Button style={{ backgroundColor: "white" }} size="lg" variant="light" disabled>
+                    <Button className="border border-success" style={{ backgroundColor: "white" }} size="lg" variant="light" disabled>
                       <FcBusinessman size={35}></FcBusinessman>
                     </Button>
                   </Col>
@@ -233,7 +233,7 @@ function MyHeader(props) {
               {
                 props.page === "woman" ?
                   <Col xs={2}>
-                    <Button style={{ backgroundColor: "white" }} size="lg" variant="light" disabled>
+                    <Button className="border border-success" style={{ backgroundColor: "white" }} size="lg" variant="light" disabled>
                       <FcBusinesswoman size={35}></FcBusinesswoman>
                     </Button>
                   </Col>

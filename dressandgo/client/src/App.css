@@ -80,7 +80,7 @@
 
 
 .headerChat{
-  background-color: rgb(131, 163, 206);
+ 
   border-radius: "2%";
   padding: "10px";
   margin-bottom: "20px"; 
@@ -200,7 +200,7 @@
   min-height: 290px;
   height: calc(100vh - 320px);
   background-color: #fbfcff;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   padding: 30px 5px 5px 5px;
   overflow-y: scroll;
 }
@@ -401,7 +401,11 @@
   border-radius: 50%;
   padding: 0;
 }
-
+ #clear{
+  color: #212529;
+  background-color: #81ecec;
+  border-color: #81ecec
+ }
 
 #back-button{
   background-color: white;
