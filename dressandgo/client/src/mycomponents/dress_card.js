@@ -1,32 +1,319 @@
-import { Col, Row, Container, Card } from "react-bootstrap";
-import { NavLink as Link, useParams  } from "react-router-dom";
+import '../css/dress_card.css';
+import { Container, Card, Button, Carousel, Modal, Form, Spinner, Row, Col } from "react-bootstrap";
+import { useParams, useNavigate } from "react-router-dom";
+import { useState } from 'react';
+import MyAvailabilityModal from './availabilityModal';
+import SizeGuide from "./mySizeGuide";
+
+import "react-datepicker/dist/react-datepicker.css";
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@1,600&display=swap');
+</style>
 
 function MySmallAdvertisement(props) {
+    const navigate = useNavigate();
 
-    return (<Link to={{ pathname: "/ad/" + props.ad.id }}>>
-        <Card key={props.idx}>
-            <Card.Title>
-                {props.ad.name}
-            </Card.Title>
-            <Card.Img  variant="top" src={props.ad.address} className="mx-auto m-auto pt-2" 
-                style={{ width: '50%' }} />
-            
+    const currentImg = props.adsImages.find((el) => el.position === 1);
+    return <>
+        <Card key={props.idx} onClick={() => {
+            navigate("/ad/" + props.ad.id_a)
+            return props.handleChangeForwardPage(props.categories.find((el) => el.id_cat === props.ad.id_cat).name)
+        }
+        }>
+             <Card.Img variant="top" src={currentImg.url} className="mx-auto" style={{ width: '100%' }} />
+
+<Card.Body>
+
+    <Row>
+        <h5 id="titlead" > {props.ad.title}</h5>
+    </Row>
+
+    <Row className="justify-content-center" >
+        <Col>SIZE:
+        </Col>
+        <Col > {props.ad.size}
+        </Col>
+
+    </Row>
+
+
+    <Row className="justify-content-center" >
+        <Col > <b> PRICE:</b>
+        </Col>
+        <Col > <b>{props.ad.price}€/d</b>
+        </Col>
+
+    </Row>
+
+</Card.Body>
+
         </Card>
-      </Link>
-    );
+
+    </>
 }
 
 function MyBigAdvertisement(props) {
+    const navigate = useNavigate();
+
     let { idAd } = useParams();
+    idAd = parseInt(idAd);
+
+    const [numDays, setNumDays] = useState(0);
+    const [showCalendar, setShowCalendar] = useState(false);
+    const [showSizeGuide, setShowSizeGuide] = useState(false);
+
+    const [dataIn, setDataIn] = useState(new Date())
+    const [dataOut, setDataOut] = useState(new Date())
+
+    const currentAd = props.ads.filter(ad => ad.id_a === idAd)[0];
+    const currentImages = props.adsImages.filter(adImg => adImg.id_a === idAd);
+
+    const [showNewMessage, setShowNewMessage] = useState(false);
+
+    const initialMessage = "Hi , I'm contacting you, for the advertisement: ";
+    const [newMessage, setNewMessage] = useState(initialMessage)
+    const [submitted, setSubmitted] = useState(false)
+
+    const onChange = (dates) => {
+        const [start, end] = dates;
+        setDataIn(start);
+        setDataOut(end);
+    };
+
+    const onCloseNewMessageModal = () => {
+        setShowNewMessage(false)
+        setNewMessage(initialMessage)
+    }
+
+    const handleOpenOrCreateConversation = () => {
+
+        const currParam = { "id": idAd, "cat": props.currentCat }
+        const conv = props.conversations.find(c => c.id_a == idAd && c.idRenter == props.users.filter(u => u.id_u == currentAd.id_u)[0].id_u && c.idBooker == props.currentUser.id_u)
+        if (conv) {
+            localStorage.setItem("historyStack", JSON.stringify([...props.historyStack, "chat"]))
+            props.setHistoryStack(() => ([...props.historyStack, "chat"]));
+            props.setCurrentCat("");
+            props.setCurrentState("chat");
+            localStorage.setItem("currParam", JSON.stringify(currParam))
+            navigate("/MyChats/" + conv.id_conv)
+        }
+        else {
+            setShowNewMessage(true)
+        }
+
+    }
+
+    const handleCreateNewConversation = (event) => {
+        event.preventDefault();
+
+        const new_conversation = {
+            id_a: currentAd.id_a,
+            idRenter: props.users.filter(u => u.id_u == currentAd.id_u)[0].id_u,
+            idBooker: props.currentUser.id_u
+        };
+
+        const new_message = {
+            idSender: props.currentUser.id_u,
+            idReceiver: props.users.filter(u => u.id_u == currentAd.id_u)[0].id_u,
+            date: new Date().toISOString(),
+            text: newMessage
+        }
+
+        props.addAConversation(new_conversation, new_message).then(res => {
+            const currParam = { "id": idAd, "cat": props.currentCat }
+            localStorage.setItem("historyStack", JSON.stringify([...props.historyStack, "chat"]))
+            props.setHistoryStack(() => ([...props.historyStack, "chat"]));
+            props.setCurrentCat("");
+            props.setCurrentState("chat");
+            localStorage.setItem("currentState", "chat");
+            localStorage.setItem("currParam", JSON.stringify(currParam))
+
+            setShowNewMessage(false);
+            navigate("/MyChats/" + res.id_conv)
+        })
+    }
+
+    const handlePressRent = () => {
+
+        setSubmitted(true);
+        const newdataIn = new Date(dataIn).toISOString().split("T")[0].replaceAll("-", "/")
+        const newdataOut = new Date(dataOut).toISOString().split("T")[0].replaceAll("-", "/")
+
+
+        const newRent = {
+            id_a: parseInt(currentAd.id_a),
+            id_renter: props.users.find(u => u.id_u == currentAd.id_u).id_u,
+            id_booker: props.currentUser.id_u,
+            dataIn: newdataIn,
+            dataOut: newdataOut,
+            status: "ARRIVING"
+        }
+
+        props.addARent(newRent)
+
+        props.setCurrentState("rents");
+        localStorage.setItem("currentState", "rents");
+        localStorage.setItem("historyStack", JSON.stringify([]))
+        localStorage.setItem("currentCat", "")
+        props.setCurrentCat("")
+        props.setHistoryStack(() => ([]));
+
+        navigate("/MyRents")
+
+    }
+
     return (<>
-        <Card >
-            <Card.Title>
-                {idAd}
-                {"prova" /**props.ad.name*/}
-            </Card.Title>
-            
-        </Card>
-      </>
+        {props.dirty ? <Container id="containerSpinner">
+            <Spinner animation="border" variant="primary" />
+        </Container>
+            : <Card key={idAd}>
+                <Card.Title>
+                    <Row className="pt-3">
+                        <h3 id="titlecard" style={{ textAlign: "center" }}>{currentAd.title}</h3>
+                    </Row>
+
+                </Card.Title>
+                <Container>
+                    <Carousel variant="dark">
+                        {currentImages.map((img, idx) => {
+                            return <Carousel.Item key={idx} style={{ textAlign: "center" }}>
+                                <Card.Img variant="top" src={img.url} className="mx-auto m-auto pt-2"
+                                    style={{
+                                        width: "auto",
+                                        maxHeight: "330px"
+                                    }} />
+                            </Carousel.Item>
+                        })}
+                    </Carousel>
+                </Container>
+
+                <Row className="justify-content-center pt-3 text-center">
+
+                    BRAND: {currentAd.brand}
+
+                </Row>
+
+                <Container>
+                    <Row className="justify-content-center  text-center">
+                        DESCRIPTION: {currentAd.description}
+
+                    </Row>
+                </Container>
+
+                <Row className="justify-content-center  text-center">
+
+                    SIZE: {currentAd.size}
+
+                </Row>
+                <Row className="justify-content-center  text-center pt-2 pb-2">
+                    PRICE PER DAY: {currentAd.price} €/day
+
+                </Row>
+
+                <Container>
+                    <Row className="justify-content-center">
+                        <Button onClick={() => setShowSizeGuide(true)} className="my-2 btn btn-secondary btn-md w-75" >
+                            How to measure your size
+                        </Button>
+
+                    </Row>
+
+
+
+
+                    <Row className="justify-content-center">
+                        <Button onClick={handleOpenOrCreateConversation} className="my-2 btn btn-secondary btn-md w-75" >
+                            Contact the renter
+                        </Button>
+
+                    </Row>
+
+
+
+
+                    <Row className="justify-content-center">
+                        <Button onClick={() => setShowCalendar(true)} className="mt-5 btn btn-primary btn-md w-75" >
+                            Select dates
+                        </Button>
+
+                    </Row>
+
+
+                    <Row className="justify-content-center">
+                        <Button disabled={!submitted} onClick={handlePressRent} className="my-2 btn btn-primary btn-md w-75" >
+                            RENT
+                        </Button>
+
+                    </Row>
+
+                </Container>
+
+                <Container>
+                    <Modal show={showSizeGuide} onClose={() => setShowSizeGuide(false)} onHide={() => setShowSizeGuide(false)}>
+                        <Modal.Header>
+                            <Button onClick={() => setShowSizeGuide(false)}>X</Button>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <SizeGuide type={currentAd.gender} />
+                        </Modal.Body>
+                    </Modal>
+                </Container>
+
+
+
+                <Card.Body>
+
+                    {
+                        props.rents ?
+                            <MyAvailabilityModal show={showCalendar} setShow={setShowCalendar}
+                                dataIn={dataIn} setDataIn={setDataIn} setNumDays={setNumDays}
+                                onChange={onChange} dataOut={dataOut} setDataOut={setDataOut}
+                                rents={props.rents} currentAd={currentAd} setSubmitted={setSubmitted}>
+                            </MyAvailabilityModal>
+                            : <></>
+                    }
+
+                </Card.Body>
+
+                {numDays !== 0 ?
+                    <Card.Body>OVERALL PRICE: {(numDays * currentAd.price).toPrecision(4)}</Card.Body>
+                    : <></>}
+
+
+
+                <Container>
+                    <Modal show={showNewMessage} onClose={onCloseNewMessageModal}
+                        onHide={onCloseNewMessageModal}>
+                        <Modal.Header>
+                            <Container>
+                                <h3>Contact the user</h3>
+                            </Container>
+                            <Button onClick={onCloseNewMessageModal}>X</Button>
+                        </Modal.Header>
+
+
+                        <Form onChange={(event) => setNewMessage(event.target.value)}>
+                            <Form.Control as="textarea" defaultValue={newMessage + currentAd.title + ", "} rows={15} />
+                        </Form>
+
+                        <Modal.Footer>
+                            <Container>
+                                {/**TODO: invia messaggio tramite API */}
+                                <Button type="submit" onClick={handleCreateNewConversation}>Send</Button>
+                            </Container>
+                        </Modal.Footer>
+                    </Modal>
+                </Container>
+
+
+            </Card>
+        }
+    </>
+
     );
 }
-export {MySmallAdvertisement, MyBigAdvertisement};
+
+
+
+export { MySmallAdvertisement, MyBigAdvertisement };

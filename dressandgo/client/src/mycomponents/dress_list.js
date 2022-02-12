@@ -1,22 +1,26 @@
-import { Col, Row, Container, Card } from "react-bootstrap";
-import {MySmallAdvertisement} from "./dress_card.js"
+import { Col, Row, Container, Spinner } from "react-bootstrap";
+import { MySmallAdvertisement } from "./dress_card.js"
 
-//Da MODIFICARE IL DB DEGLI ABITI
 function MyDressList(props) {
-
-    console.log(props.ads)
     return (
         <>
-            <Container>
-                <Row xs={2} md={2} className="g-4">
-                  {props.ads.map( (ad, idx) => {
-                      return <Col key={idx}>
-                        <MySmallAdvertisement idx={idx} ad={ad}/>
-                        
-                      </Col>
-                  })}
-                </Row>
-            </Container>
+            {
+                props.dirty ?
+                    <Container id="containerSpinner">
+                        <Spinner animation="border" variant="primary" />
+                    </Container> : <>
+                        <Container>
+                            <Row xs={2} md={2} className="g-4">
+                                {props.ads.map((ad, idx) => {
+                                    return <Col key={idx}>
+                                        <MySmallAdvertisement adsImages={props.adsImages.filter((el) => el.id_a === ad.id_a)} idx={idx} ad={ad} categories={props.categories}
+                                            handleChangeForwardPage={props.handleChangeForwardPage} />
+
+                                    </Col>
+                                })}
+                            </Row>
+                        </Container>
+                    </>}
         </>
     );
 }

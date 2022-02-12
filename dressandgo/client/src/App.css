@@ -37,18 +37,374 @@
   }
 }
 
-
-.video-responsive {
-  overflow: hidden;
-  padding-bottom: 56.25%;
-  position: relative;
-  height: 0;
+.text-link {
+  color: inherit;
+  text-decoration: inherit;
 }
 
-.video-responsive iframe {
-  left: 0;
-  top: 0;
-  height: 100%;
+#dressContainer{
+  margin-top: 30px;
+  padding-bottom: 30px;
+  display: grid;
+}
+
+#titlebar{
+  background-color: #F8F8F8;
+}
+#infobutton{
+  border-radius: 50%;
+}
+
+#middleButtonContainer{
+    display: flex;
+    justify-content: center;
+}
+
+#datePickerContainer{
+  display: flex;
+  justify-content: center;
+}
+
+#rotationimage {
+	transform: rotate(-34deg);
+  	/*to rotate an image you have to use the transform function in CSS and rotate
+  	in degrees*/
+}
+
+
+#containerSpinner{
+  display:flex;
+  justify-content: center;
+  padding-top: 50px;
+}
+
+
+.headerChat{
+  background-color: rgb(131, 163, 206);
+  border-radius: "2%";
+  padding: "10px";
+  margin-bottom: "20px"; 
+}
+
+
+.containerChatPreview{
+  margin-top: 10px; 
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  border-width: 2px;
+}
+
+
+
+/* Messages */
+.messages-panel img.img-circle {
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+.medium-image {
+    width: 45px;
+    height: 45px;
+    margin-right: 5px;
+}
+
+.img-circle {
+    border-radius: 50%;
+}
+.messages-panel {
   width: 100%;
-  position: absolute;
+  height: calc(100vh - 150px);
+  min-height: 460px;
+  background-color: #fbfcff;
+  display: inline-block;
+  border-top-left-radius: 5px;
+  margin-bottom: 0;
 }
+
+.messages-panel img.img-circle {
+  border: 1px solid rgba(0,0,0,0.1);
+}
+
+.messages-panel .tab-content {
+  border: none;
+  background-color: transparent;
+}
+
+
+.message-body {
+  background-color: #fbfcff;
+  height: 100%;
+  width: calc(100% - 305px);
+  float: right;
+}
+
+.message-body .message-top {
+  display: inline-block;
+  width: 100%;
+  position: relative;
+  min-height: 53px;
+  height: auto;
+  background-color: #fff;
+  border-bottom: 1px solid rgba(205,211,237,0.5);
+}
+
+.message-body .message-top .new-message-wrapper {
+  width: 100%;
+}
+
+
+
+
+
+
+
+
+.new-message-wrapper {
+  position: absolute;
+  max-height: 400px;
+  top: 53px;
+  background-color: #fff;
+  z-index: 105;
+  padding: 20px 15px 30px 15px;
+  border-bottom: 1px solid #cfdbe2;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  box-shadow: 0 7px 10px rgba(0,0,0,0.25);
+  transition: 0.5s;
+  display: none;
+}
+
+
+
+.chat-footer.new-message-textarea {
+  display: block;
+  position: relative;
+  padding: 0 10px;
+}
+
+.chat-footer.new-message-textarea .send-message-button {
+  right: 2px;
+}
+
+.chat-footer.new-message-textarea .send-message-text {
+  padding-right: 100px;
+  height: 90px;
+}
+
+.message-chat {
+  width: 100%;
+  overflow: hidden;
+}
+
+.chat-body {
+  width: calc(100% + 17px);
+  min-height: 290px;
+  height: calc(100vh - 320px);
+  background-color: #fbfcff;
+  margin-bottom: 30px;
+  padding: 30px 5px 5px 5px;
+  overflow-y: scroll;
+}
+
+.message {
+  position: relative;
+  width: 100%;
+}
+
+.message br {
+  clear: both;
+}
+
+.message .message-body {
+  position: relative;
+  width: auto;
+  max-width: calc(100% - 150px);
+  float: left;
+  background-color: #fff;
+  border-radius: 4px;
+  border: 1px solid #dbe3e8;
+  margin: 0 5px 20px 15px;
+  color: #788288;
+}
+
+.message:after {
+  content: "";
+  position: absolute;
+  top: 11px;
+  left: 63px;
+  float: left;
+  z-index: 100;
+  border-top: 10px solid transparent;
+  border-left: none;
+  border-bottom: 10px solid transparent;
+  border-right: 13px solid #fff;
+}
+
+.message:before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 62px;
+  float: left;
+  z-index: 99;
+  border-top: 11px solid transparent;
+  border-left: none;
+  border-bottom: 11px solid transparent;
+  border-right: 13px solid #dbe3e8;
+}
+
+.message .medium-image {
+  float: left;
+  margin-left: 10px;
+}
+
+.message .message-info {
+  width: 100%;
+  height: 22px;
+}
+
+.message .message-info > h5 > i {
+  font-size: 11px;
+  font-weight: 700;
+  margin: 0 2px 0 0;
+  color: #a2b8c5;
+}
+
+.message .message-info > h5 {
+  color: #a2b8c5;
+  margin: 8px 0 0 0;
+  font-size: 16px;
+  float: right;
+  padding-right: 10px;
+}
+
+.message .message-info > h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 7px 13px 0 10px;
+  color: #65addd;
+  float: left;
+}
+
+.message hr {
+  margin: 4px 2%;
+  width: 96%;
+  opacity: 0.75;
+}
+
+.message .message-text {
+  text-align: left;
+  padding: 3px 13px 10px 13px;
+  font-size: 16px;
+  word-wrap: break-word;
+}
+
+.message.my-message .message-body {
+  float: right;
+  margin: 0 15px 20px 5px;
+}
+
+.message.my-message:after {
+  content: "";
+  position: absolute;
+  top: 11px;
+  left: auto;
+  right: 63px;
+  float: left;
+  z-index: 100;
+  border-top: 10px solid transparent;
+  border-left: 13px solid #fff;
+  border-bottom: 10px solid transparent;
+  border-right: none;
+}
+
+.message.my-message:before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: auto;
+  right: 62px;
+  float: left;
+  z-index: 99;
+  border-top: 11px solid transparent;
+  border-left: 13px solid #dbe3e8;
+  border-bottom: 11px solid transparent;
+  border-right: none;
+}
+
+.message.my-message .medium-image {
+  float: right;
+  margin-left: 5px;
+  margin-right: 10px;
+}
+
+.message.my-message .message-info > h5 {
+  float: left;
+  padding-left: 10px;
+  padding-right: 0;
+}
+
+.message.my-message .message-info > h4 {
+  float: right;
+}
+
+.message.info .message-body {
+  background-color: #2da9e9;
+  border: 1px solid #2da9e9;
+  color: #fff;
+}
+
+.message.info:after, .message.info:before {
+  border-right: 13px solid #2da9e9;
+}
+
+
+.message.dark .message-body {
+  background-color: #314557;
+  border: 1px solid #314557;
+  color: #fff;
+}
+
+.message.dark:after, .message.dark:before {
+  border-right: 13px solid #314557;
+}
+
+.message.info .message-info > h4, .message.success .message-info > h4,
+.message.warning .message-info > h4, .message.danger .message-info > h4,
+.message.dark .message-info > h4 {
+  color: #fff;
+}
+
+.message.info .message-info > h5, .message.info .message-info > h5 > i,
+.message.success .message-info > h5, .message.success .message-info > h5 > i,
+.message.warning .message-info > h5, .message.warning .message-info > h5 > i,
+.message.danger .message-info > h5, .message.danger .message-info > h5 > i,
+.message.dark .message-info > h5, .message.dark .message-info > h5 > i {
+  color: #fff;
+  opacity: 0.9;
+}
+
+
+
+
+.chat-footer .send-message-button {
+  display: block;
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  right: 25px;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  border: 1px solid rgba(0,0,0,0.05);
+  outline: none;
+  font-weight: 600;
+  border-radius: 50%;
+  padding: 0;
+}
+
+
+#back-button{
+  background-color: white;
+  border-color: white;
+}
+
