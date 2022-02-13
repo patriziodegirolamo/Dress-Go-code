@@ -20,7 +20,7 @@ import Faq from './mycomponents/accordion.js'
 
 import {
   getCategories, getUserInfos, getKnownSizes, getAds, getAdsImages, getBrands, getAllUserMessages,
-  getUsers, getConversations, modifyUsInfos, insertKnownSize, removeKnownSize, insertMessage, insertRent,
+  getUsers, getConversations, modifyUsInfos, modifyStatus, unlockReturn, insertKnownSize, removeKnownSize, insertMessage, insertRent,
   getOperators, getConversationsCS, getAllUserMessagesCS, insertMessageCS, getRents
 } from './API';
 
@@ -486,7 +486,7 @@ function App() {
 
   const addARent = (newRent) => {
     insertRent(newRent).then((res) => {
-      const completeRent = { ...newRent, id_r: res }
+      const completeRent = { ...newRent, id_r: res, return: "LOCKED" }
       setRents(rents => {
         return rents.concat(completeRent)
       });
@@ -521,6 +521,39 @@ function App() {
     setUser(newUser)
     localStorage.setItem("user", JSON.stringify(newUser))
   }
+
+  /* TO UPDATE STATUS OF A RENT  */
+  const modifyStatusR = (newStatus) => {
+    modifyStatus(newStatus).then((err) => { });
+    unlockReturn({id_r: newStatus.id_r}).then((err) => { });
+    // to avoid another call to the db 
+      setRents(oldList => {
+        const list = oldList.map((item) => {
+          if(item.id_r === newStatus.id_r){
+            return {id_r: item.id_r, id_a: item.id_a, idRenter: item.idRenter,
+                    idBooker: item.idBooker, dataIn: item.dataIn, dataOut: item.dataOut, status: newStatus.status, return: item.return};
+          } else return item;
+        });
+        return list;
+      });
+  }
+
+    /* TO UNLOCK A RETURN OF A RENT  */
+    const unlockReturnProcedure = (newLock) => {
+      console.log(newLock);
+      unlockReturn({id_r: newLock.id_r}).then((err) => { });
+      // to avoid another call to the db 
+        setRents(oldList => {
+          const list = oldList.map((item) => {
+            if(item.id_r === newLock.id_r){
+              return {id_r: item.id_r, id_a: item.id_a, idRenter: item.idRenter,
+                      idBooker: item.idBooker, dataIn: item.dataIn, dataOut: item.dataOut, status: item.status, return: "UNLOCKED"};
+            } else return item;
+          });
+          return list;
+        });
+    }
+
 
   const filterSuggestedDresses = (ad) => {
     const cat = categories.find(el => el.id_cat === ad.id_cat)
@@ -612,7 +645,7 @@ function App() {
             <OrderSummary rents={rents} ads={ads} adsImages={adsImages} conversations={conversations}
               addAConversation={addAConversation}
               setCurrentState={setCurrentState}
-              setHistoryStack={setHistoryStack} historyStack={historyStack}
+              setHistoryStack={setHistoryStack} historyStack={historyStack} modifyStatusR = {modifyStatusR} unlockReturnProcedure = {unlockReturnProcedure}
             />
             : <Container id="containerSpinner">
               <Spinner animation="border" variant="primary" />
@@ -678,7 +711,7 @@ function App() {
                       <h1>{currentCat}</h1>
                     </Col>
                     <Col>
-                      {categories.length > 0 && currentCat ? <img src={"/" + categories.find(x => x.name === currentCat).address} className="img-fluid" id="rotationimage" alt="Responsive image" width="120"></img> : <></>}
+                      {categories.length > 0 && currentCat ? <img src={"/" + categories.find(x => x.name === currentCat && x.gender === page).address} className="img-fluid" id="rotationimage" alt="Responsive image" width="120"></img> : <></>}
                     </Col>
                   </Row>
                   </Container>

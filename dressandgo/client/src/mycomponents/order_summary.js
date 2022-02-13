@@ -8,7 +8,6 @@ function OrderSummary(props) {
   let navigate = useNavigate();
   let { id_r } = useParams();
   id_r = parseInt(id_r);
-  const [clicked, setClicked] = useState(0);
 
   const currentRent = props.rents.find(r => r.id_r === id_r);
   const ads = props.ads.find(ad => ad.id_a === currentRent.id_a);
@@ -16,6 +15,7 @@ function OrderSummary(props) {
 
 
   const [showNewMessage, setShowNewMessage] = useState(false);
+  const [showReturnLabel, setShowReturnLabel] = useState(false);
 
   const initialMessage = "Hi , I'm contacting you, for the advertisement: ";
   const [newMessage, setNewMessage] = useState(initialMessage);
@@ -30,11 +30,10 @@ function OrderSummary(props) {
 
 
   const handleOpenOrCreateConversation = () => {
-    setClicked(1);
     const currParam = { "id": id_r }
     const conv = props.conversations.find(c => {
       const cr = props.rents.find(r => r.id_r === id_r);
-      if (c.id_a == cr.id_a && c.idRenter == cr.idRenter && c.idBooker == cr.idBooker)
+      if (c.id_a === cr.id_a && c.idRenter === cr.idRenter && c.idBooker === cr.idBooker)
         return c;
     })
     if (conv) {
@@ -80,11 +79,13 @@ function OrderSummary(props) {
   }
 
   const onClickHandler = () => {
-    setClicked(1);
     props.setCurrentState("chat");
     localStorage.setItem("currentState", "chat");
     localStorage.setItem("historyStack", JSON.stringify([...props.historyStack, "chat"]))
     props.setHistoryStack(() => ([...props.historyStack, "chat"]));
+
+    if(currentRent.status === "ARRIVED" || currentRent.status === "RETURNING")
+        props.unlockReturnProcedure({id_r: currentRent.id_r});
 
   }
 
@@ -96,6 +97,13 @@ function OrderSummary(props) {
   }
 
   const shippingCost = 3;
+
+
+  const handleReturnProcedure = () => {
+    const newStatus = { id_r: currentRent.id_r, status: "RETURNING" }
+    props.modifyStatusR(newStatus);
+    setShowReturnLabel(true);
+  }
 
   return <>
 
@@ -128,23 +136,23 @@ function OrderSummary(props) {
 
           </Row>
           <Container>
-                    <Row className="justify-content-center mx-1 text-center">
-                        <b>DESCRIPTION:</b> {ads.description}
+            <Row className="justify-content-center mx-1 text-center">
+              <b>DESCRIPTION:</b> {ads.description}
 
-                    </Row>
-                </Container>
-         
-                <Row className="justify-content-center  text-center">
+            </Row>
+          </Container>
 
-<b>SIZE:</b> {ads.size}
+          <Row className="justify-content-center  text-center">
 
-</Row>
-<Row className="justify-content-center  text-center pt-2 pb-5 border-bottom">
-<b>PRICE PER DAY:</b> {ads.price} €/day
+            <b>SIZE:</b> {ads.size}
 
-</Row>
+          </Row>
+          <Row className="justify-content-center  text-center pt-2 pb-5 border-bottom">
+            <b>PRICE PER DAY:</b> {ads.price} €/day
 
-<h4 className="pt-3 justify-content-center text-center">Summary of your rent:</h4>
+          </Row>
+
+          <h4 className="pt-3 justify-content-center text-center">Summary of your rent:</h4>
           <Row className="pt-3 justify-content-center text-center">START RENT: {currentRent.dataIn}</Row>
           <Row className="justify-content-center text-center">END RENT: {currentRent.dataOut} </Row>
           <Row className="justify-content-center text-center">SHIPPING COST: {shippingCost}€  </Row>
@@ -156,7 +164,7 @@ function OrderSummary(props) {
 
 
             <Row className="justify-content-center pt-3">
-            
+
 
               <Container>
                 <Modal show={showNewMessage} onClose={onCloseNewMessageModal}
@@ -180,7 +188,7 @@ function OrderSummary(props) {
                   </Modal.Footer>
                 </Modal>
               </Container>
-              <Link onClick={handleOpenOrCreateConversation}className="mt-2 btn btn-secondary btn-md w-75 justify-content-center" role="button" to="/CustomerServiceChat"  >
+              <Link onClick={handleOpenOrCreateConversation} className="mt-2 btn btn-secondary btn-md w-75 justify-content-center" role="button" to="/CustomerServiceChat"  >
                 Contact the renter
               </Link>
 
@@ -189,50 +197,76 @@ function OrderSummary(props) {
               </Link>
 
               <Container>
-                          <Overlay target={target.current} show={show} placement="top">
-                            {({ placement, arrowProps, show: _show, popper, ...props }) => (
-                              <div
-                                {...props}
-                                style={{
-                                  backgroundColor: 'rgb(189, 195, 199)',
-                                  padding: '2px 10px',
-                                  color: 'white',
-                                  borderRadius: 3,
-                                  ...props.style,
-                                }}
-                              >
-                                If you have some problems with the order you can contact the renter or the Customer service
-                                to unlock the return procedure in advance!"
-                              </div>
-                            )}
-                          </Overlay>
+                <Overlay target={target.current} show={show} placement="top">
+                  {({ placement, arrowProps, show: _show, popper, ...props }) => (
+                    <div
+                      {...props}
+                      style={{
+                        backgroundColor: 'rgb(189, 195, 199)',
+                        padding: '2px 10px',
+                        color: 'white',
+                        borderRadius: 3,
+                        ...props.style,
+                      }}
+                    >
+                      If you have some problems with the order you can contact the renter or the customer service
+                      to unlock the return procedure in advance!
+                    </div>
+                  )}
+                </Overlay>
               </Container>
 
+              <Container>
+                <Modal show={showReturnLabel} onClose={() => setShowReturnLabel(false)} onHide={() => setShowReturnLabel(false)}>
+                  <Modal.Header>
+                    <Modal.Title>
+                      <Row>
+                        <b>Return procedure</b>
+                      </Row>
+                    </Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    You are requesting for the return procedure.
+                    You can print the label below and use it to send your products back.
+                    When the product arrives to destination you will receive your refund.
+
+                    <img alt='noimage' className='small' src='/label.png' width="100%" />
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Col md={8}>
+                      <Button variant="secondary" onClick={() => setShowReturnLabel(false)}>
+                        Close
+                      </Button>
+                    </Col>
+                  </Modal.Footer>
+                </Modal>
+              </Container>
+
+
               <Row>
-                <Col xs = {2}/>
-             <Col xs = {1}>
-              <Link className="" ref={target} onClick={() => setShow(!show)} role="button" to="">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" className="bi bi-info-circle" viewBox="0 0 16 16">
-                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                            <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
-                          </svg>
-               </Link>
-               </Col>
-               <Col xs = {9} className = "px-md-5">
-               {clicked == 1 ?    
-              <Link className="my-2 mt-3 btn btn-primary btn-md w-75 " role="button" to=""  >
-                Return product
-              </Link>
-              :
-              <Link className="my-2 mt-3 btn btn-primary btn-md w-75 disabled" role="button" to=""  >
-              Return product
-            </Link>
-              }
-              </Col>
+                <Col xs={2} />
+                <Col xs={1}>
+                  <Link className="" ref={target} onClick={() => setShow(!show)} role="button" to="">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" className="bi bi-info-circle" viewBox="0 0 16 16">
+                      <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                      <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
+                    </svg>
+                  </Link>
+                </Col>
+
+                <Col xs={9} className="px-md-5">
+                  {currentRent.return === "UNLOCKED" && (currentRent.status === "ARRIVED" || currentRent.status === "RETURNING") ?
+                    <Button className="my-2 mt-3 btn btn-primary btn-md w-75" role="button" to="" onClick={handleReturnProcedure} >
+                      Return product
+                    </Button>
+                    :
+                    <Button className="my-2 mt-3 btn btn-primary btn-md w-75 disabled" role="button" to="">
+                      Return product
+                    </Button>
+                  }
+
+                </Col>
               </Row>
-
-           
-
             </Row>
           </Container>
         </Container>

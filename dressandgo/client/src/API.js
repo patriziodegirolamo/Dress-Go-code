@@ -196,8 +196,8 @@ async function getRents(id_u) {
               idBooker: t.idBooker,
               dataIn: t.dataIn,
               dataOut: t.dataOut, 
-              status: t.status
-            
+              status: t.status,
+              return: t.return
           }));
       } else {
           throw rents;  // an object with the error coming from the server
@@ -364,6 +364,54 @@ async function modifyUsInfos(newInfos) {
   });
 }
 
+/* TO MODIFY A STATUS OF A RENT  */
+async function modifyStatus(newStatus) {
+  return new Promise((resolve, reject) => {
+    fetch('/api/modifyStatusRent', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ id_r: newStatus.id_r, status: newStatus.status}),
+    }).then((response) => {
+      if (response.ok) {
+        resolve(response.json());
+      } else {
+        response.json()
+          .then((message) => { reject(message); })
+          .catch(() => reject({ error: 'Cannot parse the response.' }));
+      }
+    }).catch(() => {
+      reject({ error: 'Cannot communicate with the server.' });
+    })
+  });
+}
+
+
+/* TO UNLOCK THE RETURN PROCEDURE OF A RENT  */
+async function unlockReturn(newLock) {
+  console.log(newLock)
+  return new Promise((resolve, reject) => {
+    fetch('/api/unlockReturn', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ id_r: newLock.id_r}),
+    }).then((response) => {
+      if (response.ok) {
+        resolve(response.json());
+      } else {
+        response.json()
+          .then((message) => { reject(message); })
+          .catch(() => reject({ error: 'Cannot parse the response.' }));
+      }
+    }).catch(() => {
+      reject({ error: 'Cannot communicate with the server.' });
+    })
+  });
+}
+
 
 /* TO INSERT A NEW KNOWN SIZE */
 async function insertKnownSize(ksize) {
@@ -509,5 +557,5 @@ async function insertMessageCS(msg) {
   
 
 export {getCategories, getUserInfos, getKnownSizes, getAds, getAdsImages, getBrands, getAllUserMessages,
-        getUsers, getConversations, modifyUsInfos, insertKnownSize, insertConversation, insertMessage, insertRent,
+        getUsers, getConversations, modifyUsInfos, modifyStatus, unlockReturn, insertKnownSize, insertConversation, insertMessage, insertRent,
         removeKnownSize, getOperators, getConversationsCS, getAllUserMessagesCS, getRents, insertMessageCS};

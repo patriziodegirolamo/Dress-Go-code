@@ -8,7 +8,7 @@ function Rent(props) {
   const adss = props.ads.find(ad => ad.id_a === props.myrent.id_a);
   let image = null;
   if (adss) {
-    image = props.adsImages.find(adImage => adImage.id_a == adss.id_a);
+    image = props.adsImages.find(adImage => adImage.id_a === adss.id_a);
   }
 
   const onClickHandler = () => {

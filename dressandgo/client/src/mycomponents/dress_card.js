@@ -21,32 +21,32 @@ function MySmallAdvertisement(props) {
             return props.handleChangeForwardPage(props.categories.find((el) => el.id_cat === props.ad.id_cat).name)
         }
         }>
-             <Card.Img variant="top" src={currentImg.url} className="mx-auto" style={{ width: '100%' }} />
+            <Card.Img variant="top" src={currentImg.url} className="mx-auto" style={{ width: '100%' }} />
 
-<Card.Body>
+            <Card.Body>
 
-    <Row>
-        <h5 id="titlead" > {props.ad.title}</h5>
-    </Row>
+                <Row>
+                    <h5 id="titlead" > {props.ad.title}</h5>
+                </Row>
 
-    <Row className="justify-content-center" >
-        <Col>SIZE:
-        </Col>
-        <Col > {props.ad.size}
-        </Col>
+                <Row className="justify-content-center" >
+                    <Col>SIZE:
+                    </Col>
+                    <Col > {props.ad.size}
+                    </Col>
 
-    </Row>
+                </Row>
 
 
-    <Row className="justify-content-center" >
-        <Col > <b> PRICE:</b>
-        </Col>
-        <Col > <b>{props.ad.price}€/d</b>
-        </Col>
+                <Row className="justify-content-center" >
+                    <Col > <b> PRICE:</b>
+                    </Col>
+                    <Col > <b>{props.ad.price}€/d</b>
+                    </Col>
 
-    </Row>
+                </Row>
 
-</Card.Body>
+            </Card.Body>
 
         </Card>
 
@@ -62,6 +62,7 @@ function MyBigAdvertisement(props) {
     const [numDays, setNumDays] = useState(0);
     const [showCalendar, setShowCalendar] = useState(false);
     const [showSizeGuide, setShowSizeGuide] = useState(false);
+    const [showRecap, setShowRecap] = useState(false);
 
     const [dataIn, setDataIn] = useState(new Date())
     const [dataOut, setDataOut] = useState(new Date())
@@ -74,6 +75,9 @@ function MyBigAdvertisement(props) {
     const initialMessage = "Hi , I'm contacting you, for the advertisement: ";
     const [newMessage, setNewMessage] = useState(initialMessage)
     const [submitted, setSubmitted] = useState(false)
+
+    let newdataIn;
+    let newdataOut;
 
     const onChange = (dates) => {
         const [start, end] = dates;
@@ -135,15 +139,15 @@ function MyBigAdvertisement(props) {
     }
 
     const handlePressRent = () => {
+        setShowRecap(false);
 
         setSubmitted(true);
-        const newdataIn = new Date(dataIn).toISOString().split("T")[0].replaceAll("-", "/")
-        const newdataOut = new Date(dataOut).toISOString().split("T")[0].replaceAll("-", "/")
-
+        newdataIn = new Date(dataIn).toISOString().split("T")[0].replaceAll("-", "/")
+        newdataOut = new Date(dataOut).toISOString().split("T")[0].replaceAll("-", "/")
 
         const newRent = {
             id_a: parseInt(currentAd.id_a),
-            id_renter: props.users.find(u => u.id_u == currentAd.id_u).id_u,
+            id_renter: props.users.find(u => u.id_u === currentAd.id_u).id_u,
             id_booker: props.currentUser.id_u,
             dataIn: newdataIn,
             dataOut: newdataOut,
@@ -159,8 +163,8 @@ function MyBigAdvertisement(props) {
         props.setCurrentCat("")
         props.setHistoryStack(() => ([]));
 
-        navigate("/MyRents")
 
+        navigate("/MyRents")
     }
 
     return (<>
@@ -241,7 +245,7 @@ function MyBigAdvertisement(props) {
 
 
                     <Row className="justify-content-center">
-                        <Button disabled={!submitted} onClick={handlePressRent} className="my-2 btn btn-primary btn-md w-75" >
+                        <Button disabled={!submitted} onClick={() => setShowRecap(true)} className="my-2 btn btn-primary btn-md w-75" >
                             RENT
                         </Button>
 
@@ -253,23 +257,90 @@ function MyBigAdvertisement(props) {
                     <Modal show={showSizeGuide} onClose={() => setShowSizeGuide(false)} onHide={() => setShowSizeGuide(false)}>
                         <Modal.Header>
                             <Modal.Title>
-                            {currentAd.gender === "man" ? <>INTERNATIONAL MENS FIT GUIDE</> :  <>INTERNATIONAL LADIES FIT GUIDE</>}
+                                {currentAd.gender === "man" ? <>INTERNATIONAL MENS FIT GUIDE</> : <>INTERNATIONAL LADIES FIT GUIDE</>}
 
                             </Modal.Title>
-                       
+
                         </Modal.Header>
                         <Modal.Body>
                             <SizeGuide type={currentAd.gender} />
                         </Modal.Body>
                         <Modal.Footer>
-                <Button variant="secondary" onClick={() => setShowSizeGuide(false)}>
-                    Close
-                </Button>
-                
-                
-            </Modal.Footer>
+                            <Button variant="secondary" onClick={() => setShowSizeGuide(false)}>
+                                Close
+                            </Button>
+
+
+                        </Modal.Footer>
                     </Modal>
                 </Container>
+
+                <Container>
+                    <Modal show={showRecap} onClose={() => setShowRecap(false)} onHide={() => setShowRecap(false)}>
+                        <Modal.Header>
+                            <Modal.Title>
+                                <Row className="justify-content-center pt-3 text-center">
+                                    <b> YOU ARE ORDERING: </b>  {currentAd.title}
+                                </Row>
+
+                            </Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <Container>
+                                <Row className="justify-content-center pt-3 text-center">
+                                    <b>BRAND:</b> {currentAd.brand}
+                                </Row>
+
+                                <Container>
+                                    <Row className="justify-content-center mx-1 text-center">
+                                        <b>DESCRIPTION:</b> {currentAd.description}
+
+                                    </Row>
+                                </Container>
+
+                                <Row className="justify-content-center  text-center">
+
+                                    <b>SIZE:</b> {currentAd.size}
+
+                                </Row>
+                                <Row className="justify-content-center  text-center pt-2 pb-2">
+                                    <b>PRICE PER DAY:</b> {currentAd.price} €/day
+                                </Row >
+
+
+                                <Container>
+                                    <Row className="justify-content-center  text-center pt-2 pb-2">
+                                        <b>RENT STARTED ON:</b> {newdataIn = new Date(dataIn).toISOString().split("T")[0].replaceAll("-", "/")}
+
+                                    </Row>
+
+                                    <Row className="justify-content-center  text-center pt-2 pb-2">
+                                        <b>RENT ENDED ON:</b> {newdataOut = new Date(dataOut).toISOString().split("T")[0].replaceAll("-", "/")}
+                                    </Row>
+
+                                    <Row className="justify-content-center  text-center pt-2 pb-2">
+                                        <b>OVERALL PRICE: </b> {(numDays * currentAd.price).toPrecision(4)}
+                                    </Row>
+                                </Container>
+
+                            </Container>
+
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Col md={8}>
+                                <Button variant="secondary" onClick={() => setShowRecap(false)}>
+                                    Close
+                                </Button>
+                            </Col>
+                            <Col md={8}>
+                                <Button variant="primary" onClick={handlePressRent}>
+                                    Rent
+                                </Button>
+                            </Col>
+                        </Modal.Footer>
+                    </Modal>
+                </Container>
+
 
 
 
@@ -286,12 +357,6 @@ function MyBigAdvertisement(props) {
                     }
 
                 </Card.Body>
-
-                {numDays !== 0 ?
-                    <Card.Body>OVERALL PRICE: {(numDays * currentAd.price).toPrecision(4)}</Card.Body>
-                    : <></>}
-
-
 
                 <Container>
                     <Modal show={showNewMessage} onClose={onCloseNewMessageModal}

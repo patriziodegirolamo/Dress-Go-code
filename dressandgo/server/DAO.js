@@ -93,7 +93,8 @@ exports.listRents = (id_u) => {
           idBooker: t.ID_BOOKER,
           dataIn: t.START_DATE,
           dataOut: t.END_DATE,
-          status: t.STATUS
+          status: t.STATUS,
+          return: t.RETURN
         }));
         resolve(rents);
       }
@@ -395,6 +396,42 @@ exports.modifyUserInfos = (newInfos) => {
       [newInfos.name, newInfos.surname, newInfos.address, newInfos.city, newInfos.cap,
       newInfos.state, newInfos.zip, newInfos.gender, newInfos.height, newInfos.weight,
       newInfos.waistline, newInfos.hips, newInfos.legLength, newInfos.shoesNumber, newInfos.id_u],
+      function (err) {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve(this.lastID);
+      }
+    );
+  });
+};
+
+// update a status of an order
+exports.modifyStatusRent = (newStatus) => {
+  return new Promise((resolve, reject) => {
+    const sql = "UPDATE RENT SET STATUS = ? WHERE ID_R =?";
+    db.run(
+      sql,
+      [newStatus.status, newStatus.id_r],
+      function (err) {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve(this.lastID);
+      }
+    );
+  });
+};
+
+// unlock return procedure of a rent
+exports.unlockReturn = (newLock) => {
+  return new Promise((resolve, reject) => {
+    const sql = "UPDATE RENT SET RETURN = ? WHERE ID_R =?";
+    db.run(
+      sql,
+      [newLock.value, newLock.id_r],
       function (err) {
         if (err) {
           reject(err);
