@@ -243,6 +243,19 @@ function MyBigAdvertisement(props) {
 
                     </Row>
 
+                    {numDays != 0 ?
+
+                        <Container className="text-center">
+
+                            <Row>  <h5 className='mt-3 '>
+                                Dates selected. <br></br> You can proceed with the rental!
+                            </h5> </Row>
+                        </Container>
+
+                        :
+                        <></>
+                    }
+
 
                     <Row className="justify-content-center">
                         <Button disabled={!submitted} onClick={() => setShowRecap(true)} className="my-2 btn btn-primary btn-md w-75" >
@@ -340,8 +353,6 @@ function MyBigAdvertisement(props) {
                         </Modal.Footer>
                     </Modal>
                 </Container>
-
-
 
 
                 <Card.Body>

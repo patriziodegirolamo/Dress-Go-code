@@ -203,13 +203,13 @@ function OrderSummary(props) {
                       {...props}
                       style={{
                         backgroundColor: 'rgb(189, 195, 199)',
-                        padding: '2px 10px',
+                        padding: '2px 10px 2px',
                         color: 'white',
                         borderRadius: 3,
                         ...props.style,
                       }}
                     >
-                      If you have some problems with the order you can contact the renter or the customer service
+                      If you have some problems with the order <br></br> you can contact the renter or the customer service <br></br>
                       to unlock the return procedure in advance!
                     </div>
                   )}
