@@ -1,4 +1,4 @@
-const url = '';
+const url = 'https://dressandgo.herokuapp.com';
 
 /** STUDYGROUPS APIs **/
 
