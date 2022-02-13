@@ -155,9 +155,9 @@ function OrderSummary(props) {
           <h4 className="pt-3 justify-content-center text-center">Summary of your rent:</h4>
           <Row className="pt-3 justify-content-center text-center">START RENT: {currentRent.dataIn}</Row>
           <Row className="justify-content-center text-center">END RENT: {currentRent.dataOut} </Row>
-          <Row className="justify-content-center text-center">SHIPPING COST: {shippingCost}€  </Row>
+          <Row className="justify-content-center text-center">SHIPPING COST: {shippingCost} euro.  </Row>
 
-          <Row className="pt-3 justify-content-center text-center border-bottom pb-3"><b>TOTAL: €{shippingCost + countDays(currentRent.dataIn, currentRent.dataOut)}</b></Row>
+          <Row className="pt-3 justify-content-center text-center border-bottom pb-3"><b>TOTAL: {(shippingCost + countDays(currentRent.dataIn, currentRent.dataOut) + 9.99).toPrecision(4)} euro.</b></Row>
 
           <Container fluid>
 

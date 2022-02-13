@@ -331,9 +331,21 @@ function MyBigAdvertisement(props) {
                                         <b>RENT ENDED ON:</b> {newdataOut = new Date(dataOut).toISOString().split("T")[0].replaceAll("-", "/")}
                                     </Row>
 
+
                                     <Row className="justify-content-center  text-center pt-2 pb-2">
-                                        <b>OVERALL PRICE: </b> {(numDays * currentAd.price).toPrecision(4)}
+                                        <b>A 5% surcharge will be added to the total price as a deposit in case of problems which will be returned at the end of the rental.</b>
                                     </Row>
+
+                                    <Row className="justify-content-center  text-center pt-2 pb-2">
+                                        <b>SHIPPING COST: </b> 9.99 euro.
+                                    </Row>
+
+
+                                    <Row className="justify-content-center border-top text-center pt-3 pb-2">
+                                        <b>OVERALL PRICE: </b> {((numDays * currentAd.price)+ ((numDays * currentAd.price)*0.05) + 9.99).toPrecision(4)} euro.
+                                    </Row>
+
+
                                 </Container>
 
                             </Container>
