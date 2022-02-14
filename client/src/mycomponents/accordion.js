@@ -119,11 +119,16 @@ return(
   <Accordion.Item eventKey="6">
     <Accordion.Header onClick={stopAllVideos}>Shipments</Accordion.Header>
         <Accordion.Body>
-        Renters select their preferred shipping option at checkout and cover the corresponding shipping costs. 
-        There are three shipping methods available. Home delivery through UPS. Service point delivery.
-        Meet-up option. 
+        The cost of shipping is borne by the customer who rents the goods. The price is fixed for each type of shipment at 9.99 euros.
+        There are two shipping methods available. Home delivery through UPS. Service point delivery. 
         <br></br> <br></br>
         For any further problems see our <a href="https://www.youtube.com/watch?v=drJ5njTsj7c"> video tutorial</a>.
+        </Accordion.Body>
+ </Accordion.Item>
+ <Accordion.Item eventKey="7">
+    <Accordion.Header onClick={stopAllVideos}>Deposit for renting</Accordion.Header>
+        <Accordion.Body>
+        At the time of rental, a 5% surcharge will be added to the total price as a deposit in case of problems. This amount will be returned at the end of the rental if the goods are still in excellent condition but otherwise it will be retained to cover the damage.
         </Accordion.Body>
  </Accordion.Item>
 </Accordion>

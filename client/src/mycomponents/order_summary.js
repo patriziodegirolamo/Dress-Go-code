@@ -96,7 +96,7 @@ function OrderSummary(props) {
       return 1 + (new Date(dataOut).getTime() - new Date(dataIn).getTime()) / (1000 * 3600 * 24)
   }
 
-  const shippingCost = 3;
+  const shippingCost = 9.99;
 
 
   const handleReturnProcedure = () => {
@@ -155,9 +155,9 @@ function OrderSummary(props) {
           <h4 className="pt-3 justify-content-center text-center">Summary of your rent:</h4>
           <Row className="pt-3 justify-content-center text-center">START RENT: {currentRent.dataIn}</Row>
           <Row className="justify-content-center text-center">END RENT: {currentRent.dataOut} </Row>
-          <Row className="justify-content-center text-center">SHIPPING COST: {shippingCost}€  </Row>
+          <Row className="justify-content-center text-center">SHIPPING COST: {shippingCost} euro.  </Row>
 
-          <Row className="pt-3 justify-content-center text-center border-bottom pb-3"><b>TOTAL: €{shippingCost + countDays(currentRent.dataIn, currentRent.dataOut)}</b></Row>
+          <Row className="pt-3 justify-content-center text-center border-bottom pb-3"><b>TOTAL: {(shippingCost + countDays(currentRent.dataIn, currentRent.dataOut)).toPrecision(4)} euro.</b></Row>
 
           <Container fluid>
 
@@ -202,14 +202,15 @@ function OrderSummary(props) {
                     <div
                       {...props}
                       style={{
+                       
                         backgroundColor: 'rgb(189, 195, 199)',
-                        padding: '2px 10px',
+                        padding: '2px 10px 2px',
                         color: 'white',
                         borderRadius: 3,
                         ...props.style,
                       }}
                     >
-                      If you have some problems with the order you can contact the renter or the customer service
+                      If you have some problems with the order <br></br> you can contact the renter or the customer service <br></br>
                       to unlock the return procedure in advance!
                     </div>
                   )}

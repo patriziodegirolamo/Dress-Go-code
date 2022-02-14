@@ -41,6 +41,7 @@ function CSMessages(props) {
             props.dirty ? <Container id="containerSpinner">
                 <Spinner animation="border" variant="primary" />
             </Container> : <>
+            <Container>
                 <Container className="headerChat">
                     <Row >
                         <Col>
@@ -106,16 +107,16 @@ function CSMessages(props) {
 
 
                     <div className="chat-footer new-message-textarea">
-                        <Form id="formNewMessageCS" className="send-message-text" onChange={(event) => {
+                        <Form id="formNewMessageCS" onChange={(event) => {
                             setNewMessage(event.target.value)
                         }}>
                             <Row className="justify-content-xs-center">
-                                <Col xs={12}>
-                                    <Form.Control as="textarea" placeholder="type here..." />
+                                <Col xs={10}>
+                                    <Form.Control as="textarea" placeholder="Type here..." />
                                 </Col>
 
-                                <Col xs={0} >
-                                    <Button style={{ left: "300px" }} size="lg" type="submit" className="send-message-button" onClick={handleCreateMessage}>
+                                <Col xs={2} >
+                                    <Button size="lg" type="submit" className="send-message-button" onClick={handleCreateMessage}>
 
                                         <IoMdSend />
 
@@ -127,6 +128,7 @@ function CSMessages(props) {
                     </div>
 
                 </div>
+               </Container>
             </>}
     </>
 

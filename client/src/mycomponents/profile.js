@@ -64,7 +64,7 @@ function MyProfile(props) {
                     Payment methods
                 </Button>
 
-                <Button  className="my-5 btn btn-danger btn-md w-75" >
+                <Button  className="my-5 btn btn-secondary btn-md w-75" >
                     LOGOUT
                 </Button>
 
