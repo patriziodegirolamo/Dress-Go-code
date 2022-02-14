@@ -233,11 +233,23 @@ function MyBigAdvertisement(props) {
 
                     </Row>
 
+                    {numDays == 0 ?
+
+                        <Container className="text-center">
+
+                            <Row>  <h5 className='mt-5 '>
+                                Select the dates before proceed
+                            </h5> </Row>
+                        </Container>
+
+                        :
+                        <></>
+                    }
 
 
 
                     <Row className="justify-content-center">
-                        <Button onClick={() => setShowCalendar(true)} className="mt-5 btn btn-primary btn-md w-75" >
+                        <Button onClick={() => setShowCalendar(true)} className="mt-2 btn btn-primary btn-md w-75" >
                             Select dates
                         </Button>
 
@@ -342,7 +354,7 @@ function MyBigAdvertisement(props) {
 
 
                                     <Row className="justify-content-center border-top text-center pt-3 pb-2">
-                                        <b>OVERALL PRICE: </b> {((numDays * currentAd.price)+ ((numDays * currentAd.price)*0.05) + 9.99).toPrecision(4)} euro.
+                                        <b>OVERALL PRICE: </b> {((numDays * currentAd.price) + ((numDays * currentAd.price) * 0.05) + 9.99).toPrecision(4)} euro.
                                     </Row>
 
 

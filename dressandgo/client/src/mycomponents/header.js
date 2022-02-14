@@ -188,9 +188,10 @@ function MyHeader(props) {
         }
         <Container>
           <Navbar.Brand className='m-auto'>
-            <b id="title" style={{ color: "rgb(70, 133, 204)" }}>Dress&Go</b>
+            <a style={{textDecoration: "none"}} href="/previews"><b id="title" style={{ color: "rgb(70, 133, 204)" }}>Dress&Go</b>
             {props.currentState === "home" || props.currentState === "cat" || props.currentState === "bigCat" ?
               <sub id="pedice" style={{ color: "rgb(70, 133, 204)" }}><i>{props.page}</i></sub> : <></>}
+              </a>
           </Navbar.Brand>
 
         </Container>

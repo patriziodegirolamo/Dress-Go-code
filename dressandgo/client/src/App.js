@@ -727,7 +727,7 @@ function App() {
                         </Link>
 
 
-                        &nbsp;SUGGESTED:
+                        &nbsp;SUGGESTED BY YOUR SIZES:
 
 
                         <Container>

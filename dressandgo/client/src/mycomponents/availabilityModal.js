@@ -81,7 +81,7 @@ function MyAvailabilityModal(props) {
     });
 
     const [attention, setAttention] = useState("");
-
+    const [visualizedate, setVisualizedate] = useState(false);
 
     return <Modal show={props.show} onHide={() => props.setShow(false)}>
         <Modal.Header >
@@ -121,11 +121,11 @@ function MyAvailabilityModal(props) {
             <Container className="mt-3  justify-content-around">
                 <Row className="justify-content-around">
                     <Col style={{ textAlign: "center" }}>
-                        <b>Start date:</b> <br></br>{props.dataIn.toISOString().split("T")[0]}
+                        <b>Start date:</b> <br></br>{visualizedate ? props.dataIn.toISOString().split("T")[0] : ""}
                     </Col>
 
                     <Col style={{ textAlign: "center" }}>
-                        <b>End date:</b> <br></br>{props.dataOut ? props.dataOut.toISOString().split("T")[0] : ""}
+                        <b>End date:</b> <br></br>{visualizedate && props.dataOut ? props.dataOut.toISOString().split("T")[0] : ""}
                     </Col>
 
                 </Row>
@@ -161,15 +161,27 @@ function MyAvailabilityModal(props) {
             </Button>
 
             <Button type="submit" onClick={() => {
-                if (checkDate(excludedDates)) {
+                if ((checkDate(excludedDates)) && (props.dataOut!=undefined)) {
                     props.setShow(false)
                     setAttention("")
                     countDays()
+
+
                     props.setSubmitted(true)
 
                 }
                 else {
-                    setAttention("THERE ARE SOME UNAVAILABLE DATES");
+
+                    if(props.dataOut!=undefined)
+                    {
+                        setAttention("END DATE MISSING");
+                    }
+
+                    else
+                    {
+                        setAttention("THERE ARE SOME UNAVAILABLE DATES");
+                    }
+                   
                     props.setSubmitted(false)
 
                 }
