@@ -51,10 +51,10 @@ function ChatMessages(props) {
             </Container> : <>{image && currentAd &&
                 <Container>
 
-                    <Container className="headerChat border-top border-bottom" >
+                    <Container className="headerChat" >
                         <Row>
                             <Col xs={4}>
-                                <Image className="my-2"roundedCircle style={{ position: "relative", width: "70%" }} src={image.url}></Image>
+                                <Image className="my-2"roundedCircle style={{ position: "relative", width: "65%", objectFit: "contain" }} src={image.url}></Image>
                                 
                             </Col>
                             <Col>
@@ -76,7 +76,7 @@ function ChatMessages(props) {
                                     const hh2 = m.date.split("T")[1].split(":")[1]
                                     if (props.user.id_u == m.idSender) {
                                         return <div className="message my-message" key={idx}>
-                                            <img alt="" className="img-circle medium-image" src="https://bootdey.com/img/Content/avatar/avatar1.png" />
+                                            <img alt="" className="img-circle medium-image" src="/boss.png" />
 
                                             <div className="message-body">
                                                 <div className="message-body-inner">

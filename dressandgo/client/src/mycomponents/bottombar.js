@@ -52,9 +52,9 @@ export default function FixedBottomNavigation(props) {
   });
 
   return <>
-    <Box sx={{ pb: 7 }} style={{  zIndex:"1"}} >
+    <Box sx={{ pb: 7 }}  >
 
-      <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
+      <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3} style={{ zIndex:"4"}}>
         <BottomNavigation
           showLabels
           value={value}

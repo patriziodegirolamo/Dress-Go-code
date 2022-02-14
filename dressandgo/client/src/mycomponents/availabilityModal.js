@@ -75,13 +75,16 @@ function MyAvailabilityModal(props) {
     })
 
     let excludedDates = new Array()
+
     noAvailableDates.map(d => {
         const prova = getDates(d.dataIn, d.dataOut)
         excludedDates = excludedDates.concat(prova)
     });
 
+    console.log(excludedDates)
+
     const [attention, setAttention] = useState("");
-    const [visualizedate, setVisualizedate] = useState(false);
+
 
     return <Modal show={props.show} onHide={() => props.setShow(false)}>
         <Modal.Header >
@@ -121,11 +124,11 @@ function MyAvailabilityModal(props) {
             <Container className="mt-3  justify-content-around">
                 <Row className="justify-content-around">
                     <Col style={{ textAlign: "center" }}>
-                        <b>Start date:</b> <br></br>{visualizedate ? props.dataIn.toISOString().split("T")[0] : ""}
+                        {props.clearclick ? <><b>Start date:</b> <br></br> {props.dataIn.toISOString().split("T")[0]}</> : ""}
                     </Col>
 
                     <Col style={{ textAlign: "center" }}>
-                        <b>End date:</b> <br></br>{visualizedate && props.dataOut ? props.dataOut.toISOString().split("T")[0] : ""}
+                        {props.clearclick && props.dataOut ? <><b>End date:</b> <br></br> {props.dataOut.toISOString().split("T")[0]}</> : ""}
                     </Col>
 
                 </Row>
@@ -139,6 +142,7 @@ function MyAvailabilityModal(props) {
                     props.setDataIn(new Date())
                     props.setDataOut(new Date())
                     props.setNumDays(0)
+                    props.setClearclick(false)
                     props.setSubmitted(false)
 
                 }}>

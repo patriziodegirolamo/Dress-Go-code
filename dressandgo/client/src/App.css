@@ -66,7 +66,8 @@
 }
 
 #rotationimage {
-	transform: rotate(-34deg);
+	transform: rotate(-10deg);
+
   	/*to rotate an image you have to use the transform function in CSS and rotate
   	in degrees*/
 }
@@ -83,7 +84,7 @@
  
   border-radius: "2%";
   padding: "10px";
-  margin-bottom: "20px"; 
+  margin-bottom: "15px"; 
 }
 
 
@@ -198,10 +199,20 @@
 .chat-body {
   width: calc(100% + 17px);
   min-height: 290px;
-  height: calc(100vh - 320px);
+  height: calc(100vh - 335px);
   background-color: #fbfcff;
-  margin-bottom: 20px;
-  padding: 30px 5px 5px 5px;
+  margin-bottom: 0px;
+  padding: 0px 5px 0px 5px;
+  overflow-y: scroll;
+}
+
+.chat-bodycs {
+  width: calc(100% + 17px);
+  min-height: 290px;
+  height: calc(100vh - 272px);
+  background-color: #fbfcff;
+  margin-bottom: 0px;
+  padding: 0px 5px 0px 5px;
   overflow-y: scroll;
 }
 
