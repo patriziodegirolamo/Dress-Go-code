@@ -13,6 +13,16 @@ function OrderSummary(props) {
   const ads = props.ads.find(ad => ad.id_a === currentRent.id_a);
   const currentImages = props.adsImages.filter(adImg => adImg.id_a === currentRent.id_a);
 
+  const currentChat = props.conversations.find(c => c.id_a === currentRent.id_a && c.idRenter === id_r);
+
+  
+  let chatstring = "/MyChats";
+  if(currentChat)
+  { chatstring = "/MyChats" + currentChat.id_conv;
+  }
+  
+
+
 
   const [showNewMessage, setShowNewMessage] = useState(false);
   const [showReturnLabel, setShowReturnLabel] = useState(false);
@@ -206,9 +216,9 @@ function OrderSummary(props) {
                   </Modal.Footer>
                 </Modal>
               </Container>
-              <Link onClick={handleOpenOrCreateConversation} className="mt-2 btn btn-secondary btn-md w-75 justify-content-center" role="button" to="/CustomerServiceChat"  >
+              <Button onClick={handleOpenOrCreateConversation} className="mt-2 btn btn-secondary btn-md w-75 justify-content-center"  >
                 Contact the renter
-              </Link>
+              </Button>
 
               <Link onClick={onClickHandler} className="my-2 btn btn-secondary btn-md w-75 justify-content-center" role="button" to="/CustomerServiceChat"  >
                 Contact customer service

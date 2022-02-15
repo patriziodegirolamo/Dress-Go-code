@@ -80,7 +80,7 @@ return(
        When the product arrives at destination, you will obtain a refund.
        <br></br> <br></br>
         For any further problems see our <a href="https://www.youtube.com/watch?v=drJ5njTsj7c"> video tutorial</a>.
-       <a href="https://www.youtube.com/watch?v=drJ5njTsj7c"> Video Tutorial</a>
+  
           {/**<YoutubeEmbed  embedId="KWEHq5FAmCM" />
         </Container>
         </Accordion.Body>
