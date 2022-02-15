@@ -75,7 +75,7 @@ exports.listUsers = () => {
 //get all rents
 exports.listRents = (id_u) => {
   return new Promise((resolve, reject) => {
-    const sql = "SELECT * FROM RENT WHERE ID_BOOKER = ? OR ID_RENTER = ?";
+    const sql = "SELECT * FROM RENT WHERE ID_BOOKER = ? OR ID_RENTER = ? ORDER BY START_DATE DESC";
     db.all(sql, [id_u, id_u], (err, rows) => {
       if (rows === undefined || rows.length === 0) {
         const rents = { id_r: 'Empty' };
@@ -105,7 +105,7 @@ exports.listRents = (id_u) => {
 //get all conversations
 exports.listConversations = (id_u) => {
   return new Promise((resolve, reject) => {
-    const sql = "SELECT * FROM CONVERSATION CONV WHERE ID_BOOKER = ? OR ID_RENTER = ?";
+    const sql = "SELECT * FROM CONVERSATION CONV WHERE ID_BOOKER = ? OR ID_RENTER = ? ORDER BY ID_CONV DESC";
     db.all(sql, [id_u, id_u], (err, rows) => {
       if (rows === undefined || rows.length === 0) {
         const convs = { id_conv: 'Empty' };
