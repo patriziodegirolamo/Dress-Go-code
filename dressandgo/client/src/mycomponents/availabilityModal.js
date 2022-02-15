@@ -80,6 +80,7 @@ function MyAvailabilityModal(props) {
         excludedDates = excludedDates.concat(prova)
     });
 
+    
     const [attention, setAttention] = useState("");
     const [visualizedate, setVisualizedate] = useState(false);
 
