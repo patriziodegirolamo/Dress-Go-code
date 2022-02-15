@@ -658,7 +658,7 @@ function App() {
         {search ? <Container id="dressContainer">
           <h4 id="titlebar">RESULTS:</h4>
           <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(ad => {
-            return ad.gender === page && (ad.title.includes(search) || ad.description.includes(search))
+            return ad.gender === page && (ad.title.toLowerCase().includes(search.toLowerCase()) || ad.description.toLowerCase().includes(search.toLowerCase()))
           })}
             handleChangeForwardPage={handleChangeForwardPage}
             dirty={dirty}>

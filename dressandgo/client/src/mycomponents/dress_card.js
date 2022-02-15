@@ -75,6 +75,8 @@ function MyBigAdvertisement(props) {
     const initialMessage = "Hi , I'm contacting you, for the advertisement: ";
     const [newMessage, setNewMessage] = useState(initialMessage)
     const [submitted, setSubmitted] = useState(false)
+    const [clearclick, setClearclick] = useState(false)
+   
 
     let newdataIn;
     let newdataOut;
@@ -83,6 +85,8 @@ function MyBigAdvertisement(props) {
         const [start, end] = dates;
         setDataIn(start);
         setDataOut(end);
+        setClearclick(true);
+     
     };
 
     const onCloseNewMessageModal = () => {
@@ -171,7 +175,10 @@ function MyBigAdvertisement(props) {
         {props.dirty ? <Container id="containerSpinner">
             <Spinner animation="border" variant="primary" />
         </Container>
-            : <Card key={idAd}>
+            : <Card key={idAd} style={{
+                maxWidth: "100%",
+                overflowX: "hidden"
+        }}>
                 <Card.Title>
                     <Row className="pt-3">
                         <h3 id="titlecard" style={{ textAlign: "center" }}><b>{currentAd.title}</b></h3>
@@ -349,12 +356,12 @@ function MyBigAdvertisement(props) {
                                     </Row>
 
                                     <Row className="justify-content-center  text-center pt-2 pb-2">
-                                        <b>SHIPPING COST: </b> 9.99 euro.
+                                        <b>SHIPPING COST: </b> 9.99 €.
                                     </Row>
 
 
                                     <Row className="justify-content-center border-top text-center pt-3 pb-2">
-                                        <b>OVERALL PRICE: </b> {((numDays * currentAd.price) + ((numDays * currentAd.price) * 0.05) + 9.99).toPrecision(4)} euro.
+                                        <b>OVERALL PRICE: </b> {((numDays * currentAd.price) + ((numDays * currentAd.price) * 0.05) + 9.99).toPrecision(4)} €.
                                     </Row>
 
 
@@ -383,7 +390,7 @@ function MyBigAdvertisement(props) {
 
                     {
                         props.rents ?
-                            <MyAvailabilityModal show={showCalendar} setShow={setShowCalendar}
+                            <MyAvailabilityModal show={showCalendar} setShow={setShowCalendar} setClearclick={setClearclick} clearclick={clearclick}
                                 dataIn={dataIn} setDataIn={setDataIn} setNumDays={setNumDays}
                                 onChange={onChange} dataOut={dataOut} setDataOut={setDataOut}
                                 rents={props.rents} currentAd={currentAd} setSubmitted={setSubmitted}>
