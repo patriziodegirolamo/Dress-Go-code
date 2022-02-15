@@ -86,7 +86,6 @@ function MyBigAdvertisement(props) {
         setDataIn(start);
         setDataOut(end);
         setClearclick(true);
-        console.log(clearclick)
      
     };
 
