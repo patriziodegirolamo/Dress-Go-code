@@ -91,7 +91,7 @@ function OrderSummary(props) {
 
   const countDays = (dataIn, dataOut) => {
     if (dataOut === dataIn)
-      return dataIn;
+      return 1;
     else
       return 1 + (new Date(dataOut).getTime() - new Date(dataIn).getTime()) / (1000 * 3600 * 24)
   }
