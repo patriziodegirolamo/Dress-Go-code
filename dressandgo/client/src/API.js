@@ -390,7 +390,6 @@ async function modifyStatus(newStatus) {
 
 /* TO UNLOCK THE RETURN PROCEDURE OF A RENT  */
 async function unlockReturn(newLock) {
-  console.log(newLock)
   return new Promise((resolve, reject) => {
     fetch('/api/unlockReturn', {
       method: 'PATCH',
@@ -439,7 +438,7 @@ async function insertKnownSize(ksize) {
   
 /* TO INSERT A NEW CONVERSATION */
 async function insertConversation(conv, mess) {
-  console.log(conv, mess)
+
   return new Promise((resolve, reject) => {
     fetch('/api/newconversation', {
       method: 'POST',

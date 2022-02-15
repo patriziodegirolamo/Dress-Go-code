@@ -223,12 +223,23 @@ function MyBigAdvertisement(props) {
                 </Row>
 
                 <Container>
-                    <Row className="justify-content-center">
-                        <Button onClick={() => setShowSizeGuide(true)} className="my-2 btn btn-secondary btn-md w-75" >
-                            How to measure your size
-                        </Button>
+                   
+                   { (currentAd.id_cat === 7 || currentAd.id_cat === 11 | currentAd.id_cat === 12 || currentAd.id_cat === 16 || currentAd.id_cat === 10 || currentAd.id_cat === 6) ? <></>:
 
-                    </Row>
+
+<Row className="justify-content-center">
+<Button onClick={() => setShowSizeGuide(true)} className="my-2 btn btn-secondary btn-md w-75" >
+    How to measure your size
+</Button>
+
+</Row>
+
+
+ 
+
+                   }
+                   
+                   
 
 
 
@@ -404,22 +415,26 @@ function MyBigAdvertisement(props) {
                     <Modal show={showNewMessage} onClose={onCloseNewMessageModal}
                         onHide={onCloseNewMessageModal}>
                         <Modal.Header>
-                            <Container>
-                                <h3>Contact the user</h3>
-                            </Container>
-                            <Button onClick={onCloseNewMessageModal}>X</Button>
+                        <Modal.Title>Contact the renter</Modal.Title>
+                           
+                                                  
                         </Modal.Header>
 
 
                         <Form onChange={(event) => setNewMessage(event.target.value)}>
-                            <Form.Control as="textarea" defaultValue={newMessage + currentAd.title + ", "} rows={15} />
+                            <Form.Control as="textarea" defaultValue={newMessage + currentAd.title + ", .... "} rows={15} />
                         </Form>
 
                         <Modal.Footer>
-                            <Container>
-                                {/**TODO: invia messaggio tramite API */}
-                                <Button type="submit" onClick={handleCreateNewConversation}>Send</Button>
-                            </Container>
+
+                        <Button variant="secondary" onClick={onCloseNewMessageModal}>
+                    Close
+                </Button>
+                <Button variant="primary" onClick={handleCreateNewConversation}>
+                    Send message
+                </Button>
+
+
                         </Modal.Footer>
                     </Modal>
                 </Container>

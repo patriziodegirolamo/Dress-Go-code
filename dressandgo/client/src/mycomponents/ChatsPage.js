@@ -14,7 +14,6 @@ function ChatsPage(props) {
         props.setHistoryStack(() => ([...props.historyStack, "chat"]))
     }
 
-    console.log(props.dirty, props.contactCS)
     return <>
 
         {
@@ -101,8 +100,6 @@ function SmallChat(props) {
 function ChatCustomerService(props) {
     const conv = props.conversationsCS.find(c => c.id_u == props.currentUser.id_u)
     const messages = props.messagesCS.filter(m => m.id_conv == conv.id_conv)
-
-    console.log(props.conversationsCS, props.currentUser)
 
     return <>
     {conv ? 
