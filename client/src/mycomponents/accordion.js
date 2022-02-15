@@ -119,8 +119,8 @@ return(
   <Accordion.Item eventKey="6">
     <Accordion.Header onClick={stopAllVideos}>Shipments</Accordion.Header>
         <Accordion.Body>
-        The cost of shipping is borne by the customer who rents the goods. The price is fixed for each type of shipment at 9.99 euros.
-        There are two shipping methods available. Home delivery through UPS. Service point delivery. 
+        The cost of shipping is borne by the customer who rents the goods. The price is fixed for each type of shipment at 9.99 €.
+        There are two shipping methods available. Home delivery through UPS and Service point delivery. 
         <br></br> <br></br>
         For any further problems see our <a href="https://www.youtube.com/watch?v=drJ5njTsj7c"> video tutorial</a>.
         </Accordion.Body>

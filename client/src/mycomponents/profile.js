@@ -36,7 +36,7 @@ function MyProfile(props) {
                         width={141}
                         height={150}
                         alt="171x180"
-                        src="https://i.imgur.com/wvxPV9S.png"
+                        src="/boss.png"
                     />
                     <Figure.Caption>
                         {props.user.name} {props.user.surname}
