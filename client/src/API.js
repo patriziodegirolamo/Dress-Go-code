@@ -1,4 +1,4 @@
-const url = 'https://dressandgo.herokuapp.com';
+const url = 'http://localhost:3000';
 
 /** STUDYGROUPS APIs **/
 
