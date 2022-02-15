@@ -51,8 +51,6 @@ function MyHeader(props) {
         prev = props.historyStack.pop()
         curr = props.historyStack[props.historyStack.length - 1]
 
-        console.log("from", prev, "to", curr)
-
         if (curr === "cat") {
           props.setCurrentState(curr);
           localStorage.setItem("historyStack", JSON.stringify(props.historyStack))
@@ -81,7 +79,6 @@ function MyHeader(props) {
         prev = props.historyStack.pop()
         curr = props.historyStack[props.historyStack.length - 1]
 
-        console.log("from", prev, "to", curr)
         if (props.historyStack.length === 0) {
           if (prev === "chat") {
             props.setCurrentState("chats");
@@ -123,8 +120,6 @@ function MyHeader(props) {
         prev = props.historyStack.pop()
         curr = props.historyStack[props.historyStack.length - 1]
 
-        console.log("from", prev, "to", curr)
-
         if (prev === "rent") {
           props.setCurrentState("rents");
           localStorage.setItem("currentState", "rents");
@@ -149,7 +144,6 @@ function MyHeader(props) {
       case "editProfile":
         prev = props.historyStack.pop();
 
-        console.log("from", prev, "to", curr)
         props.setCurrentState("account");
         localStorage.setItem("historyStack", "[]")
         localStorage.setItem("currentState", "account");
@@ -159,7 +153,6 @@ function MyHeader(props) {
 
       case "ks":
         prev = props.historyStack.pop();
-        console.log("from", prev, "to", curr)
         props.setCurrentState("account");
         localStorage.setItem("historyStack", "[]")
         localStorage.setItem("currentState", "account");

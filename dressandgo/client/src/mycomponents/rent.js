@@ -1,10 +1,9 @@
 import { Card, Col, Image, Container, Row } from "react-bootstrap";
-import { NavLink as Link, useParams } from "react-router-dom";
+import { NavLink as Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function Rent(props) {
 
-  const params = useParams();
   const adss = props.ads.find(ad => ad.id_a === props.myrent.id_a);
   let image = null;
   if (adss) {

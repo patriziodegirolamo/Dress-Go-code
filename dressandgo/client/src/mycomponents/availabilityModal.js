@@ -81,8 +81,6 @@ function MyAvailabilityModal(props) {
         excludedDates = excludedDates.concat(prova)
     });
 
-    console.log(excludedDates)
-
     const [attention, setAttention] = useState("");
 
 

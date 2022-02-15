@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Container, Row } from 'react-bootstrap';
 import Accordion from 'react-bootstrap/Accordion';
-import YoutubeEmbed from "./youtubeEmbed";
+
 
 
 const stopAllVideos = () => {

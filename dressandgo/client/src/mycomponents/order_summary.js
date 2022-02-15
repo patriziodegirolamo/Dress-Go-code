@@ -35,6 +35,8 @@ function OrderSummary(props) {
       const cr = props.rents.find(r => r.id_r === id_r);
       if (c.id_a === cr.id_a && c.idRenter === cr.idRenter && c.idBooker === cr.idBooker)
         return c;
+      else
+        return "";
     })
     if (conv) {
       localStorage.setItem("historyStack", JSON.stringify([...props.historyStack, "chat"]))
@@ -163,13 +165,6 @@ function OrderSummary(props) {
 
 
           }
-{
-console.log(shippingCost, currentRent.dataIn, currentRent.dataOut, ads.price, countDays(currentRent.dataIn, currentRent.dataOut))
-
-
-
-
-}
 
           <Row className="pt-3 justify-content-center text-center border-bottom pb-3"><b>TOTAL: {
 
