@@ -2,6 +2,9 @@ import './App.css';
 import { Row, Container, Button, Col, Spinner, Overlay } from "react-bootstrap";
 import { useState, useEffect, useRef } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate, useNavigate, NavLink as Link } from 'react-router-dom';
+
+
+
 import FixedBottomNavigation from './mycomponents/bottombar.js'
 import MyCategoryList from './mycomponents/category_list';
 import MyHeader from './mycomponents/header.js';

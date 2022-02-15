@@ -161,15 +161,22 @@ function OrderSummary(props) {
 
             <Row className="justify-content-center text-center"> <i> The overall price includes the 5% deposit. </i> </Row>
 
-          }
 
+          }
+{
+console.log(shippingCost, currentRent.dataIn, currentRent.dataOut, ads.price, countDays(currentRent.dataIn, currentRent.dataOut))
+
+
+
+
+}
 
           <Row className="pt-3 justify-content-center text-center border-bottom pb-3"><b>TOTAL: {
 
             (currentRent.status === "CLOSED") ? ((shippingCost + countDays(currentRent.dataIn, currentRent.dataOut) * ads.price).toPrecision(4))
 
               :
-              ((shippingCost + countDays(currentRent.dataIn, currentRent.dataOut) * ads.price + (countDays(currentRent.dataIn, currentRent.dataOut) * ads.price * 0.05)).toPrecision(4))
+              (((shippingCost + countDays(currentRent.dataIn, currentRent.dataOut) * ads.price) + (countDays(currentRent.dataIn, currentRent.dataOut) * ads.price * 0.05)).toPrecision(4))
 
           }
             €.</b></Row>
