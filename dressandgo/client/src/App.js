@@ -584,6 +584,8 @@ function App() {
       search={search} setSearch={setSearch}
       historyStack={historyStack}
       setHistoryStack={setHistoryStack}
+      ads={ads} setAds={setAds}
+      categories={categories}
     />
 
     <Routes >
@@ -654,7 +656,7 @@ function App() {
 
       <Route path='/previews' element={<>
         {search ? <Container id="dressContainer">
-          <h4 id="titlebar">RESULTS:</h4>
+          <h4 id="titlebar">RESULTS IN {page.toUpperCase()} CATEGORY:</h4>
           <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(ad => {
             return ad.gender === page && (ad.title.toLowerCase().includes(search.toLowerCase()))
           })}
@@ -687,7 +689,7 @@ function App() {
 
       <Route path="/dresses/:categorie" element={<>
         {search ? <Container id="dressContainer">
-          <h4>RESULTS:</h4>
+          <h4>RESULTS IN {currentCat.toUpperCase()}:</h4>
           <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(ad => (
             categories.find((el) => el.id_cat === ad.id_cat).name === currentCat)
             && ad.title.toLowerCase().includes(search.toLowerCase()))}

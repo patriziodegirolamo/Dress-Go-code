@@ -1,4 +1,4 @@
-import { Container, Navbar, Form, Row, Col, Button, Dropdown, DropdownButton } from "react-bootstrap";
+import { Container, Navbar, Form, Row, Col, Button, InputGroup, Dropdown, DropdownButton } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -7,7 +7,28 @@ import "../css/header.css";
 import { IoArrowBackCircleOutline } from 'react-icons/io5'
 import { FcBusinessman, FcBusinesswoman } from 'react-icons/fc'
 
+function SortDropdown(props) {
+  const handleDescendentPrice = () => {
+    props.setAds([].concat(props.ads).sort((a, b) => b.price - a.price));
+  }
 
+  const handleAscendentPrice = () => {
+    props.setAds([].concat(props.ads).sort((a, b) => a.price - b.price));
+  }
+
+  return (
+    <InputGroup className="mb-3">
+      <DropdownButton
+        variant="outline-secondary"
+        title="Sort by"
+        id="sort"
+      >
+        <Dropdown.Item onClick={handleDescendentPrice}>descendent price</Dropdown.Item>
+        <Dropdown.Item onClick={handleAscendentPrice}>ascendent price</Dropdown.Item>
+      </DropdownButton>
+    </InputGroup>
+  )
+}
 
 
 function MyHeader(props) {
@@ -15,7 +36,7 @@ function MyHeader(props) {
   const initialStates = ["home", "faq", "chats", "rents", "account"]
 
   const handleSearchBar = () => {
-    
+
   }
 
   const handleChangeBackardPage = () => {
@@ -181,10 +202,10 @@ function MyHeader(props) {
         }
         <Container>
           <Navbar.Brand className='m-auto'>
-            <a style={{textDecoration: "none"}} href="/previews"><b id="title" style={{ color: "rgb(70, 133, 204)" }}>Dress&Go</b>
-            {props.currentState === "home" || props.currentState === "cat" || props.currentState === "bigCat" ?
-              <sub id="pedice" style={{ color: "rgb(70, 133, 204)" }}><i>{props.page}</i></sub> : <></>}
-              </a>
+            <a style={{ textDecoration: "none" }} href="/previews"><b id="title" style={{ color: "rgb(70, 133, 204)" }}>Dress&Go</b>
+              {props.currentState === "home" || props.currentState === "cat" || props.currentState === "bigCat" ?
+                <sub id="pedice" style={{ color: "rgb(70, 133, 204)" }}><i>{props.page}</i></sub> : <></>}
+            </a>
           </Navbar.Brand>
 
         </Container>
@@ -194,12 +215,14 @@ function MyHeader(props) {
       {props.currentState === "home" || props.currentState === "cat" ?
         <Container>
           <Row>
-            <Col xs={props.currentState ==="home" ? 7 : 12}>
-              <Form id="formFilterDress">
+            <Col xs={props.currentState === "home" ? 7 : 7}>
+              <Form id="formFilterDress" onSubmit={e => { e.preventDefault(); }} >
                 <Form.Control style={{ height: 54 }} value={props.search} placeholder="Search a product..." onChange={(event) => {
                   event.preventDefault();
                   props.setSearch(event.target.value);
-                }} />
+                }}
+                />
+
               </Form>
             </Col>
 
@@ -243,21 +266,11 @@ function MyHeader(props) {
                   </Col>
               }
             </> : <>
-            {/**
-              <Col xs={2}>
-                <Button style={{ backgroundColor: "white" }} size="lg" variant="light">
-                  F
-                </Button>
-              </Col>
-              <Col xs={2}>
-                <DropdownButton id="dropdown-basic-button" title="O">
-                  <Dropdown.Item >by color</Dropdown.Item>
-                  <Dropdown.Item >by size</Dropdown.Item>
-                  <Dropdown.Item >Something else</Dropdown.Item>
-                </DropdownButton>
-            
-              </Col>
-               */}
+              {
+                <Col xs={2}>
+                  <SortDropdown ads={props.ads} setAds={props.setAds} />
+                </Col>
+              }
             </>}
 
           </Row>

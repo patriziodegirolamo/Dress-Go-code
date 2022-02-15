@@ -84,8 +84,13 @@ function Rent(props) {
               </Col>
               <Col>
                 <h4 className="mt-2" style={{ textAlign: "center" }}>{adss.title}</h4>
-                {adss.description}
-
+                {
+                  adss.description.length <= 80 ? 
+                    <p>{adss.description}</p>
+                    :
+                     <p>{adss.description.substring(0, 80)}...</p>
+                }
+              
               </Col>
             </Row>
 
