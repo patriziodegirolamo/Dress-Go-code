@@ -13,6 +13,16 @@ function OrderSummary(props) {
   const ads = props.ads.find(ad => ad.id_a === currentRent.id_a);
   const currentImages = props.adsImages.filter(adImg => adImg.id_a === currentRent.id_a);
 
+  const currentChat = props.conversations.find(c => c.id_a === currentRent.id_a && c.idRenter === id_r);
+
+  
+  let chatstring = "/MyChats";
+  if(currentChat)
+  { chatstring = "/MyChats" + currentChat.id_conv;
+  }
+  
+
+
 
   const [showNewMessage, setShowNewMessage] = useState(false);
   const [showReturnLabel, setShowReturnLabel] = useState(false);
@@ -35,6 +45,8 @@ function OrderSummary(props) {
       const cr = props.rents.find(r => r.id_r === id_r);
       if (c.id_a === cr.id_a && c.idRenter === cr.idRenter && c.idBooker === cr.idBooker)
         return c;
+      else
+        return "";
     })
     if (conv) {
       localStorage.setItem("historyStack", JSON.stringify([...props.historyStack, "chat"]))
@@ -163,13 +175,6 @@ function OrderSummary(props) {
 
 
           }
-{
-console.log(shippingCost, currentRent.dataIn, currentRent.dataOut, ads.price, countDays(currentRent.dataIn, currentRent.dataOut))
-
-
-
-
-}
 
           <Row className="pt-3 justify-content-center text-center border-bottom pb-3"><b>TOTAL: {
 
@@ -211,9 +216,9 @@ console.log(shippingCost, currentRent.dataIn, currentRent.dataOut, ads.price, co
                   </Modal.Footer>
                 </Modal>
               </Container>
-              <Link onClick={handleOpenOrCreateConversation} className="mt-2 btn btn-secondary btn-md w-75 justify-content-center" role="button" to="/CustomerServiceChat"  >
+              <Button onClick={handleOpenOrCreateConversation} className="mt-2 btn btn-secondary btn-md w-75 justify-content-center"  >
                 Contact the renter
-              </Link>
+              </Button>
 
               <Link onClick={onClickHandler} className="my-2 btn btn-secondary btn-md w-75 justify-content-center" role="button" to="/CustomerServiceChat"  >
                 Contact customer service

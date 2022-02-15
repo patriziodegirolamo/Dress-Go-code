@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Container, Row } from 'react-bootstrap';
 import Accordion from 'react-bootstrap/Accordion';
-import YoutubeEmbed from "./youtubeEmbed";
+
 
 
 const stopAllVideos = () => {
@@ -70,17 +70,21 @@ return(
        After choosing the order that you want to return you have two possibilities:
        </p>
        <p>
-        - you can contact the renter pressing the button "Contact the renter", show your problem and make a deal with him. In this case he will unlock the "Return Procedure" in advance;
+        - you can contact the renter pressing the button "Contact the renter", show your problem and make a deal with him. 
+          In this case he will unlock the "Return Procedure" in advance and you can make a deal with him for shipment costs;
         </p>
         <p>
         - you can contact the Customer Service pressing the button "Contact customer service", show your problem and if the operator recognizes the same problem (you have to give photos or
-          an accurate description of the problems) you have the "Return Procedure" unlocked in advance.
+          an accurate description of the problems) you have the "Return Procedure" unlocked in advance. If the customer service deems that the return is due to an error by the renter, the shipping costs 
+          will be credited to his account. Otherwise they will be at your expense. 
           </p>
+          <p>
        By pressing the "Return Procedure" button, unlocked by the renter or by the customer service, you can finally print the return label to attach to the product you want to return back.
        When the product arrives at destination, you will obtain a refund.
+       </p>
        <br></br> <br></br>
         For any further problems see our <a href="https://www.youtube.com/watch?v=drJ5njTsj7c"> video tutorial</a>.
-       <a href="https://www.youtube.com/watch?v=drJ5njTsj7c"> Video Tutorial</a>
+  
           {/**<YoutubeEmbed  embedId="KWEHq5FAmCM" />
         </Container>
         </Accordion.Body>
@@ -101,9 +105,12 @@ return(
   <Accordion.Item eventKey="4">
     <Accordion.Header onClick={stopAllVideos}>Our terms</Accordion.Header>
         <Accordion.Body>
+          <p>
         The platform Dress&Go is managed and hosted by Dress&Go INC.a company registered in Torino, with a business location at Politecnico di Torino. 
         These Terms and Conditions (“Terms”) are a legally binding agreement between you and Dress&Go regarding your access and use of the App. 
-        BY ACCESSING OR USING THE App, YOU CONFIRM THAT YOU ACCEPT THESE TERMS AND THAT YOU AGREE TO COMPLY WITH THEM AND BE LEGALLY BOUND BY THEM.
+        </p>
+        
+        BY ACCESSING OR USING THE APP, YOU CONFIRM THAT YOU ACCEPT THESE TERMS AND THAT YOU AGREE TO COMPLY WITH THEM AND BE LEGALLY BOUND BY THEM.
         
         </Accordion.Body>
     </Accordion.Item>

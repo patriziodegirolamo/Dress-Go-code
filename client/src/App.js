@@ -91,7 +91,6 @@ function App() {
 
   const [historyStack, setHistoryStack] = useState(() => {
     const hs = localStorage.getItem("historyStack");
-    console.log(hs);
     if (hs !== "[]")
       return JSON.parse(hs);
     else return [];
@@ -207,7 +206,6 @@ function App() {
     sessionStorage.setItem("reloaded", "1");
   }
   window.onpopstate = function (event) {
-    console.log("back")
     setBackButtonPressed(true)
   }
 
@@ -541,7 +539,6 @@ function App() {
 
     /* TO UNLOCK A RETURN OF A RENT  */
     const unlockReturnProcedure = (newLock) => {
-      console.log(newLock);
       unlockReturn({id_r: newLock.id_r}).then((err) => { });
       // to avoid another call to the db 
         setRents(oldList => {
@@ -587,6 +584,8 @@ function App() {
       search={search} setSearch={setSearch}
       historyStack={historyStack}
       setHistoryStack={setHistoryStack}
+      ads={ads} setAds={setAds}
+      categories={categories}
     />
 
     <Routes >
@@ -657,9 +656,9 @@ function App() {
 
       <Route path='/previews' element={<>
         {search ? <Container id="dressContainer">
-          <h4 id="titlebar">RESULTS:</h4>
+          <h4 id="titlebar">RESULTS IN {page.toUpperCase()} CATEGORY:</h4>
           <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(ad => {
-            return ad.gender === page && (ad.title.toLowerCase().includes(search.toLowerCase()) || ad.description.toLowerCase().includes(search.toLowerCase()))
+            return ad.gender === page && (ad.title.toLowerCase().includes(search.toLowerCase()))
           })}
             handleChangeForwardPage={handleChangeForwardPage}
             dirty={dirty}>
@@ -690,10 +689,10 @@ function App() {
 
       <Route path="/dresses/:categorie" element={<>
         {search ? <Container id="dressContainer">
-          <h4>RESULTS:</h4>
+          <h4>RESULTS IN {currentCat.toUpperCase()}:</h4>
           <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(ad => (
             categories.find((el) => el.id_cat === ad.id_cat).name === currentCat)
-            && (ad.title.includes(search) || ad.description.includes(search)))}
+            && ad.title.toLowerCase().includes(search.toLowerCase()))}
             handleChangeForwardPage={handleChangeForwardPage}
             dirty={dirty}>
           </MyDressList>

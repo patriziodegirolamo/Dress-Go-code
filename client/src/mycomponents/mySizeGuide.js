@@ -1,6 +1,5 @@
-import { useNavigate } from "react-router-dom";
-import { useState } from 'react';
-import { Col, Row, Container, Button, ButtonGroup, Accordion, Table, Figure } from "react-bootstrap";
+
+import {Container, Accordion, Table, Figure } from "react-bootstrap";
 
 
 function SizeGuide(props) {
