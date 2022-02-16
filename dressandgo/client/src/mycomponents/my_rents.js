@@ -5,29 +5,32 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 function FilterRentsDropdown(props) {
     const handleArriving = () => {
-       const arrivingRents = props.rents.filter(rent => rent.status === "ARRIVING");
-       props.setFilterRents([]);
+        props.setFilterActive("ARRIVING");
+        const arrivingRents = props.rents.filter(rent => rent.status === "ARRIVING");
+        props.setFilterRents([]);
 
-       arrivingRents.forEach((rent) => {
-           props.setFilterRents(oldList => {
-               return oldList.concat(rent);
-           })
-       })
+        arrivingRents.forEach((rent) => {
+            props.setFilterRents(oldList => {
+                return oldList.concat(rent);
+            })
+        })
     }
 
     const handleArrived = () => {
+        props.setFilterActive("ARRIVED");
         const arrivedRents = props.rents.filter(rent => rent.status === "ARRIVED");
         props.setFilterRents([]);
 
-       arrivedRents.forEach((rent) => {
-           props.setFilterRents(oldList => {
-               return oldList.concat(rent);
-           })
-       })
-        
+        arrivedRents.forEach((rent) => {
+            props.setFilterRents(oldList => {
+                return oldList.concat(rent);
+            })
+        })
+
     }
 
     const handleReturning = () => {
+        props.setFilterActive("RETURNING");
         const returningRents = props.rents.filter(rent => rent.status === "RETURNING");
         props.setFilterRents([]);
 
@@ -36,10 +39,11 @@ function FilterRentsDropdown(props) {
                 return oldList.concat(rent);
             })
         })
-         
+
     }
 
     const handleReturned = () => {
+        props.setFilterActive("RETURNED");
         const returnedRents = props.rents.filter(rent => rent.status === "RETURNED");
         props.setFilterRents([]);
 
@@ -48,10 +52,11 @@ function FilterRentsDropdown(props) {
                 return oldList.concat(rent);
             })
         })
-         
+
     }
 
     const handleClosed = () => {
+        props.setFilterActive("CLOSED");
         const closedRents = props.rents.filter(rent => rent.status === "CLOSED");
         props.setFilterRents([]);
 
@@ -60,10 +65,11 @@ function FilterRentsDropdown(props) {
                 return oldList.concat(rent);
             })
         })
-         
+
     }
 
     const handleRemove = () => {
+        props.setFilterActive();
         props.setFilterRents([]);
     }
 
@@ -90,6 +96,7 @@ function FilterRentsDropdown(props) {
 
 function MyRents(props) {
     const [filterRents, setFilterRents] = useState([]);
+    const [filterActive, setFilterActive] = useState();
 
     console.log(filterRents)
     console.log(props.rents)
@@ -105,41 +112,54 @@ function MyRents(props) {
                     <Container>
                         <Row className="pt-2">
                             <Col>
-                            <h3 className="mt-1" style={{ textAlign: "center" }}>MY RENTS</h3>
+                                <h3 className="mt-1" style={{ textAlign: "center" }}>MY RENTS</h3>
                             </Col>
                             <Col>
-                            <FilterRentsDropdown filterRents={filterRents} setFilterRents={setFilterRents} rents = {props.rents}/>
+                                <FilterRentsDropdown filterRents={filterRents} setFilterRents={setFilterRents} rents={props.rents} setFilterActive={setFilterActive} />
                             </Col>
                         </Row>
+                        {
+                            filterActive !== undefined ? 
+                                <Row>
+                                    <p className = "text-sm-right">Filtering by: {filterActive}</p>
+                                </Row> : <></>
+                        }
                     </Container>
                     {
-                        filterRents === undefined || filterRents.length === 0 ?
+                        filterActive !== undefined ?
+                            filterRents === undefined || filterRents.length === 0 ?
+                                <Container>
+                                    <h6>You doesn't have any order with this status. </h6>
+                                </Container>
+                                :
+                                (
+                                filterRents.map((x, idx) => {
+                                    return <Row key={idx}>
+                                        <Rent myrent={x} adsImages={props.adsImages} ads={props.ads}
+                                            conversations={props.conversations}
+                                            setCurrentState={props.setCurrentState}
+                                            setHistoryStack={props.setHistoryStack} historyStack={props.historyStack}></Rent>
+                                    </Row>
+                                
+                                }))
+
+                                    :
 
                             props.rents.map((x, idx) => {
                                 return <Row key={idx}>
-                                    <Rent myrent={x} adsImages={props.adsImages} ads={props.ads}
-                                        conversations={props.conversations}
-                                        setCurrentState={props.setCurrentState}
-                                        setHistoryStack={props.setHistoryStack} historyStack={props.historyStack}></Rent>
-                                </Row>
+                                        <Rent myrent={x} adsImages={props.adsImages} ads={props.ads}
+                                            conversations={props.conversations}
+                                            setCurrentState={props.setCurrentState}
+                                            setHistoryStack={props.setHistoryStack} historyStack={props.historyStack}></Rent>
+                                    </Row>
                             })
-
-                            :
-
-                            filterRents.map((x, idx) => {
-                                return <Row key={idx}>
-                                    <Rent myrent={x} adsImages={props.adsImages} ads={props.ads}
-                                        conversations={props.conversations}
-                                        setCurrentState={props.setCurrentState}
-                                        setHistoryStack={props.setHistoryStack} historyStack={props.historyStack}></Rent>
-                                </Row>
-                            })
+   
                     }
 
-                </>}
+                                </>}
 
-        </Container>
+                </Container>
 
     </>
 }
-export default MyRents;
+        export default MyRents;

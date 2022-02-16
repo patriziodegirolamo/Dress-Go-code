@@ -11,7 +11,7 @@ import { FcBusinessman, FcBusinesswoman } from 'react-icons/fc'
 function FilterDropdown(props) {
   const handlePriceUnder50 = () => {
     const ads = props.ads.filter(ads => ads.price <= 50.0);
-    props.setFilter(true);
+    props.setFilter("price 0-50€");
     props.setFilterAds([]);
 
     ads.forEach((ad) => {
@@ -23,7 +23,7 @@ function FilterDropdown(props) {
 
   const handlePriceOver50 = () => {
     const ads = props.ads.filter(ads => ads.price >= 50.0 && ads.price <= 100.0);
-    props.setFilter(true);
+    props.setFilter("price 50-100€");
     props.setFilterAds([]);
 
     ads.forEach((ad) => {
@@ -35,7 +35,7 @@ function FilterDropdown(props) {
 
   const handlePriceOver100 = () => {
     const ads = props.ads.filter(ads => ads.price >= 100.0);
-    props.setFilter(true);
+    props.setFilter("price over 100€");
     props.setFilterAds([]);
 
     ads.forEach((ad) => {
@@ -66,7 +66,6 @@ function FilterDropdown(props) {
     </InputGroup>
   )
 }
-
 
 
 
@@ -276,7 +275,7 @@ function MyHeader(props) {
       {props.currentState === "home" || props.currentState === "cat" ?
         <Container>
           <Row>
-            <Col xs={props.currentState === "home" ? 7 : 8}>
+            <Col xs={props.currentState === "home" ? 6 : 6}>
               <Form id="formFilterDress" onSubmit={e => { e.preventDefault(); }} >
                 <Form.Control style={{ height: 54 }} value={props.search} placeholder="Search a product..." onChange={(event) => {
                   event.preventDefault();
