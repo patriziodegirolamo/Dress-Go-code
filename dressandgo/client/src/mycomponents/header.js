@@ -47,7 +47,7 @@ function FilterDropdown(props) {
   }
 
   const handleRemove = () => {
-    props.setFilter(undefined);
+    props.setFilter("nofilter");
     props.setFilterAds([]);
   }
 
@@ -71,11 +71,17 @@ function FilterDropdown(props) {
 
 function SortDropdown(props) {
   const handleDescendentPrice = () => {
-    props.setAds([].concat(props.ads).sort((a, b) => b.price - a.price));
+    props.filter === "nofilter" ?
+      props.setAds([].concat(props.ads).sort((a, b) => b.price - a.price))
+      :
+      props.setFilterAds([].concat(props.filterAds).sort((a, b) => b.price - a.price))
   }
 
   const handleAscendentPrice = () => {
-    props.setAds([].concat(props.ads).sort((a, b) => a.price - b.price));
+    props.filter === "nofilter" ?
+    props.setAds([].concat(props.ads).sort((a, b) => a.price - b.price))
+    :
+    props.setFilterAds([].concat(props.filterAds).sort((a, b) => a.price - b.price))
   }
 
   return (
@@ -329,11 +335,11 @@ function MyHeader(props) {
 
               <Col xs={2}>
                 <FilterDropdown ads={props.ads.filter(ad => (
-                  props.categories.find((el) => el.id_cat === ad.id_cat).name === props.currentCat))} filterAds={props.filterAds} setFilterAds={props.setFilterAds} 
-                  setFilter = {props.setFilter}/>
+                  props.categories.find((el) => el.id_cat === ad.id_cat).name === props.currentCat))} filterAds={props.filterAds} setFilterAds={props.setFilterAds}
+                  setFilter={props.setFilter} />
               </Col>
               <Col xs={2}>
-                <SortDropdown ads={props.ads} setAds={props.setAds} />
+                <SortDropdown ads={props.ads} setAds={props.setAds} filter={props.filter} filterAds={props.filterAds} setFilterAds={props.setFilterAds} />
               </Col>
 
             </>}

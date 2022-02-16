@@ -66,7 +66,7 @@ function App() {
   });
 
   const [filterAds, setFilterAds] = useState([]);
-  const [filter, setFilter] = useState();
+  const [filter, setFilter] = useState("nofilter");
 
   const [categories, setCategories] = useState([]);
   const [knownsizes, setKnownSizes] = useState([]);
@@ -145,7 +145,7 @@ function App() {
 
   const handleChangeForwardPage = (cat) => {
     let x = null;
-    setFilter();
+    setFilter("nofilter");
     setFilterAds([]);
     if (search) {
       if (currentState === "home") {
@@ -604,6 +604,7 @@ function App() {
       filterAds={filterAds}
       setFilterAds={setFilterAds}
       setFilter={setFilter}
+      filter={filter}
     />
 
     <Routes >
@@ -733,15 +734,23 @@ function App() {
                         {categories.find(x => x.name === currentCat && x.gender === page) !== undefined && categories.length > 0 && currentCat ? <img src={"/" + categories.find(x => x.name === currentCat && x.gender === page).address} className="img-fluid" id="rotationimage" alt="Responsive" width="120"></img> : <></>}
                       </Col>
                     </Row>
+
+                    <Row>
+                      {
+                        filter !== "nofilter" ? <p>Filtering by: {filter}</p> : <></>
+                      }
+                    
+                    </Row>
                   </Container>
                   {ads.filter(filterSuggestedDresses).length > 0 ?
 
-                    filter !== undefined ? (
+                    filter !== "nofilter" ? (
                       (filterAds === undefined || filterAds.length === 0) ? (
                         <></>
                       ) : (
+                        (filterAds.filter(filterSuggestedDresses) === undefined || filterAds.filter(filterSuggestedDresses).length === 0) ? <></> 
+                        :
                         <Container id="dressContainer">
-                          <p>Filtering by: {filter}</p>
                           <h4 id="titlebar">
 
                             <Link ref={target} onClick={() => setShow(!show)} className="" role="button" to="">
@@ -828,7 +837,7 @@ function App() {
                     : <></>}
 
                   {ads.filter(filterAllDresses).length > 0 ?
-                    filter !== undefined ? (
+                    filter !== "nofilter" ? (
                       (filterAds === undefined || filterAds.length === 0) ? (
                         <Container>
                           <h6 className="mt-40">No products avaliable with this interval of price! You can change the filter or remove it at all.</h6>

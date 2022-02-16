@@ -69,7 +69,7 @@ function FilterRentsDropdown(props) {
     }
 
     const handleRemove = () => {
-        props.setFilterActive();
+        props.setFilterActive("nofilter");
         props.setFilterRents([]);
     }
 
@@ -96,7 +96,7 @@ function FilterRentsDropdown(props) {
 
 function MyRents(props) {
     const [filterRents, setFilterRents] = useState([]);
-    const [filterActive, setFilterActive] = useState();
+    const [filterActive, setFilterActive] = useState("nofilter");
 
 
     return <>
@@ -117,14 +117,14 @@ function MyRents(props) {
                             </Col>
                         </Row>
                         {
-                            filterActive !== undefined ? 
+                            filterActive !== "nofilter" ? 
                                 <Row>
                                     <p className = "text-sm-right">Filtering by: {filterActive}</p>
                                 </Row> : <></>
                         }
                     </Container>
                     {
-                        filterActive !== undefined ?
+                        filterActive !== "nofilter" ?
                             filterRents === undefined || filterRents.length === 0 ?
                                 <Container>
                                     <h6>You doesn't have any order with this status. </h6>
