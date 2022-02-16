@@ -47,7 +47,7 @@ function FilterDropdown(props) {
   }
 
   const handleRemove = () => {
-    props.setFilter(false);
+    props.setFilter(undefined);
     props.setFilterAds([]);
   }
 

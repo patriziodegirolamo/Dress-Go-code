@@ -98,8 +98,6 @@ function MyRents(props) {
     const [filterRents, setFilterRents] = useState([]);
     const [filterActive, setFilterActive] = useState();
 
-    console.log(filterRents)
-    console.log(props.rents)
 
     return <>
 
