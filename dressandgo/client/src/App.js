@@ -737,7 +737,7 @@ function App() {
 
                     <Row>
                       {
-                        filter !== "nofilter" ? <p>Filtering by: {filter}</p> : <></>
+                        filter !== "nofilter" ? <p className='mt-3'>You are filtering by: <i>{filter}</i></p> : <></>
                       }
                     
                     </Row>

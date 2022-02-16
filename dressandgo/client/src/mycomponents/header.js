@@ -40,7 +40,6 @@ function FilterDropdown(props) {
 
     ads.forEach((ad) => {
       props.setFilterAds(oldList => {
-        props.setFilter(true);
         return oldList.concat(ad);
       })
     })
@@ -52,15 +51,19 @@ function FilterDropdown(props) {
   }
 
   return (
-    <InputGroup className="mb-3">
+    <InputGroup className="h-100">
       <DropdownButton
         variant="outline-secondary"
-        title="Filter by"
+        title={<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-funnel" viewBox="0 0 16 16">
+        <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2h-11z"/>
+      </svg>}
         id="sort"
       >
+        <Dropdown.Item disabled >Filter by:</Dropdown.Item>
         <Dropdown.Item onClick={handlePriceUnder50}>Price: 0-50€</Dropdown.Item>
         <Dropdown.Item onClick={handlePriceOver50}>Price: 50-100€</Dropdown.Item>
         <Dropdown.Item onClick={handlePriceOver100}>Price: {'>'}100€</Dropdown.Item>
+        <Dropdown.Divider />
         <Dropdown.Item onClick={handleRemove}>Remove filters</Dropdown.Item>
       </DropdownButton>
     </InputGroup>
@@ -89,10 +92,14 @@ function SortDropdown(props) {
 
       <DropdownButton
         variant="outline-secondary"
-        title="Sort by"
+        title={<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
+        <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
+      </svg>}
         id="sort"
       >
-        <Dropdown.Item onClick={handleAscendentPrice}>Price: Low to High</Dropdown.Item>
+        
+        <Dropdown.Item disabled >Sort by:</Dropdown.Item>
+        <Dropdown.Item onClick={handleAscendentPrice} >Price: Low to High</Dropdown.Item>
         <Dropdown.Item onClick={handleDescendentPrice}>Price: High to Low</Dropdown.Item>
 
       </DropdownButton>
@@ -281,7 +288,7 @@ function MyHeader(props) {
       {props.currentState === "home" || props.currentState === "cat" ?
         <Container>
           <Row>
-            <Col xs={props.currentState === "home" ? 6 : 6}>
+            <Col xs={props.currentState === "home" ? 7 : 7}>
               <Form id="formFilterDress" onSubmit={e => { e.preventDefault(); }} >
                 <Form.Control style={{ height: 54 }} value={props.search} placeholder="Search a product..." onChange={(event) => {
                   event.preventDefault();
@@ -321,7 +328,7 @@ function MyHeader(props) {
                     </Button>
                   </Col>
                   :
-                  <Col xs={2}>
+                  <Col xs={4}>
                     <Button style={{ backgroundColor: "white" }} size="lg" variant="light" onClick={(event) => {
                       handleChangeBackardPage()
                       props.setPage("woman");
@@ -333,15 +340,16 @@ function MyHeader(props) {
               }
             </> : <>
 
-              <Col xs={2}>
+             <Col>
+            
                 <FilterDropdown ads={props.ads.filter(ad => (
                   props.categories.find((el) => el.id_cat === ad.id_cat).name === props.currentCat))} filterAds={props.filterAds} setFilterAds={props.setFilterAds}
                   setFilter={props.setFilter} />
-              </Col>
-              <Col xs={2}>
+               </Col>
+               <Col>
                 <SortDropdown ads={props.ads} setAds={props.setAds} filter={props.filter} filterAds={props.filterAds} setFilterAds={props.setFilterAds} />
+             
               </Col>
-
             </>}
 
           </Row>
