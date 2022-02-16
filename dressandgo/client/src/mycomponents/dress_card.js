@@ -26,7 +26,13 @@ function MySmallAdvertisement(props) {
             <Card.Body>
 
                 <Row>
-                    <h5 id="titlead" > {props.ad.title}</h5>
+                    {
+                        props.ad.title.length <= 10 ? 
+                        <h5 id="titlead" > {props.ad.title}</h5>
+                        :
+                         <h5 id="titlead" > {props.ad.title.substring(0, 10)}...</h5>
+                    }
+                   
                 </Row>
 
                 <Row className="justify-content-center" >

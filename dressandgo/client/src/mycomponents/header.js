@@ -1,11 +1,74 @@
 import { Container, Navbar, Form, Row, Col, Button, InputGroup, Dropdown, DropdownButton } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { useState } from 'react';
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/header.css";
 
 import { IoArrowBackCircleOutline } from 'react-icons/io5'
 import { FcBusinessman, FcBusinesswoman } from 'react-icons/fc'
+
+function FilterDropdown(props) {
+  const handlePriceUnder50 = () => {
+    const ads = props.ads.filter(ads => ads.price <= 50.0);
+    props.setFilter(true);
+    props.setFilterAds([]);
+
+    ads.forEach((ad) => {
+      props.setFilterAds(oldList => {
+        return oldList.concat(ad);
+      })
+    })
+  }
+
+  const handlePriceOver50 = () => {
+    const ads = props.ads.filter(ads => ads.price >= 50.0 && ads.price <= 100.0);
+    props.setFilter(true);
+    props.setFilterAds([]);
+
+    ads.forEach((ad) => {
+      props.setFilterAds(oldList => {
+        return oldList.concat(ad);
+      })
+    })
+  }
+
+  const handlePriceOver100 = () => {
+    const ads = props.ads.filter(ads => ads.price >= 100.0);
+    props.setFilter(true);
+    props.setFilterAds([]);
+
+    ads.forEach((ad) => {
+      props.setFilterAds(oldList => {
+        props.setFilter(true);
+        return oldList.concat(ad);
+      })
+    })
+  }
+
+  const handleRemove = () => {
+    props.setFilter(false);
+    props.setFilterAds([]);
+  }
+
+  return (
+    <InputGroup className="mb-3">
+      <DropdownButton
+        variant="outline-secondary"
+        title="Filter by"
+        id="sort"
+      >
+        <Dropdown.Item onClick={handlePriceUnder50}>Price: 0-50€</Dropdown.Item>
+        <Dropdown.Item onClick={handlePriceOver50}>Price: 50-100€</Dropdown.Item>
+        <Dropdown.Item onClick={handlePriceOver100}>Price: {'>'}100€</Dropdown.Item>
+        <Dropdown.Item onClick={handleRemove}>Remove filters</Dropdown.Item>
+      </DropdownButton>
+    </InputGroup>
+  )
+}
+
+
+
 
 function SortDropdown(props) {
   const handleDescendentPrice = () => {
@@ -17,14 +80,16 @@ function SortDropdown(props) {
   }
 
   return (
-    <InputGroup className="mb-3">
+    <InputGroup className="h-100">
+
       <DropdownButton
         variant="outline-secondary"
         title="Sort by"
         id="sort"
       >
-        <Dropdown.Item onClick={handleDescendentPrice}>descendent price</Dropdown.Item>
-        <Dropdown.Item onClick={handleAscendentPrice}>ascendent price</Dropdown.Item>
+        <Dropdown.Item onClick={handleAscendentPrice}>Price: Low to High</Dropdown.Item>
+        <Dropdown.Item onClick={handleDescendentPrice}>Price: High to Low</Dropdown.Item>
+
       </DropdownButton>
     </InputGroup>
   )
@@ -34,10 +99,6 @@ function SortDropdown(props) {
 function MyHeader(props) {
   const navigate = useNavigate();
   const initialStates = ["home", "faq", "chats", "rents", "account"]
-
-  const handleSearchBar = () => {
-
-  }
 
   const handleChangeBackardPage = () => {
     props.setSearch("")
@@ -215,7 +276,7 @@ function MyHeader(props) {
       {props.currentState === "home" || props.currentState === "cat" ?
         <Container>
           <Row>
-            <Col xs={props.currentState === "home" ? 7 : 7}>
+            <Col xs={props.currentState === "home" ? 7 : 8}>
               <Form id="formFilterDress" onSubmit={e => { e.preventDefault(); }} >
                 <Form.Control style={{ height: 54 }} value={props.search} placeholder="Search a product..." onChange={(event) => {
                   event.preventDefault();
@@ -266,11 +327,16 @@ function MyHeader(props) {
                   </Col>
               }
             </> : <>
-              {
-                <Col xs={2}>
-                  <SortDropdown ads={props.ads} setAds={props.setAds} />
-                </Col>
-              }
+
+              <Col xs={2}>
+                <FilterDropdown ads={props.ads.filter(ad => (
+                  props.categories.find((el) => el.id_cat === ad.id_cat).name === props.currentCat))} filterAds={props.filterAds} setFilterAds={props.setFilterAds} 
+                  setFilter = {props.setFilter}/>
+              </Col>
+              <Col xs={2}>
+                <SortDropdown ads={props.ads} setAds={props.setAds} />
+              </Col>
+
             </>}
 
           </Row>

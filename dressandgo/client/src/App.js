@@ -65,6 +65,9 @@ function App() {
     else return "";
   });
 
+  const [filterAds, setFilterAds] = useState([]);
+  const [filter, setFilter] = useState(false);
+
   const [categories, setCategories] = useState([]);
   const [knownsizes, setKnownSizes] = useState([]);
   const [ads, setAds] = useState([]);
@@ -468,7 +471,6 @@ function App() {
     });
   }
 
-
   const addAConversation = (new_conversation, new_message) => {
 
     return insertConversation(new_conversation, new_message).then((res) => {
@@ -524,33 +526,37 @@ function App() {
   /* TO UPDATE STATUS OF A RENT  */
   const modifyStatusR = (newStatus) => {
     modifyStatus(newStatus).then((err) => { });
-    unlockReturn({id_r: newStatus.id_r}).then((err) => { });
+    unlockReturn({ id_r: newStatus.id_r }).then((err) => { });
     // to avoid another call to the db 
-      setRents(oldList => {
-        const list = oldList.map((item) => {
-          if(item.id_r === newStatus.id_r){
-            return {id_r: item.id_r, id_a: item.id_a, idRenter: item.idRenter,
-                    idBooker: item.idBooker, dataIn: item.dataIn, dataOut: item.dataOut, status: newStatus.status, return: item.return};
-          } else return item;
-        });
-        return list;
+    setRents(oldList => {
+      const list = oldList.map((item) => {
+        if (item.id_r === newStatus.id_r) {
+          return {
+            id_r: item.id_r, id_a: item.id_a, idRenter: item.idRenter,
+            idBooker: item.idBooker, dataIn: item.dataIn, dataOut: item.dataOut, status: newStatus.status, return: item.return
+          };
+        } else return item;
       });
+      return list;
+    });
   }
 
-    /* TO UNLOCK A RETURN OF A RENT  */
-    const unlockReturnProcedure = (newLock) => {
-      unlockReturn({id_r: newLock.id_r}).then((err) => { });
-      // to avoid another call to the db 
-        setRents(oldList => {
-          const list = oldList.map((item) => {
-            if(item.id_r === newLock.id_r){
-              return {id_r: item.id_r, id_a: item.id_a, idRenter: item.idRenter,
-                      idBooker: item.idBooker, dataIn: item.dataIn, dataOut: item.dataOut, status: item.status, return: "UNLOCKED"};
-            } else return item;
-          });
-          return list;
-        });
-    }
+  /* TO UNLOCK A RETURN OF A RENT  */
+  const unlockReturnProcedure = (newLock) => {
+    unlockReturn({ id_r: newLock.id_r }).then((err) => { });
+    // to avoid another call to the db 
+    setRents(oldList => {
+      const list = oldList.map((item) => {
+        if (item.id_r === newLock.id_r) {
+          return {
+            id_r: item.id_r, id_a: item.id_a, idRenter: item.idRenter,
+            idBooker: item.idBooker, dataIn: item.dataIn, dataOut: item.dataOut, status: item.status, return: "UNLOCKED"
+          };
+        } else return item;
+      });
+      return list;
+    });
+  }
 
 
   const filterSuggestedDresses = (ad) => {
@@ -586,6 +592,9 @@ function App() {
       setHistoryStack={setHistoryStack}
       ads={ads} setAds={setAds}
       categories={categories}
+      filterAds={filterAds}
+      setFilterAds={setFilterAds}
+      setFilter={setFilter}
     />
 
     <Routes >
@@ -645,7 +654,7 @@ function App() {
             <OrderSummary rents={rents} ads={ads} adsImages={adsImages} conversations={conversations}
               addAConversation={addAConversation}
               setCurrentState={setCurrentState}
-              setHistoryStack={setHistoryStack} historyStack={historyStack} modifyStatusR = {modifyStatusR} unlockReturnProcedure = {unlockReturnProcedure}
+              setHistoryStack={setHistoryStack} historyStack={historyStack} modifyStatusR={modifyStatusR} unlockReturnProcedure={unlockReturnProcedure}
             />
             : <Container id="containerSpinner">
               <Spinner animation="border" variant="primary" />
@@ -704,16 +713,16 @@ function App() {
                 <Container id="containerSpinner">
                   <Spinner animation="border" variant="primary" />
                 </Container> : <>
-                <Container>
-                  <Row className="pt-3">
-                    <Col className="text-center mx-auto my-auto">
-                      You are watching
-                      <h1>{currentCat}</h1>
-                    </Col>
-                    <Col>
-                      {categories.length > 0 && currentCat ? <img src={"/" + categories.find(x => x.name === currentCat && x.gender === page).address} className="img-fluid" id="rotationimage" alt="Responsive image" width="120"></img> : <></>}
-                    </Col>
-                  </Row>
+                  <Container>
+                    <Row className="pt-3">
+                      <Col className="text-center mx-auto my-auto">
+                        You are watching
+                        <h1>{currentCat}</h1>
+                      </Col>
+                      <Col>
+                        {categories.find(x => x.name === currentCat && x.gender === page) !== undefined && categories.length > 0 && currentCat ? <img src={"/" + categories.find(x => x.name === currentCat && x.gender === page).address} className="img-fluid" id="rotationimage" alt="Responsive" width="120"></img> : <></>}
+                      </Col>
+                    </Row>
                   </Container>
                   {ads.filter(filterSuggestedDresses).length > 0 ?
                     <Container id="dressContainer">
@@ -751,10 +760,31 @@ function App() {
 
 
                       </h4>
-                      <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(filterSuggestedDresses)}
-                        handleChangeForwardPage={handleChangeForwardPage}
-                        dirty={dirty}>
-                      </MyDressList>
+                      {
+                        console.log(filterAds)
+                      }
+                      {
+                        console.log(filter)
+                      }
+                      
+                      
+                      {
+                        filter === true ? (
+                          (filterAds === undefined || filterAds.length === 0) ? (
+                            <></>
+                          ) : (
+                            <MyDressList adsImages={adsImages} categories={categories} ads={filterAds.filter(filterSuggestedDresses)}
+                              handleChangeForwardPage={handleChangeForwardPage}
+                              dirty={dirty}>
+                            </MyDressList>
+                          )
+                        ) : (                       
+                          <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(filterSuggestedDresses)}
+                            handleChangeForwardPage={handleChangeForwardPage}
+                            dirty={dirty}> 
+                          </MyDressList>)
+                      }
+
                     </Container>
                     : <></>}
 
@@ -795,10 +825,23 @@ function App() {
 
 
                       </h4>
-                      <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(filterAllDresses)}
-                        handleChangeForwardPage={handleChangeForwardPage}
-                        dirty={dirty}>
-                      </MyDressList>
+                      {
+                        filter === true ? (
+                          (filterAds === undefined || filterAds.length === 0) ? (
+                            <p>No products avaliable with this interval of price! Change the filter or remove it please!</p>
+                          ) : (
+                            <MyDressList adsImages={adsImages} categories={categories} ads={filterAds.filter(filterAllDresses)}
+                              handleChangeForwardPage={handleChangeForwardPage}
+                              dirty={dirty}>
+                            </MyDressList>
+                          )
+                        ) : (                       
+                          <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(filterAllDresses)}
+                            handleChangeForwardPage={handleChangeForwardPage}
+                            dirty={dirty}> 
+                          </MyDressList>)
+                      }
+                    
                     </Container>
                     : <></>}
 
