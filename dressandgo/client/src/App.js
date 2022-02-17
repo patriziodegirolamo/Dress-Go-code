@@ -704,7 +704,7 @@ function App() {
 
       <Route path="/dresses/:categorie" element={<>
         {search ? <Container id="dressContainer">
-          <h4>RESULTS IN {currentCat.toUpperCase()}:</h4>
+          <h4 id="titlebar">RESULTS IN {currentCat.toUpperCase()}:</h4>
           <MyDressList adsImages={adsImages} categories={categories}
             ads={ads.filter(ad => {
               let cat = categories.find((el) => el.id_cat === ad.id_cat);
