@@ -65,8 +65,9 @@ return(
         <Accordion.Body>
           <p>
        For any problems with your rent you can anytime ask for the return of the product.
+       The status of the order must be "Arrived".
        All you have to do is to navigate to your "My Rents" page, easily accessible through the bottom navigation bar.
-       Here all your orders will appear. 
+       Here all your orders will appear.
        After choosing the order that you want to return you have two possibilities:
        </p>
        <p>
@@ -136,6 +137,24 @@ return(
     <Accordion.Header onClick={stopAllVideos}>Deposit for renting</Accordion.Header>
         <Accordion.Body>
         At the time of rental, a 5% surcharge will be added to the total price as a deposit in case of problems. This amount will be returned at the end of the rental if the goods are still in excellent condition but otherwise it will be retained to cover the damage.
+        </Accordion.Body>
+ </Accordion.Item>
+ <Accordion.Item eventKey="8">
+    <Accordion.Header onClick={stopAllVideos}>Order Status</Accordion.Header>
+        <Accordion.Body>
+        The order status can be:
+        <br></br>
+        - Arriving: your rental has been confirmed and the package is on your way!
+        <br></br>
+        - Arrived: your package arrived and you can ask for a return in case of problems (you can follow the relative guide above).
+        <br></br>
+        - Returning: your return's request has been accepted and you have to send back the package.
+        <br></br>
+        - Returned: your return's package arrived and you will receive the refund if everything is fine.
+        <br></br>
+        - Coming back: your rental is terminated, you will receive back the deposit of 5% of the price when the renter will receive the package and verify it.
+        <br></br>
+        - Closed: your rental is closed and everything was fine.
         </Accordion.Body>
  </Accordion.Item>
 </Accordion>

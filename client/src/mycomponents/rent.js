@@ -70,16 +70,7 @@ function Rent(props) {
                 </>
             }
           </>
-          }
-                
-                
-                
-                
-        
-              
-              
-              
-              
+          }            
               
               </Col>
               <Col>

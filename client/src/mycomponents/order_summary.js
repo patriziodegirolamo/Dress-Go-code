@@ -15,12 +15,12 @@ function OrderSummary(props) {
 
   const currentChat = props.conversations.find(c => c.id_a === currentRent.id_a && c.idRenter === id_r);
 
-  
+
   let chatstring = "/MyChats";
-  if(currentChat)
-  { chatstring = "/MyChats" + currentChat.id_conv;
+  if (currentChat) {
+    chatstring = "/MyChats" + currentChat.id_conv;
   }
-  
+
 
 
 
@@ -141,6 +141,12 @@ function OrderSummary(props) {
             </Carousel>
           </Container>
 
+          <Row className="justify-content-center pt-3 text-center">
+
+            Rented by: <i>{props.users.filter(x => x.id_u === ads.id_u)[0].name} (Private)</i>
+
+          </Row>
+
 
           <Row className="justify-content-center pt-3 text-center">
 
@@ -238,8 +244,23 @@ function OrderSummary(props) {
                         ...props.style,
                       }}
                     >
-                      If you have some problems with the order <br></br> you can contact the renter or the customer service <br></br>
-                      to unlock the return procedure in advance!
+
+                      {currentRent.status !== "CLOSED" ? <>
+                        If you have problems with the order (ARRIVED)<br></br> you can contact the renter or the customer service <br></br>
+                        to unlock the return procedure in advance!
+                      </>
+                        :
+                        <>
+                          If this product fits you perfectly you can add this<br></br>
+                          brand and size on the "known size" section in order<br></br>
+                          to have better suggestions!
+                        </>
+
+                      }
+
+
+
+
                     </div>
                   )}
                 </Overlay>
@@ -283,18 +304,48 @@ function OrderSummary(props) {
                   </Link>
                 </Col>
 
-                <Col xs={9} className="px-md-5">
-                  {currentRent.return === "UNLOCKED" && (currentRent.status === "ARRIVED" || currentRent.status === "RETURNING") ?
-                    <Button className="my-2 mt-3 btn btn-primary btn-md w-75" role="button" to="" onClick={handleReturnProcedure} >
-                      Return product
-                    </Button>
-                    :
-                    <Button className="my-2 mt-3 btn btn-primary btn-md w-75 disabled" role="button" to="">
-                      Return product
-                    </Button>
-                  }
 
-                </Col>
+
+                {currentRent.status === "CLOSED" ?
+
+
+                  <>
+                    <Col xs={9} className="px-md-5">
+                      <Link className="my-2 mt-3 btn btn-primary btn-md w-75" role="button" to="/handleknownsizes" >
+                        Add known size
+                      </Link>
+                    </Col>
+                  </> :
+
+
+                  <>
+
+                    <Col xs={9} className="px-md-5">
+                      {currentRent.return === "UNLOCKED" && (currentRent.status === "ARRIVED" || currentRent.status === "RETURNING") ?
+                        <Button className="my-2 mt-3 btn btn-primary btn-md w-75" role="button" to="" onClick={handleReturnProcedure} >
+                          Return product
+                        </Button>
+                        :
+                        <Button className="my-2 mt-3 btn btn-primary btn-md w-75 disabled" role="button" to="">
+                          Return product
+                        </Button>
+                      }
+
+                    </Col>
+
+
+
+                  </>
+
+
+
+
+
+
+                }
+
+
+
               </Row>
             </Row>
           </Container>

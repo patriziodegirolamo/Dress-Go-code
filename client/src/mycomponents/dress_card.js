@@ -27,18 +27,37 @@ function MySmallAdvertisement(props) {
 
                 <Row>
                     {
-                        props.ad.title.length <= 10 ? 
-                        <h5 id="titlead" > {props.ad.title}</h5>
-                        :
-                         <h5 id="titlead" > {props.ad.title.substring(0, 10)}...</h5>
+                        props.ad.title.length <= 10 ?
+                            <h5 id="titlead" > {props.ad.title}</h5>
+                            :
+                            <h5 id="titlead" > {props.ad.title.substring(0, 10)}...</h5>
                     }
-                   
+
                 </Row>
 
                 <Row className="justify-content-center" >
-                    <Col>SIZE:
+                    <Col> IT SIZE:
                     </Col>
-                    <Col > {props.ad.size}
+                    <Col >
+
+
+                        {props.ad.size.length > 4 ?
+                            <>
+
+                                {props.ad.size.substring(0, 4)}...
+
+                            </>
+
+                            :
+
+                            <>
+                                {props.ad.size}
+                            </>
+
+
+                        }
+
+
                     </Col>
 
                 </Row>
@@ -82,7 +101,7 @@ function MyBigAdvertisement(props) {
     const [newMessage, setNewMessage] = useState(initialMessage)
     const [submitted, setSubmitted] = useState(false)
     const [clearclick, setClearclick] = useState(false)
-   
+
 
     let newdataIn;
     let newdataOut;
@@ -92,7 +111,7 @@ function MyBigAdvertisement(props) {
         setDataIn(start);
         setDataOut(end);
         setClearclick(true);
-     
+
     };
 
     const onCloseNewMessageModal = () => {
@@ -184,7 +203,7 @@ function MyBigAdvertisement(props) {
             : <Card key={idAd} style={{
                 maxWidth: "100%",
                 overflowX: "hidden"
-        }}>
+            }}>
                 <Card.Title>
                     <Row className="pt-3">
                         <h3 id="titlecard" style={{ textAlign: "center" }}><b>{currentAd.title}</b></h3>
@@ -204,6 +223,13 @@ function MyBigAdvertisement(props) {
                         })}
                     </Carousel>
                 </Container>
+
+                <Row className="justify-content-center pt-3 text-center">
+
+                    Rented by: <i>{props.users.filter(x => x.id_u === currentAd.id_u)[0].name} (Private)</i>
+
+                </Row>
+
 
                 <Row className="justify-content-center pt-3 text-center">
 
@@ -229,23 +255,23 @@ function MyBigAdvertisement(props) {
                 </Row>
 
                 <Container>
-                   
-                   { (currentAd.id_cat === 7 || currentAd.id_cat === 11 | currentAd.id_cat === 12 || currentAd.id_cat === 16 || currentAd.id_cat === 10 || currentAd.id_cat === 6) ? <></>:
+
+                    {(currentAd.id_cat === 7 || currentAd.id_cat === 11 | currentAd.id_cat === 12 || currentAd.id_cat === 16 || currentAd.id_cat === 10 || currentAd.id_cat === 6) ? <></> :
 
 
-<Row className="justify-content-center">
-<Button onClick={() => setShowSizeGuide(true)} className="my-2 btn btn-secondary btn-md w-75" >
-    How to measure your size
-</Button>
+                        <Row className="justify-content-center">
+                            <Button onClick={() => setShowSizeGuide(true)} className="my-2 btn btn-secondary btn-md w-75" >
+                                How to measure your size
+                            </Button>
 
-</Row>
+                        </Row>
 
 
- 
 
-                   }
-                   
-                   
+
+                    }
+
+
 
 
 
@@ -421,9 +447,9 @@ function MyBigAdvertisement(props) {
                     <Modal show={showNewMessage} onClose={onCloseNewMessageModal}
                         onHide={onCloseNewMessageModal}>
                         <Modal.Header>
-                        <Modal.Title>Contact the renter</Modal.Title>
-                           
-                                                  
+                            <Modal.Title>Contact the renter</Modal.Title>
+
+
                         </Modal.Header>
 
 
@@ -433,12 +459,12 @@ function MyBigAdvertisement(props) {
 
                         <Modal.Footer>
 
-                        <Button variant="secondary" onClick={onCloseNewMessageModal}>
-                    Close
-                </Button>
-                <Button variant="primary" onClick={handleCreateNewConversation}>
-                    Send message
-                </Button>
+                            <Button variant="secondary" onClick={onCloseNewMessageModal}>
+                                Close
+                            </Button>
+                            <Button variant="primary" onClick={handleCreateNewConversation}>
+                                Send message
+                            </Button>
 
 
                         </Modal.Footer>
