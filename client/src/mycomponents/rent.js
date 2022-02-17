@@ -21,7 +21,7 @@ function Rent(props) {
 
   return <>
     {
-      adss ? <Card className="text-center my-4">
+      adss ? <Card className="text-center my-2">
 
 
         {/*props.myrent.status === "ARRIVING" ? <Card.Header style={{ backgroundColor: "#FCFE8E" }}>{props.myrent.status} </Card.Header> :

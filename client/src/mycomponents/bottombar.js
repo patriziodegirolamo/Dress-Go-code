@@ -69,6 +69,9 @@ export default function FixedBottomNavigation(props) {
             localStorage.setItem("currentCat", "");
             props.setSearch("")
 
+            props.setFilter();
+            props.setFilterAds([]);
+
             if (newValue === 0) {
               props.setCurrentState("home");
               localStorage.setItem("currentState", "home");
