@@ -280,7 +280,7 @@ exports.listAdsImages = () => {
 //get all brands
 exports.listBrands = () => {
   return new Promise((resolve, reject) => {
-    const sql = "SELECT * FROM BRAND";
+    const sql = "SELECT * FROM BRAND ORDER BY Name";
     db.all(sql, [], (err, rows) => {
       if (rows === undefined || rows.length === 0) {
         const brand = { id_b: 'Empty' };

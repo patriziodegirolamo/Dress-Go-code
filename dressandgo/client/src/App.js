@@ -662,7 +662,7 @@ function App() {
       <Route path='/MyRents/:id_r' element={<>
         {
           !dirty ?
-            <OrderSummary rents={rents} ads={ads} adsImages={adsImages} conversations={conversations}
+            <OrderSummary  users={users} rents={rents} ads={ads} adsImages={adsImages} conversations={conversations}
               addAConversation={addAConversation}
               setCurrentState={setCurrentState}
               setHistoryStack={setHistoryStack} historyStack={historyStack} modifyStatusR={modifyStatusR} unlockReturnProcedure={unlockReturnProcedure}
@@ -678,7 +678,7 @@ function App() {
         {search ? <Container id="dressContainer">
           <h4 id="titlebar">RESULTS IN {page.toUpperCase()} CATEGORY:</h4>
           <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(ad => {
-            return ad.gender === page && (ad.title.toLowerCase().includes(search.toLowerCase()))
+            return ad.gender === page && ((ad.title.toLowerCase().includes(search.toLowerCase()) || (ad.size.toLowerCase().includes(search.toLowerCase())) || (ad.brand.toLowerCase().includes(search.toLowerCase()))))
           })}
             handleChangeForwardPage={handleChangeForwardPage}
             dirty={dirty}>
@@ -707,12 +707,14 @@ function App() {
       </>} />
 
 
+
+
       <Route path="/dresses/:categorie" element={<>
         {search ? <Container id="dressContainer">
           <h4>RESULTS IN {currentCat.toUpperCase()}:</h4>
           <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(ad => (
             categories.find((el) => el.id_cat === ad.id_cat).name === currentCat)
-            && ad.title.toLowerCase().includes(search.toLowerCase()))}
+            && (ad.title.toLowerCase().includes(search.toLowerCase()) || (ad.size.toLowerCase().includes(search.toLowerCase())) || (ad.brand.toLowerCase().includes(search.toLowerCase()))  ) )}
             handleChangeForwardPage={handleChangeForwardPage}
             dirty={dirty}>
           </MyDressList>

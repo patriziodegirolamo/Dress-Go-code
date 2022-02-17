@@ -328,7 +328,7 @@ function MyHeader(props) {
                     </Button>
                   </Col>
                   :
-                  <Col xs={4}>
+                  <Col xs={2}>
                     <Button style={{ backgroundColor: "white" }} size="lg" variant="light" onClick={(event) => {
                       handleChangeBackardPage()
                       props.setPage("woman");
