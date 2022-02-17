@@ -4,19 +4,6 @@ import {Container, Accordion, Table, Figure } from "react-bootstrap";
 
 function SizeGuide(props) {
 
-    /**
-     *   <Container>
-            Please select your preferred size guide
-            <ButtonGroup>
-                <Button size="lg" onClick={() => {
-                    setType("man")
-                }}>Man</Button>
-                <Button size="lg" onClick={() => {
-                    setType("woman")
-                }}>Woman</Button>
-            </ButtonGroup>
-        </Container>
-    */
 
     return <>
       

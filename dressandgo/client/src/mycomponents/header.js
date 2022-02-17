@@ -1,6 +1,5 @@
 import { Container, Navbar, Form, Row, Col, Button, InputGroup, Dropdown, DropdownButton } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { useState } from 'react';
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/header.css";
@@ -304,7 +303,7 @@ function MyHeader(props) {
               {
                 props.page === "man" ?
                   <Col xs={2}>
-                    <Button className="border border-success" style={{ backgroundColor: "white" }} size="lg" variant="light" disabled>
+                    <Button className="border border-primary" style={{ backgroundColor: "white" }} size="lg" variant="light" disabled>
                       <FcBusinessman size={35}></FcBusinessman>
                     </Button>
                   </Col>
@@ -323,7 +322,7 @@ function MyHeader(props) {
               {
                 props.page === "woman" ?
                   <Col xs={2}>
-                    <Button className="border border-success" style={{ backgroundColor: "white" }} size="lg" variant="light" disabled>
+                    <Button className="border border-primary" style={{ backgroundColor: "white" }} size="lg" variant="light" disabled>
                       <FcBusinesswoman size={35}></FcBusinesswoman>
                     </Button>
                   </Col>

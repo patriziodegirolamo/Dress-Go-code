@@ -4,10 +4,6 @@ import Accordion from 'react-bootstrap/Accordion';
 
 
 
-const stopAllVideos = () => {
-    return
-}
-
 
 export default function Faq(){
 return(
@@ -22,7 +18,7 @@ return(
 
 
   <Accordion.Item eventKey="0">
-    <Accordion.Header onClick={stopAllVideos}>How to order</Accordion.Header>
+    <Accordion.Header>How to order</Accordion.Header>
         <Accordion.Body>
         With the Dress & Go app ordering won't be a problem.
         You just have to follow very few and simple steps. 
@@ -33,11 +29,10 @@ return(
         That's it. Inside your package you will receive the "Shipment label" to give the product back at the end of the rent.
         If you have any problems you can contact our customer service or the renter himself at any time!
         <br></br> <br></br>
-        For any further problems see our <a href="https://www.youtube.com/watch?v=drJ5njTsj7c"> video tutorial</a>.
         </Accordion.Body>
     </Accordion.Item>
     <Accordion.Item eventKey="1">
-    <Accordion.Header onClick={stopAllVideos}>How to send back a product</Accordion.Header>
+    <Accordion.Header >How to send back a product</Accordion.Header>
         <Accordion.Body>
         When the rental period expires you have 3 days to send back the product. 
         It is your responsibility that the product is well packaged so as not to be damaged in transit. 
@@ -46,11 +41,10 @@ return(
         the deposit will be returned
         to you.
         <br></br> <br></br>
-        For any further problems see our <a href="https://www.youtube.com/watch?v=drJ5njTsj7c"> video tutorial</a>.
         </Accordion.Body>
     </Accordion.Item>
     <Accordion.Item eventKey="2">
-    <Accordion.Header onClick={stopAllVideos}>How to manage known sizes</Accordion.Header>
+    <Accordion.Header >How to manage known sizes</Accordion.Header>
         <Accordion.Body >
         Don't feel like wasting time looking for your perfect size? No problem, in our app you can go to the "Account" section 
         and you will find a "Handle known sizes" button. You can comfortably view the sizes already entered for your favorite 
@@ -61,7 +55,7 @@ return(
         </Accordion.Body>
     </Accordion.Item>
   <Accordion.Item eventKey="3">
-    <Accordion.Header onClick={stopAllVideos}>How to make a return in case of problems</Accordion.Header>
+    <Accordion.Header >How to make a return in case of problems</Accordion.Header>
         <Accordion.Body>
           <p>
        For any problems with your rent you can anytime ask for the return of the product.
@@ -84,27 +78,11 @@ return(
        When the product arrives at destination, you will obtain a refund.
        </p>
        <br></br> <br></br>
-        For any further problems see our <a href="https://www.youtube.com/watch?v=drJ5njTsj7c"> video tutorial</a>.
   
-          {/**<YoutubeEmbed  embedId="KWEHq5FAmCM" />
-        </Container>
-        </Accordion.Body>
-    </Accordion.Item>
-  <Accordion.Item eventKey="2">
-    <Accordion.Header onClick={stopAllVideos}>Refund policy</Accordion.Header>
-        <Accordion.Body>
-        In case there are problems with your rent, you can ask for a refund.
-        All you have to do is to follow the procedure of 'How to make a Return'.
-        You can find the correspondant section here above in the FAQ page.
-        After completing this procedure the transaction is blocked and you will have your money back.
-        For any further problems see our video
-        <Container className="mt-3">
-          {/**<YoutubeEmbed  embedId="F6EeZDaa2fM" />*/}
-      
         </Accordion.Body>
     </Accordion.Item>
   <Accordion.Item eventKey="4">
-    <Accordion.Header onClick={stopAllVideos}>Our terms</Accordion.Header>
+    <Accordion.Header >Our terms</Accordion.Header>
         <Accordion.Body>
           <p>
         The platform Dress&Go is managed and hosted by Dress&Go INC.a company registered in Torino, with a business location at Politecnico di Torino. 
@@ -116,31 +94,29 @@ return(
         </Accordion.Body>
     </Accordion.Item>
   <Accordion.Item eventKey="5">
-    <Accordion.Header onClick={stopAllVideos}>Payments</Accordion.Header>
+    <Accordion.Header >Payments</Accordion.Header>
         <Accordion.Body>
         After pressing the Rent button, you’ll be able to choose the payment method for your order. 
         We accept Visa, MasterCard, Apple Pay or Google Pay.
         <br></br> <br></br>
-        For any further problems see our <a href="https://www.youtube.com/watch?v=drJ5njTsj7c"> video tutorial</a>.
         </Accordion.Body>
     </Accordion.Item>
   <Accordion.Item eventKey="6">
-    <Accordion.Header onClick={stopAllVideos}>Shipments</Accordion.Header>
+    <Accordion.Header >Shipments</Accordion.Header>
         <Accordion.Body>
         The cost of shipping is borne by the customer who rents the goods. The price is fixed for each type of shipment at 9.99 €.
         There are two shipping methods available. Home delivery through UPS and Service point delivery. 
         <br></br> <br></br>
-        For any further problems see our <a href="https://www.youtube.com/watch?v=drJ5njTsj7c"> video tutorial</a>.
         </Accordion.Body>
  </Accordion.Item>
  <Accordion.Item eventKey="7">
-    <Accordion.Header onClick={stopAllVideos}>Deposit for renting</Accordion.Header>
+    <Accordion.Header >Deposit for renting</Accordion.Header>
         <Accordion.Body>
         At the time of rental, a 5% surcharge will be added to the total price as a deposit in case of problems. This amount will be returned at the end of the rental if the goods are still in excellent condition but otherwise it will be retained to cover the damage.
         </Accordion.Body>
  </Accordion.Item>
  <Accordion.Item eventKey="8">
-    <Accordion.Header onClick={stopAllVideos}>Order Status</Accordion.Header>
+    <Accordion.Header >Order Status</Accordion.Header>
         <Accordion.Body>
         The order status can be:
         <br></br>

@@ -1,7 +1,7 @@
 import './App.css';
 import { Row, Container, Button, Col, Spinner, Overlay } from "react-bootstrap";
 import { useState, useEffect, useRef } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate, useNavigate, NavLink as Link } from 'react-router-dom';
+import { Route, Routes, Navigate, useNavigate, NavLink as Link } from 'react-router-dom';
 
 
 
@@ -13,7 +13,6 @@ import MyProfile from './mycomponents/profile';
 import MyUserData from './mycomponents/user_data_profile';
 import MyKnownSizes from './mycomponents/known_sizes';
 import AddKnownSizes from './mycomponents/add_size_button';
-import MyAvailabilityModal from './mycomponents/availabilityModal';
 import SizeGuide from './mycomponents/mySizeGuide';
 import { MyBigAdvertisement } from './mycomponents/dress_card.js'
 import Faq from './mycomponents/accordion.js'
@@ -670,8 +669,8 @@ function App() {
         {search ? <Container id="dressContainer">
           <h4 id="titlebar">RESULTS IN {page.toUpperCase()} CATEGORY:</h4>
           <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(ad => {
-            return ad.gender === page && ad.brand.toLowerCase().includes(search.toLowerCase())
-              && (ad.title.toLowerCase().includes(search.toLowerCase()))
+            return ad.gender === page && ( ad.brand.toLowerCase().includes(search.toLowerCase())
+              || (ad.title.toLowerCase().includes(search.toLowerCase())))
           })}
 
             handleChangeForwardPage={handleChangeForwardPage}
