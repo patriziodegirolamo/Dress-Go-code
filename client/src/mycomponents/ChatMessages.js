@@ -1,8 +1,7 @@
 
 import { Row, Col, Container, Button, Form, Image, Spinner } from "react-bootstrap";
-import { useNavigate, NavLink as Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useState } from 'react';
-import { GrSend } from "react-icons/gr";
 import { IoMdSend } from "react-icons/io";
 
 
