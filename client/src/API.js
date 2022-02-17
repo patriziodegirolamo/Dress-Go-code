@@ -1,5 +1,6 @@
 const url = 'https://dressandgo.herokuapp.com';
 
+
 /** STUDYGROUPS APIs **/
 
 /* TO GET THE LIST OF CATEGORIES */
