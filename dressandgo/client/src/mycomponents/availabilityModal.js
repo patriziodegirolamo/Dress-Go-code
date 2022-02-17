@@ -65,11 +65,18 @@ function MyAvailabilityModal(props) {
     }
 
 
-    const noAvailableDates = props.rents.filter(r => r.id_a == props.currentAd.id_a).map(r => {
+    const noAvailableDates = props.rents.filter(r => r.id_a === props.currentAd.id_a).map(r => {
+        const date = new Date(r.dataOut);
+        date.setDate(date.getDate() + 3);
+        const newYear = date.toISOString().split("-")[0];
+        const newMonth = date.toISOString().split("-")[1];
+        const newDay = date.toISOString().split("-")[2].split("T")[0];
+        const newDataOut = newYear + "/" + newMonth + "/" + newDay;
+
         const newObj =
         {
             dataIn: r.dataIn,
-            dataOut: r.dataOut
+            dataOut: newDataOut
         }
         return newObj
     })
@@ -82,6 +89,21 @@ function MyAvailabilityModal(props) {
     });
 
     const [attention, setAttention] = useState("");
+
+    let today = new Date();
+    let dd = String(today.getDate()).padStart(2, '0');
+    let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    let yyyy = today.getFullYear();
+    let tomorrow = today;
+    today = yyyy + '/' + mm + '/' + dd;
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const newYear = tomorrow.toISOString().split("-")[0];
+    const newMonth = tomorrow.toISOString().split("-")[1];
+    const newDay = tomorrow.toISOString().split("-")[2].split("T")[0];
+    tomorrow = newYear + "/" + newMonth + "/" + newDay;
+
+    const todayExcl = getDates(today, tomorrow);
+    excludedDates = excludedDates.concat(todayExcl);
 
 
     return <Modal show={props.show} onHide={() => props.setShow(false)}>
@@ -100,6 +122,7 @@ function MyAvailabilityModal(props) {
                         <p>3) if you did a mistake in either 1) or 2), you can: </p>
                         <p>3.1) complete tre procedure and start again without pressinc ACCEPT</p>
                         <p>3.2) press CLEAR</p>
+                        <p>* the rental can start at least from tomorrow, considering shipment times. </p>
 
                     </Accordion.Body>
 
@@ -136,14 +159,15 @@ function MyAvailabilityModal(props) {
             </Container>
             <Container className="my-3" style={{ textAlign: "center" }}>
                 <Button id="clear"
-     onClick={() => {
-                    props.setDataIn(new Date())
-                    props.setDataOut(new Date())
-                    props.setNumDays(0)
-                    props.setClearclick(false)
-                    props.setSubmitted(false)
+                    onClick={() => {
+                        props.setDataIn(new Date())
+                        props.setDataOut(new Date())
+                        props.setNumDays(0)
+                        props.setClearclick(false)
+                        props.setSubmitted(false)
+                        setAttention("")
 
-                }}>
+                    }}>
                     Clear selection
                 </Button>
             </Container>
@@ -157,13 +181,14 @@ function MyAvailabilityModal(props) {
                 props.setShow(false)
                 props.setNumDays(0)
                 props.setSubmitted(false)
+                setAttention("")
 
             }}>
                 Close
             </Button>
 
             <Button type="submit" onClick={() => {
-                if ((checkDate(excludedDates)) && (props.dataOut!=undefined)) {
+                if ((checkDate(excludedDates)) && (props.dataOut !== undefined)) {
                     props.setShow(false)
                     setAttention("")
                     countDays()
@@ -174,16 +199,14 @@ function MyAvailabilityModal(props) {
                 }
                 else {
 
-                    if(props.dataOut!=undefined)
-                    {
+                    if (props.dataOut === undefined) {
                         setAttention("END DATE MISSING");
                     }
 
-                    else
-                    {
+                    else {
                         setAttention("THERE ARE SOME UNAVAILABLE DATES");
                     }
-                   
+
                     props.setSubmitted(false)
 
                 }
