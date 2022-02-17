@@ -53,9 +53,9 @@ function FilterDropdown(props) {
     <InputGroup className="h-100">
       <DropdownButton
         variant="outline-secondary"
-        title={<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-funnel" viewBox="0 0 16 16">
-        <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2h-11z"/>
-      </svg>}
+        title={<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-funnel" viewBox="0 0 16 16">
+          <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2h-11z" />
+        </svg>}
         id="sort"
       >
         <Dropdown.Item disabled >Filter by:</Dropdown.Item>
@@ -81,9 +81,9 @@ function SortDropdown(props) {
 
   const handleAscendentPrice = () => {
     props.filter === "nofilter" ?
-    props.setAds([].concat(props.ads).sort((a, b) => a.price - b.price))
-    :
-    props.setFilterAds([].concat(props.filterAds).sort((a, b) => a.price - b.price))
+      props.setAds([].concat(props.ads).sort((a, b) => a.price - b.price))
+      :
+      props.setFilterAds([].concat(props.filterAds).sort((a, b) => a.price - b.price))
   }
 
   return (
@@ -91,12 +91,12 @@ function SortDropdown(props) {
 
       <DropdownButton
         variant="outline-secondary"
-        title={<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
-        <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
-      </svg>}
+        title={<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-filter" viewBox="0 0 16 16">
+          <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
+        </svg>}
         id="sort"
       >
-        
+
         <Dropdown.Item disabled >Sort by:</Dropdown.Item>
         <Dropdown.Item onClick={handleAscendentPrice} >Price: Low to High</Dropdown.Item>
         <Dropdown.Item onClick={handleDescendentPrice}>Price: High to Low</Dropdown.Item>
@@ -246,10 +246,22 @@ function MyHeader(props) {
 
       case "ks":
         prev = props.historyStack.pop();
-        props.setCurrentState("account");
-        localStorage.setItem("historyStack", "[]")
-        localStorage.setItem("currentState", "account");
-        navigate("/MyAccount");
+        curr = props.historyStack[props.historyStack.length - 1]
+        if (curr === "rent") {
+          const idRent = localStorage.getItem("currParam").split(":")[1].replaceAll("}", "")
+          props.setCurrentState("rent");
+          localStorage.setItem("historyStack", JSON.stringify(props.historyStack))
+          localStorage.setItem("currentState", "rent");
+          console.log(idRent)
+          navigate("/MyRents/" + idRent);
+        }
+        else {
+          props.setCurrentState("account");
+          localStorage.setItem("historyStack", "[]")
+          localStorage.setItem("currentState", "account");
+          navigate("/MyAccount");
+        }
+
 
         break;
 
@@ -339,15 +351,15 @@ function MyHeader(props) {
               }
             </> : <>
 
-             <Col>
-            
+              <Col>
+
                 <FilterDropdown ads={props.ads.filter(ad => (
                   props.categories.find((el) => el.id_cat === ad.id_cat).name === props.currentCat))} filterAds={props.filterAds} setFilterAds={props.setFilterAds}
                   setFilter={props.setFilter} />
-               </Col>
-               <Col>
+              </Col>
+              <Col>
                 <SortDropdown ads={props.ads} setAds={props.setAds} filter={props.filter} filterAds={props.filterAds} setFilterAds={props.setFilterAds} />
-             
+
               </Col>
             </>}
 

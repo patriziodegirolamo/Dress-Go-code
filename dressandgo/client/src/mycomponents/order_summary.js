@@ -28,6 +28,12 @@ function OrderSummary(props) {
     setNewMessage(initialMessage)
   }
 
+  const handleClickAddKnownSize = (event) => {
+    props.setCurrentState("ks");
+    localStorage.setItem("currentState", "ks");
+    localStorage.setItem("historyStack", JSON.stringify([...props.historyStack, "ks"]))
+    props.setHistoryStack(() => ([...props.historyStack, "ks"]))
+}
 
   const handleOpenOrCreateConversation = () => {
     const currParam = { "id": id_r }
@@ -301,7 +307,7 @@ function OrderSummary(props) {
 
                   <>
                     <Col xs={9} className="px-md-5">
-                      <Link className="my-2 mt-3 btn btn-primary btn-md w-75" role="button" to="/handleknownsizes" >
+                      <Link className="my-2 mt-3 btn btn-primary btn-md w-75" onClick={handleClickAddKnownSize} role="button" to="/handleknownsizes" >
                         Add known size
                       </Link>
                     </Col>
