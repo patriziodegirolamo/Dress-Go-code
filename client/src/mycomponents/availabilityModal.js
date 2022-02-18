@@ -106,7 +106,6 @@ function MyAvailabilityModal(props) {
     const todayExcl = getDates(today, tomorrow);
     excludedDates = excludedDates.concat(todayExcl);
 
-
     return <Modal show={props.show} onHide={() => props.setShow(false)}>
         <Modal.Header >
             <Modal.Title> Select dates for your rent</Modal.Title>
@@ -189,20 +188,22 @@ function MyAvailabilityModal(props) {
             </Button>
 
             <Button type="submit" onClick={() => {
-                if ((checkDate(excludedDates)) && (props.dataOut != null && props.dataOut !== undefined)) {
+                let now = new Date();
+
+                if ((checkDate(excludedDates)) && (props.dataOut != null && props.dataOut !== undefined) && 
+                        (props.dataIn != null && props.dataIn !== undefined) && (props.dataIn.getDate() !== now.getDate()) && (props.dataOut.getDate() !== now.getDate())) {
                     props.setShow(false)
                     setAttention("")
                     countDays()
-
-
                     props.setSubmitted(true)
 
                 }
                 else {
-
                     if (props.dataOut === undefined || props.dataOut === null) {
                         setAttention("END DATE MISSING");
                     }
+                    else if(props.dataIn === undefined || props.dataIn === null)
+                        setAttention("START DATE MISSING");
 
                     else {
                         setAttention("THERE ARE SOME UNAVAILABLE DATES");

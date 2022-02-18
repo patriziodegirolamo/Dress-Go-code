@@ -59,6 +59,7 @@ function App() {
 
   const [page, setPage] = useState(() => {
     const p = localStorage.getItem("page");
+    if(!p) return ""
     if ((url[3] === "" || url[3] === "previews" || url[3] === "dresses" || url[3] === "ad") && p)
       return p;
     else return "";
@@ -93,6 +94,7 @@ function App() {
 
   const [historyStack, setHistoryStack] = useState(() => {
     const hs = localStorage.getItem("historyStack");
+    if( !hs ) return []
     if (hs !== "[]")
       return JSON.parse(hs);
     else return [];
@@ -101,6 +103,7 @@ function App() {
 
   const [currentCat, setCurrentCat] = useState(() => {
     const cc = localStorage.getItem("currentCat")
+    if( !cc ) return ""
     if (url[3] === "dresses") {
       localStorage.setItem("currentCat", url[4])
       return url[4]
@@ -395,7 +398,7 @@ function App() {
         fetchedMessagesCS = await getAllUserMessagesCS(fetchedUser.id_u);
         localStorage.setItem("user", JSON.stringify(fetchedUser));
         localStorage.setItem("page", fetchedUser.gender);
-        localStorage.setItem("currentBottomNav", 0);
+        localStorage.setItem("currentBottomNav", "0");
         localStorage.setItem("historyStack", "[]");
         localStorage.setItem("currentCat", "");
         localStorage.setItem("currentState", "home");
