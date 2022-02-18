@@ -395,6 +395,10 @@ function App() {
         fetchedMessagesCS = await getAllUserMessagesCS(fetchedUser.id_u);
         localStorage.setItem("user", JSON.stringify(fetchedUser));
         localStorage.setItem("page", fetchedUser.gender);
+        localStorage.setItem("currentBottomNav", 0);
+        localStorage.setItem("historyStack", "[]");
+        localStorage.setItem("currentCat", "");
+        localStorage.setItem("currentState", "home");
         setPage(fetchedUser.gender);
       }
 
