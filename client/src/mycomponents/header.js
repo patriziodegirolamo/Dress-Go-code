@@ -172,19 +172,20 @@ function MyHeader(props) {
         prev = props.historyStack.pop()
         curr = props.historyStack[props.historyStack.length - 1]
 
-        console.log("from " + prev + " to " + curr)
+
         if (props.historyStack.length === 0) {
           const bottomNav = localStorage.getItem("currentBottomNav")
+          console.log(bottomNav)
           if (prev === "chat") {
             if (bottomNav == 1) {
-              console.log("vengo dalle faq");
+
               props.setCurrentState("faq");
               localStorage.setItem("currentState", "faq");
               localStorage.setItem("historyStack", JSON.stringify(props.historyStack))
               navigate("/FAQ");
             }
             if (bottomNav == 2) {
-              console.log("vengo dalle chats");
+
               props.setCurrentState("chats");
               localStorage.setItem("currentState", "chat");
               localStorage.setItem("historyStack", JSON.stringify(props.historyStack))
@@ -264,7 +265,7 @@ function MyHeader(props) {
           props.setCurrentState("rent");
           localStorage.setItem("historyStack", JSON.stringify(props.historyStack))
           localStorage.setItem("currentState", "rent");
-          console.log(idRent)
+
           navigate("/MyRents/" + idRent);
         }
         else {
@@ -311,7 +312,7 @@ function MyHeader(props) {
       {props.currentState === "home" || props.currentState === "cat" ?
         <Container>
           <Row>
-            <Col xs={props.currentState === "home" ? 7 : 7}>
+            <Col xs={props.currentState === "home" ? 7 : 6}>
               <Form id="formFilterDress" onSubmit={e => { e.preventDefault(); }} >
                 <Form.Control style={{ height: 54 }} value={props.search} placeholder="Search a product..." onChange={(event) => {
                   event.preventDefault();
@@ -326,7 +327,7 @@ function MyHeader(props) {
 
               {
                 props.page === "man" ?
-                  <Col xs={2}>
+                  <Col xs={2} >
                     <Button className="border border-primary" style={{ backgroundColor: "white" }} size="lg" variant="light" disabled>
                       <FcBusinessman size={35}></FcBusinessman>
                     </Button>
@@ -363,14 +364,14 @@ function MyHeader(props) {
               }
             </> : <>
 
-              <Col>
+              <Col classname="justify-content-center" style={{ textAlign: "center" }}>
 
-                <FilterDropdown ads={props.ads.filter(ad => (
+                <FilterDropdown style={{ textAlign: "center" }} ads={props.ads.filter(ad => (
                   props.categories.find((el) => el.id_cat === ad.id_cat).name === props.currentCat))} filterAds={props.filterAds} setFilterAds={props.setFilterAds}
                   setFilter={props.setFilter} />
               </Col>
-              <Col>
-                <SortDropdown ads={props.ads} setAds={props.setAds} filter={props.filter} filterAds={props.filterAds} setFilterAds={props.setFilterAds} />
+              <Col classname="justify-content-center" style={{ textAlign: "center" }} >
+                <SortDropdown style={{ textAlign: "center" }} ads={props.ads} setAds={props.setAds} filter={props.filter} filterAds={props.filterAds} setFilterAds={props.setFilterAds} />
 
               </Col>
             </>}
