@@ -189,7 +189,7 @@ function MyAvailabilityModal(props) {
             </Button>
 
             <Button type="submit" onClick={() => {
-                if ((checkDate(excludedDates)) && (props.dataOut !== undefined)) {
+                if ((checkDate(excludedDates)) && (props.dataOut != null && props.dataOut !== undefined)) {
                     props.setShow(false)
                     setAttention("")
                     countDays()
@@ -200,7 +200,7 @@ function MyAvailabilityModal(props) {
                 }
                 else {
 
-                    if (props.dataOut === undefined) {
+                    if (props.dataOut === undefined || props.dataOut === null) {
                         setAttention("END DATE MISSING");
                     }
 
