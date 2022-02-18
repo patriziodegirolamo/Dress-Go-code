@@ -708,7 +708,7 @@ function App() {
           <MyDressList adsImages={adsImages} categories={categories}
             ads={ads.filter(ad => {
               let cat = categories.find((el) => el.id_cat === ad.id_cat);
-              return cat.name === currentCat && (ad.title.toLowerCase().includes(search.toLowerCase())
+              return ad.gender === page && cat.name === currentCat && (ad.title.toLowerCase().includes(search.toLowerCase())
                 || ad.size.toLowerCase().includes(search.toLowerCase()))
             })}
             handleChangeForwardPage={handleChangeForwardPage}
