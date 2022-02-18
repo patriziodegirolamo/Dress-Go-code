@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { Container, Navbar, Form, Row, Col, Button, InputGroup, Dropdown, DropdownButton } from "react-bootstrap";
+=======
+import { Container, Navbar, Form, Row, Col, Button } from "react-bootstrap";
+>>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
 import { useNavigate } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -7,6 +11,7 @@ import "../css/header.css";
 import { IoArrowBackCircleOutline } from 'react-icons/io5'
 import { FcBusinessman, FcBusinesswoman } from 'react-icons/fc'
 
+<<<<<<< HEAD
 function FilterDropdown(props) {
   const handlePriceUnder50 = () => {
     const ads = props.ads.filter(ads => ads.price <= 50.0);
@@ -105,6 +110,9 @@ function SortDropdown(props) {
     </InputGroup>
   )
 }
+=======
+
+>>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
 
 
 function MyHeader(props) {
@@ -117,6 +125,10 @@ function MyHeader(props) {
     let curr = null;
     let currParam = JSON.parse(localStorage.getItem("currParam"));
 
+<<<<<<< HEAD
+=======
+    console.log(currParam, props.currentState)
+>>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
     if (props.historyStack.length === 0) {
       props.setCurrentCat("");
       localStorage.setItem("currentCat", "");
@@ -136,13 +148,20 @@ function MyHeader(props) {
         props.historyStack.pop()
         localStorage.setItem("historyStack", JSON.stringify(props.historyStack))
         props.setCurrentState("home")
+<<<<<<< HEAD
         localStorage.setItem("currentState", "home");
+=======
+>>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
         navigate("/previews");
         break;
 
       case "bigCat":
         prev = props.historyStack.pop()
+<<<<<<< HEAD
         curr = props.historyStack[props.historyStack.length - 1]
+=======
+        curr = props.historyStack.at(-1);
+>>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
 
         if (curr === "cat") {
           props.setCurrentState(curr);
@@ -170,6 +189,7 @@ function MyHeader(props) {
 
       case "chat":
         prev = props.historyStack.pop()
+<<<<<<< HEAD
         curr = props.historyStack[props.historyStack.length - 1]
 
 
@@ -191,6 +211,16 @@ function MyHeader(props) {
               localStorage.setItem("historyStack", JSON.stringify(props.historyStack))
               navigate("/MyChats");
             }
+=======
+        curr = props.historyStack.at(-1);
+        console.log(prev, curr)
+        if (props.historyStack.length === 0) {
+          if (prev === "chat") {
+            props.setCurrentState("chats");
+            localStorage.setItem("currentState", "chat");
+            localStorage.setItem("historyStack", JSON.stringify(props.historyStack))
+            navigate("/MyChats");
+>>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
           }
         }
         else {
@@ -211,6 +241,10 @@ function MyHeader(props) {
           }
 
           else if (curr === "bigCat") {
+<<<<<<< HEAD
+=======
+            console.log("here", currParam)
+>>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
             props.setCurrentState("bigCat");
             localStorage.setItem("currentState", "bigCat");
             props.setCurrentCat(currParam.cat)
@@ -224,7 +258,11 @@ function MyHeader(props) {
 
       case "rent":
         prev = props.historyStack.pop()
+<<<<<<< HEAD
         curr = props.historyStack[props.historyStack.length - 1]
+=======
+        curr = props.historyStack.at(-1);
+>>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
 
         if (prev === "rent") {
           props.setCurrentState("rents");
@@ -249,7 +287,10 @@ function MyHeader(props) {
 
       case "editProfile":
         prev = props.historyStack.pop();
+<<<<<<< HEAD
 
+=======
+>>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
         props.setCurrentState("account");
         localStorage.setItem("historyStack", "[]")
         localStorage.setItem("currentState", "account");
@@ -259,6 +300,7 @@ function MyHeader(props) {
 
       case "ks":
         prev = props.historyStack.pop();
+<<<<<<< HEAD
         curr = props.historyStack[props.historyStack.length - 1]
         if (curr === "rent") {
           const idRent = localStorage.getItem("currParam").split(":")[1].replaceAll("}", "")
@@ -275,6 +317,12 @@ function MyHeader(props) {
           navigate("/MyAccount");
         }
 
+=======
+        props.setCurrentState("account");
+        localStorage.setItem("historyStack", "[]")
+        localStorage.setItem("currentState", "account");
+        navigate("/MyAccount");
+>>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
 
         break;
 
@@ -299,10 +347,16 @@ function MyHeader(props) {
         }
         <Container>
           <Navbar.Brand className='m-auto'>
+<<<<<<< HEAD
             <a style={{ textDecoration: "none" }} href="/previews"><b id="title" style={{ color: "rgb(70, 133, 204)" }}>Dress&Go</b>
               {props.currentState === "home" || props.currentState === "cat" || props.currentState === "bigCat" ?
                 <sub id="pedice" style={{ color: "rgb(70, 133, 204)" }}><i>{props.page}</i></sub> : <></>}
             </a>
+=======
+            <b id="title" style={{ color: "rgb(70, 133, 204)" }}>Dress&Go</b>
+            {props.currentState == "home" || props.currentState == "cat" || props.currentState == "bigCat" ?
+              <sub id="pedice" style={{ color: "rgb(70, 133, 204)" }}><i>{props.page}</i></sub> : <></>}
+>>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
           </Navbar.Brand>
 
         </Container>
@@ -312,6 +366,7 @@ function MyHeader(props) {
       {props.currentState === "home" || props.currentState === "cat" ?
         <Container>
           <Row>
+<<<<<<< HEAD
             <Col xs={props.currentState === "home" ? 7 : 6}>
               <Form id="formFilterDress" onSubmit={e => { e.preventDefault(); }} >
                 <Form.Control style={{ height: 54 }} value={props.search} placeholder="Search a product..." onChange={(event) => {
@@ -375,6 +430,53 @@ function MyHeader(props) {
 
               </Col>
             </>}
+=======
+            <Col xs={7}>
+              <Form id="formFilterDress">
+                <Form.Control value={props.search} placeholder="Search..." onChange={(event) => {
+                  props.setSearch(event.target.value)
+                }} />
+              </Form>
+            </Col>
+
+            {
+              props.page === "man" ?
+                <Col xs={2}>
+                  <Button style={{ backgroundColor: "white" }} size="lg" variant="light" disabled>
+                    <FcBusinessman size={35}></FcBusinessman>
+                  </Button>
+                </Col>
+                :
+                <Col xs={2}>
+                  <Button style={{ backgroundColor: "white" }} size="lg" variant="light" onClick={(event) => {
+                    handleChangeBackardPage()
+                    props.setPage("man");
+                    localStorage.setItem("page", "man");
+                  }}>
+                    <FcBusinessman size={30}></FcBusinessman>
+                  </Button>
+                </Col>
+            }
+
+            {
+              props.page === "woman" ?
+                <Col xs={2}>
+                  <Button style={{ backgroundColor: "white" }} size="lg" variant="light" disabled>
+                    <FcBusinesswoman size={35}></FcBusinesswoman>
+                  </Button>
+                </Col>
+                :
+                <Col xs={2}>
+                  <Button style={{ backgroundColor: "white" }} size="lg" variant="light" onClick={(event) => {
+                    handleChangeBackardPage()
+                    props.setPage("woman");
+                    localStorage.setItem("page", "woman");
+                  }}>
+                    <FcBusinesswoman size={30}></FcBusinesswoman>
+                  </Button>
+                </Col>
+            }
+>>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
 
           </Row>
         </Container>

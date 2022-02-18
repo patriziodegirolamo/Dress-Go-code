@@ -182,7 +182,11 @@ app.get("/api/allUsermessages", async (req, res) => {
 // POST /api/newknownsize ; to create a new known size for that user
 app.post('/api/newknownsize',
   async (req, res) => {
+<<<<<<< HEAD
     const ksize = { id_u: req.body.id_u, brand: req.body.brand, id_cat: req.body.id_cat, eusize: req.body.eusize };
+=======
+    const ksize = { id_u: req.body.id_u, brand: req.body.brand, id_cat: req.body.id_cat, eusize: req.body.eusize};
+>>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
     try {
       const result = await dao.insertKnownSize(ksize);
       return res.json(result);
@@ -191,6 +195,7 @@ app.post('/api/newknownsize',
     }
   });
 
+<<<<<<< HEAD
 
 // POST /api/newconversation ; to create a new conversation
 app.post('/api/newconversation',
@@ -212,10 +217,32 @@ app.post('/api/newconversation',
       res.status(503).json({ error: `Database error during the creation of submission` });
     }
   });
+=======
+  
+// POST /api/newconversation ; to create a new conversation
+app.post('/api/newconversation',
+async (req, res) => {
+  const conv = {id_a: req.body.id_a, idRenter: req.body.idRenter, idBooker: req.body.idBooker };
+  const newMess = {idSender: req.body.idSender, idReceiver: req.body.idReceiver, 
+    date: req.body.date, text: req.body.text}
+
+  try {
+    const result = await dao.insertConversation(conv).then((id_conv) => {
+      const messaggio = {...newMess, id_conv: id_conv}
+      const r = dao.insertMessage(messaggio).then(id_m => {return {id_conv: id_conv, id_m: id_m}})
+      return r;
+    });
+    return res.json(result);
+  } catch (err) {
+    res.status(503).json({ error: `Database error during the creation of submission` });
+  }
+});
+>>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
 
 
 // POST /api/newmessage ; to create a new message
 app.post('/api/newmessage',
+<<<<<<< HEAD
   async (req, res) => {
     const msg = { id_conv: req.body.id_conv, idSender: req.body.idSender, idReceiver: req.body.idReceiver, date: req.body.date, text: req.body.text };
     try {
@@ -247,6 +274,37 @@ app.patch('/api/modifyUserInfo',
       gender: req.body.gender, height: req.body.height, weight: req.body.weight, waistline: req.body.waistline,
       hips: req.body.hips, legLength: req.body.legLength, shoesNumber: req.body.shoesNumber
     };
+=======
+async (req, res) => {
+  const msg = {id_conv: req.body.id_conv, idSender: req.body.idSender, idReceiver: req.body.idReceiver, date: req.body.date, text: req.body.text};
+  try {
+    const result = await dao.insertMessage(msg);
+    return res.json(result);
+  } catch (err) {
+    res.status(503).json({ error: `Database error during the creation of submission` });
+  }
+});
+
+// POST /api/newrent ; to create a new rent
+app.post('/api/newrent',
+async (req, res) => {
+  const rent = {id_a: req.body.id_a, id_renter: req.body.id_renter, id_booker: req.body.id_booker, dataIn: req.body.dataIn, dataOut: req.body.dataOut, status: req.body.status};
+  try {
+    const result = await dao.insertRent(rent);
+    return res.json(result);
+  } catch (err) {
+    res.status(503).json({ error: `Database error during the creation of submission` });
+  }
+});
+
+  // PATCH /api/modifyUserInfo ; to update user infos
+  app.patch('/api/modifyUserInfo',
+  async (req, res) => {
+    const newInfos = { id_u: req.body.id_u, name: req.body.name, surname: req.body.surname, address: req.body.address,
+                       city: req.body.city, cap: req.body.cap, state: req.body.state, zip: req.body.zip, 
+                       gender: req.body.gender, height: req.body.height, weight: req.body.weight, waistline: req.body.waistline,
+                       hips: req.body.hips, legLength: req.body.legLength, shoesNumber: req.body.shoesNumber};
+>>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
     try {
       const result = await dao.modifyUserInfos(newInfos);
       return res.json(result);
@@ -255,6 +313,7 @@ app.patch('/api/modifyUserInfo',
     }
   });
 
+<<<<<<< HEAD
 // PATCH /api/modifyStatusRent ; to update a status of a rent 
 app.patch('/api/modifyStatusRent',
   async (req, res) => {
@@ -284,6 +343,12 @@ async (req, res) => {
 
 // DELETE /api/removeksize ; to remove a knwon size inserted by the user
 app.delete('/api/removeksize', async (req, res) => {
+=======
+
+
+// DELETE /api/removeksize ; to remove a knwon size inserted by the user
+app.delete('/api/removeksize',  async (req, res) => {
+>>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
   try {
     await dao.removeKnownSize(req.query.id_ks);
     res.end();
@@ -337,6 +402,7 @@ app.get("/api/allUsermessagesCS", async (req, res) => {
 
 // POST /api/newmessage ; to create a new message
 app.post('/api/newmessageCS',
+<<<<<<< HEAD
   async (req, res) => {
     const msg = { id_conv: req.body.id_conv, idUser: req.body.idUser, idCS: req.body.idCS, date: req.body.date, text: req.body.text, isSenderAUser: req.body.isSenderAUser };
     try {
@@ -346,5 +412,16 @@ app.post('/api/newmessageCS',
       res.status(503).json({ error: `Database error during the creation of submission` });
     }
   });
+=======
+async (req, res) => {
+  const msg = {id_conv: req.body.id_conv, idUser: req.body.idUser, idCS: req.body.idCS, date: req.body.date, text: req.body.text, isSenderAUser: req.body.isSenderAUser};
+  try {
+    const result = await dao.insertMessageCS(msg);
+    return res.json(result);
+  } catch (err) {
+    res.status(503).json({ error: `Database error during the creation of submission` });
+  }
+});
+>>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
 
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}/`));

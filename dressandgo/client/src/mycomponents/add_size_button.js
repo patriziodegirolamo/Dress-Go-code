@@ -94,7 +94,11 @@ function AddKnownSizes(props) {
 
     return (
         <Modal show={show} onHide={handleClose}>
+<<<<<<< HEAD
             <Modal.Header>
+=======
+            <Modal.Header closeButton>
+>>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
                 <Modal.Title>New known size</Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -238,9 +242,13 @@ function AddKnownSizes(props) {
 
             </Modal.Body>
             <Modal.Footer>
+<<<<<<< HEAD
                 <Button variant="secondary" onClick={handleClose}>
                     Close
                 </Button>
+=======
+               
+>>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
                 <Button variant="primary" onClick={handleSubmit}>
                     Insert
                 </Button>

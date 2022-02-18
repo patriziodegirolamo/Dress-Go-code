@@ -1,14 +1,37 @@
+<<<<<<< HEAD
 
 import {Container, Accordion, Table, Figure } from "react-bootstrap";
+=======
+import { useNavigate } from "react-router-dom";
+import { useState } from 'react';
+import { Col, Row, Container, Button, ButtonGroup, Accordion, Table, Figure } from "react-bootstrap";
+>>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
 
 
 function SizeGuide(props) {
 
+<<<<<<< HEAD
+=======
+    /**
+     *   <Container>
+            Please select your preferred size guide
+            <ButtonGroup>
+                <Button size="lg" onClick={() => {
+                    setType("man")
+                }}>Man</Button>
+                <Button size="lg" onClick={() => {
+                    setType("woman")
+                }}>Woman</Button>
+            </ButtonGroup>
+        </Container>
+    */
+>>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
 
     return <>
       
 
         {props.type === "man" ? <Container>
+<<<<<<< HEAD
             
             <h5>How to measure:</h5>
             <p>Using a tape measure, have someone take your measurements as noted below</p>
@@ -17,6 +40,19 @@ function SizeGuide(props) {
             
 
             <Accordion className="pb-3">
+=======
+
+                    <Row className="mt-3">
+            <h5>How to measure:</h5>
+            <p>Using a tape measure, have someone take your measurements as noted below</p>
+            </Row>
+
+            <Row className="my-3"><img alt = 'noimage' className = 'small' src = '/man_guide.png' /></Row>           
+
+            
+
+            <Accordion className="my-3">
+>>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
                 <Accordion.Item eventKey="0">
                     <Accordion.Header>Chest Measurements:</Accordion.Header>
                     <Accordion.Body>
@@ -65,7 +101,11 @@ function SizeGuide(props) {
 
             </Accordion>
 
+<<<<<<< HEAD
             <Table striped bordered>
+=======
+            <Table className="mt-3" striped bordered>
+>>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
                 <thead>
                     <tr>
                         <th colSpan={5}>
@@ -94,11 +134,16 @@ function SizeGuide(props) {
         </Container> : <></>}
 
 
+<<<<<<< HEAD
 
 
         {props.type === "woman" ? <Container>
            
 
+=======
+        {props.type === "woman" ? <Container>
+            
+>>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
             <h5>How to measure:</h5>
             <p>Using a tape measure, have someone take your measurements as noted below</p>
 

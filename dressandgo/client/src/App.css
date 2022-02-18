@@ -43,16 +43,33 @@
 }
 
 #dressContainer{
+<<<<<<< HEAD
   margin-top: 10px;
   padding-bottom: 30px;
   display: grid;
+=======
+  margin-top: 30px;
+  padding-bottom: 30px;
+  display: grid;
+
+
+>>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
 }
 
 #titlebar{
   background-color: #F8F8F8;
+<<<<<<< HEAD
 }
 #infobutton{
   border-radius: 50%;
+=======
+
+}
+#infobutton{
+
+  border-radius: 50%;
+
+>>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
 }
 
 #middleButtonContainer{
@@ -66,9 +83,13 @@
 }
 
 #rotationimage {
+<<<<<<< HEAD
 	transform: rotate(-10deg);
   
 
+=======
+	transform: rotate(-34deg);
+>>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
   	/*to rotate an image you have to use the transform function in CSS and rotate
   	in degrees*/
 }
@@ -82,10 +103,17 @@
 
 
 .headerChat{
+<<<<<<< HEAD
  
   border-radius: "2%";
   padding: "10px";
   margin-bottom: "15px"; 
+=======
+  background-color: rgb(131, 163, 206);
+  border-radius: "2%";
+  padding: "10px";
+  margin-bottom: "20px"; 
+>>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
 }
 
 
@@ -200,6 +228,7 @@
 .chat-body {
   width: calc(100% + 17px);
   min-height: 290px;
+<<<<<<< HEAD
   height: calc(100vh - 335px);
   background-color: #fbfcff;
   margin-bottom: 0px;
@@ -214,6 +243,12 @@
   background-color: #fbfcff;
   margin-bottom: 0px;
   padding: 0px 5px 0px 5px;
+=======
+  height: calc(100vh - 320px);
+  background-color: #fbfcff;
+  margin-bottom: 30px;
+  padding: 30px 5px 5px 5px;
+>>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
   overflow-y: scroll;
 }
 
@@ -413,11 +448,15 @@
   border-radius: 50%;
   padding: 0;
 }
+<<<<<<< HEAD
  #clear{
   color: #212529;
   background-color: #81ecec;
   border-color: #81ecec
  }
+=======
+
+>>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
 
 #back-button{
   background-color: white;

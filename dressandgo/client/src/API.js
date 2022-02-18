@@ -196,8 +196,13 @@ async function getRents(id_u) {
               idBooker: t.idBooker,
               dataIn: t.dataIn,
               dataOut: t.dataOut, 
+<<<<<<< HEAD
               status: t.status,
               return: t.return
+=======
+              status: t.status
+            
+>>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
           }));
       } else {
           throw rents;  // an object with the error coming from the server
@@ -364,6 +369,7 @@ async function modifyUsInfos(newInfos) {
   });
 }
 
+<<<<<<< HEAD
 /* TO MODIFY A STATUS OF A RENT  */
 async function modifyStatus(newStatus) {
   return new Promise((resolve, reject) => {
@@ -411,6 +417,8 @@ async function unlockReturn(newLock) {
   });
 }
 
+=======
+>>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
 
 /* TO INSERT A NEW KNOWN SIZE */
 async function insertKnownSize(ksize) {
@@ -438,7 +446,11 @@ async function insertKnownSize(ksize) {
   
 /* TO INSERT A NEW CONVERSATION */
 async function insertConversation(conv, mess) {
+<<<<<<< HEAD
 
+=======
+  console.log(conv, mess)
+>>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
   return new Promise((resolve, reject) => {
     fetch('/api/newconversation', {
       method: 'POST',
@@ -556,5 +568,9 @@ async function insertMessageCS(msg) {
   
 
 export {getCategories, getUserInfos, getKnownSizes, getAds, getAdsImages, getBrands, getAllUserMessages,
+<<<<<<< HEAD
         getUsers, getConversations, modifyUsInfos, modifyStatus, unlockReturn, insertKnownSize, insertConversation, insertMessage, insertRent,
+=======
+        getUsers, getConversations, modifyUsInfos, insertKnownSize, insertConversation, insertMessage, insertRent,
+>>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
         removeKnownSize, getOperators, getConversationsCS, getAllUserMessagesCS, getRents, insertMessageCS};

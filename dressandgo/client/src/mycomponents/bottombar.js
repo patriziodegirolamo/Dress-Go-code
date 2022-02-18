@@ -25,6 +25,7 @@ export default function FixedBottomNavigation(props) {
   Account: 4
   */
   let navigate = useNavigate();
+<<<<<<< HEAD
   const reloading = sessionStorage.getItem("reloaded");
   const urlArray = window.location.pathname.split("/").splice(1)
 
@@ -48,13 +49,42 @@ export default function FixedBottomNavigation(props) {
       else return 0;
     }
 
+=======
+
+  const urlArray = window.location.pathname.split("/").splice(1)
+  const [value, setValue] = useState(() => {
+    if (window.performance) {
+      if (performance.navigation.type !== 1) {
+        if (urlArray[0] === "previews" || urlArray[0] === "dresses" || urlArray[0] === "ad") return 0;
+
+        else if (urlArray[0] === "FAQ") return 1;
+
+        else if (urlArray[0] === "MyChats" || urlArray[0] === "CustomerServiceChat") return 2;
+
+        else if (urlArray[0] === "MyRents") return 3;
+
+        else if (urlArray[0] === "MyAccount" || urlArray[0] === "handleknownsizes" || urlArray[0] === "editprofile") return 4;
+
+      }
+      else {
+        const bottomNav = localStorage.getItem("currentBottomNav");
+        if (bottomNav)
+          return parseInt(bottomNav);
+        else return 0;
+      }
+    }
+>>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
 
   });
 
   return <>
     <Box sx={{ pb: 7 }}  >
 
+<<<<<<< HEAD
       <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3} style={{ zIndex:"4"}}>
+=======
+      <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
+>>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
         <BottomNavigation
           showLabels
           value={value}
@@ -69,9 +99,12 @@ export default function FixedBottomNavigation(props) {
             localStorage.setItem("currentCat", "");
             props.setSearch("")
 
+<<<<<<< HEAD
             props.setFilter();
             props.setFilterAds([]);
 
+=======
+>>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
             if (newValue === 0) {
               props.setCurrentState("home");
               localStorage.setItem("currentState", "home");
