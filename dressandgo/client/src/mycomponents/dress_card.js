@@ -16,7 +16,6 @@ function MySmallAdvertisement(props) {
 
     const currentImg = props.adsImages.find((el) => el.position === 1);
     return <>
-<<<<<<< HEAD
         <Card key={props.idx} onClick={() => {
             navigate("/ad/" + props.ad.id_a)
             return props.handleChangeForwardPage(props.categories.find((el) => el.id_cat === props.ad.id_cat).name)
@@ -75,48 +74,6 @@ function MySmallAdvertisement(props) {
             </Card.Body>
 
         </Card>
-=======
-
-        {
-            !currentImg ? <Container id="containerSpinner">
-                <Spinner animation="border" variant="danger" />
-            </Container> :
-
-                <Card key={props.idx} onClick={() => {
-                    navigate("/ad/" + props.ad.id_a)
-                    return props.handleChangeForwardPage(props.categories.find((el) => el.id_cat === props.ad.id_cat).name)
-                }
-                }>
-
-                    <Card.Img variant="top" src={currentImg.url} className="mx-auto" style={{ width: '100%' }} />
-
-                    <Card.Body>
-
-                        <Row>
-                            <h5 id="titlead" > {props.ad.title}</h5>
-                        </Row>
-
-                        <Row className="justify-content-center" >
-                            <Col>SIZE:
-                            </Col>
-                            <Col > {props.ad.size}
-                            </Col>
-
-                        </Row>
-
-
-                        <Row className="justify-content-center" >
-                            <Col > <b> PRICE:</b>
-                            </Col>
-                            <Col > <b>{props.ad.price}€/d</b>
-                            </Col>
-
-                        </Row>
-
-                    </Card.Body>
-                </Card>
-        }
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
 
     </>
 }
@@ -130,10 +87,7 @@ function MyBigAdvertisement(props) {
     const [numDays, setNumDays] = useState(0);
     const [showCalendar, setShowCalendar] = useState(false);
     const [showSizeGuide, setShowSizeGuide] = useState(false);
-<<<<<<< HEAD
     const [showRecap, setShowRecap] = useState(false);
-=======
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
 
     const [dataIn, setDataIn] = useState(new Date())
     const [dataOut, setDataOut] = useState(new Date())
@@ -146,24 +100,18 @@ function MyBigAdvertisement(props) {
     const initialMessage = "Hi , I'm contacting you, for the advertisement: ";
     const [newMessage, setNewMessage] = useState(initialMessage)
     const [submitted, setSubmitted] = useState(false)
-<<<<<<< HEAD
     const [clearclick, setClearclick] = useState(false)
 
 
     let newdataIn;
     let newdataOut;
-=======
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
 
     const onChange = (dates) => {
         const [start, end] = dates;
         setDataIn(start);
         setDataOut(end);
-<<<<<<< HEAD
         setClearclick(true);
 
-=======
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
     };
 
     const onCloseNewMessageModal = () => {
@@ -174,11 +122,7 @@ function MyBigAdvertisement(props) {
     const handleOpenOrCreateConversation = () => {
 
         const currParam = { "id": idAd, "cat": props.currentCat }
-<<<<<<< HEAD
         const conv = props.conversations.find(c => c.id_a === idAd && c.idRenter === props.users.filter(u => u.id_u === currentAd.id_u)[0].id_u && c.idBooker === props.currentUser.id_u)
-=======
-        const conv = props.conversations.find(c => c.id_a == idAd && c.idRenter == props.users.filter(u => u.id_u == currentAd.id_u)[0].id_u && c.idBooker == props.currentUser.id_u)
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
         if (conv) {
             localStorage.setItem("historyStack", JSON.stringify([...props.historyStack, "chat"]))
             props.setHistoryStack(() => ([...props.historyStack, "chat"]));
@@ -198,21 +142,13 @@ function MyBigAdvertisement(props) {
 
         const new_conversation = {
             id_a: currentAd.id_a,
-<<<<<<< HEAD
             idRenter: props.users.filter(u => u.id_u === currentAd.id_u)[0].id_u,
-=======
-            idRenter: props.users.filter(u => u.id_u == currentAd.id_u)[0].id_u,
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
             idBooker: props.currentUser.id_u
         };
 
         const new_message = {
             idSender: props.currentUser.id_u,
-<<<<<<< HEAD
             idReceiver: props.users.filter(u => u.id_u === currentAd.id_u)[0].id_u,
-=======
-            idReceiver: props.users.filter(u => u.id_u == currentAd.id_u)[0].id_u,
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
             date: new Date().toISOString(),
             text: newMessage
         }
@@ -232,7 +168,6 @@ function MyBigAdvertisement(props) {
     }
 
     const handlePressRent = () => {
-<<<<<<< HEAD
         setShowRecap(false);
 
         setSubmitted(true);
@@ -242,17 +177,6 @@ function MyBigAdvertisement(props) {
         const newRent = {
             id_a: parseInt(currentAd.id_a),
             id_renter: props.users.find(u => u.id_u === currentAd.id_u).id_u,
-=======
-
-        setSubmitted(true);
-        const newdataIn = new Date(dataIn).toISOString().split("T")[0].replaceAll("-", "/")
-        const newdataOut = new Date(dataOut).toISOString().split("T")[0].replaceAll("-", "/")
-
-
-        const newRent = {
-            id_a: parseInt(currentAd.id_a),
-            id_renter: props.users.find(u => u.id_u == currentAd.id_u).id_u,
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
             id_booker: props.currentUser.id_u,
             dataIn: newdataIn,
             dataOut: newdataOut,
@@ -268,7 +192,6 @@ function MyBigAdvertisement(props) {
         props.setCurrentCat("")
         props.setHistoryStack(() => ([]));
 
-<<<<<<< HEAD
 
         navigate("/MyRents")
     }
@@ -284,20 +207,6 @@ function MyBigAdvertisement(props) {
                 <Card.Title>
                     <Row className="pt-3">
                         <h3 id="titlecard" style={{ textAlign: "center" }}><b>{currentAd.title}</b></h3>
-=======
-        navigate("/MyRents")
-
-    }
-
-    return (<>
-        {!currentAd ? <Container id="containerSpinner">
-            <Spinner animation="border" variant="danger" />
-        </Container>
-            : <Card key={idAd}>
-                <Card.Title>
-                    <Row className="pt-3">
-                        <h3 id="titlecard"style={{ textAlign: "center"}}>{currentAd.title}</h3>
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
                     </Row>
 
                 </Card.Title>
@@ -315,38 +224,13 @@ function MyBigAdvertisement(props) {
                     </Carousel>
                 </Container>
 
-<<<<<<< HEAD
                 <Row className="justify-content-center pt-3 text-center">
 
                     Rented by: <i>{props.users.filter(x => x.id_u === currentAd.id_u)[0].name} (Private)</i>
-=======
-
-                <Row className="my-3 justify-content-center" >
-                    <Col className="col-4" > <b> BRAND:</b>
-                    </Col>
-                    <Col className="col-4"> {currentAd.brand}
-                    </Col>
-                </Row>
-
-
-
-                <Row className="my-1 justify-content-center" >
-                    <Col className="col-4" > <b> DESCRIPTION:</b>
-                    </Col>
-                    <Col className="col-4">
-                    </Col>
-
-                </Row>
-                <Row className="my-1 justify-content-center" >
-                    <Col className="col-8">   {currentAd.description}
-                    </Col>
-
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
 
                 </Row>
 
 
-<<<<<<< HEAD
                 <Row className="justify-content-center pt-3 text-center">
 
                     <b>BRAND:</b> {currentAd.brand}
@@ -388,39 +272,6 @@ function MyBigAdvertisement(props) {
                     }
 
 
-=======
-
-
-
-                <Row className="my-1 justify-content-center" >
-                    <Col className="col-4" > <b> SIZE:</b>
-                    </Col>
-                    <Col className="col-4"> {currentAd.size}
-                    </Col>
-
-                </Row>
-
-
-                <Row className="my-1 justify-content-center" >
-                    <Col className="col-4" > <b> PRICE PER DAY:</b>
-                    </Col>
-                    <Col className="col-4">  {currentAd.price} €/day
-                    </Col>
-
-                </Row>
-
-
-
-
-
-                <Container>
-                    <Row className="justify-content-center mt-3">
-                        <Button onClick={() => setShowSizeGuide(true)} className="my-2 btn btn-secondary btn-md w-75" >
-                            How to measure your size
-                        </Button>
-
-                    </Row>
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
 
 
 
@@ -432,7 +283,6 @@ function MyBigAdvertisement(props) {
 
                     </Row>
 
-<<<<<<< HEAD
                     {numDays === 0 ?
 
                         <Container className="text-center">
@@ -445,23 +295,16 @@ function MyBigAdvertisement(props) {
                         :
                         <></>
                     }
-=======
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
 
 
 
                     <Row className="justify-content-center">
-<<<<<<< HEAD
                         <Button onClick={() => setShowCalendar(true)} className="mt-2 btn btn-primary btn-md w-75" >
-=======
-                        <Button onClick={() => setShowCalendar(true)} className="mt-5 btn btn-primary btn-md w-75" >
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
                             Select dates
                         </Button>
 
                     </Row>
 
-<<<<<<< HEAD
                     {numDays !== 0 ?
 
                         <Container className="text-center">
@@ -478,53 +321,6 @@ function MyBigAdvertisement(props) {
 
                     <Row className="justify-content-center">
                         <Button disabled={!submitted} onClick={() => setShowRecap(true)} className="my-2 btn btn-primary btn-md w-75" >
-=======
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                    {((submitted) && (numDays !== 0)) ? <>
-                        <Row className="my-3 justify-content-center" >
-                            <Col className="col-4" > <b>End rent:</b>
-                            </Col>
-                            <Col className="col-4"> 08/08/0808
-                            </Col>
-                        </Row>
-
-                        <Row className="my-3 justify-content-center" >
-                            <Col className="col-4" > <b>End rent:</b>
-                            </Col>
-                            <Col className="col-4"> 08/08/0808
-                            </Col>
-
-                        </Row>
-
-                        <Row className="my-3 justify-content-center" >
-                            <Col className="col-4" > <b>OVERALL PRICE:</b>
-                            </Col>
-                            <Col className="col-4"> {(numDays * currentAd.price).toPrecision(4)}
-                            </Col>
-
-                        </Row>
-                    </>
-                        :
-                        <></>
-
-                    }
-
-                    <Row className="justify-content-center">
-                        <Button disabled={!submitted} onClick={handlePressRent} className="my-2 btn btn-primary btn-md w-75" >
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
                             RENT
                         </Button>
 
@@ -534,22 +330,16 @@ function MyBigAdvertisement(props) {
 
                 <Container>
                     <Modal show={showSizeGuide} onClose={() => setShowSizeGuide(false)} onHide={() => setShowSizeGuide(false)}>
-<<<<<<< HEAD
                         <Modal.Header>
                             <Modal.Title>
                                 {currentAd.gender === "man" ? <>INTERNATIONAL MENS FIT GUIDE</> : <>INTERNATIONAL LADIES FIT GUIDE</>}
 
                             </Modal.Title>
 
-=======
-                        <Modal.Header closeButton>
-                            <Modal.Title>{currentAd.gender == "man" ? "International men fit guide" : "International ladies fit guide"} </Modal.Title>
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
                         </Modal.Header>
                         <Modal.Body>
                             <SizeGuide type={currentAd.gender} />
                         </Modal.Body>
-<<<<<<< HEAD
                         <Modal.Footer>
                             <Button variant="secondary" onClick={() => setShowSizeGuide(false)}>
                                 Close
@@ -639,20 +429,11 @@ function MyBigAdvertisement(props) {
                 </Container>
 
 
-=======
-                    </Modal>
-                </Container>
-
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
                 <Card.Body>
 
                     {
                         props.rents ?
-<<<<<<< HEAD
                             <MyAvailabilityModal show={showCalendar} setShow={setShowCalendar} setClearclick={setClearclick} clearclick={clearclick}
-=======
-                            <MyAvailabilityModal show={showCalendar} setShow={setShowCalendar}
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
                                 dataIn={dataIn} setDataIn={setDataIn} setNumDays={setNumDays}
                                 onChange={onChange} dataOut={dataOut} setDataOut={setDataOut}
                                 rents={props.rents} currentAd={currentAd} setSubmitted={setSubmitted}>
@@ -662,7 +443,6 @@ function MyBigAdvertisement(props) {
 
                 </Card.Body>
 
-<<<<<<< HEAD
                 <Container>
                     <Modal show={showNewMessage} onClose={onCloseNewMessageModal}
                         onHide={onCloseNewMessageModal}>
@@ -690,31 +470,6 @@ function MyBigAdvertisement(props) {
                     </Modal>
                 </Container>
 
-=======
-                <Modal show={showNewMessage} onClose={onCloseNewMessageModal}
-                    onHide={onCloseNewMessageModal}>
-
-                    <Modal.Header closeButton>
-                        <Modal.Title>Contact the renter</Modal.Title>
-                    </Modal.Header>
-
-                    <Modal.Body>
-                        Message:
-                        s
-                        <Form onChange={(event) => setNewMessage(event.target.value)} className="mt-3">
-                            <Form.Control as="textarea" defaultValue={newMessage + currentAd.title + ", "} rows={13} />
-                        </Form>
-
-                    </Modal.Body>
-                    <Modal.Footer>
-
-                        <Button variant="primary" onClick={handleCreateNewConversation}>
-                            Send
-                        </Button>
-                    </Modal.Footer>
-
-                </Modal>
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
 
             </Card>
         }

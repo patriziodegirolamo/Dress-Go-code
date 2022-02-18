@@ -75,11 +75,7 @@ exports.listUsers = () => {
 //get all rents
 exports.listRents = (id_u) => {
   return new Promise((resolve, reject) => {
-<<<<<<< HEAD
     const sql = "SELECT * FROM RENT WHERE ID_BOOKER = ? OR ID_RENTER = ? ORDER BY START_DATE DESC";
-=======
-    const sql = "SELECT * FROM RENT WHERE ID_BOOKER = ? OR ID_RENTER = ?";
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
     db.all(sql, [id_u, id_u], (err, rows) => {
       if (rows === undefined || rows.length === 0) {
         const rents = { id_r: 'Empty' };
@@ -97,12 +93,8 @@ exports.listRents = (id_u) => {
           idBooker: t.ID_BOOKER,
           dataIn: t.START_DATE,
           dataOut: t.END_DATE,
-<<<<<<< HEAD
           status: t.STATUS,
           return: t.RETURN
-=======
-          status: t.STATUS
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
         }));
         resolve(rents);
       }
@@ -113,11 +105,7 @@ exports.listRents = (id_u) => {
 //get all conversations
 exports.listConversations = (id_u) => {
   return new Promise((resolve, reject) => {
-<<<<<<< HEAD
     const sql = "SELECT * FROM CONVERSATION CONV WHERE ID_BOOKER = ? OR ID_RENTER = ? ORDER BY ID_CONV DESC";
-=======
-    const sql = "SELECT * FROM CONVERSATION CONV WHERE ID_BOOKER = ? OR ID_RENTER = ?";
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
     db.all(sql, [id_u, id_u], (err, rows) => {
       if (rows === undefined || rows.length === 0) {
         const convs = { id_conv: 'Empty' };
@@ -292,11 +280,7 @@ exports.listAdsImages = () => {
 //get all brands
 exports.listBrands = () => {
   return new Promise((resolve, reject) => {
-<<<<<<< HEAD
     const sql = "SELECT * FROM BRAND ORDER BY Name";
-=======
-    const sql = "SELECT * FROM BRAND";
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
     db.all(sql, [], (err, rows) => {
       if (rows === undefined || rows.length === 0) {
         const brand = { id_b: 'Empty' };
@@ -423,7 +407,6 @@ exports.modifyUserInfos = (newInfos) => {
   });
 };
 
-<<<<<<< HEAD
 // update a status of an order
 exports.modifyStatusRent = (newStatus) => {
   return new Promise((resolve, reject) => {
@@ -460,8 +443,6 @@ exports.unlockReturn = (newLock) => {
   });
 };
 
-=======
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
 
 
 /* DELETE */

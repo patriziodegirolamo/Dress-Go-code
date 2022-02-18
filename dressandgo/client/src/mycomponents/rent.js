@@ -1,41 +1,26 @@
-<<<<<<< HEAD
 import { Card, Col, Image, Container, Row } from "react-bootstrap";
 import { NavLink as Link } from "react-router-dom";
-=======
-import { Card } from "react-bootstrap";
-import { NavLink as Link, useParams } from "react-router-dom";
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function Rent(props) {
 
-<<<<<<< HEAD
   const adss = props.ads.find(ad => ad.id_a === props.myrent.id_a);
   let image = null;
   if (adss) {
     image = props.adsImages.find(adImage => adImage.id_a === adss.id_a);
   }
-=======
-  const params = useParams();
-  const adss = props.ads.find(ad => ad.id_a === props.myrent.id_a);
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
 
   const onClickHandler = () => {
     props.setCurrentState("rent");
     localStorage.setItem("currentState", "rent");
     localStorage.setItem("historyStack", JSON.stringify([...props.historyStack, "rent"]))
-<<<<<<< HEAD
     localStorage.setItem("currParam", "{\"id\":" + props.myrent.id_r + "}")
-=======
-    localStorage.setItem("currParam", "{\"id\":" + props.myrent.id_r +"}")
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
     props.setHistoryStack(() => ([...props.historyStack, "rent"]));
 
   }
 
   return <>
     {
-<<<<<<< HEAD
       adss ? <Card className="text-center my-2">
 
 
@@ -109,24 +94,11 @@ function Rent(props) {
 
           </Container>
          
-=======
-      adss ? <Card className="text-center my-4">
-        <Card.Header>{props.myrent.status}</Card.Header>
-        <Card.Body>
-          <Card.Title>{adss.title}</Card.Title>
-          <Card.Text>
-            {adss.description}
-          </Card.Text>
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
 
           <Link onClick={onClickHandler} to={{ pathname: "/MyRents/" + props.myrent.id_r }} className="my-2 btn btn-primary btn-md w-75" role="button" >
             View details
           </Link>
         </Card.Body>
-<<<<<<< HEAD
-=======
-        <Card.Footer className="text-muted">{props.myrent.dataIn} - {props.myrent.dataOut}</Card.Footer>
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
       </Card>
         : <></>
     }

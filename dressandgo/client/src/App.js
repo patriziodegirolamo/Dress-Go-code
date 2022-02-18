@@ -1,15 +1,9 @@
 import './App.css';
-<<<<<<< HEAD
 import { Row, Container, Button, Col, Spinner, Overlay } from "react-bootstrap";
 import { useState, useEffect, useRef } from 'react';
 import { Route, Routes, Navigate, useNavigate, NavLink as Link } from 'react-router-dom';
 
 
-=======
-import { Row, Container, Button, Col, Overlay, Badge} from "react-bootstrap";
-import { useState, useEffect, useRef } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate, NavLink as Link } from 'react-router-dom';
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
 
 import FixedBottomNavigation from './mycomponents/bottombar.js'
 import MyCategoryList from './mycomponents/category_list';
@@ -19,10 +13,6 @@ import MyProfile from './mycomponents/profile';
 import MyUserData from './mycomponents/user_data_profile';
 import MyKnownSizes from './mycomponents/known_sizes';
 import AddKnownSizes from './mycomponents/add_size_button';
-<<<<<<< HEAD
-=======
-import MyAvailabilityModal from './mycomponents/availabilityModal';
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
 import SizeGuide from './mycomponents/mySizeGuide';
 import { MyBigAdvertisement } from './mycomponents/dress_card.js'
 import Faq from './mycomponents/accordion.js'
@@ -30,11 +20,7 @@ import Faq from './mycomponents/accordion.js'
 
 import {
   getCategories, getUserInfos, getKnownSizes, getAds, getAdsImages, getBrands, getAllUserMessages,
-<<<<<<< HEAD
   getUsers, getConversations, modifyUsInfos, modifyStatus, unlockReturn, insertKnownSize, removeKnownSize, insertMessage, insertRent,
-=======
-  getUsers, getConversations, modifyUsInfos, insertKnownSize, removeKnownSize, insertMessage, insertRent,
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
   getOperators, getConversationsCS, getAllUserMessagesCS, insertMessageCS, getRents
 } from './API';
 
@@ -48,7 +34,6 @@ import CSMessages from './mycomponents/ChatMessageCS';
 
 function App() {
 
-<<<<<<< HEAD
   const navigate = useNavigate();
 
   const url = window.location.href.split("/")
@@ -76,28 +61,19 @@ function App() {
     const p = localStorage.getItem("page");
     if(!p) return ""
     if ((url[3] === "" || url[3] === "previews" || url[3] === "dresses" || url[3] === "ad") && p)
-=======
-  const [page, setPage] = useState(() => {
-    const p = localStorage.getItem("page");
-    if (p)
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
       return p;
     else return "";
   });
 
-<<<<<<< HEAD
   const [filterAds, setFilterAds] = useState([]);
   const [filter, setFilter] = useState("nofilter");
 
-=======
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
   const [categories, setCategories] = useState([]);
   const [knownsizes, setKnownSizes] = useState([]);
   const [ads, setAds] = useState([]);
   const [adsImages, setAdsImages] = useState([]);
   const [currentState, setCurrentState] = useState(() => {
     const cs = localStorage.getItem("currentState");
-<<<<<<< HEAD
     let urlstate;
 
     if (url.length === 4)
@@ -135,41 +111,6 @@ function App() {
     else if (cc !== url[4]) {
       return cc
     }
-=======
-    if (cs)
-      return cs;
-    else return "home";
-  });
-
-  const [historyStack, setHistoryStack] = useState(() => {
-    if (window.performance) {
-      if (performance.navigation.type == 1) {
-        const hs = localStorage.getItem("historyStack");
-        if (hs !== "[]")
-          return JSON.parse(hs);
-        else return [];
-      }
-      else {
-        return []
-      }
-
-    }
-
-  });
-
-  const [currentCat, setCurrentCat] = useState(() => {
-    if (window.performance) {
-      if (performance.navigation.type == 1) {
-        const cc = localStorage.getItem("currentCat");
-        if (cc)
-          return cc;
-        else return "";
-      }
-    }
-    const urlArray = window.location.pathname.split("/").splice(1)
-    if (urlArray[0] === "dresses")
-      return urlArray[1]
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
     else return "";
   });
   const [modalShow, setModalShow] = useState(false);
@@ -196,29 +137,18 @@ function App() {
   const [messagesCS, setMessagesCS] = useState([]);
   const [contactCS, setContactCS] = useState(false);
 
-<<<<<<< HEAD
   //Overlay
-=======
-
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
   const [show, setShow] = useState(false);
   const [show1, setShow1] = useState(false);
   const target = useRef(null);
   const target1 = useRef(null);
 
-<<<<<<< HEAD
-=======
-
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
   const [dirty, setDirty] = useState(true);
 
   const handleChangeForwardPage = (cat) => {
     let x = null;
-<<<<<<< HEAD
     setFilter("nofilter");
     setFilterAds([]);
-=======
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
     if (search) {
       if (currentState === "home") {
         setCurrentCat(cat)
@@ -265,7 +195,6 @@ function App() {
 
   };
 
-<<<<<<< HEAD
   const [backButtonPressed, setBackButtonPressed] = useState(false)
 
   window.onbeforeunload = function (event) {
@@ -441,8 +370,6 @@ function App() {
   }, [backButtonPressed]);
 
 
-=======
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
   useEffect(() => {
     async function getCat() {
       const fetchedCategories = await getCategories();
@@ -453,13 +380,10 @@ function App() {
       const fetchedBrands = await getBrands();
       const fetchedUsers = await getUsers();
 
-<<<<<<< HEAD
       const fetchedOperators = await getOperators();
       let fetchedConversationsCS;;
       let fetchedMessagesCS;
 
-=======
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
       let fetchedUser = null;
       let fetchedConversations;
       let fetchedMessages;
@@ -470,7 +394,6 @@ function App() {
         fetchedConversations = await getConversations(fetchedUser.id_u);
         fetchedMessages = await getAllUserMessages(fetchedUser.id_u);
         fetchedRents = await getRents(fetchedUser.id_u)
-<<<<<<< HEAD
         fetchedConversationsCS = await getConversationsCS(fetchedUser.id_u);
         fetchedMessagesCS = await getAllUserMessagesCS(fetchedUser.id_u);
         localStorage.setItem("user", JSON.stringify(fetchedUser));
@@ -479,10 +402,6 @@ function App() {
         localStorage.setItem("historyStack", "[]");
         localStorage.setItem("currentCat", "");
         localStorage.setItem("currentState", "home");
-=======
-        localStorage.setItem("user", JSON.stringify(fetchedUser));
-        localStorage.setItem("page", fetchedUser.gender);
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
         setPage(fetchedUser.gender);
       }
 
@@ -491,11 +410,8 @@ function App() {
         fetchedConversations = await getConversations(fetchedUser.id_u);
         fetchedMessages = await getAllUserMessages(fetchedUser.id_u);
         fetchedRents = await getRents(fetchedUser.id_u);
-<<<<<<< HEAD
         fetchedConversationsCS = await getConversationsCS(fetchedUser.id_u);
         fetchedMessagesCS = await getAllUserMessagesCS(fetchedUser.id_u);
-=======
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
         setPage(localStorage.getItem("page"));
       }
 
@@ -509,12 +425,9 @@ function App() {
       setConversations(fetchedConversations);
       setBrands(fetchedBrands);
       setRents(fetchedRents);
-<<<<<<< HEAD
       setOperatorsCS(fetchedOperators);
       setConversationsCS(fetchedConversationsCS);
       setMessagesCS(fetchedMessagesCS);
-=======
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
       setDirty(false);
     }
     getCat();
@@ -565,10 +478,6 @@ function App() {
     });
   }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
   const addAConversation = (new_conversation, new_message) => {
 
     return insertConversation(new_conversation, new_message).then((res) => {
@@ -585,11 +494,7 @@ function App() {
 
   const addARent = (newRent) => {
     insertRent(newRent).then((res) => {
-<<<<<<< HEAD
       const completeRent = { ...newRent, id_r: res, return: "LOCKED" }
-=======
-      const completeRent = { ...newRent, id_r: res }
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
       setRents(rents => {
         return rents.concat(completeRent)
       });
@@ -625,7 +530,6 @@ function App() {
     localStorage.setItem("user", JSON.stringify(newUser))
   }
 
-<<<<<<< HEAD
   /* TO UPDATE STATUS OF A RENT  */
   const modifyStatusR = (newStatus) => {
     modifyStatus(newStatus).then((err) => { });
@@ -662,8 +566,6 @@ function App() {
   }
 
 
-=======
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
   const filterSuggestedDresses = (ad) => {
     const cat = categories.find(el => el.id_cat === ad.id_cat)
     if (ad.gender === page && cat.name === currentCat) {
@@ -685,16 +587,8 @@ function App() {
     }
   }
 
-<<<<<<< HEAD
 
   return <>
-=======
-  window.addEventListener('popstate', function (event) {
-    
-  }, false);
-
-  return <Router>
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
     <MyHeader page={page} setPage={setPage}
       currentCat={currentCat}
       setCurrentCat={setCurrentCat}
@@ -703,21 +597,17 @@ function App() {
       search={search} setSearch={setSearch}
       historyStack={historyStack}
       setHistoryStack={setHistoryStack}
-<<<<<<< HEAD
       ads={ads} setAds={setAds}
       categories={categories}
       filterAds={filterAds}
       setFilterAds={setFilterAds}
       setFilter={setFilter}
       filter={filter}
-=======
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
     />
 
     <Routes >
 
 
-<<<<<<< HEAD
       <Route path='/ad/:idAd'
         element={<>
           <MyBigAdvertisement ads={ads} adsImages={adsImages} users={users} currentUser={user}
@@ -726,15 +616,6 @@ function App() {
             setHistoryStack={setHistoryStack} historyStack={historyStack} setCurrentCat={setCurrentCat} setCurrentState={setCurrentState}
             addARent={addARent} setRents={setRents} dirty={dirty} />
         </>} />
-=======
-      <Route path='/ad/:idAd' element={<>
-        <MyBigAdvertisement ads={ads} adsImages={adsImages} users={users} currentUser={user}
-          conversations={conversations} rents={rents}
-          addAConversation={addAConversation} currentCat={currentCat}
-          setHistoryStack={setHistoryStack} historyStack={historyStack} setCurrentCat={setCurrentCat} setCurrentState={setCurrentState}
-          addARent={addARent} setRents={setRents} />
-      </>} />
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
 
       <Route path='/guide' element={<>
         <SizeGuide />
@@ -743,11 +624,7 @@ function App() {
       <Route path='/MyChats/:id_conv' element={<ChatMessages user={user}
         messages={messages.sort((a, b) => a.date - b.date)} users={users}
         conversations={conversations} adsImages={adsImages}
-<<<<<<< HEAD
         addAMessage={addAMessage} ads={ads} dirty={dirty}
-=======
-        addAMessage={addAMessage} ads={ads}
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
       >
       </ChatMessages>} />
 
@@ -758,10 +635,7 @@ function App() {
           conversationsCS={conversationsCS}
           addAMessageCS={addAMessageCS}
           messagesCS={messagesCS.sort((a, b) => a.date - b.date)}
-<<<<<<< HEAD
           dirty={dirty}
-=======
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
         >
         </CSMessages> : <></>}
 
@@ -774,7 +648,6 @@ function App() {
           setMessages={setMessages} conversationsCS={conversationsCS}
           messagesCS={messagesCS.sort((a, b) => a.date - b.date)}
           setCurrentState={setCurrentState}
-<<<<<<< HEAD
           historyStack={historyStack} setHistoryStack={setHistoryStack}
           dirty={dirty} contactCS={contactCS} />
       </>} />
@@ -782,19 +655,10 @@ function App() {
       <Route path="/MyRents" element={<>
         <MyRents user={user} rents={rents} ads={ads} adsImages={adsImages} setCurrentState={setCurrentState}
           setHistoryStack={setHistoryStack} historyStack={historyStack} dirty={dirty} />
-=======
-          historyStack={historyStack} setHistoryStack={setHistoryStack} />
-      </>} />
-
-      <Route path="/MyRents" element={<>
-        <MyRents user={user} rents={rents} ads={ads} setCurrentState={setCurrentState}
-          setHistoryStack={setHistoryStack} historyStack={historyStack} />
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
       </>} />
 
       <Route path='/MyRents/:id_r' element={<>
         {
-<<<<<<< HEAD
           !dirty ?
             <OrderSummary users={users} rents={rents} ads={ads} adsImages={adsImages} conversations={conversations}
               addAConversation={addAConversation}
@@ -804,21 +668,12 @@ function App() {
             : <Container id="containerSpinner">
               <Spinner animation="border" variant="primary" />
             </Container>
-=======
-          ads.length > 0 && rents.length ?
-            <OrderSummary rents={rents} ads={ads} adsImages={adsImages} conversations={conversations}
-              addAConversation={addAConversation}
-              setCurrentState={setCurrentState}
-              setHistoryStack={setHistoryStack} historyStack={historyStack} />
-            : <></>
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
         }
       </>
       } />
 
       <Route path='/previews' element={<>
         {search ? <Container id="dressContainer">
-<<<<<<< HEAD
           <h4 id="titlebar">RESULTS IN {page.toUpperCase()} CATEGORY:</h4>
           <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(ad => {
             return ad.gender === page && ( ad.brand.toLowerCase().includes(search.toLowerCase())
@@ -827,13 +682,6 @@ function App() {
 
             handleChangeForwardPage={handleChangeForwardPage}
             dirty={dirty}>
-=======
-          <h4>RESULTS:</h4>
-          <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(ad => {
-            return ad.gender === page && (ad.title.includes(search) || ad.description.includes(search))
-          })}
-            handleChangeForwardPage={handleChangeForwardPage}>
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
           </MyDressList>
         </Container> :
 
@@ -853,16 +701,12 @@ function App() {
                 return c
             })} ads={ads}
               handleChangeForwardPage={handleChangeForwardPage}
-<<<<<<< HEAD
               dirty={dirty}
-=======
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
             />
           </>}
       </>} />
 
 
-<<<<<<< HEAD
 
 
       <Route path="/dresses/:categorie" element={<>
@@ -876,20 +720,10 @@ function App() {
             })}
             handleChangeForwardPage={handleChangeForwardPage}
             dirty={dirty}>
-=======
-      <Route path="/dresses/:categorie" element={<>
-        {search ? <Container id="dressContainer">
-          <h4>RESULTS:</h4>
-          <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(ad => (
-            categories.find((el) => el.id_cat === ad.id_cat).name === currentCat)
-            && (ad.title.includes(search) || ad.description.includes(search)))}
-            handleChangeForwardPage={handleChangeForwardPage}>
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
           </MyDressList>
         </Container>
           :
           <>
-<<<<<<< HEAD
             {
               dirty ?
                 <Container id="containerSpinner">
@@ -1106,117 +940,12 @@ function App() {
                     : <></>}
 
                 </>}
-=======
-            <Container >
-              <Row className="pt-3">
-                <Col className="text-center mx-auto my-auto">
-                  You are watching
-                  <h1><b>{currentCat}</b></h1>
-                </Col>
-                <Col>
-                  {categories.length > 0 && currentCat ? <img src={"/" + categories.find(x => x.name === currentCat).address} className="img-fluid" id="rotationimage" alt="Responsive image" width="120"></img> : <></>}
-                </Col>
-              </Row>
-            </Container>
-
-            {ads.filter(filterSuggestedDresses).length > 0 ? <Container id="dressContainer">
-
-              <h4 id="titlebar">
-                
-              <Link ref={target} onClick={() => setShow(!show)} className="" role="button" to="">
-<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
-  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-  <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-</svg>
-                </Link>
-                
-                
-                &nbsp;SUGGESTED: 
-              
-          
-          <Container>
-      <Overlay target={target.current} show={show} placement="top">
-        {({ placement, arrowProps, show: _show, popper, ...props }) => (
-          <div
-            {...props}
-            style={{
-              backgroundColor: 'rgb(189, 195, 199)',
-              padding: '2px 10px',
-              color: 'white',
-              borderRadius: 3,
-              ...props.style,
-            }}
-          >
-           Products that may perfect fill to you!
-          </div>
-        )}
-      </Overlay>
-      </Container>
-
-
-              </h4>
-
-
-            
-
-
-              <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(filterSuggestedDresses)}
-                handleChangeForwardPage={handleChangeForwardPage}>
-              </MyDressList>
-            </Container> : <></>}
-
-
-            {ads.filter(filterAllDresses).length > 0 ? <Container id="dressContainer">
-
-            <h4  id="titlebar"> 
-
-
-
-<Link ref={target1} onClick={() => setShow1(!show1)} className="" role="button" to="">
-<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
-  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-  <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-</svg>
-                </Link>
-
-                &nbsp;ALL SIZES:  
-             
-          
-          <Container>
-      <Overlay  target={target1.current} show={show1} placement="top">
-        {({ placement, arrowProps, show: _show, popper, ...props }) => (
-          <div
-            {...props}
-            style={{
-              backgroundColor: 'rgb(189, 195, 199)',
-              padding: '2px 10px',
-              color: 'white',
-              borderRadius: 3,
-              ...props.style,
-            }}
-          >
-           Products of all sizes
-          </div>
-        )}
-      </Overlay>
-      </Container>
-
-
-              </h4>
-              <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(filterAllDresses)}
-                handleChangeForwardPage={handleChangeForwardPage}>
-              </MyDressList>
-            </Container> : <></>}
-
-
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
 
           </>
         }
       </>} />
 
       <Route path="/MyAccount" element={<>
-<<<<<<< HEAD
         {
           dirty ? <Container id="containerSpinner">
             <Spinner animation="border" variant="primary" />
@@ -1225,15 +954,10 @@ function App() {
               setHistoryStack={setHistoryStack} historyStack={historyStack}
             />
           </>}
-=======
-        <MyProfile user={user} setCurrentState={setCurrentState}
-          setHistoryStack={setHistoryStack} historyStack={historyStack} />
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
       </>} />
 
 
       <Route path="/handleknownsizes" element={<>
-<<<<<<< HEAD
         {
           dirty ? <Container id="containerSpinner">
             <Spinner animation="border" variant="primary" />
@@ -1270,30 +994,6 @@ function App() {
 
       <Route path="/FAQ" element={<>
         <Faq setCurrentState={setCurrentState} setHistoryStack={setHistoryStack} historyStack={historyStack} />
-=======
-        <MyKnownSizes knownsizes={knownsizes} setKnownsizes={setKnownSizes} categories={categories} removeASize={removeASize}></MyKnownSizes>
-        <Row className="p-3 justify-content-center m-auto ">
-          <Button className="mb-3" variant="primary" type="submit" onClick={() => setModalShow(true)}>
-            Add known size</Button>
-        </Row>
-
-        <AddKnownSizes
-          show={modalShow}
-          categories={categories}
-          addASize={addASize}
-          user={user}
-          brands={brands}
-          onHide={() => setModalShow(false)}
-        />
-      </>} />
-
-      <Route path="/editprofile" element={<>
-        <MyUserData user={user} modifyUserInfos={modifyUserInfos} setCurrentState={setCurrentState} setHistoryStack={setHistoryStack}/>
-      </>} />
-
-      <Route path="/FAQ" element={<>
-        <Faq />
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
       </>} />
 
       <Route path="/" element={<Navigate to="/previews" />} />
@@ -1303,15 +1003,10 @@ function App() {
       setCurrentCat={setCurrentCat}
       setHistoryStack={setHistoryStack}
       setSearch={setSearch}
-<<<<<<< HEAD
       setFilter={setFilter}
       setFilterAds={setFilterAds}
     />
   </>
-=======
-    />
-  </Router>
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
 }
 
 export default App;

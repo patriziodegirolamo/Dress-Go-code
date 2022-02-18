@@ -1,14 +1,7 @@
-<<<<<<< HEAD
 import { Container, Card, Carousel, Row, Modal, Button, Form, Col, Overlay } from "react-bootstrap";
 import { NavLink as Link, useNavigate, useParams } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useState, useRef } from 'react';
-=======
-import { Container, Card, Carousel, Row, Modal, Button, Form, Col } from "react-bootstrap";
-import { NavLink as Link, useNavigate, useParams } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { useState } from 'react';
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
 
 function OrderSummary(props) {
 
@@ -16,18 +9,12 @@ function OrderSummary(props) {
   let { id_r } = useParams();
   id_r = parseInt(id_r);
 
-<<<<<<< HEAD
-=======
-  console.log(id_r)
-
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
   const currentRent = props.rents.find(r => r.id_r === id_r);
   const ads = props.ads.find(ad => ad.id_a === currentRent.id_a);
   const currentImages = props.adsImages.filter(adImg => adImg.id_a === currentRent.id_a);
 
 
   const [showNewMessage, setShowNewMessage] = useState(false);
-<<<<<<< HEAD
   const [showReturnLabel, setShowReturnLabel] = useState(false);
 
   const initialMessage = "Hi , I'm contacting you, for the advertisement: ";
@@ -35,40 +22,27 @@ function OrderSummary(props) {
   const [show, setShow] = useState(false);
   const target = useRef(null);
 
-=======
-
-  const initialMessage = "Hi , I'm contacting you, for the advertisement: ";
-  const [newMessage, setNewMessage] = useState(initialMessage)
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
 
   const onCloseNewMessageModal = () => {
     setShowNewMessage(false)
     setNewMessage(initialMessage)
   }
 
-<<<<<<< HEAD
   const handleClickAddKnownSize = (event) => {
     props.setCurrentState("ks");
     localStorage.setItem("currentState", "ks");
     localStorage.setItem("historyStack", JSON.stringify([...props.historyStack, "ks"]))
     props.setHistoryStack(() => ([...props.historyStack, "ks"]))
 }
-=======
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
 
   const handleOpenOrCreateConversation = () => {
     const currParam = { "id": id_r }
     const conv = props.conversations.find(c => {
       const cr = props.rents.find(r => r.id_r === id_r);
-<<<<<<< HEAD
       if (c.id_a === cr.id_a && c.idRenter === cr.idRenter && c.idBooker === cr.idBooker)
         return c;
       else
         return "";
-=======
-      if (c.id_a == cr.id_a && c.idRenter == cr.idRenter && c.idBooker == cr.idBooker)
-        return c;
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
     })
     if (conv) {
       localStorage.setItem("historyStack", JSON.stringify([...props.historyStack, "chat"]))
@@ -117,27 +91,19 @@ function OrderSummary(props) {
     localStorage.setItem("currentState", "chat");
     localStorage.setItem("historyStack", JSON.stringify([...props.historyStack, "chat"]))
     props.setHistoryStack(() => ([...props.historyStack, "chat"]));
-<<<<<<< HEAD
 
     if (currentRent.status === "ARRIVED" || currentRent.status === "RETURNING")
       props.unlockReturnProcedure({ id_r: currentRent.id_r });
 
-=======
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
   }
 
   const countDays = (dataIn, dataOut) => {
     if (dataOut === dataIn)
-<<<<<<< HEAD
       return 1;
-=======
-      return dataIn;
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
     else
       return 1 + (new Date(dataOut).getTime() - new Date(dataIn).getTime()) / (1000 * 3600 * 24)
   }
 
-<<<<<<< HEAD
   const shippingCost = 9.99;
 
 
@@ -146,9 +112,6 @@ function OrderSummary(props) {
     props.modifyStatusR(newStatus);
     setShowReturnLabel(true);
   }
-=======
-  const shippingCost = 3;
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
 
   return <>
 
@@ -156,19 +119,10 @@ function OrderSummary(props) {
       ads ? <>
         <Container fluid>
 
-<<<<<<< HEAD
           <Row className="pt-3">
             <h3 id="titlecard" style={{ textAlign: "center" }}><b> {ads.title}</b></h3>
           </Row>
 
-=======
-          <Row className="pt-2">
-            <h3 style={{ textAlign: "center" }}> {ads.title}</h3>
-          </Row>
-
-
-
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
           <Container>
             <Carousel variant="dark">
               {currentImages.map((img, idx) => {
@@ -183,23 +137,13 @@ function OrderSummary(props) {
             </Carousel>
           </Container>
 
-<<<<<<< HEAD
           <Row className="justify-content-center pt-3 text-center">
 
             Rented by: <i>{props.users.filter(x => x.id_u === ads.id_u)[0].name} (Private)</i>
-=======
-
-          <Row className="my-1 mt-3  justify-content-center" >
-            <Col className="col-4 text-center" > <b> BRAND:</b>
-            </Col>
-            <Col className="col-4 text-center">  {ads.brand}
-            </Col>
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
 
           </Row>
 
 
-<<<<<<< HEAD
           <Row className="justify-content-center pt-3 text-center">
 
             <b>BRAND:</b> {ads.brand}
@@ -245,93 +189,17 @@ function OrderSummary(props) {
             €.</b></Row>
 
 
-=======
-
-          <Row className="my-1 justify-content-center" >
-            <Col className="col-4" > <b> DESCRIPTION:</b>
-            </Col>
-            <Col className="col-4">  
-            </Col>
-
-          </Row>
-          <Row className="my-1 justify-content-center" >
-          <Col className="col-8">   {ads.description}
-            </Col>
-         
-
-          </Row>
-
-          <Row className="my-1 justify-content-center" >
-            <Col className="col-4" > <b> SIZE:</b>
-            </Col>
-            <Col className="col-4"> {ads.size}
-            </Col>
-
-          </Row>
-
-          
-          <Row className="my-1 justify-content-center" >
-            <Col className="col-4" > <b> PRICE:</b>
-            </Col>
-            <Col className="col-4"> €{ads.price}/D
-            </Col>
-
-          </Row>
-
-          <Row className="my-1 mt-5 justify-content-center" >
-            <Col className="col-4" > <b> START RENT:</b>
-            </Col>
-            <Col className="col-4">{currentRent.dataIn}
-            </Col>
-
-          </Row>
-
-          <Row className="my-1 justify-content-center" >
-            <Col className="col-4" > <b> END RENT:</b>
-            </Col>
-            <Col className="col-4">{currentRent.dataOut}
-            </Col>
-
-          </Row>
-         
-          <Row className="my-1 justify-content-center" >
-            <Col className="col-4" > <b> SHIPPING COST:</b>
-            </Col>
-            <Col className="col-4">{shippingCost}€
-            </Col>
-
-          </Row>
- 
-          <Row className="my-1  mt-3 justify-content-center" >
-            <Col className="col-4" > <b>TOTAL:</b>
-            </Col>
-            <Col className="col-4">€{shippingCost + countDays(currentRent.dataIn, currentRent.dataOut)}
-            </Col>
-
-          </Row>
-
-         
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
           <Container fluid>
 
 
 
-<<<<<<< HEAD
             <Row className="justify-content-center pt-3">
 
-=======
-            <Row className="justify-content-center">
-
-              <Link onClick={handleOpenOrCreateConversation} className="mt-3 btn btn-secondary btn-md w-75 justify-content-center" role="button" to="/CustomerServiceChat"  >
-                Contact the renter
-              </Link>
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
 
               <Container>
                 <Modal show={showNewMessage} onClose={onCloseNewMessageModal}
                   onHide={onCloseNewMessageModal}>
                   <Modal.Header>
-<<<<<<< HEAD
                             <Modal.Title>Contact the renter</Modal.Title>
 
                         </Modal.Header>
@@ -356,32 +224,11 @@ function OrderSummary(props) {
               <Button onClick={handleOpenOrCreateConversation} className="mt-2 btn btn-secondary btn-md w-75 justify-content-center"  >
                 Contact the renter
               </Button>
-=======
-                    <Container>
-                      <h3>Contact the user</h3>
-                    </Container>
-                    <Button onClick={onCloseNewMessageModal}>X</Button>
-                  </Modal.Header>
-
-
-                  <Form onChange={(event) => setNewMessage(event.target.value)}>
-                    <Form.Control as="textarea" defaultValue={newMessage + ", "} rows={15} />
-                  </Form>
-
-                  <Modal.Footer>
-                    <Container>
-                      <Button type="submit" onClick={handleCreateNewConversation}>Send</Button>
-                    </Container>
-                  </Modal.Footer>
-                </Modal>
-              </Container>
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
 
               <Link onClick={onClickHandler} className="my-2 btn btn-secondary btn-md w-75 justify-content-center" role="button" to="/CustomerServiceChat"  >
                 Contact customer service
               </Link>
 
-<<<<<<< HEAD
               <Container>
                 <Overlay target={target.current} show={show} placement="top">
                   {({ placement, arrowProps, show: _show, popper, ...props }) => (
@@ -499,12 +346,6 @@ function OrderSummary(props) {
 
 
               </Row>
-=======
-              <Link className="my-2 mb-5 btn btn-primary btn-md w-75 disabled" role="button" to=""  >
-                Return product
-              </Link>
-
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
             </Row>
           </Container>
         </Container>

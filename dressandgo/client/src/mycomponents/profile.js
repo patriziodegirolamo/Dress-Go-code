@@ -13,11 +13,7 @@ function MyProfile(props) {
     // const { surveys, setSurveyToCompile, setCompiled } = props;
 
     const onClickHandlerEdit = () =>{
-<<<<<<< HEAD
         const str ="[\"editProfile\"]"
-=======
-        const str = "[" + "\"editProfile\"" + "]" 
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
         props.setCurrentState("editProfile");
         localStorage.setItem("currentState","editProfile" );
         localStorage.setItem("historyStack", [...props.historyStack, str])
@@ -25,37 +21,22 @@ function MyProfile(props) {
     }
 
     const onClickHandlerKS = () => {
-<<<<<<< HEAD
         const str = "[\"ks\"]"
         props.setCurrentState("ks");
         localStorage.setItem("currentState","ks" );
         localStorage.setItem("historyStack", [str])
-=======
-        const str = "[" + "\"ks\"" + "]" 
-        props.setCurrentState("ks");
-        localStorage.setItem("currentState","ks" );
-        localStorage.setItem("historyStack", [...props.historyStack, str])
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
         props.setHistoryStack(() => ([...props.historyStack, "ks"]))
     }
 
     return (
-<<<<<<< HEAD
         <Container fluid className="h-100">
-=======
-        <Container fluid>
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
             <Row className="pt-3 justify-content-center text-center">
                 <Figure >
                     <Figure.Image
                         width={141}
                         height={150}
                         alt="171x180"
-<<<<<<< HEAD
                         src="/boss.png"
-=======
-                        src="https://i.imgur.com/wvxPV9S.png"
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
                     />
                     <Figure.Caption>
                         {props.user.name} {props.user.surname}
@@ -76,7 +57,6 @@ function MyProfile(props) {
                 </Link>
 
                 <Link onClick={onClickHandlerKS}className="btn btn-primary btn-md w-75 justify-content-center" role="button" to="/handleknownsizes" >
-<<<<<<< HEAD
                     Handle known sizes
                 </Link>
 
@@ -88,15 +68,6 @@ function MyProfile(props) {
                     LOGOUT
                 </Button>
 
-=======
-                    Handle know sizes
-                </Link>
-
-                <Button disabled className="my-2 btn btn-primary btn-md w-75" >
-                    Payment methods
-                </Button>
-
->>>>>>> d81640f2c90eff364c653d887809149fa3c7dd2d
             </Row>
         </Container>
     );
