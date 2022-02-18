@@ -105,7 +105,7 @@ function App() {
       localStorage.setItem("currentCat", url[4])
       return url[4]
     }
-    else if (cc != url[4]) {
+    else if (cc !== url[4]) {
       return cc
     }
     else return "";
@@ -195,7 +195,7 @@ function App() {
   const [backButtonPressed, setBackButtonPressed] = useState(false)
 
   window.onbeforeunload = function (event) {
-    if (sessionStorage.getItem('reloaded') != null) {
+    if (sessionStorage.getItem('reloaded') !== null) {
     }
     else {
       setHistoryStack([]);

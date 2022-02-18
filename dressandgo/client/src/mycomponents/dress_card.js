@@ -122,7 +122,7 @@ function MyBigAdvertisement(props) {
     const handleOpenOrCreateConversation = () => {
 
         const currParam = { "id": idAd, "cat": props.currentCat }
-        const conv = props.conversations.find(c => c.id_a == idAd && c.idRenter == props.users.filter(u => u.id_u == currentAd.id_u)[0].id_u && c.idBooker == props.currentUser.id_u)
+        const conv = props.conversations.find(c => c.id_a === idAd && c.idRenter === props.users.filter(u => u.id_u === currentAd.id_u)[0].id_u && c.idBooker === props.currentUser.id_u)
         if (conv) {
             localStorage.setItem("historyStack", JSON.stringify([...props.historyStack, "chat"]))
             props.setHistoryStack(() => ([...props.historyStack, "chat"]));
@@ -142,13 +142,13 @@ function MyBigAdvertisement(props) {
 
         const new_conversation = {
             id_a: currentAd.id_a,
-            idRenter: props.users.filter(u => u.id_u == currentAd.id_u)[0].id_u,
+            idRenter: props.users.filter(u => u.id_u === currentAd.id_u)[0].id_u,
             idBooker: props.currentUser.id_u
         };
 
         const new_message = {
             idSender: props.currentUser.id_u,
-            idReceiver: props.users.filter(u => u.id_u == currentAd.id_u)[0].id_u,
+            idReceiver: props.users.filter(u => u.id_u === currentAd.id_u)[0].id_u,
             date: new Date().toISOString(),
             text: newMessage
         }
@@ -283,7 +283,7 @@ function MyBigAdvertisement(props) {
 
                     </Row>
 
-                    {numDays == 0 ?
+                    {numDays === 0 ?
 
                         <Container className="text-center">
 
@@ -305,7 +305,7 @@ function MyBigAdvertisement(props) {
 
                     </Row>
 
-                    {numDays != 0 ?
+                    {numDays !== 0 ?
 
                         <Container className="text-center">
 

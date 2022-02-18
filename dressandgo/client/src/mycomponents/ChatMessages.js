@@ -10,17 +10,17 @@ function ChatMessages(props) {
 
     const id_conv = parseInt(params.id_conv)
 
-    const currentConv = props.conversations.find(c => c.id_conv == id_conv);
+    const currentConv = props.conversations.find(c => c.id_conv === id_conv);
     let currentAd = null;
     let renter = null;
     let image = null;
 
     if (currentConv) {
-        currentAd = props.ads.find(ad => ad.id_a == currentConv.id_a)
-        renter = props.users.find(u => u.id_u == currentConv.idRenter)
-        image = props.adsImages.find(adImage => adImage.id_a == currentConv.id_a)
+        currentAd = props.ads.find(ad => ad.id_a === currentConv.id_a)
+        renter = props.users.find(u => u.id_u === currentConv.idRenter)
+        image = props.adsImages.find(adImage => adImage.id_a === currentConv.id_a)
     }
-    const messages = props.messages.filter(mes => mes.id_conv == id_conv)
+    const messages = props.messages.filter(mes => mes.id_conv === id_conv)
 
     const [newMessage, setNewMessage] = useState("")
 
@@ -73,7 +73,7 @@ function ChatMessages(props) {
                                     const yyyymmdd = m.date.split("T")[0];
                                     const hh1 = m.date.split("T")[1].split(":")[0]
                                     const hh2 = m.date.split("T")[1].split(":")[1]
-                                    if (props.user.id_u == m.idSender) {
+                                    if (props.user.id_u === m.idSender) {
                                         return <div className="message my-message" key={idx}>
                                             <img alt="" className="img-circle medium-image" src="/boss.png" />
 
@@ -93,7 +93,7 @@ function ChatMessages(props) {
                                         </div>
                                     }
 
-                                    else if (props.user.id_u == m.idReceiver) {
+                                    else if (props.user.id_u === m.idReceiver) {
                                         return <div className="message info" key={idx}>
                                             <img alt="" className="img-circle medium-image" src="customer-service.png" />
 
