@@ -5,10 +5,10 @@ import { IoMdSend } from "react-icons/io";
 
 function CSMessages(props) {
 
-    const conv = props.conversationsCS.find(c => c.id_u == props.user.id_u)
-    const messages = props.messagesCS.filter(m => m.id_conv == conv.id_conv)
+    const conv = props.conversationsCS.find(c => c.id_u === props.user.id_u)
+    const messages = props.messagesCS.filter(m => m.id_conv === conv.id_conv)
 
-    const currentOperator = props.operatorsCS.find(op => conv.id_cs == op.id_cs)
+    const currentOperator = props.operatorsCS.find(op => conv.id_cs === op.id_cs)
     const [newMessage, setNewMessage] = useState("")
 
 
@@ -44,7 +44,7 @@ function CSMessages(props) {
                 <Container className="headerChat">
                     <Row >
                         <Col>
-                            <img style={{ position: "relative", width: "40%" }} src={"customer-service.png"}></img>
+                            <img alt="Customer Service profile"style={{ position: "relative", width: "40%" }} src={"customer-service.png"}></img>
                         </Col>
 
                         <Col>

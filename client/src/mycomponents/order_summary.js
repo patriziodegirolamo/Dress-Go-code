@@ -200,23 +200,26 @@ function OrderSummary(props) {
                 <Modal show={showNewMessage} onClose={onCloseNewMessageModal}
                   onHide={onCloseNewMessageModal}>
                   <Modal.Header>
-                    <Container>
-                      <h3>Contact the user</h3>
-                    </Container>
-                    <Button onClick={onCloseNewMessageModal}>X</Button>
-                  </Modal.Header>
+                            <Modal.Title>Contact the renter</Modal.Title>
+
+                        </Modal.Header>
 
 
                   <Form onChange={(event) => setNewMessage(event.target.value)}>
-                    <Form.Control as="textarea" defaultValue={newMessage + ", "} rows={15} />
+                    <Form.Control as="textarea" defaultValue={newMessage + ", ... "} rows={15} />
                   </Form>
 
                   <Modal.Footer>
-                    <Container>
-                      <Button type="submit" onClick={handleCreateNewConversation}>Send</Button>
-                    </Container>
+
+                  <Button variant="secondary" onClick={onCloseNewMessageModal}>
+                                Close
+                            </Button>
+                  
+                            <Button variant="primary" onClick={handleCreateNewConversation}>Send</Button>
+                  
                   </Modal.Footer>
                 </Modal>
+
               </Container>
               <Button onClick={handleOpenOrCreateConversation} className="mt-2 btn btn-secondary btn-md w-75 justify-content-center"  >
                 Contact the renter
@@ -318,11 +321,11 @@ function OrderSummary(props) {
 
                     <Col xs={9} className="px-md-5">
                       {currentRent.return === "UNLOCKED" && (currentRent.status === "ARRIVED" || currentRent.status === "RETURNING") ?
-                        <Button className="my-2 mt-3 btn btn-primary btn-md w-75" role="button" to="" onClick={handleReturnProcedure} >
+                        <Button className="my-2 mt-3 btn btn-primary btn-md w-75" onClick={handleReturnProcedure} >
                           Return product
                         </Button>
                         :
-                        <Button className="my-2 mt-3 btn btn-primary btn-md w-75 disabled" role="button" to="">
+                        <Button className="my-2 mt-3 btn btn-primary btn-md w-75 disabled" >
                           Return product
                         </Button>
                       }

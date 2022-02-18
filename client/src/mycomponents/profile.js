@@ -13,7 +13,7 @@ function MyProfile(props) {
     // const { surveys, setSurveyToCompile, setCompiled } = props;
 
     const onClickHandlerEdit = () =>{
-        const str = "[" + "\"editProfile\"" + "]" 
+        const str ="[\"editProfile\"]"
         props.setCurrentState("editProfile");
         localStorage.setItem("currentState","editProfile" );
         localStorage.setItem("historyStack", [...props.historyStack, str])
@@ -21,7 +21,7 @@ function MyProfile(props) {
     }
 
     const onClickHandlerKS = () => {
-        const str = "[" + "\"ks\"" + "]" 
+        const str = "[\"ks\"]"
         props.setCurrentState("ks");
         localStorage.setItem("currentState","ks" );
         localStorage.setItem("historyStack", [str])

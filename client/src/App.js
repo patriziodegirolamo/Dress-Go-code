@@ -105,7 +105,7 @@ function App() {
       localStorage.setItem("currentCat", url[4])
       return url[4]
     }
-    else if (cc != url[4]) {
+    else if (cc !== url[4]) {
       return cc
     }
     else return "";
@@ -195,7 +195,7 @@ function App() {
   const [backButtonPressed, setBackButtonPressed] = useState(false)
 
   window.onbeforeunload = function (event) {
-    if (sessionStorage.getItem('reloaded') != null) {
+    if (sessionStorage.getItem('reloaded') !== null) {
     }
     else {
       setHistoryStack([]);
@@ -704,7 +704,7 @@ function App() {
 
       <Route path="/dresses/:categorie" element={<>
         {search ? <Container id="dressContainer">
-          <h4>RESULTS IN {currentCat.toUpperCase()}:</h4>
+          <h4 id="titlebar">RESULTS IN {currentCat.toUpperCase()}:</h4>
           <MyDressList adsImages={adsImages} categories={categories}
             ads={ads.filter(ad => {
               let cat = categories.find((el) => el.id_cat === ad.id_cat);
@@ -986,7 +986,7 @@ function App() {
       </>} />
 
       <Route path="/FAQ" element={<>
-        <Faq />
+        <Faq setCurrentState={setCurrentState} setHistoryStack={setHistoryStack} historyStack={historyStack} />
       </>} />
 
       <Route path="/" element={<Navigate to="/previews" />} />

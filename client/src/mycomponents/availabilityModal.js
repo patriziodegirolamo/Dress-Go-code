@@ -20,7 +20,7 @@ function MyAvailabilityModal(props) {
         const startDate = new Date(yyyy1, mm1 - 1, dd1)
         const stopDate = new Date(yyyy2, mm2 - 1, dd2)
 
-        const dateArray = new Array();
+        const dateArray = [];
         let currentDate = startDate;
 
         while (currentDate <= stopDate) {
@@ -52,6 +52,7 @@ function MyAvailabilityModal(props) {
             const check = new Date(c[0], parseInt(c[1]) - 1, c[2]);
             if (check > from && check < to)
                 ok = 0;
+            
         })
 
         return ok;
@@ -81,7 +82,7 @@ function MyAvailabilityModal(props) {
         return newObj
     })
 
-    let excludedDates = new Array()
+    let excludedDates = []
 
     noAvailableDates.map(d => {
         const prova = getDates(d.dataIn, d.dataOut)
