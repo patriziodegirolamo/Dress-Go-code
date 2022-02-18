@@ -449,7 +449,6 @@ function MyBigAdvertisement(props) {
                         <Modal.Header>
                             <Modal.Title>Contact the renter</Modal.Title>
 
-
                         </Modal.Header>
 
 

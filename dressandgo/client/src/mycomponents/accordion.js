@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { Container, Row } from 'react-bootstrap';
 import Accordion from 'react-bootstrap/Accordion';
-
+import { NavLink as Link } from "react-router-dom";
 
 
 
 export default function Faq(){
 return(
-
+<>
 <Accordion>
 <Container>
         <Row className="pt-2">
@@ -15,6 +15,7 @@ return(
         </Row>
 
       </Container>
+
 
 
   <Accordion.Item eventKey="0">
@@ -134,5 +135,17 @@ return(
         </Accordion.Body>
  </Accordion.Item>
 </Accordion>
+
+<Row className="justify-content-center pt-3">
+<p style={{ textAlign: "center" }}> <b>Did you find what you were looking for? <br></br> If not you can 
+contact our customer service</b>!   </p>
+<Link  className="my-1 mb-1 btn btn-secondary btn-md w-75 justify-content-center" role="button" to="/CustomerServiceChat"  >
+Contact customer service
+</Link>
+
+</Row>
+
+</>
+
 );
 }
