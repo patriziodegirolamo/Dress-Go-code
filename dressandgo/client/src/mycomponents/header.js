@@ -176,14 +176,14 @@ function MyHeader(props) {
         if (props.historyStack.length === 0) {
           const bottomNav = localStorage.getItem("currentBottomNav")
           if (prev === "chat") {
-            if (bottomNav == 1) {
+            if (bottomNav === 1) {
               console.log("vengo dalle faq");
               props.setCurrentState("faq");
               localStorage.setItem("currentState", "faq");
               localStorage.setItem("historyStack", JSON.stringify(props.historyStack))
               navigate("/FAQ");
             }
-            if (bottomNav == 2) {
+            if (bottomNav === 2) {
               console.log("vengo dalle chats");
               props.setCurrentState("chats");
               localStorage.setItem("currentState", "chat");
