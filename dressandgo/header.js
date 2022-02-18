@@ -172,20 +172,19 @@ function MyHeader(props) {
         prev = props.historyStack.pop()
         curr = props.historyStack[props.historyStack.length - 1]
 
-
+        console.log("from " + prev + " to " + curr)
         if (props.historyStack.length === 0) {
           const bottomNav = localStorage.getItem("currentBottomNav")
-          console.log(bottomNav)
           if (prev === "chat") {
             if (bottomNav == 1) {
-
+              console.log("vengo dalle faq");
               props.setCurrentState("faq");
               localStorage.setItem("currentState", "faq");
               localStorage.setItem("historyStack", JSON.stringify(props.historyStack))
               navigate("/FAQ");
             }
             if (bottomNav == 2) {
-
+              console.log("vengo dalle chats");
               props.setCurrentState("chats");
               localStorage.setItem("currentState", "chat");
               localStorage.setItem("historyStack", JSON.stringify(props.historyStack))
@@ -265,7 +264,7 @@ function MyHeader(props) {
           props.setCurrentState("rent");
           localStorage.setItem("historyStack", JSON.stringify(props.historyStack))
           localStorage.setItem("currentState", "rent");
-
+          console.log(idRent)
           navigate("/MyRents/" + idRent);
         }
         else {
@@ -281,106 +280,3 @@ function MyHeader(props) {
       default:
         break;
     }
-
-
-
-  };
-
-
-  return (
-    <>
-      <Navbar>
-        {initialStates.includes(props.currentState) ?
-          <></>
-          :
-          <Button id="back-button" size="sm" variant="light" onClick={handleChangeBackardPage}>
-            <IoArrowBackCircleOutline style={{ color: "rgb(70, 133, 204)", fontSize: "2.5em" }} />
-          </Button>
-        }
-        <Container>
-          <Navbar.Brand className='m-auto'>
-            <a style={{ textDecoration: "none" }} href="/previews"><b id="title" style={{ color: "rgb(70, 133, 204)" }}>Dress&Go</b>
-              {props.currentState === "home" || props.currentState === "cat" || props.currentState === "bigCat" ?
-                <sub id="pedice" style={{ color: "rgb(70, 133, 204)" }}><i>{props.page}</i></sub> : <></>}
-            </a>
-          </Navbar.Brand>
-
-        </Container>
-
-      </Navbar>
-
-      {props.currentState === "home" || props.currentState === "cat" ?
-        <Container>
-          <Row>
-            <Col xs={props.currentState === "home" ? 7 : 7}>
-              <Form id="formFilterDress" onSubmit={e => { e.preventDefault(); }} >
-                <Form.Control style={{ height: 54 }} value={props.search} placeholder="Search a product..." onChange={(event) => {
-                  event.preventDefault();
-                  props.setSearch(event.target.value);
-                }}
-                />
-
-              </Form>
-            </Col>
-
-            {props.currentState === "home" ? <>
-
-              {
-                props.page === "man" ?
-                  <Col xs={2}>
-                    <Button className="border border-primary" style={{ backgroundColor: "white" }} size="lg" variant="light" disabled>
-                      <FcBusinessman size={35}></FcBusinessman>
-                    </Button>
-                  </Col>
-                  :
-                  <Col xs={2}>
-                    <Button style={{ backgroundColor: "white" }} size="lg" variant="light" onClick={(event) => {
-                      handleChangeBackardPage()
-                      props.setPage("man");
-                      localStorage.setItem("page", "man");
-                    }}>
-                      <FcBusinessman size={30}></FcBusinessman>
-                    </Button>
-                  </Col>
-              }
-
-              {
-                props.page === "woman" ?
-                  <Col xs={2}>
-                    <Button className="border border-primary" style={{ backgroundColor: "white" }} size="lg" variant="light" disabled>
-                      <FcBusinesswoman size={35}></FcBusinesswoman>
-                    </Button>
-                  </Col>
-                  :
-                  <Col xs={2}>
-                    <Button style={{ backgroundColor: "white" }} size="lg" variant="light" onClick={(event) => {
-                      handleChangeBackardPage()
-                      props.setPage("woman");
-                      localStorage.setItem("page", "woman");
-                    }}>
-                      <FcBusinesswoman size={30}></FcBusinesswoman>
-                    </Button>
-                  </Col>
-              }
-            </> : <>
-
-              <Col>
-
-                <FilterDropdown ads={props.ads.filter(ad => (
-                  props.categories.find((el) => el.id_cat === ad.id_cat).name === props.currentCat))} filterAds={props.filterAds} setFilterAds={props.setFilterAds}
-                  setFilter={props.setFilter} />
-              </Col>
-              <Col>
-                <SortDropdown ads={props.ads} setAds={props.setAds} filter={props.filter} filterAds={props.filterAds} setFilterAds={props.setFilterAds} />
-
-              </Col>
-            </>}
-
-          </Row>
-        </Container>
-        : <></>}
-    </>
-  );
-}
-
-export default MyHeader;
