@@ -986,7 +986,7 @@ function App() {
       </>} />
 
       <Route path="/FAQ" element={<>
-        <Faq />
+        <Faq setCurrentState={setCurrentState} setHistoryStack={setHistoryStack} historyStack={historyStack} />
       </>} />
 
       <Route path="/" element={<Navigate to="/previews" />} />

@@ -172,12 +172,24 @@ function MyHeader(props) {
         prev = props.historyStack.pop()
         curr = props.historyStack[props.historyStack.length - 1]
 
+        console.log("from " + prev + " to " + curr)
         if (props.historyStack.length === 0) {
+          const bottomNav = localStorage.getItem("currentBottomNav")
           if (prev === "chat") {
-            props.setCurrentState("chats");
-            localStorage.setItem("currentState", "chat");
-            localStorage.setItem("historyStack", JSON.stringify(props.historyStack))
-            navigate("/MyChats");
+            if (bottomNav == 1) {
+              console.log("vengo dalle faq");
+              props.setCurrentState("faq");
+              localStorage.setItem("currentState", "faq");
+              localStorage.setItem("historyStack", JSON.stringify(props.historyStack))
+              navigate("/FAQ");
+            }
+            if (bottomNav == 2) {
+              console.log("vengo dalle chats");
+              props.setCurrentState("chats");
+              localStorage.setItem("currentState", "chat");
+              localStorage.setItem("historyStack", JSON.stringify(props.historyStack))
+              navigate("/MyChats");
+            }
           }
         }
         else {
