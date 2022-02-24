@@ -1,11 +1,26 @@
-import { Row, Container, Card, Button, ButtonGroup, Col } from "react-bootstrap";
+import { Row, Container, Card, Button, ButtonGroup, Col, Modal } from "react-bootstrap";
+import { useState } from 'react';
 import { BsFillTrashFill } from "react-icons/bs";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function MyKnownSizes(props) {
 
+    const [show, setShow] = useState(false);
+    const [currentSize, setCurrentSize] = useState([]);
+
+    const handleClose = (x) =>    
+    {
+        
+        setShow(false);
+    }
+    const handleShow = (x) => {
+        setShow(true);
+        setCurrentSize(x);
+    }
+
     const handleDelete = (id_ks) => {
-        props.removeASize(id_ks);
+        setShow(false);
+        props.removeASize(id_ks.id_ks);
     }
     
     return (
@@ -41,13 +56,39 @@ function MyKnownSizes(props) {
                                         {x.EUsize}
                                     </Col>
                                     <ButtonGroup>
-                                        <Button variant='outline-danger' onClick={() => handleDelete(x.id_ks)}><BsFillTrashFill /></Button>
+                                        <Button variant='outline-danger' onClick={() => handleShow(x)}><BsFillTrashFill /></Button>
                                     </ButtonGroup>
                                 </div>
                             </Row>
                         </Card.Header>
                     </Card>)
             })}
+
+
+            <Modal show={show}>
+                        <Modal.Header>
+                            <Modal.Title>
+                               Confirm action
+                            </Modal.Title>
+
+                        </Modal.Header>
+                        <Modal.Body>
+                        Are you sure to delete know size of {currentSize.brand}? 
+                      
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={handleClose}>
+                                Close
+                            </Button>
+                            <Button variant="danger" onClick={() => handleDelete(currentSize)}>
+                                Delete
+                            </Button>
+
+
+                        </Modal.Footer>
+                    </Modal>        
+
+
         </Container>
     );
 }
