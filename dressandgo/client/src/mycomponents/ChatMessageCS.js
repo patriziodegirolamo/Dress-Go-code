@@ -41,7 +41,7 @@ function CSMessages(props) {
                 <Spinner animation="border" variant="primary" />
             </Container> : <>
             <Container>
-                <Container className="headerChat">
+                <Container className="headerChat pb-3">
                     <Row >
                         <Col>
                             <img alt="Customer Service profile"style={{ position: "relative", width: "40%" }} src={"customer-service.png"}></img>
