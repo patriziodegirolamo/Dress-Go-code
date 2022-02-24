@@ -129,23 +129,23 @@ export default function Faq(props) {
           <Accordion.Body>
             The order status can be:
             <br></br>
-            - Arriving: your rental has been confirmed and the package is on your way!
+            - <span style={{ backgroundColor: "#FCFE8E" }}>Arriving </span>: your rental has been confirmed and the package is on your way!
             <br></br>
-            - Arrived: your package arrived and you can ask for a return in case of problems (you can follow the relative guide above).
+            - <span style={{ backgroundColor: "#CAFCB8" }}>Arrived </span>: your package arrived and you can ask for a return in case of problems (you can follow the relative guide above).
             <br></br>
-            - Returning: your return's request has been accepted and you have to send back the package.
+            - <span style={{ backgroundColor: "#FCDAB8" }}>Returning </span>: your return's request has been accepted and you have to send back the package.
             <br></br>
-            - Returned: your return's package arrived and you will receive the refund if everything is fine.
+            - <span style={{ backgroundColor: "#FCB8B8" }}>Returned </span>: your return's package arrived and you will receive the refund if everything is fine.
             <br></br>
-            - Coming back: your rental is terminated, you will receive back the deposit of 5% of the price when the renter will receive the package and verify it.
+            - <span style={{ backgroundColor: "#79a6d2" }}>Coming back </span>: your rental is terminated, you will receive back the deposit of 5% of the price when the renter will receive the package and verify it.
             <br></br>
-            - Closed: your rental is closed and everything was fine.
+            - <span style={{ backgroundColor: "#D1DAE5" }}>Closed </span>: your rental is closed and everything was fine.
           </Accordion.Body>
         </Accordion.Item>
       </Accordion>
 
       <Row className="justify-content-center pt-3">
-        <p style={{ textAlign: "center" }}> <b>Did you find what you were looking for? <br></br> If not you can
+        <p style={{ textAlign: "center" }}> <b>Did you find what you were looking for? <br></br> If not, you can
           contact our customer service</b>!   </p>
         <Link className="my-1 mb-1 btn btn-secondary btn-md w-75 justify-content-center" onClick={onClickHandler} role="button" to="/CustomerServiceChat"   >
           Contact customer service

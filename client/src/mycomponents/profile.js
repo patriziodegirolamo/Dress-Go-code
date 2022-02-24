@@ -2,6 +2,7 @@ import { Row, Container, Figure, Button } from "react-bootstrap";
 import { NavLink as Link } from "react-router-dom";
 import Rating from '@mui/material/Rating';
 import Typography from '@mui/material/Typography';
+import MyAlert from './alert'
 
 import "../css/profile.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -30,6 +31,7 @@ function MyProfile(props) {
 
     return (
         <Container fluid className="h-100">
+            {props.showMyAlert ? <MyAlert setShowMyAlert={props.setShowMyAlert} message={"Changes updated successfully!"}> </MyAlert> : <></> }
             <Row className="pt-3 justify-content-center text-center">
                 <Figure >
                     <Figure.Image
@@ -45,7 +47,7 @@ function MyProfile(props) {
                         @{props.user.name}
                     </Figure.Caption>
                 </Figure>
-                <Typography component="legend">Your rating based by 344 votes</Typography>
+                <Typography component="legend">Your rating based on 344 votes</Typography>
                 <Typography>
                     <Rating align="center" name="no-value" value={4} />
                 </Typography>
@@ -60,15 +62,21 @@ function MyProfile(props) {
                     Handle known sizes
                 </Link>
 
-                <Button  className="my-2 btn btn-primary btn-md w-75" >
+                <Button disabled className="my-2 btn btn-primary btn-md w-75" >
                     Payment methods
                 </Button>
 
-                <Button  className="my-5 btn btn-secondary btn-md w-75" >
+                <Button disabled className="my-5 btn btn-secondary btn-md w-75" >
                     LOGOUT
                 </Button>
 
             </Row>
+
+           
+
+
+
+
         </Container>
     );
 }

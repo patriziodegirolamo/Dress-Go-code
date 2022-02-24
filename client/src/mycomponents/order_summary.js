@@ -206,7 +206,7 @@ function OrderSummary(props) {
 
 
                   <Form onChange={(event) => setNewMessage(event.target.value)}>
-                    <Form.Control as="textarea" defaultValue={newMessage + ", ... "} rows={15} />
+                    <Form.Control as="textarea" placeholder="Type here to write your message..." rows={15} />
                   </Form>
 
                   <Modal.Footer>

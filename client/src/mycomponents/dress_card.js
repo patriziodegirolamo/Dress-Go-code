@@ -453,7 +453,7 @@ function MyBigAdvertisement(props) {
 
 
                         <Form onChange={(event) => setNewMessage(event.target.value)}>
-                            <Form.Control as="textarea" defaultValue={newMessage + currentAd.title + ", .... "} rows={15} />
+                            <Form.Control as="textarea" placeholder="Type here to write your message..." rows={15} />
                         </Form>
 
                         <Modal.Footer>
