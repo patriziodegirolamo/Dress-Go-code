@@ -59,14 +59,14 @@ function AddKnownSizes(props) {
             event.stopPropagation();
         }
 
-        
+
 
         //Manual validation
 
         if (brand === "" || size === "" || category === "") {
-            
+
         }
-        else{
+        else {
             const new_size = {
                 id_u: props.user.id_u,
                 brand: brand,
@@ -80,14 +80,15 @@ function AddKnownSizes(props) {
             setBrand("");
             setCategory("");
             setSize("");
-
+            props.setShowMyAlert(true);
+            setTimeout(() => props.setShowMyAlert(false), 2000)
             onHide()
 
         }
 
 
 
-    
+
 
 
     };

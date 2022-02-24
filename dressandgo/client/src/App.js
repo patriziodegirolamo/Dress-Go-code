@@ -4,12 +4,12 @@ import { useState, useEffect, useRef } from 'react';
 import { Route, Routes, Navigate, useNavigate, NavLink as Link } from 'react-router-dom';
 
 
-
 import FixedBottomNavigation from './mycomponents/bottombar.js'
 import MyCategoryList from './mycomponents/category_list';
 import MyHeader from './mycomponents/header.js';
 import MyDressList from './mycomponents/dress_list.js';
 import MyProfile from './mycomponents/profile';
+import MyAlert from './mycomponents/alert'
 import MyUserData from './mycomponents/user_data_profile';
 import MyKnownSizes from './mycomponents/known_sizes';
 import AddKnownSizes from './mycomponents/add_size_button';
@@ -59,7 +59,7 @@ function App() {
 
   const [page, setPage] = useState(() => {
     const p = localStorage.getItem("page");
-    if(!p) return ""
+    if (!p) return ""
     if ((url[3] === "" || url[3] === "previews" || url[3] === "dresses" || url[3] === "ad") && p)
       return p;
     else return "";
@@ -94,7 +94,7 @@ function App() {
 
   const [historyStack, setHistoryStack] = useState(() => {
     const hs = localStorage.getItem("historyStack");
-    if( !hs ) return []
+    if (!hs) return []
     if (hs !== "[]")
       return JSON.parse(hs);
     else return [];
@@ -103,7 +103,7 @@ function App() {
 
   const [currentCat, setCurrentCat] = useState(() => {
     const cc = localStorage.getItem("currentCat")
-    if( !cc ) return ""
+    if (!cc) return ""
     if (url[3] === "dresses") {
       localStorage.setItem("currentCat", url[4])
       return url[4]
@@ -144,6 +144,7 @@ function App() {
   const target1 = useRef(null);
 
   const [dirty, setDirty] = useState(true);
+  const [showMyAlert, setShowMyAlert] = useState(false)
 
   const handleChangeForwardPage = (cat) => {
     let x = null;
@@ -676,7 +677,7 @@ function App() {
         {search ? <Container id="dressContainer">
           <h4 id="titlebar">RESULTS IN {page.toUpperCase()} CATEGORY:</h4>
           <MyDressList adsImages={adsImages} categories={categories} ads={ads.filter(ad => {
-            return ad.gender === page && ( ad.brand.toLowerCase().includes(search.toLowerCase())
+            return ad.gender === page && (ad.brand.toLowerCase().includes(search.toLowerCase())
               || (ad.title.toLowerCase().includes(search.toLowerCase())))
           })}
 
@@ -950,7 +951,7 @@ function App() {
           dirty ? <Container id="containerSpinner">
             <Spinner animation="border" variant="primary" />
           </Container> : <>
-            <MyProfile user={user} setCurrentState={setCurrentState}
+            <MyProfile user={user} setShowMyAlert={setShowMyAlert} showMyAlert={showMyAlert} setCurrentState={setCurrentState}
               setHistoryStack={setHistoryStack} historyStack={historyStack}
             />
           </>}
@@ -963,7 +964,9 @@ function App() {
             <Spinner animation="border" variant="primary" />
           </Container> : <>
 
-            <MyKnownSizes knownsizes={knownsizes} setKnownsizes={setKnownSizes} categories={categories}
+            {showMyAlert ? <MyAlert setShowMyAlert={setShowMyAlert} message={"Changes updated successfully!"}> </MyAlert> : <></>}
+
+            <MyKnownSizes setShowMyAlert={setShowMyAlert} knownsizes={knownsizes} setKnownsizes={setKnownSizes} categories={categories}
               removeASize={removeASize} />
             <Row className="p-3 justify-content-center m-auto ">
               <Button className="mb-3" variant="primary" type="submit" onClick={() => setModalShow(true)}>
@@ -971,6 +974,7 @@ function App() {
             </Row>
 
             <AddKnownSizes
+              setShowMyAlert={setShowMyAlert}
               show={modalShow}
               categories={categories}
               addASize={addASize}
@@ -986,7 +990,7 @@ function App() {
           dirty ? <Container id="containerSpinner">
             <Spinner animation="border" variant="primary" />
           </Container> : <>
-            <MyUserData user={user} modifyUserInfos={modifyUserInfos} setCurrentState={setCurrentState}
+            <MyUserData user={user} setShowMyAlert={setShowMyAlert} modifyUserInfos={modifyUserInfos} setCurrentState={setCurrentState}
               setHistoryStack={setHistoryStack}
             />
           </>}

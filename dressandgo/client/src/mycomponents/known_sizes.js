@@ -21,6 +21,8 @@ function MyKnownSizes(props) {
     const handleDelete = (id_ks) => {
         setShow(false);
         props.removeASize(id_ks.id_ks);
+        props.setShowMyAlert(true);
+        setTimeout(() => props.setShowMyAlert(false), 3000)
     }
     
     return (

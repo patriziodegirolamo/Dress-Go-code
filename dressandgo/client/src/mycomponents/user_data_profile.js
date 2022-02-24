@@ -36,7 +36,8 @@ function MyUserData(props) {
     };
 
     props.modifyUserInfos(newInfos);
-    
+    props.setShowMyAlert(true);
+    setTimeout(() => props.setShowMyAlert(false), 2000)
     
     props.setCurrentState("account")
     props.setHistoryStack("[]")

@@ -145,7 +145,7 @@ export default function Faq(props) {
       </Accordion>
 
       <Row className="justify-content-center pt-3">
-        <p style={{ textAlign: "center" }}> <b>Did you find what you were looking for? <br></br> If not you can
+        <p style={{ textAlign: "center" }}> <b>Did you find what you were looking for? <br></br> If not, you can
           contact our customer service</b>!   </p>
         <Link className="my-1 mb-1 btn btn-secondary btn-md w-75 justify-content-center" onClick={onClickHandler} role="button" to="/CustomerServiceChat"   >
           Contact customer service
