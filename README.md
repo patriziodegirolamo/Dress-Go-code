@@ -24,3 +24,7 @@ In order to run the local version of our project you have to run the following c
 1. cd dressandgo/client
 2. npm install
 3. npm start
+
+
+## Credits
+This website was the final group project for the "Human Computer Interaction" course of the Politecnico di Torino and was developed by Patrizio de Girolamo, Giulia Medde, Federico Raimondi and Fabio Quazzolo 
