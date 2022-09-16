@@ -1,4 +1,4 @@
-# Dress and Go: a website developed in Rust and NodeJs for renting clothes
+# Dress and Go: a website developed with Rust and NodeJs for renting clothes
 
 ## Project idea
 We would like to help the user in the process of renting clothes in order to make him more confident to select and find the right product, supporting him with different sizes from different brands for example with a size guide. In any case if the user faces some problems he should have the possibility to solve them easily weather consulting the FAQ, contacting the vendor or a customer service through its own smartphone. We also remember that our website was designed only for mobile devices, thank you for your attention! 
